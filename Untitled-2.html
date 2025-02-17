@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=0.9" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>DINOSAUR - Dynamic SPA</title>
   <!-- Full Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -28,6 +28,11 @@
     header h1 {
       font-size: 1rem;
       font-weight: bolder;
+    }
+    header .profile-name {
+      font-size: 0.9rem;
+      color: #28a745;
+      margin-left: 10px;
     }
     nav a, nav button {
       font-size: 0.9rem;
@@ -91,7 +96,7 @@
     </div>
     <ul class="list-unstyled ps-3">
       <li class="menu-item mb-3" data-menu="account">
-        <i class="bi bi-person"></i> My account
+        <i class="bi bi-person"></i> My Account
       </li>
       <li class="menu-item mb-3" data-menu="orders">
         <i class="bi bi-bag"></i> My Orders
@@ -120,11 +125,17 @@
         <button class="btn" data-bs-toggle="offcanvas" data-bs-target="#menuCanvas" aria-controls="menuCanvas">
           <i class="bi bi-list" style="font-size: 1.5rem;"></i>
         </button>
-        <h1 class="h5 mb-0">DINOSAUR</h1>
-        <nav class="d-flex gap-3">
+        <h1 class="h5 mb-0">
+          DINOSAUR
+          <span id="headerProfile" class="profile-name"></span>
+        </h1>
+        <nav class="d-flex gap-3 align-items-center">
           <button class="btn" id="phoneButton"><i class="bi bi-phone"></i></button>
           <button class="btn" id="accountButton"><i class="bi bi-person"></i></button>
-          <button class="btn" id="cartButton"><i class="bi bi-cart"></i></button>
+          <button class="btn" id="cartButton">
+            <i class="bi bi-cart"></i>
+            <span id="cartCountBadge" class="badge bg-danger ms-1">0</span>
+          </button>
         </nav>
       </div>
     </header>
@@ -149,7 +160,7 @@
 
     <section class="product-highlight py-5">
       <div class="container d-flex flex-column flex-md-row align-items-center">
-        <img src="https://img.joomcdn.net/7f8f6c3f43537c84de5db68ece01cb9c11623e29_original.jpeg" class="img-fluid mb-4 mb-md-0" alt="Product Highlight" />
+        <img src="https://via.placeholder.com/600x400?text=Product+Highlight" class="img-fluid mb-4 mb-md-0" alt="Product Highlight" />
         <div class="ms-md-4">
           <h3><i class="bi bi-award"></i> Luxury in Every Stitch</h3>
           <p>Clothing is a form of self-expression.</p>
@@ -163,7 +174,7 @@
         <div class="row mt-4">
           <div class="col-md-6">
             <div class="category-item">
-              <img src="https://media.gettyimages.com/id/1693828491/photo/a-lot-of-different-wardrobe-clothes-hang-on-hangers-on-a-rail-concept-for-selling-clothes.jpg?s=612x612&w=0&k=20&c=Xzw_7pmfdwC3O-JEfNmFhgkxW3D2mxV-8Z8AFL1jAOA=" alt="Men's Wear" class="img-fluid" />
+              <img src="https://via.placeholder.com/400x300?text=Men%27s+Wear" alt="Men's Wear" class="img-fluid" />
               <button class="btn btn-light icon-button" onclick="showSection('menswearSection')">
                 <i class="bi bi-people"></i>
               </button>
@@ -172,7 +183,7 @@
           </div>
           <div class="col-md-6">
             <div class="category-item">
-              <img src="data:image/jpeg;base64,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" alt="Accessories" class="img-fluid" />
+              <img src="https://via.placeholder.com/400x300?text=Accessories" alt="Accessories" class="img-fluid" />
               <button class="btn btn-light icon-button" onclick="showSection('accessoriesSection')">
                 <i class="bi bi-watch"></i>
               </button>
@@ -186,7 +197,6 @@
     <!-- Home Footer -->
     <footer class="bg-dark text-white text-center py-4">
       <div class="container">
-        <p class="mb-0">&copy; 2025 DINOSAUR. All rights reserved.</p>
       </div>
     </footer>
   </div>
@@ -195,7 +205,9 @@
   <div id="loginSection" class="section">
     <header class="bg-light py-3 border-bottom">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')"><i class="bi bi-arrow-left"></i> Home</button>
+        <button class="btn" onclick="showSection('homeSection')">
+          <i class="bi bi-arrow-left"></i> Home
+        </button>
         <h1 class="h5 mb-0">Login</h1>
         <div></div>
       </div>
@@ -228,7 +240,9 @@
   <div id="signupSection" class="section">
     <header class="bg-light py-3 border-bottom">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')"><i class="bi bi-arrow-left"></i> Home</button>
+        <button class="btn" onclick="showSection('homeSection')">
+          <i class="bi bi-arrow-left"></i> Home
+        </button>
         <h1 class="h5 mb-0">Sign Up</h1>
         <div></div>
       </div>
@@ -277,7 +291,9 @@
   <div id="accountSection" class="section">
     <header class="bg-light py-3 border-bottom">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')"><i class="bi bi-arrow-left"></i> Home</button>
+        <button class="btn" onclick="showSection('homeSection')">
+          <i class="bi bi-arrow-left"></i> Home
+        </button>
         <h1 class="h5 mb-0">My Account</h1>
         <div></div>
       </div>
@@ -287,11 +303,45 @@
     </div>
   </div>
 
+  <!-- CART SECTION -->
+  <div id="cartSection" class="section">
+    <header class="bg-light py-3 border-bottom">
+      <div class="container d-flex justify-content-between align-items-center">
+        <button class="btn" onclick="showSection('homeSection')">
+          <i class="bi bi-arrow-left"></i> Home
+        </button>
+        <h1 class="h5 mb-0">Your Cart</h1>
+        <div></div>
+      </div>
+    </header>
+    <div class="container my-4" id="cartContent">
+      <!-- Cart items will be injected here -->
+    </div>
+  </div>
+
+  <!-- ORDERS SECTION (My Orders) -->
+  <div id="ordersSection" class="section">
+    <header class="bg-light py-3 border-bottom">
+      <div class="container d-flex justify-content-between align-items-center">
+        <button class="btn" onclick="showSection('homeSection')">
+          <i class="bi bi-arrow-left"></i> Home
+        </button>
+        <h1 class="h5 mb-0">My Orders</h1>
+        <div></div>
+      </div>
+    </header>
+    <div class="container my-4" id="ordersContent">
+      <!-- Order items will be injected here -->
+    </div>
+  </div>
+
   <!-- SHOP SECTION (All Products) -->
   <div id="shopSection" class="section">
     <header class="bg-light py-3 border-bottom">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')"><i class="bi bi-arrow-left"></i> Home</button>
+        <button class="btn" onclick="showSection('homeSection')">
+          <i class="bi bi-arrow-left"></i> Home
+        </button>
         <h1 class="h5 mb-0">All Products</h1>
         <div></div>
       </div>
@@ -303,7 +353,6 @@
     </div>
     <footer class="bg-dark text-white text-center py-4">
       <div class="container">
-        <p class="mb-0">&copy; 2025 DINOSAUR. All rights reserved.</p>
       </div>
     </footer>
   </div>
@@ -312,7 +361,9 @@
   <div id="menswearSection" class="section">
     <header class="bg-light py-3 border-bottom">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')"><i class="bi bi-arrow-left"></i> Home</button>
+        <button class="btn" onclick="showSection('homeSection')">
+          <i class="bi bi-arrow-left"></i> Home
+        </button>
         <h1 class="h5 mb-0">Men's Wear</h1>
         <div></div>
       </div>
@@ -324,7 +375,6 @@
     </div>
     <footer class="bg-dark text-white text-center py-4">
       <div class="container">
-        <p class="mb-0">&copy; 2025 DINOSAUR. All rights reserved.</p>
       </div>
     </footer>
   </div>
@@ -333,7 +383,9 @@
   <div id="accessoriesSection" class="section">
     <header class="bg-light py-3 border-bottom">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')"><i class="bi bi-arrow-left"></i> Home</button>
+        <button class="btn" onclick="showSection('homeSection')">
+          <i class="bi bi-arrow-left"></i> Home
+        </button>
         <h1 class="h5 mb-0">Accessories</h1>
         <div></div>
       </div>
@@ -345,38 +397,89 @@
     </div>
     <footer class="bg-dark text-white text-center py-4">
       <div class="container">
-        <p class="mb-0">&copy; 2025 DINOSAUR. All rights reserved.</p>
       </div>
     </footer>
   </div>
 
-  <!-- JAVASCRIPT: Section Switching, Dynamic Account, and Functionality -->
+  <!-- BUY NOW MODAL -->
+  <div class="modal fade" id="buyModal" tabindex="-1" aria-labelledby="buyModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="buyModalLabel">Enter Shipping Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="buyForm">
+            <div class="mb-3">
+              <label for="shippingAddress" class="form-label">Address</label>
+              <textarea class="form-control" id="shippingAddress" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="mobileNumber" class="form-label">Mobile Number</label>
+              <input type="text" class="form-control" id="mobileNumber" required />
+            </div>
+            <div class="mb-3">
+              <label for="additionalDetails" class="form-label">Additional Details</label>
+              <textarea class="form-control" id="additionalDetails"></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Payment Method</label>
+              <input type="text" class="form-control" value="Cash on Delivery" disabled />
+            </div>
+            <button type="submit" class="btn btn-primary">Place Order</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT: Section Switching, Dynamic Profile, Cart, Orders & Product Functionality -->
   <script>
-    // Global product data
+    // Global products array (with id, price, etc.)
     const products = [
-      { name: "Men's T-Shirt", description: "Comfortable and stylish men's t-shirt.", category: "Men's Wear" },
-      { name: "Leather Watch", description: "Premium quality leather watch.", category: "Accessories" },
-      { name: "Denim Jeans", description: "Trendy and comfortable denim jeans.", category: "Men's Wear" },
-      { name: "Sunglasses", description: "Stylish sunglasses to match any outfit.", category: "Accessories" },
-      { name: "Casual Shirt", description: "Relaxed fit shirt for casual outings.", category: "Men's Wear" },
-      { name: "Formal Pants", description: "Elegant formal pants for office wear.", category: "Men's Wear" },
-      { name: "Ring", description: "Exquisite ring with modern design.", category: "Accessories" },
-      { name: "Necklace", description: "Elegant necklace to enhance your style.", category: "Accessories" },
-      { name: "Casual T-Shirt", description: "Everyday casual t-shirt.", category: "Men's Wear" },
-      { name: "Chain", description: "Stylish chain accessory.", category: "Accessories" }
+      { id: 1, name: "Men's T-Shirt", description: "Comfortable and stylish men's t-shirt.", category: "Men's Wear", price: 19.99 },
+      { id: 2, name: "Leather Watch", description: "Premium quality leather watch.", category: "Accessories", price: 79.99 },
+      { id: 3, name: "Denim Jeans", description: "Trendy and comfortable denim jeans.", category: "Men's Wear", price: 39.99 },
+      { id: 4, name: "Sunglasses", description: "Stylish sunglasses to match any outfit.", category: "Accessories", price: 29.99 },
+      { id: 5, name: "Casual Shirt", description: "Relaxed fit shirt for casual outings.", category: "Men's Wear", price: 24.99 },
+      { id: 6, name: "Formal Pants", description: "Elegant formal pants for office wear.", category: "Men's Wear", price: 34.99 },
+      { id: 7, name: "Ring", description: "Exquisite ring with modern design.", category: "Accessories", price: 49.99 },
+      { id: 8, name: "Necklace", description: "Elegant necklace to enhance your style.", category: "Accessories", price: 59.99 },
+      { id: 9, name: "Casual T-Shirt", description: "Everyday casual t-shirt.", category: "Men's Wear", price: 14.99 },
+      { id: 10, name: "Chain", description: "Stylish chain accessory.", category: "Accessories", price: 19.99 }
     ];
 
-    // Global variable to store current user details
+    // Global arrays for cart and orders; global variable for current user and product for purchase
+    let cart = [];
+    let orders = [];
     let currentUser = null;
+    let currentProductForPurchase = null;
 
-    // Function to show a section (hide all others)
+    // Update header profile (display user name if logged in)
+    function updateHeaderProfile() {
+      const headerProfile = document.getElementById("headerProfile");
+      if (currentUser) {
+        headerProfile.textContent = `Hi, ${currentUser.firstName}`;
+      } else {
+        headerProfile.textContent = "";
+      }
+    }
+
+    // Update cart count badge
+    function updateCartCountBadge() {
+      const badge = document.getElementById("cartCountBadge");
+      badge.textContent = cart.length;
+    }
+
+    // Function to switch between sections
     function showSection(sectionId) {
       document.querySelectorAll('.section').forEach(section => {
         section.classList.remove('active-section');
       });
       document.getElementById(sectionId).classList.add('active-section');
 
-      // When switching to product views, generate cards if needed.
+      // Generate product cards when viewing product sections
       if (sectionId === 'shopSection') {
         generateProducts('shopProductContainer', products);
       } else if (sectionId === 'menswearSection') {
@@ -387,10 +490,14 @@
         generateProducts('accessoriesContainer', accessoriesProducts);
       } else if (sectionId === 'accountSection') {
         updateAccountSection();
+      } else if (sectionId === 'cartSection') {
+        updateCartSection();
+      } else if (sectionId === 'ordersSection') {
+        updateOrdersSection();
       }
     }
 
-    // Function to generate product cards in a given container
+    // Function to generate product cards with Buy and Add to Cart buttons
     function generateProducts(containerId, productList) {
       const container = document.getElementById(containerId);
       container.innerHTML = '';
@@ -404,8 +511,12 @@
               <h5 class="card-title">${product.name}</h5>
               <p class="card-text">${product.description}</p>
             </div>
-            <div class="card-footer">
-              <small class="text-muted">${product.category}</small>
+            <div class="card-footer d-flex justify-content-between align-items-center">
+              <span class="text-muted">${product.category} | $${product.price.toFixed(2)}</span>
+              <div>
+                <button class="btn btn-sm btn-success me-1" onclick="buyProduct(${product.id})">Buy Now</button>
+                <button class="btn btn-sm btn-primary" onclick="addToCart(${product.id})">Add to Cart</button>
+              </div>
             </div>
           </div>
         `;
@@ -413,14 +524,104 @@
       });
     }
 
-    // Update the Account Section with current user details
+    // Function to simulate buying a product: open the buy modal
+    function buyProduct(productId) {
+      const product = products.find(p => p.id === productId);
+      if (product) {
+        currentProductForPurchase = product;
+        // Reset the buy form fields
+        document.getElementById("buyForm").reset();
+        // Open the modal (using Bootstrap Modal API)
+        const buyModal = new bootstrap.Modal(document.getElementById("buyModal"));
+        buyModal.show();
+      }
+    }
+
+    // Handle the buy form submission (placing an order)
+    document.getElementById("buyForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      if (!currentUser) {
+        alert("Please log in or sign up before placing an order.");
+        showSection("loginSection");
+        return;
+      }
+      const address = document.getElementById("shippingAddress").value;
+      const mobile = document.getElementById("mobileNumber").value;
+      const details = document.getElementById("additionalDetails").value;
+      // Create an order object
+      const order = {
+        product: currentProductForPurchase,
+        address: address,
+        mobile: mobile,
+        details: details,
+        payment: "Cash on Delivery",
+        date: new Date().toLocaleString()
+      };
+      orders.push(order);
+      alert(`Order placed for ${currentProductForPurchase.name}!`);
+      // Close the modal
+      const buyModalEl = document.getElementById("buyModal");
+      const modalInstance = bootstrap.Modal.getInstance(buyModalEl);
+      modalInstance.hide();
+      // Optionally, update orders in header or orders section
+    });
+
+    // Function to add a product to the cart
+    function addToCart(productId) {
+      const product = products.find(p => p.id === productId);
+      if (product) {
+        cart.push(product);
+        alert(`${product.name} has been added to your cart.`);
+        updateCartCountBadge();
+      }
+    }
+
+    // Function to update the Cart Section with items
+    function updateCartSection() {
+      const cartContent = document.getElementById('cartContent');
+      if (cart.length === 0) {
+        cartContent.innerHTML = "<p>Your cart is empty.</p>";
+        return;
+      }
+      let html = '';
+      cart.forEach((item, index) => {
+        html += `
+          <div class="card mb-3">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img src="https://via.placeholder.com/400x300?text=${encodeURIComponent(item.name)}" class="img-fluid rounded-start" alt="${item.name}">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">${item.name}</h5>
+                  <p class="card-text">${item.description}</p>
+                  <p class="card-text"><small class="text-muted">${item.category} | $${item.price.toFixed(2)}</small></p>
+                  <button class="btn btn-sm btn-danger" onclick="removeFromCart(${index})">Remove</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      html += `<button class="btn btn-success">Checkout</button>`;
+      cartContent.innerHTML = html;
+    }
+
+    // Function to remove an item from the cart
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCartSection();
+      updateCartCountBadge();
+    }
+
+    // Function to update the Account Section with user details
     function updateAccountSection() {
       const accountContent = document.getElementById('accountContent');
       if (currentUser) {
         accountContent.innerHTML = `
           <div class="card">
             <div class="card-body">
-              <h3>Welcome, ${currentUser.firstName || 'User'} ${currentUser.lastName || ''}</h3>
+              <h3>Welcome, ${currentUser.firstName} ${currentUser.lastName}</h3>
               <p><strong>Email:</strong> ${currentUser.email}</p>
               <button class="btn btn-secondary" onclick="logout()">Logout</button>
             </div>
@@ -431,29 +632,65 @@
       }
     }
 
+    // Function to update the Orders Section with order details
+    function updateOrdersSection() {
+      const ordersContent = document.getElementById('ordersContent');
+      if (orders.length === 0) {
+        ordersContent.innerHTML = "<p>You have not placed any orders yet.</p>";
+        return;
+      }
+      let html = '';
+      orders.forEach((order, index) => {
+        html += `
+          <div class="card mb-3">
+            <div class="card-header">Order #${index + 1} - ${order.date}</div>
+            <div class="card-body">
+              <h5 class="card-title">${order.product.name}</h5>
+              <p class="card-text">${order.product.description}</p>
+              <p class="card-text"><small class="text-muted">${order.product.category} | $${order.product.price.toFixed(2)}</small></p>
+              <p><strong>Shipping Address:</strong> ${order.address}</p>
+              <p><strong>Mobile:</strong> ${order.mobile}</p>
+              <p><strong>Additional Details:</strong> ${order.details}</p>
+              <p><strong>Payment Method:</strong> ${order.payment}</p>
+            </div>
+          </div>
+        `;
+      });
+      ordersContent.innerHTML = html;
+    }
+
     // Simulated logout function
     function logout() {
       currentUser = null;
       alert("You have been logged out.");
+      updateHeaderProfile();
       showSection('homeSection');
     }
 
-    // Offcanvas Menu content
+    // Offcanvas Menu content and event handling
     const menuData = {
-      account:"<p>Create your profile and start exploring.</p>",
-      orders: "<p>You have no recent orders. Start shopping now!</p>",
+      account: "<p>Create your profile and start exploring.</p>",
+      orders: "<p>Click to view your orders.</p>",
       coupons: "<p>No coupons available at the moment. Check back later!</p>",
       offers: "<p>Explore our exclusive offers and deals.</p>",
       cart: "<p>Your cart is empty. Add items to your cart to see them here.</p>",
       help: "<p>Contact us at +91 9154814320 or email help@dinosaurvibe123@gmail.com.</p>"
     };
 
-    // Menu item click events
     document.querySelectorAll('.menu-item').forEach(item => {
       item.addEventListener('click', function() {
         const menuKey = this.getAttribute('data-menu');
-        const content = menuData[menuKey] || "<p>Content not available.</p>";
-        document.getElementById('menuContent').innerHTML = content;
+        // For "orders", "account" and "cart", we want to show the appropriate section
+        if (menuKey === "orders") {
+          showSection("ordersSection");
+        } else if (menuKey === "account") {
+          showSection("accountSection");
+        } else if (menuKey === "cart") {
+          showSection("cartSection");
+        } else {
+          const content = menuData[menuKey] || "<p>Content not available.</p>";
+          document.getElementById('menuContent').innerHTML = content;
+        }
       });
     });
 
@@ -462,8 +699,7 @@
       alert("Call us at +91 9154814320");
     });
 
-    // Account button action:
-    // If already logged in, show account details. Otherwise, go to login.
+    // Account button action: if logged in, show account; otherwise, show login
     document.getElementById('accountButton').addEventListener('click', function() {
       if (currentUser) {
         showSection('accountSection');
@@ -472,9 +708,9 @@
       }
     });
 
-    // Cart button action (demo alert)
+    // Cart button action: show the cart section
     document.getElementById('cartButton').addEventListener('click', function() {
-      alert("Cart functionality coming soon!");
+      showSection('cartSection');
     });
 
     // Home search functionality
@@ -508,12 +744,11 @@
     // Login form submission
     document.getElementById('loginForm')?.addEventListener('submit', function(e) {
       e.preventDefault();
-      // For simulation, we use the email provided.
       const email = document.getElementById('loginEmail').value;
-      // If the user already signed up, their details might be available.
-      // Otherwise, create a dummy user.
+      // For simulation, if no user exists, create a default one.
       currentUser = currentUser || { firstName: 'Valued', lastName: 'Customer', email };
       alert('Login successful!');
+      updateHeaderProfile();
       showSection('homeSection');
     });
 
@@ -529,9 +764,10 @@
         alert("Passwords do not match!");
         return;
       }
-      // Simulate sign up by saving user details in the global variable
+      // Save the user details in the global variable
       currentUser = { firstName, lastName, email };
       alert('Sign Up successful!');
+      updateHeaderProfile();
       showSection('homeSection');
     });
   </script>
