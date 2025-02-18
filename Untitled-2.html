@@ -30,9 +30,20 @@
       font-weight: bolder;
     }
     header .profile-name {
-      font-size: 0.9rem;
+      font-size: 1rem;
       color: #28a745;
       margin-left: 10px;
+    }
+    /* Cart button styling with badge */
+    .cart-btn {
+      position: relative;
+      display: inline-block;
+    }
+    .cart-btn .badge {
+      position: absolute;
+      top: -5px;
+      right: -10px;
+      font-size: 0.75rem;
     }
     nav a, nav button {
       font-size: 0.9rem;
@@ -85,6 +96,17 @@
     .active-section {
       display: block;
     }
+    /* Offcanvas custom styling */
+    #menuAccountDetails {
+      padding: 15px;
+      background-color: #e9ecef;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      text-align: center;
+    }
+    #menuAccountDetails h4 {
+      margin-bottom: 0;
+    }
   </style>
 </head>
 <body>
@@ -94,6 +116,9 @@
       <h5 class="offcanvas-title" id="menuCanvasLabel">Menu</h5>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
+    <!-- Account details in menu (if logged in) -->
+    <div id="menuAccountDetails"></div>
+    <!-- Offcanvas menu items -->
     <ul class="list-unstyled ps-3">
       <li class="menu-item mb-3" data-menu="account">
         <i class="bi bi-person"></i> My Account
@@ -114,6 +139,7 @@
         <i class="bi bi-telephone"></i> Help Line
       </li>
     </ul>
+    <!-- Dynamic content for orders, etc., will appear here -->
     <div id="menuContent" class="mt-4"></div>
   </div>
 
@@ -132,9 +158,9 @@
         <nav class="d-flex gap-3 align-items-center">
           <button class="btn" id="phoneButton"><i class="bi bi-phone"></i></button>
           <button class="btn" id="accountButton"><i class="bi bi-person"></i></button>
-          <button class="btn" id="cartButton">
+          <button class="btn cart-btn" id="cartButton">
             <i class="bi bi-cart"></i>
-            <span id="cartCountBadge" class="badge bg-danger ms-1">0</span>
+            <span class="badge bg-danger" id="cartCountBadge">0</span>
           </button>
         </nav>
       </div>
@@ -197,6 +223,7 @@
     <!-- Home Footer -->
     <footer class="bg-dark text-white text-center py-4">
       <div class="container">
+        <p class="mb-0">&copy; 2025 DINOSAUR. All rights reserved.</p>
       </div>
     </footer>
   </div>
@@ -319,21 +346,8 @@
     </div>
   </div>
 
-  <!-- ORDERS SECTION (My Orders) -->
-  <div id="ordersSection" class="section">
-    <header class="bg-light py-3 border-bottom">
-      <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
-          <i class="bi bi-arrow-left"></i> Home
-        </button>
-        <h1 class="h5 mb-0">My Orders</h1>
-        <div></div>
-      </div>
-    </header>
-    <div class="container my-4" id="ordersContent">
-      <!-- Order items will be injected here -->
-    </div>
-  </div>
+  <!-- ORDERS SECTION (Displayed in offcanvas menu only) -->
+  <!-- The orders details will be injected into the offcanvas "menuContent" when My Orders is clicked. -->
 
   <!-- SHOP SECTION (All Products) -->
   <div id="shopSection" class="section">
@@ -353,6 +367,7 @@
     </div>
     <footer class="bg-dark text-white text-center py-4">
       <div class="container">
+        <p class="mb-0">&copy; 2025 DINOSAUR. All rights reserved.</p>
       </div>
     </footer>
   </div>
@@ -375,6 +390,7 @@
     </div>
     <footer class="bg-dark text-white text-center py-4">
       <div class="container">
+        <p class="mb-0">&copy; 2025 DINOSAUR. All rights reserved.</p>
       </div>
     </footer>
   </div>
@@ -397,6 +413,7 @@
     </div>
     <footer class="bg-dark text-white text-center py-4">
       <div class="container">
+        <p class="mb-0">&copy; 2025 DINOSAUR. All rights reserved.</p>
       </div>
     </footer>
   </div>
@@ -434,9 +451,9 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT: Section Switching, Dynamic Profile, Cart, Orders & Product Functionality -->
+  <!-- JAVASCRIPT: Dynamic Functionality -->
   <script>
-    // Global products array (with id, price, etc.)
+    // Global products array
     const products = [
       { id: 1, name: "Men's T-Shirt", description: "Comfortable and stylish men's t-shirt.", category: "Men's Wear", price: 19.99 },
       { id: 2, name: "Leather Watch", description: "Premium quality leather watch.", category: "Accessories", price: 79.99 },
@@ -456,23 +473,19 @@
     let currentUser = null;
     let currentProductForPurchase = null;
 
-    // Update header profile (display user name if logged in)
+    // Update header profile display
     function updateHeaderProfile() {
       const headerProfile = document.getElementById("headerProfile");
-      if (currentUser) {
-        headerProfile.textContent = `Hi, ${currentUser.firstName}`;
-      } else {
-        headerProfile.textContent = "";
-      }
+      headerProfile.textContent = currentUser ? `Hi, ${currentUser.firstName}` : "";
     }
 
-    // Update cart count badge
+    // Update cart count badge inside the cart icon
     function updateCartCountBadge() {
       const badge = document.getElementById("cartCountBadge");
       badge.textContent = cart.length;
     }
 
-    // Function to switch between sections
+    // Function to switch between main sections
     function showSection(sectionId) {
       document.querySelectorAll('.section').forEach(section => {
         section.classList.remove('active-section');
@@ -492,8 +505,6 @@
         updateAccountSection();
       } else if (sectionId === 'cartSection') {
         updateCartSection();
-      } else if (sectionId === 'ordersSection') {
-        updateOrdersSection();
       }
     }
 
@@ -524,20 +535,18 @@
       });
     }
 
-    // Function to simulate buying a product: open the buy modal
+    // Function to simulate buying a product (open buy modal)
     function buyProduct(productId) {
       const product = products.find(p => p.id === productId);
       if (product) {
         currentProductForPurchase = product;
-        // Reset the buy form fields
         document.getElementById("buyForm").reset();
-        // Open the modal (using Bootstrap Modal API)
         const buyModal = new bootstrap.Modal(document.getElementById("buyModal"));
         buyModal.show();
       }
     }
 
-    // Handle the buy form submission (placing an order)
+    // Handle buy form submission to place order
     document.getElementById("buyForm").addEventListener("submit", function(e) {
       e.preventDefault();
       if (!currentUser) {
@@ -548,7 +557,6 @@
       const address = document.getElementById("shippingAddress").value;
       const mobile = document.getElementById("mobileNumber").value;
       const details = document.getElementById("additionalDetails").value;
-      // Create an order object
       const order = {
         product: currentProductForPurchase,
         address: address,
@@ -559,11 +567,9 @@
       };
       orders.push(order);
       alert(`Order placed for ${currentProductForPurchase.name}!`);
-      // Close the modal
       const buyModalEl = document.getElementById("buyModal");
       const modalInstance = bootstrap.Modal.getInstance(buyModalEl);
       modalInstance.hide();
-      // Optionally, update orders in header or orders section
     });
 
     // Function to add a product to the cart
@@ -632,31 +638,80 @@
       }
     }
 
-    // Function to update the Orders Section with order details
-    function updateOrdersSection() {
-      const ordersContent = document.getElementById('ordersContent');
+    // Function to update Orders in the offcanvas menu (for "My Orders")
+    function updateMenuOrders() {
+      let html = "";
       if (orders.length === 0) {
-        ordersContent.innerHTML = "<p>You have not placed any orders yet.</p>";
-        return;
+        html = "<p>You have not placed any orders yet.</p>";
+      } else {
+        orders.forEach((order, index) => {
+          html += `
+            <div class="card mb-2">
+              <div class="card-header">Order #${index + 1} - ${order.date}</div>
+              <div class="card-body">
+                <h5 class="card-title">${order.product.name}</h5>
+                <p class="card-text">${order.product.description}</p>
+                <p><strong>Address:</strong> ${order.address}</p>
+                <p><strong>Mobile:</strong> ${order.mobile}</p>
+                <p><strong>Details:</strong> ${order.details}</p>
+                <p><strong>Payment:</strong> ${order.payment}</p>
+              </div>
+            </div>
+          `;
+        });
       }
-      let html = '';
-      orders.forEach((order, index) => {
-        html += `
-          <div class="card mb-3">
-            <div class="card-header">Order #${index + 1} - ${order.date}</div>
-            <div class="card-body">
-              <h5 class="card-title">${order.product.name}</h5>
-              <p class="card-text">${order.product.description}</p>
-              <p class="card-text"><small class="text-muted">${order.product.category} | $${order.product.price.toFixed(2)}</small></p>
-              <p><strong>Shipping Address:</strong> ${order.address}</p>
-              <p><strong>Mobile:</strong> ${order.mobile}</p>
-              <p><strong>Additional Details:</strong> ${order.details}</p>
-              <p><strong>Payment Method:</strong> ${order.payment}</p>
+      document.getElementById('menuContent').innerHTML = html;
+    }
+
+    // Function to update Account details in the offcanvas menu (for "My Account")
+    function updateMenuAccount() {
+      let html = "";
+      if (currentUser) {
+        html = `
+          <div class="card">
+            <div class="card-body text-center">
+              <h4>${currentUser.firstName} ${currentUser.lastName}</h4>
+              <p>${currentUser.email}</p>
+              <button class="btn btn-secondary btn-sm" onclick="logout(); updateMenuAccount();">Logout</button>
             </div>
           </div>
         `;
-      });
-      ordersContent.innerHTML = html;
+      } else {
+        html = "<p>Please log in to see your account details.</p>";
+      }
+      document.getElementById('menuContent').innerHTML = html;
+    }
+
+    // Function to update Cart details in the offcanvas menu (for "My Cart")
+    function updateMenuCart() {
+      let html = "";
+      if (cart.length === 0) {
+        html = "<p>Your cart is empty.</p>";
+      } else {
+        cart.forEach((item, index) => {
+          html += `
+            <div class="card mb-2">
+              <div class="card-body">
+                <h5 class="card-title">${item.name}</h5>
+                <p class="card-text">$${item.price.toFixed(2)}</p>
+                <button class="btn btn-sm btn-danger" onclick="removeFromCart(${index}); updateMenuCart();">Remove</button>
+              </div>
+            </div>
+          `;
+        });
+        html += `<button class="btn btn-success btn-sm">Checkout</button>`;
+      }
+      document.getElementById('menuContent').innerHTML = html;
+    }
+
+    // Update the offcanvas menu header with account details (if logged in)
+    function updateMenuAccountDetails() {
+      const container = document.getElementById("menuAccountDetails");
+      if (currentUser) {
+        container.innerHTML = `<h4>${currentUser.firstName} ${currentUser.lastName}</h4><small>${currentUser.email}</small>`;
+      } else {
+        container.innerHTML = `<h4>Welcome Guest</h4>`;
+      }
     }
 
     // Simulated logout function
@@ -664,29 +719,27 @@
       currentUser = null;
       alert("You have been logged out.");
       updateHeaderProfile();
+      updateMenuAccountDetails();
       showSection('homeSection');
     }
 
-    // Offcanvas Menu content and event handling
+    // Offcanvas Menu content mapping
     const menuData = {
-      account: "<p>Create your profile and start exploring.</p>",
-      orders: "<p>Click to view your orders.</p>",
       coupons: "<p>No coupons available at the moment. Check back later!</p>",
       offers: "<p>Explore our exclusive offers and deals.</p>",
-      cart: "<p>Your cart is empty. Add items to your cart to see them here.</p>",
       help: "<p>Contact us at +91 9154814320 or email help@dinosaurvibe123@gmail.com.</p>"
     };
 
+    // Offcanvas menu item click events
     document.querySelectorAll('.menu-item').forEach(item => {
       item.addEventListener('click', function() {
         const menuKey = this.getAttribute('data-menu');
-        // For "orders", "account" and "cart", we want to show the appropriate section
         if (menuKey === "orders") {
-          showSection("ordersSection");
+          updateMenuOrders();
         } else if (menuKey === "account") {
-          showSection("accountSection");
+          updateMenuAccount();
         } else if (menuKey === "cart") {
-          showSection("cartSection");
+          updateMenuCart();
         } else {
           const content = menuData[menuKey] || "<p>Content not available.</p>";
           document.getElementById('menuContent').innerHTML = content;
@@ -699,7 +752,7 @@
       alert("Call us at +91 9154814320");
     });
 
-    // Account button action: if logged in, show account; otherwise, show login
+    // Account button action (in header)
     document.getElementById('accountButton').addEventListener('click', function() {
       if (currentUser) {
         showSection('accountSection');
@@ -708,7 +761,7 @@
       }
     });
 
-    // Cart button action: show the cart section
+    // Cart button action (in header)
     document.getElementById('cartButton').addEventListener('click', function() {
       showSection('cartSection');
     });
@@ -749,6 +802,7 @@
       currentUser = currentUser || { firstName: 'Valued', lastName: 'Customer', email };
       alert('Login successful!');
       updateHeaderProfile();
+      updateMenuAccountDetails();
       showSection('homeSection');
     });
 
@@ -764,10 +818,10 @@
         alert("Passwords do not match!");
         return;
       }
-      // Save the user details in the global variable
       currentUser = { firstName, lastName, email };
       alert('Sign Up successful!');
       updateHeaderProfile();
+      updateMenuAccountDetails();
       showSection('homeSection');
     });
   </script>
