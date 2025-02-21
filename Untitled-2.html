@@ -80,8 +80,19 @@
     #menuAccountDetails h4 { margin-bottom: 0; }
     /* Social icons inside menu */
     #menuSocialSection {
-      margin-top: 20px; text-align: center; border-top: 1px solid #ddd; padding-top: 10px;
+      margin-top: 20px;
+      text-align: center;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
     }
+  /* Toast container */
+  #toastContainer {
+    position: fixed;
+    top: 10rem;
+    right: 1rem;
+    z-index: 1100;
+  }
+    
     
     /* Toast container */
     #toastContainer { position: fixed; top: 1rem; right: 1rem; z-index: 1100; }
@@ -169,16 +180,11 @@
     <div id="menuContent" class="mt-4"></div>
     <!-- Social Media Icons inside Menu -->
     <div id="menuSocialSection">
-      <a href="https://www.instagram.com/yourprofile" target="_blank" class="mx-2">
-        <i class="bi bi-instagram" style="color:#E1306C;"></i>
-      </a>
-      <a href="https://www.twitter.com/yourprofile" target="_blank" class="mx-2">
-        <i class="bi bi-twitter" style="color:#1DA1F2;"></i>
-      </a>
-      <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="mx-2">
-        <i class="bi bi-linkedin" style="color:#0077B5;"></i>
-      </a>
+      <a href="https://www.instagram.com/yourprofile" target="_blank" class="mx-2"><i class="bi bi-instagram" style="color:#E1306C;"></i></a>
+      <a href="https://www.twitter.com/yourprofile" target="_blank" class="mx-2"><i class="bi bi-twitter" style="color:#1DA1F2;"></i></a>
+      <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="mx-2"><i class="bi bi-linkedin" style="color:#0077B5;"></i></a>
     </div>
+  </div>
   </div>
 
   <!-- Home Section -->
@@ -197,7 +203,7 @@
             <i class="bi bi-bell"></i>
           </button>
           <button class="btn text-white" id="accountButton">
-            <i class="bi bi-person-circle"></i>
+            <i class="bi bi-person-fill"></i>
           </button>
         </nav>
       </div>
