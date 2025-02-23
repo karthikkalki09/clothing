@@ -183,10 +183,10 @@
     </ul>
     <div id="menuContent" class="mt-4"></div>
     <div id="menuSocialSection">
-     
-      <a href="https://www.instagram.com/tedpole.in?igsh=MWI1Zmw5a2NpaGx0Ng==" target="_blank" class="mx-2"><i class="bi bi-instagram" style="color:#E1306C;"></i></a>
-      <a href="https://x.com/TedpoleIn?t=e9Z0Ovkjem7sfBhUO8bYZg&s=08" target="_blank" class="mx-2"><i class="bi bi-twitter" style="color:#1DA1F2;"></i></a>
-      <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="mx-2"><i class="bi bi-linkedin" style="color:#0077B5;"></i></a>
+        <a href="https://www.instagram.com/tedpole.in?igsh=MWI1Zmw5a2NpaGx0Ng==" target="_blank" class="mx-2"><i class="bi bi-instagram" style="color:#E1306C;"></i></a>
+        <a href="https://x.com/TedpoleIn?t=e9Z0Ovkjem7sfBhUO8bYZg&s=08" target="_blank" class="mx-2"><i class="bi bi-twitter" style="color:#1DA1F2;"></i></a>
+        <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="mx-2"><i class="bi bi-linkedin" style="color:#0077B5;"></i></a>
+        </a>
       </a>
     </div>
   </div>
@@ -208,7 +208,7 @@
     <section class="hero text-center">
       <div class="container">
         <h2 class="mt-4">Welcome to TEDPOLE</h2>
-        <p>Your destination for quality products .</p>
+        <p>Your destination for quality products.</p>
         <button class="btn btn-dark btn-dynamic mt-2" id="shopNowButton" onclick="showSection('shopSection')">
           <i class="bi bi-cart-check"></i> Shop Now
         </button>
@@ -798,7 +798,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body" id="trackOrderContent">
-          <!-- Content will be injected by trackOrder() -->
+          <!-- Tracking info will be injected here -->
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -807,7 +807,7 @@
     </div>
   </div>
   
-  <!-- Fixed Footer Navigation (Search icon remains) -->
+  <!-- Fixed Footer Navigation -->
   <footer class="footer-nav fixed-bottom bg-light">
     <div class="container d-flex justify-content-around">
       <div class="nav-item">
@@ -817,7 +817,7 @@
       </div>
       <div class="nav-item">
         <button class="btn btn-link nav-link" onclick="showSection('categoriesSection')">
-          <i class="bi bi-grid-3x3-gap"></i><br>Categories
+          <i class="bi bi-grid-3x3-gap"></i><br>Shop
         </button>
       </div>
       <div class="nav-item">
@@ -841,7 +841,7 @@
   
   <!-- JavaScript: Dynamic Functionality & LocalStorage Persistence -->
   <script>
-    // Helper function to hide the offcanvas menu
+    // Helper function to hide offcanvas menu
     function hideMenu() {
       const offcanvasEl = document.getElementById("menuCanvas");
       const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasEl);
@@ -1164,9 +1164,7 @@
       }
       toastEl.innerHTML = `
         <div class="d-flex">
-          <div class="toast-body">
-            ${message}
-          </div>
+          <div class="toast-body">${message}</div>
           <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
       `;
@@ -1190,8 +1188,8 @@
     }
     function updateWishlistSection() {
       const wishlistContainer = document.getElementById("wishlistContainer");
-      if (wishlist.length === 0) { 
-        wishlistContainer.innerHTML = "<p>Your wishlist is empty.</p>"; 
+      if (wishlist.length === 0) {
+        wishlistContainer.innerHTML = "<p>Your wishlist is empty.</p>";
         return;
       }
       let html = "";
@@ -1526,7 +1524,7 @@
       }
     }
     
-    // Track Order function with embedded map (only for active orders)
+    // Track Order function with embedded Google Map based on user's shipping address
     function trackOrder() {
       const order = orders[currentOrderIndex];
       if (order.cancelled) {
@@ -1537,6 +1535,15 @@
       if (order.trackingStatus === "Shipped") progress = 50;
       else if (order.trackingStatus === "Out for Delivery") progress = 75;
       else if (order.trackingStatus === "Delivered") progress = 100;
+      
+      // Use the shipping address for the map query.
+      let mapSrc = "";
+      if (order.address) {
+        mapSrc = "https://www.google.com/maps?q=" + encodeURIComponent(order.address) + "&output=embed";
+      } else {
+        mapSrc = "https://www.google.com/maps?q=New+York&output=embed";
+      }
+      
       const trackingInfo = `
         <div class="mb-3">
           <h6>Order Progress: ${progress}%</h6>
@@ -1545,8 +1552,8 @@
           </div>
         </div>
         <div class="mb-3">
-          <h6>Track Your Order</h6>
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3023.9582312239117!2d-74.00601568459379!3d40.71277577933064!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a3164c58f07%3A0x8efb603aa8f6e2d1!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sin!4v1600000000000!5m2!1sen!2sin" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+          <h6>Track Your Order at Your Shipping Address</h6>
+          <iframe src="${mapSrc}" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </div>
       `;
       document.getElementById("trackOrderContent").innerHTML = trackingInfo;
