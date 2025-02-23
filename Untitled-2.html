@@ -27,7 +27,7 @@
     .btn-info { background-color: #5bc0de; border-color: #46b8da; }
     .bg-light { background-color: #f8f9fa !important; }
     
-    /* Fade-in animation for dynamic transitions */
+    /* Fade-in animation */
     .fade-in {
       animation: fadeIn 0.5s ease-in-out;
     }
@@ -43,12 +43,12 @@
     header h1 { font-size: 1.125rem; font-weight: 600; }
     header .profile-name { font-size: 1rem; margin-left: 10px; }
     
-    /* Header Navigation – bag removed */
+    /* Header Navigation */
     nav a, nav button {
       font-size: 0.9rem; padding: 5px 1px; color: #fff;
       text-decoration: none; background: none; border: none;
     }
-    nav a:hover, nav button:hover { color: #ffffff; }
+    nav a:hover, nav button:hover { color: #fff; }
     nav .btn i { font-size: 1.75rem; transition: color 0.3s ease; }
     nav .btn i:hover { color: #ffdd57; }
     .header-nav { display: flex; gap: 0.5rem; align-items: center; }
@@ -60,25 +60,17 @@
     .category-item img:hover { transform: scale(1.05); }
     .category-item h4 { margin-top: 10px; font-size: 1.2rem; }
     .icon-button { font-size: 2rem; color: #000; background: transparent; border: none; padding: 10px; }
-    .search-result-item { margin: 10px 0; cursor: pointer; }
-    
-    /* Suggestions styling */
-    #suggestions {
-      position: absolute; top: 100%; left: 0; right: 0; z-index: 1000;
-    }
-    #suggestions .list-group-item { cursor: pointer; }
     
     /* Section visibility */
     .section { display: none; }
     .active-section { display: block; }
     
-    /* Offcanvas Menu styling */
+    /* Offcanvas Menu */
     #menuAccountDetails {
-      padding: 15px; background-color: #ffffff; margin-bottom: 10px;
+      padding: 15px; background-color: #fff; margin-bottom: 10px;
       border-radius: 5px; text-align: center;
     }
     #menuAccountDetails h4 { margin-bottom: 0; }
-    /* Social icons inside menu */
     #menuSocialSection {
       margin-top: 20px;
       text-align: center;
@@ -97,7 +89,7 @@
       z-index: 1100;
     }
     
-    /* Filter Section for Shop Page */
+    /* Filter Section */
     #filterSection {
       margin-top: 20px; border-top: 2px solid #2a5298; padding-top: 20px;
       background-color: #e9f0fa;
@@ -105,11 +97,11 @@
     .filter-tags { margin-top: 10px; }
     .filter-tags .badge { cursor: pointer; }
     
-    /* Responsive: Two products per row */
+    /* Responsive */
     @media (min-width: 768px) { .prod-col { flex: 0 0 50%; max-width: 50%; } }
     @media (max-width: 767px) { .prod-col { flex: 0 0 100%; max-width: 100%; } }
     
-    /* Fixed Footer Navigation */
+    /* Fixed Footer */
     .footer-nav {
       position: fixed; bottom: 0; left: 0; right: 0;
       background: #fff; border-top: 1px solid #ddd; z-index: 1200;
@@ -118,23 +110,28 @@
     .footer-nav .nav-item { text-align: center; flex: 1; position: relative; }
     .footer-nav .nav-link { color: #2a5298; font-size: 1rem; }
     .footer-nav .nav-link i { font-size: 1.5rem; }
-    /* Bag count badge in footer */
     .footer-bag-badge {
       position: absolute; top: 5px; right: 20px;
       background: #d9534f; color: #fff; border-radius: 50%;
       padding: 2px 6px; font-size: 0.75rem;
     }
     
-    /* Search Section styling */
+    /* Search Section */
     #searchSection { padding-top: 20px; margin-bottom: 80px; }
     #searchResultsContainer { margin-top: 20px; }
     
-    /* Wishlist button overlay style */
+    /* Wishlist Button */
     .wishlist-btn {
       background: rgba(255, 255, 255, 0.8);
       border-radius: 50%;
       border: none;
       padding: 5px;
+    }
+    
+    /* Dynamic Hover Effects */
+    .btn-dynamic:hover {
+      transform: scale(1.05);
+      transition: transform 0.3s;
     }
   </style>
 </head>
@@ -153,9 +150,7 @@
         <div></div>
       </div>
     </header>
-    <div class="container my-4" id="notificationsContent">
-      <!-- Notifications will be rendered here -->
-    </div>
+    <div class="container my-4" id="notificationsContent"></div>
   </div>
 
   <!-- Offcanvas Menu -->
@@ -164,39 +159,40 @@
       <h5 class="offcanvas-title" id="menuCanvasLabel">Menu</h5>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <!-- Account details in menu -->
     <div id="menuAccountDetails">
       <i class="bi bi-person-circle me-2"></i>
       <span id="menuAccountText">Welcome Guest</span>
     </div>
-    <!-- Menu items -->
     <ul class="list-unstyled ps-3">
-      <li class="menu-item mb-3" data-menu="orders" onclick="openOrders()">
+      <li class="menu-item mb-3" onclick="showSection('ordersSection'); hideMenu();">
         <i class="bi bi-receipt"></i> My Orders
       </li>
-      <li class="menu-item mb-3" data-menu="coupons">
+      <li class="menu-item mb-3" onclick="showSection('aboutSection'); hideMenu();">
+        <i class="bi bi-info-circle"></i> About Us
+      </li>
+      <li class="menu-item mb-3" onclick="showSection('contactSection'); hideMenu();">
+        <i class="bi bi-envelope"></i> Contact Us
+      </li>
+      <li class="menu-item mb-3" onclick="showSection('couponsSection'); hideMenu();">
         <i class="bi bi-tag"></i> Coupons
       </li>
-      <li class="menu-item mb-3" data-menu="offers">
+      <li class="menu-item mb-3" onclick="showSection('offerZoneSection'); hideMenu();">
         <i class="bi bi-star"></i> Offer Zone
       </li>
-      <li class="menu-item mb-3" data-menu="help">
+      <li class="menu-item mb-3" onclick="showSection('helpSection'); hideMenu();">
         <i class="bi bi-info-circle"></i> Help Line
       </li>
     </ul>
-    <!-- Dynamic content -->
     <div id="menuContent" class="mt-4"></div>
-    <!-- Social Media Icons inside Menu -->
     <div id="menuSocialSection">
-      <a href="https://www.instagram.com/tedpole.in?igsh=MWI1Zmw5a2NpaGx0Ng==" target="_blank" class="mx-2"><i class="bi bi-instagram" style="color:#E1306C;"></i></a>
-      <a href="https://x.com/TedpoleIn?t=e9Z0Ovkjem7sfBhUO8bYZg&s=08" target="_blank" class="mx-2"><i class="bi bi-twitter" style="color:#1DA1F2;"></i></a>
-      <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="mx-2"><i class="bi bi-linkedin" style="color:#0077B5;"></i></a>
+        <a href="https://www.instagram.com/tedpole.in?igsh=MWI1Zmw5a2NpaGx0Ng==" target="_blank" class="mx-2"><i class="bi bi-instagram" style="color:#E1306C;"></i></a>
+        <a href="https://x.com/TedpoleIn?t=e9Z0Ovkjem7sfBhUO8bYZg&s=08" target="_blank" class="mx-2"><i class="bi bi-twitter" style="color:#1DA1F2;"></i></a>
+        <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="mx-2"><i class="bi bi-linkedin" style="color:#0077B5;"></i></a>
     </div>
   </div>
 
-  <!-- Home Section -->
+  <!-- Home Section (Search bar removed from home page) -->
   <div id="homeSection" class="section active-section fade-in">
-    <!-- Main Header -->
     <header class="py-3 border-bottom">
       <div class="container d-flex justify-content-between align-items-center">
         <button class="btn text-white" data-bs-toggle="offcanvas" data-bs-target="#menuCanvas" aria-controls="menuCanvas">
@@ -215,26 +211,15 @@
         </nav>
       </div>
     </header>
-    <!-- Home Content -->
     <section class="hero text-center">
       <div class="container">
-        <div class="input-group mb-3 position-relative">
-          <input type="text" class="form-control" placeholder="Search for Products" id="homeSearchInput" autocomplete="off" />
-          <button class="btn btn-dark" type="button" id="searchButton">
-            <i class="bi bi-search"></i>
-          </button>
-          <!-- Suggestions -->
-          <div id="suggestions" class="list-group"></div>
-        </div>
-        <h2 class="mt-4">Browse Our Products</h2>
-        <button class="btn btn-dark mt-2" id="shopNowButton">
+        <h2 class="mt-4">Welcome to TEDPOLE</h2>
+        <p>Your destination for quality products and exceptional service.</p>
+        <button class="btn btn-dark btn-dynamic mt-2" id="shopNowButton" onclick="showSection('shopSection')">
           <i class="bi bi-cart-check"></i> Shop Now
         </button>
-        <!-- Search Results (if any) -->
-        <div id="searchResults" class="mt-4"></div>
       </div>
     </section>
-    <!-- Additional Content: Product Highlight, Categories -->
     <section class="product-highlight py-5">
       <div class="container d-flex flex-column flex-md-row align-items-center">
         <img src="https://via.placeholder.com/600x400?text=Product+Highlight" class="img-fluid mb-4 mb-md-0" alt="Product Highlight" />
@@ -264,8 +249,116 @@
       </div>
     </section>
     <footer class="py-4">
-      <div class="container text-center">
+      <div class="container text-center"></div>
+    </footer>
+  </div>
+
+  <!-- About Us Section -->
+  <div id="aboutSection" class="section fade-in">
+    <header class="py-3 border-bottom bg-light">
+      <div class="container d-flex justify-content-between align-items-center">
+        <button class="btn" onclick="showSection('homeSection')">
+          <i class="bi bi-arrow-left"></i> Home
+        </button>
+        <h1 class="h5 mb-0">About Us</h1>
+        <div></div>
       </div>
+    </header>
+    <div class="container my-4">
+      <p>We are a professional mobile SPA dedicated to providing high-quality products and exceptional customer service. Our passion is to make you look and feel your best.</p>
+    </div>
+    <footer class="py-4">
+      <div class="container text-center"></div>
+    </footer>
+  </div>
+
+  <!-- Contact Us Section -->
+  <div id="contactSection" class="section fade-in">
+    <header class="py-3 border-bottom bg-light">
+      <div class="container d-flex justify-content-between align-items-center">
+        <button class="btn" onclick="showSection('homeSection')">
+          <i class="bi bi-arrow-left"></i> Home
+        </button>
+        <h1 class="h5 mb-0">Contact Us</h1>
+        <div></div>
+      </div>
+    </header>
+    <div class="container my-4">
+      <form id="contactForm">
+        <div class="mb-3">
+          <label for="contactName" class="form-label">Name</label>
+          <input type="text" class="form-control" id="contactName" placeholder="Your Name" required>
+        </div>
+        <div class="mb-3">
+          <label for="contactEmail" class="form-label">Email Address</label>
+          <input type="email" class="form-control" id="contactEmail" placeholder="Your Email" required>
+        </div>
+        <div class="mb-3">
+          <label for="contactQuestion" class="form-label">Question</label>
+          <textarea class="form-control" id="contactQuestion" placeholder="Your Question" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-dynamic">Send</button>
+      </form>
+    </div>
+    <footer class="py-4">
+      <div class="container text-center"></div>
+    </footer>
+  </div>
+
+  <!-- Coupons Section -->
+  <div id="couponsSection" class="section fade-in">
+    <header class="py-3 border-bottom bg-light">
+      <div class="container d-flex justify-content-between align-items-center">
+        <button class="btn" onclick="showSection('homeSection')">
+          <i class="bi bi-arrow-left"></i> Home
+        </button>
+        <h1 class="h5 mb-0">Coupons</h1>
+        <div></div>
+      </div>
+    </header>
+    <div class="container my-4">
+      <p>No coupons available at the moment. Check back later!</p>
+    </div>
+    <footer class="py-4">
+      <div class="container text-center"></div>
+    </footer>
+  </div>
+
+  <!-- Offer Zone Section -->
+  <div id="offerZoneSection" class="section fade-in">
+    <header class="py-3 border-bottom bg-light">
+      <div class="container d-flex justify-content-between align-items-center">
+        <button class="btn" onclick="showSection('homeSection')">
+          <i class="bi bi-arrow-left"></i> Home
+        </button>
+        <h1 class="h5 mb-0">Offer Zone</h1>
+        <div></div>
+      </div>
+    </header>
+    <div class="container my-4">
+      <p>Explore our exclusive offers and deals. Stay tuned for upcoming discounts!</p>
+    </div>
+    <footer class="py-4">
+      <div class="container text-center"></div>
+    </footer>
+  </div>
+
+  <!-- Help Line Section -->
+  <div id="helpSection" class="section fade-in">
+    <header class="py-3 border-bottom bg-light">
+      <div class="container d-flex justify-content-between align-items-center">
+        <button class="btn" onclick="showSection('homeSection')">
+          <i class="bi bi-arrow-left"></i> Home
+        </button>
+        <h1 class="h5 mb-0">Help Line</h1>
+        <div></div>
+      </div>
+    </header>
+    <div class="container my-4">
+      <p>For assistance, please call <strong>+91 7661838006</strong> or email us at <strong>tedpole.in@gmail.com</strong>.</p>
+    </div>
+    <footer class="py-4">
+      <div class="container text-center"></div>
     </footer>
   </div>
 
@@ -280,9 +373,7 @@
         <div></div>
       </div>
     </header>
-    <div class="container my-4" id="wishlistContainer">
-      <!-- Wishlist items will be displayed here -->
-    </div>
+    <div class="container my-4" id="wishlistContainer"></div>
     <footer class="py-4">
       <div class="container text-center"></div>
     </footer>
@@ -324,7 +415,7 @@
     </footer>
   </div>
 
-  <!-- Search Section -->
+  <!-- Search Section (accessible via footer icon) -->
   <div id="searchSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
@@ -447,12 +538,10 @@
         <div></div>
       </div>
     </header>
-    <div class="container my-4" id="accountContent">
-      <!-- User details will be injected here -->
-    </div>
+    <div class="container my-4" id="accountContent"></div>
   </div>
 
-  <!-- Cart (Bag) Section -->
+  <!-- Cart Section -->
   <div id="cartSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
@@ -463,12 +552,10 @@
         <div></div>
       </div>
     </header>
-    <div class="container my-4" id="cartContent">
-      <!-- Cart items will be injected here -->
-    </div>
+    <div class="container my-4" id="cartContent"></div>
   </div>
 
-  <!-- Shop Section (All Products) -->
+  <!-- Shop Section (with Filters at Top) -->
   <div id="shopSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
@@ -479,49 +566,48 @@
         <div></div>
       </div>
     </header>
-    <div class="container my-4" id="shopProductContainer">
-      <!-- Product cards (2 per row) will be generated here -->
-    </div>
-    <!-- Filter Section for Shop Page -->
-    <div id="filterSection">
-      <h5>Filter Products</h5>
-      <div class="row g-2">
-        <div class="col-6 col-md-3">
-          <select id="filterSize" class="form-select">
-            <option value="">All Sizes</option>
-            <option value="S">S</option>
-            <option value="M">M</option>
-            <option value="L">L</option>
-            <option value="XL">XL</option>
-            <option value="32">32</option>
-            <option value="34">34</option>
-            <option value="36">36</option>
-          </select>
-        </div>
-        <div class="col-6 col-md-3">
-          <select id="filterColor" class="form-select">
-            <option value="">All Colors</option>
-            <option value="Blue">Blue</option>
-            <option value="Red">Red</option>
-            <option value="Black">Black</option>
-            <option value="Brown">Brown</option>
-            <option value="White">White</option>
-          </select>
-        </div>
-        <div class="col-6 col-md-3">
-          <select id="filterPrice" class="form-select">
-            <option value="">All Prices</option>
-            <option value="100-150">₹100 - ₹150</option>
-            <option value="150-200">₹150 - ₹200</option>
-            <option value="200-250">₹200 - ₹250</option>
-          </select>
-        </div>
-        <div class="col-6 col-md-3">
-          <button class="btn btn-primary w-100" onclick="applyFilters()">Apply Filters</button>
-        </div>
+    <div class="container my-4" id="shopFilterSection">
+      <div id="filterSection">
+         <h5>Filter Products</h5>
+         <div class="row g-2">
+           <div class="col-6 col-md-3">
+             <select id="filterSize" class="form-select">
+               <option value="">All Sizes</option>
+               <option value="S">S</option>
+               <option value="M">M</option>
+               <option value="L">L</option>
+               <option value="XL">XL</option>
+               <option value="32">32</option>
+               <option value="34">34</option>
+               <option value="36">36</option>
+             </select>
+           </div>
+           <div class="col-6 col-md-3">
+             <select id="filterColor" class="form-select">
+               <option value="">All Colors</option>
+               <option value="Blue">Blue</option>
+               <option value="Red">Red</option>
+               <option value="Black">Black</option>
+               <option value="Brown">Brown</option>
+               <option value="White">White</option>
+             </select>
+           </div>
+           <div class="col-6 col-md-3">
+             <select id="filterPrice" class="form-select">
+               <option value="">All Prices</option>
+               <option value="100-150">₹100 - ₹150</option>
+               <option value="150-200">₹150 - ₹200</option>
+               <option value="200-250">₹200 - ₹250</option>
+             </select>
+           </div>
+           <div class="col-6 col-md-3">
+             <button class="btn btn-primary w-100" onclick="applyFilters()">Apply Filters</button>
+           </div>
+         </div>
+         <div class="mt-2" id="activeFilterDisplay"></div>
       </div>
-      <div class="mt-2" id="activeFilterDisplay"></div>
     </div>
+    <div class="container my-4" id="shopProductContainer"></div>
     <footer class="py-4">
       <div class="container text-center"></div>
     </footer>
@@ -538,7 +624,6 @@
         <div></div>
       </div>
     </header>
-    <!-- Filters for Men's Wear -->
     <div class="container mb-3" id="menswearFilterSection">
       <div class="row g-2">
         <div class="col-4">
@@ -577,9 +662,7 @@
         <button class="btn btn-outline-danger" onclick="clearMenswearFilters()">Clear Filters</button>
       </div>
     </div>
-    <div class="container my-4" id="menswearContainer">
-      <!-- Men's Wear product cards will be generated here -->
-    </div>
+    <div class="container my-4" id="menswearContainer"></div>
     <div class="container text-center mb-4">
       <button class="btn btn-success" onclick="showSection('cartSection')">Checkout</button>
     </div>
@@ -599,7 +682,6 @@
         <div></div>
       </div>
     </header>
-    <!-- Filters for Accessories -->
     <div class="container mb-3" id="accessoriesFilterSection">
       <div class="row g-2">
         <div class="col-4">
@@ -636,9 +718,7 @@
         <button class="btn btn-outline-danger" onclick="clearAccessoriesFilters()">Clear Filters</button>
       </div>
     </div>
-    <div class="container my-4" id="accessoriesContainer">
-      <!-- Accessories product cards will be generated here -->
-    </div>
+    <div class="container my-4" id="accessoriesContainer"></div>
     <div class="container text-center mb-4">
       <button class="btn btn-success" onclick="showSection('cartSection')">Checkout</button>
     </div>
@@ -647,7 +727,7 @@
     </footer>
   </div>
 
-  <!-- My Orders Section -->
+  <!-- My Orders Section (Minimal Order Summary) -->
   <div id="ordersSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
@@ -658,12 +738,10 @@
         <div></div>
       </div>
     </header>
-    <div class="container my-4" id="ordersList">
-      <!-- Minimal order summary will be generated here -->
-    </div>
+    <div class="container my-4" id="ordersList"></div>
   </div>
 
-  <!-- Order Detail Section -->
+  <!-- Order Detail Section (Detailed view) -->
   <div id="orderDetailSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
@@ -674,9 +752,7 @@
         <div></div>
       </div>
     </header>
-    <div class="container my-4" id="orderDetailPage">
-      <!-- Order detail view will be shown here -->
-    </div>
+    <div class="container my-4" id="orderDetailPage"></div>
   </div>
 
   <!-- Product Detail Modal -->
@@ -687,9 +763,7 @@
           <h5 class="modal-title" id="productDetailModalLabel">Product Details</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body" id="productDetailContent">
-          <!-- Product details will be injected dynamically -->
-        </div>
+        <div class="modal-body" id="productDetailContent"></div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
@@ -740,9 +814,7 @@
         </div>
         <div class="modal-body">
           <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner" id="carouselInner">
-              <!-- Carousel items will be injected dynamically -->
-            </div>
+            <div class="carousel-inner" id="carouselInner"></div>
             <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Previous</span>
@@ -765,9 +837,7 @@
           <h5 class="modal-title" id="trackOrderModalLabel">Track Order</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body" id="trackOrderContent">
-          <!-- Progress bar and tracking info will be injected dynamically -->
-        </div>
+        <div class="modal-body" id="trackOrderContent"></div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
@@ -775,7 +845,7 @@
     </div>
   </div>
 
-  <!-- Fixed Footer Navigation -->
+  <!-- Fixed Footer Navigation (Search icon remains) -->
   <footer class="footer-nav fixed-bottom bg-light">
     <div class="container d-flex justify-content-around">
       <div class="nav-item">
@@ -785,7 +855,7 @@
       </div>
       <div class="nav-item">
         <button class="btn btn-link nav-link" onclick="showSection('categoriesSection')">
-          <i class="bi bi-grid-3x3-gap"></i><br>Categories
+          <i class="bi bi-grid-3x3-gap"></i><br>Shop
         </button>
       </div>
       <div class="nav-item">
@@ -806,10 +876,17 @@
       </div>
     </div>
   </footer>
-
+  
   <!-- JavaScript: Dynamic Functionality & LocalStorage Persistence -->
   <script>
-    // Global products array with extra details and multiple images
+    // Helper function to hide offcanvas menu
+    function hideMenu() {
+      var offcanvasEl = document.getElementById("menuCanvas");
+      var offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasEl);
+      if (offcanvasInstance) offcanvasInstance.hide();
+    }
+    
+    // Global products array
     const products = [
       { 
         id: 1, 
@@ -898,8 +975,8 @@
         ]
       }
     ];
-
-    // Global arrays for cart, orders, notifications, wishlist; current user and product for purchase
+    
+    // Global arrays and variables
     let cart = [];
     let orders = [];
     let notifications = [];
@@ -908,8 +985,8 @@
     let currentProductForPurchase = null;
     let currentOrderIndex = null;
     let activeFilters = {};
-
-    // Debounce helper function for search suggestions
+    
+    // Debounce helper
     function debounce(func, delay) {
       let timer;
       return function() {
@@ -918,8 +995,8 @@
         timer = setTimeout(() => { func.apply(context, args); }, delay);
       };
     }
-
-    // On page load, load persistent data from localStorage
+    
+    // Load data from localStorage
     window.onload = function() {
       const storedUser = localStorage.getItem("userData");
       if (storedUser) {
@@ -936,12 +1013,11 @@
       const storedWishlist = localStorage.getItem("wishlistData");
       if (storedWishlist) { wishlist = JSON.parse(storedWishlist); }
       
-      // Add onchange events for shop filter section
       document.getElementById("filterSize").addEventListener("change", applyFilters);
       document.getElementById("filterColor").addEventListener("change", applyFilters);
       document.getElementById("filterPrice").addEventListener("change", applyFilters);
     };
-
+    
     // Save data to localStorage
     function saveData() {
       localStorage.setItem("userData", JSON.stringify(currentUser));
@@ -950,20 +1026,20 @@
       localStorage.setItem("notificationsData", JSON.stringify(notifications));
       localStorage.setItem("wishlistData", JSON.stringify(wishlist));
     }
-
-    // Update header profile display
+    
+    // Update header profile
     function updateHeaderProfile() {
       const headerProfile = document.getElementById("headerProfile");
       headerProfile.textContent = currentUser ? `Hi, ${currentUser.firstName}` : "";
     }
-
-    // Update bag count badge in footer
+    
+    // Update cart badge
     function updateCartCountBadge() {
       const footerBadge = document.getElementById("footerBagBadge");
       if (footerBadge) { footerBadge.textContent = cart.length; }
     }
-
-    // Global filter function for shop section
+    
+    // Global filter function for Shop section
     function filterProducts() {
       return products.filter(product => {
         let sizeOk = true, colorOk = true, priceOk = true;
@@ -982,8 +1058,8 @@
         return sizeOk && colorOk && priceOk;
       });
     }
-
-    // Add a filter for Shop section
+    
+    // Add filter for Shop section
     function addFilter(filterType, filterValue) {
       activeFilters[filterType] = filterValue;
       showNotification(`Filter applied: ${filterType} = ${filterValue}`, "info");
@@ -993,7 +1069,7 @@
         displayActiveFilters();
       }
     }
-
+    
     // Clear all filters for Shop section
     function clearAllFilters() {
       activeFilters = {};
@@ -1003,7 +1079,7 @@
         displayActiveFilters();
       }
     }
-
+    
     // Display active filters for Shop section
     function displayActiveFilters() {
       const displayDiv = document.getElementById("activeFilterDisplay");
@@ -1016,7 +1092,7 @@
       html += `</p>`;
       displayDiv.innerHTML = html;
     }
-
+    
     // Update Notifications page
     function updateNotifications() {
       const notificationsContent = document.getElementById("notificationsContent");
@@ -1059,15 +1135,13 @@
       notificationsContent.innerHTML = html;
       saveData();
     }
-
-    // Delete a single notification
+    
+    // Delete notification(s)
     function deleteNotification(index) {
       notifications.splice(index, 1);
       updateNotifications();
       showNotification("Notification deleted.", "info");
     }
-
-    // Delete all notifications
     function deleteAllNotifications() {
       if (confirm("Are you sure you want to delete all notifications?")) {
         notifications = [];
@@ -1075,7 +1149,7 @@
         showNotification("All notifications deleted.", "info");
       }
     }
-
+    
     // Show product details in modal
     function showProductDetails(productId) {
       const product = products.find(p => p.id === productId);
@@ -1099,7 +1173,7 @@
         modal.show();
       }
     }
-
+    
     // Show toast notification
     function showNotification(message, type = "success", productId = null) {
       const notif = {
@@ -1136,7 +1210,7 @@
       toastEl.addEventListener('hidden.bs.toast', function () { toastEl.remove(); });
     }
     
-    // Wishlist Functions
+    // Wishlist functions
     function addToWishlist(productId) {
       const product = products.find(p => p.id === productId);
       if (!product) return;
@@ -1148,7 +1222,6 @@
         saveData();
       }
     }
-
     function updateWishlistSection() {
       const wishlistContainer = document.getElementById("wishlistContainer");
       if (wishlist.length === 0) { 
@@ -1176,15 +1249,14 @@
       });
       wishlistContainer.innerHTML = html;
     }
-
     function removeFromWishlist(index) {
       wishlist.splice(index, 1);
       updateWishlistSection();
       showNotification("Item removed from wishlist.", "info");
       saveData();
     }
-
-    // Switch between sections with fade-in effect
+    
+    // Switch between sections
     function showSection(sectionId) {
       document.querySelectorAll(".section").forEach(section => {
         section.classList.remove("active-section", "fade-in");
@@ -1211,13 +1283,10 @@
         updateNotifications();
       } else if (sectionId === "ordersSection") {
         updateOrdersList();
-      } else if (sectionId === "searchSection") {
-        document.getElementById("searchSectionInput").value = "";
-        document.getElementById("searchResultsContainer").innerHTML = "";
       }
     }
-
-    // Helper function to generate product image HTML (carousel if multiple images)
+    
+    // Generate product image HTML (carousel if multiple images)
     function generateProductImageHTML(product) {
       if (product.images && product.images.length > 1) {
         const carouselId = "carousel-product-" + product.id;
@@ -1250,8 +1319,8 @@
         return `<img src="${img}" class="card-img-top" alt="${product.name}">`;
       }
     }
-
-    // Generate product cards (2 per row)
+    
+    // Generate product cards
     function generateProducts(containerId, productList) {
       const container = document.getElementById(containerId);
       container.innerHTML = "";
@@ -1301,16 +1370,16 @@
       });
       container.appendChild(row);
     }
-
-    // Generate search results in Search Section
+    
+    // Generate search results
     function generateSearchResults(filteredProducts) {
       const container = document.getElementById("searchResultsContainer");
       container.innerHTML = "";
       if (filteredProducts.length === 0) { container.innerHTML = "<p>No products found.</p>"; return; }
       generateProducts("searchResultsContainer", filteredProducts);
     }
-
-    // Simulate buying a product (open buy modal)
+    
+    // Simulate buying a product
     function buyProduct(productId) {
       const product = products.find(p => p.id === productId);
       if (product) {
@@ -1320,8 +1389,8 @@
         buyModal.show();
       }
     }
-
-    // Buy form submission: place order and add notification
+    
+    // Buy form submission
     document.getElementById("buyForm").addEventListener("submit", function(e) {
       e.preventDefault();
       if (!currentUser) {
@@ -1350,7 +1419,7 @@
       const modalInstance = bootstrap.Modal.getInstance(buyModalEl);
       modalInstance.hide();
     });
-
+    
     // Add product to bag
     function addToCart(productId) {
       const product = products.find(p => p.id === productId);
@@ -1361,7 +1430,7 @@
         saveData();
       }
     }
-
+    
     // Update Cart Section
     function updateCartSection() {
       const cartContent = document.getElementById("cartContent");
@@ -1389,7 +1458,7 @@
       html += `<button class="btn btn-success">Checkout</button>`;
       cartContent.innerHTML = html;
     }
-
+    
     // Remove item from cart
     function removeFromCart(index) {
       cart.splice(index, 1);
@@ -1397,7 +1466,7 @@
       updateCartCountBadge();
       saveData();
     }
-
+    
     // Update Account Section
     function updateAccountSection() {
       const accountContent = document.getElementById("accountContent");
@@ -1414,8 +1483,8 @@
         `;
       } else { accountContent.innerHTML = "<p>No user details available. Please log in.</p>"; }
     }
-
-    // Update Orders List (minimal summary view)
+    
+    // Update Orders List (Minimal Summary)
     function updateOrdersList() {
       const ordersList = document.getElementById("ordersList");
       if (orders.length === 0) { 
@@ -1438,8 +1507,8 @@
         ordersList.innerHTML = html;
       }
     }
-
-    // Show Order Detail Page (detailed view with cancel and track options)
+    
+    // Show Order Detail Page (Detailed view)
     function showOrderDetailPage(orderIndex) {
       currentOrderIndex = orderIndex;
       const order = orders[orderIndex];
@@ -1467,7 +1536,7 @@
       document.getElementById("orderDetailPage").innerHTML = detailContent;
       showSection("orderDetailSection");
     }
-
+    
     // Cancel Order function
     function cancelOrder() {
       const order = orders[currentOrderIndex];
@@ -1481,7 +1550,7 @@
         updateOrdersList();
       } else { showNotification("Cancellation reason is required.", "warning"); }
     }
-
+    
     // Track Order function with progress bar
     function trackOrder() {
       const order = orders[currentOrderIndex];
@@ -1500,7 +1569,7 @@
       const trackModal = new bootstrap.Modal(document.getElementById("trackOrderModal"));
       trackModal.show();
     }
-
+    
     // Update offcanvas menu account details
     function updateMenuAccount() {
       let html = "";
@@ -1517,7 +1586,7 @@
       } else { html = "<p>Please log in to see your account details.</p>"; }
       document.getElementById("menuContent").innerHTML = html;
     }
-
+    
     // Update offcanvas menu header with account details
     function updateMenuAccountDetails() {
       const container = document.getElementById("menuAccountDetails");
@@ -1525,7 +1594,7 @@
         container.innerHTML = `<i class="bi bi-person-circle me-2"></i><h4 class="d-inline">${currentUser.firstName} ${currentUser.lastName}</h4><br><small>${currentUser.email}</small>`;
       } else { container.innerHTML = `<h4>Welcome Guest</h4>`; }
     }
-
+    
     // Logout function
     function logout() {
       currentUser = null;
@@ -1535,86 +1604,19 @@
       updateMenuAccountDetails();
       showSection("homeSection");
     }
-
-    // Offcanvas Menu static items mapping
-    const menuData = {
-      coupons: "<p>No coupons available at the moment. Check back later!</p>",
-      offers: "<p>Explore our exclusive offers and deals.</p>",
-      help: "<p>Contact us at +91 9154814320 or email help@dinosaursample.com.</p>"
-    };
-
-    // Offcanvas menu item click events
-    document.querySelectorAll(".menu-item").forEach(item => {
-      item.addEventListener("click", function() {
-        const menuKey = this.getAttribute("data-menu");
-        if (menuKey === "orders") {
-          showSection("ordersSection");
-          var offcanvasEl = document.getElementById("menuCanvas");
-          var offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasEl);
-          if (offcanvasInstance) { offcanvasInstance.hide(); }
-        } else if (menuKey === "account") { updateMenuAccount(); }
-        else if (menuKey === "cart") { showSection("cartSection"); }
-        else {
-          const content = menuData[menuKey] || "<p>Content not available.</p>";
-          document.getElementById("menuContent").innerHTML = content;
-        }
-      });
-    });
-
+    
     // When offcanvas menu is shown, update account details
     const menuCanvas = document.getElementById("menuCanvas");
     menuCanvas.addEventListener("shown.bs.offcanvas", updateMenuAccountDetails);
-
+    
     // Header button actions
     document.getElementById("accountButton").addEventListener("click", function() {
       if (currentUser) { showSection("accountSection"); }
       else { showSection("loginSection"); }
     });
     document.getElementById("notificationButton").addEventListener("click", function() { showSection("notificationsSection"); });
-
-    // Home Section: Debounced Search suggestions
-    const debouncedSuggestions = debounce(function() {
-      const query = document.getElementById("homeSearchInput").value.toLowerCase();
-      const suggestionsDiv = document.getElementById("suggestions");
-      suggestionsDiv.innerHTML = "";
-      if (query.trim() === "") return;
-      const suggestions = products.filter(product => product.name.toLowerCase().includes(query));
-      suggestions.forEach(product => {
-        const item = document.createElement("button");
-        item.type = "button";
-        item.className = "list-group-item list-group-item-action";
-        item.textContent = product.name;
-        item.addEventListener("click", function() {
-          document.getElementById("homeSearchInput").value = product.name;
-          suggestionsDiv.innerHTML = "";
-        });
-        suggestionsDiv.appendChild(item);
-      });
-    }, 300);
-    document.getElementById("homeSearchInput").addEventListener("input", debouncedSuggestions);
-
-    // Home Section: Search button functionality
-    document.getElementById("searchButton").addEventListener("click", function() {
-      const searchQuery = document.getElementById("homeSearchInput").value.toLowerCase();
-      const filteredProducts = products.filter(product =>
-        product.name.toLowerCase().includes(searchQuery) ||
-        product.description.toLowerCase().includes(searchQuery)
-      );
-      const searchResults = document.getElementById("searchResults");
-      searchResults.innerHTML = "";
-      if (filteredProducts.length > 0) {
-        filteredProducts.forEach(product => {
-          searchResults.innerHTML += `
-            <div class="search-result-item p-2 border rounded mb-2" onclick="showProductDetails(${product.id})">
-              <h5>${product.name}</h5>
-              <p>${product.description}</p>
-            </div>
-          `;
-        });
-      } else { searchResults.innerHTML = "<p>No products found.</p>"; }
-    });
-
-    // Search Section: Search button functionality
+    
+    // Search Section: Search functionality
     document.getElementById("searchSectionButton").addEventListener("click", function() {
       const query = document.getElementById("searchSectionInput").value.toLowerCase();
       let filteredProducts = [];
@@ -1626,10 +1628,7 @@
       }
       generateSearchResults(filteredProducts);
     });
-
-    // Shop Now button action
-    document.getElementById("shopNowButton").addEventListener("click", function() { showSection("shopSection"); });
-
+    
     // Login form submission
     document.getElementById("loginForm")?.addEventListener("submit", function(e) {
       e.preventDefault();
@@ -1641,7 +1640,7 @@
       updateMenuAccountDetails();
       showSection("homeSection");
     });
-
+    
     // Sign Up form submission
     document.getElementById("signupForm")?.addEventListener("submit", function(e) {
       e.preventDefault();
@@ -1659,7 +1658,14 @@
       updateMenuAccountDetails();
       showSection("homeSection");
     });
-
+    
+    // Contact Form submission
+    document.getElementById("contactForm")?.addEventListener("submit", function(e) {
+      e.preventDefault();
+      showNotification("Message was sent", "success");
+      document.getElementById("contactForm").reset();
+    });
+    
     // Category-specific filters for Men's Wear
     function applyMenswearFilters() {
       let size = document.getElementById("menswearFilterSize").value;
@@ -1678,7 +1684,6 @@
       }
       generateProducts("menswearContainer", filteredProducts);
     }
-
     function clearMenswearFilters() {
       document.getElementById("menswearFilterSize").value = "";
       document.getElementById("menswearFilterColor").value = "";
@@ -1686,7 +1691,7 @@
       let menswearProducts = products.filter(product => product.category === "Men's Wear");
       generateProducts("menswearContainer", menswearProducts);
     }
-
+    
     // Category-specific filters for Accessories
     function applyAccessoriesFilters() {
       let size = document.getElementById("accessoriesFilterSize").value;
@@ -1705,7 +1710,6 @@
       }
       generateProducts("accessoriesContainer", filteredProducts);
     }
-
     function clearAccessoriesFilters() {
       document.getElementById("accessoriesFilterSize").value = "";
       document.getElementById("accessoriesFilterColor").value = "";
@@ -1713,6 +1717,11 @@
       let accessoriesProducts = products.filter(product => product.category === "Accessories");
       generateProducts("accessoriesContainer", accessoriesProducts);
     }
+    
+    // Generic menu data for fallback (if needed)
+    const menuData = {
+      // Not used for items handled inline.
+    };
   </script>
   
   <!-- Bootstrap JS Bundle -->
