@@ -138,21 +138,19 @@
 <body>
   <!-- Toast Container -->
   <div id="toastContainer"></div>
-
+  
   <!-- Notifications Section -->
   <div id="notificationsSection" class="section">
     <header class="bg-light py-3 border-bottom">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
-          <i class="bi bi-arrow-left"></i> Home
-        </button>
+        <button class="btn" onclick="showSection('homeSection')"><i class="bi bi-arrow-left"></i> Home</button>
         <h1 class="h5 mb-0">Notifications</h1>
         <div></div>
       </div>
     </header>
     <div class="container my-4" id="notificationsContent"></div>
   </div>
-
+  
   <!-- Offcanvas Menu -->
   <div class="offcanvas offcanvas-start" tabindex="-1" id="menuCanvas" aria-labelledby="menuCanvasLabel">
     <div class="offcanvas-header">
@@ -185,36 +183,32 @@
     </ul>
     <div id="menuContent" class="mt-4"></div>
     <div id="menuSocialSection">
-        <a href="https://www.instagram.com/tedpole.in?igsh=MWI1Zmw5a2NpaGx0Ng==" target="_blank" class="mx-2"><i class="bi bi-instagram" style="color:#E1306C;"></i></a>
-        <a href="https://x.com/TedpoleIn?t=e9Z0Ovkjem7sfBhUO8bYZg&s=08" target="_blank" class="mx-2"><i class="bi bi-twitter" style="color:#1DA1F2;"></i></a>
-        <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="mx-2"><i class="bi bi-linkedin" style="color:#0077B5;"></i></a>
+     
+      <a href="https://www.instagram.com/tedpole.in?igsh=MWI1Zmw5a2NpaGx0Ng==" target="_blank" class="mx-2"><i class="bi bi-instagram" style="color:#E1306C;"></i></a>
+      <a href="https://x.com/TedpoleIn?t=e9Z0Ovkjem7sfBhUO8bYZg&s=08" target="_blank" class="mx-2"><i class="bi bi-twitter" style="color:#1DA1F2;"></i></a>
+      <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="mx-2"><i class="bi bi-linkedin" style="color:#0077B5;"></i></a>
+      </a>
     </div>
   </div>
-
-  <!-- Home Section (Search bar removed from home page) -->
+  
+  <!-- Home Section (No search bar on home page) -->
   <div id="homeSection" class="section active-section fade-in">
     <header class="py-3 border-bottom">
       <div class="container d-flex justify-content-between align-items-center">
         <button class="btn text-white" data-bs-toggle="offcanvas" data-bs-target="#menuCanvas" aria-controls="menuCanvas">
           <i class="bi bi-list" style="font-size: 1.5rem;"></i>
         </button>
-        <h1 class="h5 mb-0 text-white">
-          DINOSAUR <span id="headerProfile" class="profile-name"></span>
-        </h1>
+        <h1 class="h5 mb-0 text-white">TEDPOLE <span id="headerProfile" class="profile-name"></span></h1>
         <nav class="header-nav">
-          <button class="btn text-white" id="notificationButton">
-            <i class="bi bi-bell"></i>
-          </button>
-          <button class="btn text-white" id="accountButton">
-            <i class="bi bi-person-fill"></i>
-          </button>
+          <button class="btn text-white" id="notificationButton"><i class="bi bi-bell"></i></button>
+          <button class="btn text-white" id="accountButton"><i class="bi bi-person-fill"></i></button>
         </nav>
       </div>
     </header>
     <section class="hero text-center">
       <div class="container">
         <h2 class="mt-4">Welcome to TEDPOLE</h2>
-        <p>Your destination for quality products and exceptional service.</p>
+        <p>Your destination for quality products .</p>
         <button class="btn btn-dark btn-dynamic mt-2" id="shopNowButton" onclick="showSection('shopSection')">
           <i class="bi bi-cart-check"></i> Shop Now
         </button>
@@ -252,14 +246,12 @@
       <div class="container text-center"></div>
     </footer>
   </div>
-
+  
   <!-- About Us Section -->
   <div id="aboutSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
-          <i class="bi bi-arrow-left"></i> Home
-        </button>
+        <button class="btn" onclick="showSection('homeSection')"><i class="bi bi-arrow-left"></i> Home</button>
         <h1 class="h5 mb-0">About Us</h1>
         <div></div>
       </div>
@@ -271,14 +263,12 @@
       <div class="container text-center"></div>
     </footer>
   </div>
-
+  
   <!-- Contact Us Section -->
   <div id="contactSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
-          <i class="bi bi-arrow-left"></i> Home
-        </button>
+        <button class="btn" onclick="showSection('homeSection')"><i class="bi bi-arrow-left"></i> Home</button>
         <h1 class="h5 mb-0">Contact Us</h1>
         <div></div>
       </div>
@@ -304,14 +294,12 @@
       <div class="container text-center"></div>
     </footer>
   </div>
-
+  
   <!-- Coupons Section -->
   <div id="couponsSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
-          <i class="bi bi-arrow-left"></i> Home
-        </button>
+        <button class="btn" onclick="showSection('homeSection')"><i class="bi bi-arrow-left"></i> Home</button>
         <h1 class="h5 mb-0">Coupons</h1>
         <div></div>
       </div>
@@ -323,14 +311,12 @@
       <div class="container text-center"></div>
     </footer>
   </div>
-
+  
   <!-- Offer Zone Section -->
   <div id="offerZoneSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
-          <i class="bi bi-arrow-left"></i> Home
-        </button>
+        <button class="btn" onclick="showSection('homeSection')"><i class="bi bi-arrow-left"></i> Home</button>
         <h1 class="h5 mb-0">Offer Zone</h1>
         <div></div>
       </div>
@@ -342,33 +328,29 @@
       <div class="container text-center"></div>
     </footer>
   </div>
-
+  
   <!-- Help Line Section -->
   <div id="helpSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
-          <i class="bi bi-arrow-left"></i> Home
-        </button>
+        <button class="btn" onclick="showSection('homeSection')"><i class="bi bi-arrow-left"></i> Home</button>
         <h1 class="h5 mb-0">Help Line</h1>
         <div></div>
       </div>
     </header>
     <div class="container my-4">
-      <p>For assistance, please call <strong>+91 7661838006</strong> or email us at <strong>tedpole.in@gmail.com</strong>.</p>
+      <p>For assistance, please call <strong>+91 9154814320</strong> or email us at <strong>help@dinosaursample.com</strong>.</p>
     </div>
     <footer class="py-4">
       <div class="container text-center"></div>
     </footer>
   </div>
-
+  
   <!-- Wishlist Section -->
   <div id="wishlistSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
-          <i class="bi bi-arrow-left"></i> Home
-        </button>
+        <button class="btn" onclick="showSection('homeSection')"><i class="bi bi-arrow-left"></i> Home</button>
         <h1 class="h5 mb-0">Wishlist</h1>
         <div></div>
       </div>
@@ -378,14 +360,12 @@
       <div class="container text-center"></div>
     </footer>
   </div>
-
+  
   <!-- Categories Section -->
   <div id="categoriesSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
-          <i class="bi bi-arrow-left"></i> Home
-        </button>
+        <button class="btn" onclick="showSection('homeSection')"><i class="bi bi-arrow-left"></i> Home</button>
         <h1 class="h5 mb-0">Categories</h1>
         <div></div>
       </div>
@@ -414,14 +394,12 @@
       <div class="container text-center"></div>
     </footer>
   </div>
-
-  <!-- Search Section (accessible via footer icon) -->
+  
+  <!-- Search Section -->
   <div id="searchSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
-          <i class="bi bi-arrow-left"></i> Home
-        </button>
+        <button class="btn" onclick="showSection('homeSection')"><i class="bi bi-arrow-left"></i> Home</button>
         <h1 class="h5 mb-0">Search</h1>
         <div></div>
       </div>
@@ -436,14 +414,12 @@
       <div id="searchResultsContainer"></div>
     </div>
   </div>
-
+  
   <!-- Login Section -->
   <div id="loginSection" class="section fade-in">
     <header class="bg-light py-3 border-bottom">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
-          <i class="bi bi-arrow-left"></i> Home
-        </button>
+        <button class="btn" onclick="showSection('homeSection')"><i class="bi bi-arrow-left"></i> Home</button>
         <h1 class="h5 mb-0">Login</h1>
         <div></div>
       </div>
@@ -471,14 +447,12 @@
       </div>
     </div>
   </div>
-
+  
   <!-- Sign Up Section -->
   <div id="signupSection" class="section fade-in">
     <header class="bg-light py-3 border-bottom">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
-          <i class="bi bi-arrow-left"></i> Home
-        </button>
+        <button class="btn" onclick="showSection('homeSection')"><i class="bi bi-arrow-left"></i> Home</button>
         <h1 class="h5 mb-0">Sign Up</h1>
         <div></div>
       </div>
@@ -526,85 +500,79 @@
       </div>
     </div>
   </div>
-
+  
   <!-- Account Section -->
   <div id="accountSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
-          <i class="bi bi-arrow-left"></i> Home
-        </button>
+        <button class="btn" onclick="showSection('homeSection')"><i class="bi bi-arrow-left"></i> Home</button>
         <h1 class="h5 mb-0">My Account</h1>
         <div></div>
       </div>
     </header>
     <div class="container my-4" id="accountContent"></div>
   </div>
-
+  
   <!-- Cart Section -->
   <div id="cartSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
-          <i class="bi bi-arrow-left"></i> Home
-        </button>
+        <button class="btn" onclick="showSection('homeSection')"><i class="bi bi-arrow-left"></i> Home</button>
         <h1 class="h5 mb-0">Your Bag</h1>
         <div></div>
       </div>
     </header>
     <div class="container my-4" id="cartContent"></div>
   </div>
-
+  
   <!-- Shop Section (with Filters at Top) -->
   <div id="shopSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
-          <i class="bi bi-arrow-left"></i> Home
-        </button>
+        <button class="btn" onclick="showSection('homeSection')"><i class="bi bi-arrow-left"></i> Home</button>
         <h1 class="h5 mb-0">All Products</h1>
         <div></div>
       </div>
     </header>
     <div class="container my-4" id="shopFilterSection">
       <div id="filterSection">
-         <h5>Filter Products</h5>
-         <div class="row g-2">
-           <div class="col-6 col-md-3">
-             <select id="filterSize" class="form-select">
-               <option value="">All Sizes</option>
-               <option value="S">S</option>
-               <option value="M">M</option>
-               <option value="L">L</option>
-               <option value="XL">XL</option>
-               <option value="32">32</option>
-               <option value="34">34</option>
-               <option value="36">36</option>
-             </select>
-           </div>
-           <div class="col-6 col-md-3">
-             <select id="filterColor" class="form-select">
-               <option value="">All Colors</option>
-               <option value="Blue">Blue</option>
-               <option value="Red">Red</option>
-               <option value="Black">Black</option>
-               <option value="Brown">Brown</option>
-               <option value="White">White</option>
-             </select>
-           </div>
-           <div class="col-6 col-md-3">
-             <select id="filterPrice" class="form-select">
-               <option value="">All Prices</option>
-               <option value="100-150">₹100 - ₹150</option>
-               <option value="150-200">₹150 - ₹200</option>
-               <option value="200-250">₹200 - ₹250</option>
-             </select>
-           </div>
-           <div class="col-6 col-md-3">
-             <button class="btn btn-primary w-100" onclick="applyFilters()">Apply Filters</button>
-           </div>
-         </div>
-         <div class="mt-2" id="activeFilterDisplay"></div>
+        <h5>Filter Products</h5>
+        <div class="row g-2">
+          <div class="col-6 col-md-3">
+            <select id="filterSize" class="form-select">
+              <option value="">All Sizes</option>
+              <option value="S">S</option>
+              <option value="M">M</option>
+              <option value="L">L</option>
+              <option value="XL">XL</option>
+              <option value="32">32</option>
+              <option value="34">34</option>
+              <option value="36">36</option>
+            </select>
+          </div>
+          <div class="col-6 col-md-3">
+            <select id="filterColor" class="form-select">
+              <option value="">All Colors</option>
+              <option value="Blue">Blue</option>
+              <option value="Red">Red</option>
+              <option value="Black">Black</option>
+              <option value="Brown">Brown</option>
+              <option value="White">White</option>
+            </select>
+          </div>
+          <div class="col-6 col-md-3">
+            <select id="filterPrice" class="form-select">
+              <option value="">All Prices</option>
+              <option value="100-150">₹100 - ₹150</option>
+              <option value="150-200">₹150 - ₹200</option>
+              <option value="200-250">₹200 - ₹250</option>
+            </select>
+          </div>
+          <div class="col-6 col-md-3">
+            <button class="btn btn-primary w-100" onclick="applyFilters()">Apply Filters</button>
+          </div>
+        </div>
+        <div class="mt-2" id="activeFilterDisplay"></div>
       </div>
     </div>
     <div class="container my-4" id="shopProductContainer"></div>
@@ -612,14 +580,12 @@
       <div class="container text-center"></div>
     </footer>
   </div>
-
+  
   <!-- Men's Wear Section -->
   <div id="menswearSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
-          <i class="bi bi-arrow-left"></i> Home
-        </button>
+        <button class="btn" onclick="showSection('homeSection')"><i class="bi bi-arrow-left"></i> Home</button>
         <h1 class="h5 mb-0">Men's Wear</h1>
         <div></div>
       </div>
@@ -670,14 +636,12 @@
       <div class="container text-center"></div>
     </footer>
   </div>
-
+  
   <!-- Accessories Section -->
   <div id="accessoriesSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
-          <i class="bi bi-arrow-left"></i> Home
-        </button>
+        <button class="btn" onclick="showSection('homeSection')"><i class="bi bi-arrow-left"></i> Home</button>
         <h1 class="h5 mb-0">Accessories</h1>
         <div></div>
       </div>
@@ -726,35 +690,31 @@
       <div class="container text-center"></div>
     </footer>
   </div>
-
-  <!-- My Orders Section (Minimal Order Summary) -->
+  
+  <!-- My Orders Section (Minimal Summary) -->
   <div id="ordersSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
-          <i class="bi bi-arrow-left"></i> Home
-        </button>
+        <button class="btn" onclick="showSection('homeSection')"><i class="bi bi-arrow-left"></i> Home</button>
         <h1 class="h5 mb-0">My Orders</h1>
         <div></div>
       </div>
     </header>
     <div class="container my-4" id="ordersList"></div>
   </div>
-
+  
   <!-- Order Detail Section (Detailed view) -->
   <div id="orderDetailSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('ordersSection')">
-          <i class="bi bi-arrow-left"></i> Back to Orders
-        </button>
+        <button class="btn" onclick="showSection('ordersSection')"><i class="bi bi-arrow-left"></i> Back to Orders</button>
         <h1 class="h5 mb-0">Order Details</h1>
         <div></div>
       </div>
     </header>
     <div class="container my-4" id="orderDetailPage"></div>
   </div>
-
+  
   <!-- Product Detail Modal -->
   <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -770,7 +730,7 @@
       </div>
     </div>
   </div>
-
+  
   <!-- Buy Now Modal -->
   <div class="modal fade" id="buyModal" tabindex="-1" aria-labelledby="buyModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -803,7 +763,7 @@
       </div>
     </div>
   </div>
-
+  
   <!-- Product Images Modal with Carousel -->
   <div class="modal fade" id="productImagesModal" tabindex="-1" aria-labelledby="productImagesModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -828,8 +788,8 @@
       </div>
     </div>
   </div>
-
-  <!-- Track Order Modal with Progress Bar -->
+  
+  <!-- Track Order Modal with Embedded Map -->
   <div class="modal fade" id="trackOrderModal" tabindex="-1" aria-labelledby="trackOrderModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content shadow-sm">
@@ -837,14 +797,16 @@
           <h5 class="modal-title" id="trackOrderModalLabel">Track Order</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body" id="trackOrderContent"></div>
+        <div class="modal-body" id="trackOrderContent">
+          <!-- Content will be injected by trackOrder() -->
+        </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
   </div>
-
+  
   <!-- Fixed Footer Navigation (Search icon remains) -->
   <footer class="footer-nav fixed-bottom bg-light">
     <div class="container d-flex justify-content-around">
@@ -855,7 +817,7 @@
       </div>
       <div class="nav-item">
         <button class="btn btn-link nav-link" onclick="showSection('categoriesSection')">
-          <i class="bi bi-grid-3x3-gap"></i><br>Shop
+          <i class="bi bi-grid-3x3-gap"></i><br>Categories
         </button>
       </div>
       <div class="nav-item">
@@ -879,10 +841,10 @@
   
   <!-- JavaScript: Dynamic Functionality & LocalStorage Persistence -->
   <script>
-    // Helper function to hide offcanvas menu
+    // Helper function to hide the offcanvas menu
     function hideMenu() {
-      var offcanvasEl = document.getElementById("menuCanvas");
-      var offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasEl);
+      const offcanvasEl = document.getElementById("menuCanvas");
+      const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasEl);
       if (offcanvasInstance) offcanvasInstance.hide();
     }
     
@@ -992,7 +954,7 @@
       return function() {
         const context = this, args = arguments;
         clearTimeout(timer);
-        timer = setTimeout(() => { func.apply(context, args); }, delay);
+        timer = setTimeout(() => func.apply(context, args), delay);
       };
     }
     
@@ -1027,7 +989,7 @@
       localStorage.setItem("wishlistData", JSON.stringify(wishlist));
     }
     
-    // Update header profile
+    // Update header profile display
     function updateHeaderProfile() {
       const headerProfile = document.getElementById("headerProfile");
       headerProfile.textContent = currentUser ? `Hi, ${currentUser.firstName}` : "";
@@ -1083,7 +1045,10 @@
     // Display active filters for Shop section
     function displayActiveFilters() {
       const displayDiv = document.getElementById("activeFilterDisplay");
-      if (Object.keys(activeFilters).length === 0) { displayDiv.innerHTML = ""; return; }
+      if (Object.keys(activeFilters).length === 0) { 
+        displayDiv.innerHTML = ""; 
+        return; 
+      }
       let html = `<p>Active Filters: `;
       for (let key in activeFilters) {
         html += `<span class="badge bg-primary me-1">${key}: ${activeFilters[key]}</span>`;
@@ -1099,8 +1064,9 @@
       let html = `<div class="d-flex justify-content-end mb-3">
                     <button class="btn btn-danger btn-sm" onclick="deleteAllNotifications()">Delete All Notifications</button>
                   </div>`;
-      if (notifications.length === 0) { html += "<p>No notifications yet.</p>"; }
-      else {
+      if (notifications.length === 0) {
+        html += "<p>No notifications yet.</p>";
+      } else {
         html += '<div class="list-group">';
         notifications.forEach((notif, index) => {
           if (notif.productId) {
@@ -1136,7 +1102,7 @@
       saveData();
     }
     
-    // Delete notification(s)
+    // Delete notifications
     function deleteNotification(index) {
       notifications.splice(index, 1);
       updateNotifications();
@@ -1268,10 +1234,10 @@
         generateProducts("shopProductContainer", filteredProducts);
         displayActiveFilters();
       } else if (sectionId === "menswearSection") {
-        let menswearProducts = products.filter(p => p.category === "Men's Wear");
+        const menswearProducts = products.filter(p => p.category === "Men's Wear");
         generateProducts("menswearContainer", menswearProducts);
       } else if (sectionId === "accessoriesSection") {
-        let accessoriesProducts = products.filter(p => p.category === "Accessories");
+        const accessoriesProducts = products.filter(p => p.category === "Accessories");
         generateProducts("accessoriesContainer", accessoriesProducts);
       } else if (sectionId === "wishlistSection") {
         updateWishlistSection();
@@ -1299,12 +1265,8 @@
                     </div>`;
         });
         return `<div id="${carouselId}" class="carousel slide" data-bs-ride="carousel">
-                  <div class="carousel-indicators">
-                    ${indicators}
-                  </div>
-                  <div class="carousel-inner">
-                    ${inner}
-                  </div>
+                  <div class="carousel-indicators">${indicators}</div>
+                  <div class="carousel-inner">${inner}</div>
                   <button class="carousel-control-prev" type="button" data-bs-target="#${carouselId}" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Previous</span>
@@ -1375,7 +1337,10 @@
     function generateSearchResults(filteredProducts) {
       const container = document.getElementById("searchResultsContainer");
       container.innerHTML = "";
-      if (filteredProducts.length === 0) { container.innerHTML = "<p>No products found.</p>"; return; }
+      if (filteredProducts.length === 0) {
+        container.innerHTML = "<p>No products found.</p>";
+        return;
+      }
       generateProducts("searchResultsContainer", filteredProducts);
     }
     
@@ -1434,7 +1399,10 @@
     // Update Cart Section
     function updateCartSection() {
       const cartContent = document.getElementById("cartContent");
-      if (cart.length === 0) { cartContent.innerHTML = "<p>Your bag is empty.</p>"; return; }
+      if (cart.length === 0) {
+        cartContent.innerHTML = "<p>Your bag is empty.</p>";
+        return;
+      }
       let html = "";
       cart.forEach((item, index) => {
         html += `
@@ -1481,21 +1449,23 @@
             </div>
           </div>
         `;
-      } else { accountContent.innerHTML = "<p>No user details available. Please log in.</p>"; }
+      } else {
+        accountContent.innerHTML = "<p>No user details available. Please log in.</p>";
+      }
     }
     
     // Update Orders List (Minimal Summary)
     function updateOrdersList() {
       const ordersList = document.getElementById("ordersList");
-      if (orders.length === 0) { 
-        ordersList.innerHTML = "<p>You have not placed any orders yet.</p>"; 
+      if (orders.length === 0) {
+        ordersList.innerHTML = "<p>You have not placed any orders yet.</p>";
       } else {
         let html = "";
         orders.forEach((order, index) => {
           html += `
             <div class="card mb-3 shadow-sm" style="cursor:pointer;" onclick="showOrderDetailPage(${index})">
               <div class="card-header">
-                <span>Order #${index+1} - ${order.date}</span>
+                <span>Order #${index + 1} - ${order.date}</span>
               </div>
               <div class="card-body d-flex align-items-center">
                 <img src="${order.product.images && order.product.images.length ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image'}" style="max-height:50px; margin-right:10px;" alt="${order.product.name}">
@@ -1525,7 +1495,7 @@
         <p><strong>Status:</strong> ${order.cancelled ? '<span class="text-danger">Cancelled</span>' : '<span class="text-success">Active</span>'}</p>
         <p><strong>Tracking Status:</strong> ${order.trackingStatus}</p>
         <div class="mt-3">
-          <button class="btn btn-info me-2" onclick="trackOrder()">Track Order</button>
+          ${order.cancelled ? '' : `<button class="btn btn-info me-2" onclick="trackOrder()">Track Order</button>`}
           ${order.cancelled ? '' : `<button class="btn btn-danger" onclick="cancelOrder(); showOrderDetailPage(${orderIndex});">Cancel Order</button>`}
         </div>
         <div class="mt-3">
@@ -1540,7 +1510,10 @@
     // Cancel Order function
     function cancelOrder() {
       const order = orders[currentOrderIndex];
-      if (order.cancelled) { showNotification("This order is already cancelled.", "warning"); return; }
+      if (order.cancelled) {
+        showNotification("This order is already cancelled.", "warning");
+        return;
+      }
       const reason = prompt("Why are you cancelling the order?");
       if (reason && reason.trim() !== "") {
         orders[currentOrderIndex].cancelled = true;
@@ -1548,22 +1521,33 @@
         showNotification("Your order has been cancelled.", "danger");
         saveData();
         updateOrdersList();
-      } else { showNotification("Cancellation reason is required.", "warning"); }
+      } else {
+        showNotification("Cancellation reason is required.", "warning");
+      }
     }
     
-    // Track Order function with progress bar
+    // Track Order function with embedded map (only for active orders)
     function trackOrder() {
       const order = orders[currentOrderIndex];
+      if (order.cancelled) {
+        showNotification("Tracking not available for cancelled orders.", "warning");
+        return;
+      }
       let progress = 25;
       if (order.trackingStatus === "Shipped") progress = 50;
       else if (order.trackingStatus === "Out for Delivery") progress = 75;
       else if (order.trackingStatus === "Delivered") progress = 100;
       const trackingInfo = `
-        <div class="progress mb-3">
-          <div class="progress-bar" role="progressbar" style="width: ${progress}%;" aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100">${progress}%</div>
+        <div class="mb-3">
+          <h6>Order Progress: ${progress}%</h6>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: ${progress}%;" aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100">${progress}%</div>
+          </div>
         </div>
-        <p>Your order is currently: <strong>${order.trackingStatus}</strong></p>
-        <p>Expected delivery: ${order.product.deliveryTime}</p>
+        <div class="mb-3">
+          <h6>Track Your Order</h6>
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3023.9582312239117!2d-74.00601568459379!3d40.71277577933064!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a3164c58f07%3A0x8efb603aa8f6e2d1!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sin!4v1600000000000!5m2!1sen!2sin" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
       `;
       document.getElementById("trackOrderContent").innerHTML = trackingInfo;
       const trackModal = new bootstrap.Modal(document.getElementById("trackOrderModal"));
@@ -1583,7 +1567,9 @@
             </div>
           </div>
         `;
-      } else { html = "<p>Please log in to see your account details.</p>"; }
+      } else {
+        html = "<p>Please log in to see your account details.</p>";
+      }
       document.getElementById("menuContent").innerHTML = html;
     }
     
@@ -1592,7 +1578,9 @@
       const container = document.getElementById("menuAccountDetails");
       if (currentUser) {
         container.innerHTML = `<i class="bi bi-person-circle me-2"></i><h4 class="d-inline">${currentUser.firstName} ${currentUser.lastName}</h4><br><small>${currentUser.email}</small>`;
-      } else { container.innerHTML = `<h4>Welcome Guest</h4>`; }
+      } else {
+        container.innerHTML = `<h4>Welcome Guest</h4>`;
+      }
     }
     
     // Logout function
@@ -1611,17 +1599,24 @@
     
     // Header button actions
     document.getElementById("accountButton").addEventListener("click", function() {
-      if (currentUser) { showSection("accountSection"); }
-      else { showSection("loginSection"); }
+      if (currentUser) {
+        showSection("accountSection");
+      } else {
+        showSection("loginSection");
+      }
     });
-    document.getElementById("notificationButton").addEventListener("click", function() { showSection("notificationsSection"); });
+    document.getElementById("notificationButton").addEventListener("click", function() {
+      showSection("notificationsSection");
+    });
     
     // Search Section: Search functionality
     document.getElementById("searchSectionButton").addEventListener("click", function() {
       const query = document.getElementById("searchSectionInput").value.toLowerCase();
       let filteredProducts = [];
-      if(query.trim() === "") { filteredProducts = products; }
-      else { filteredProducts = products.filter(product =>
+      if (query.trim() === "") {
+        filteredProducts = products;
+      } else {
+        filteredProducts = products.filter(product =>
           product.name.toLowerCase().includes(query) ||
           product.description.toLowerCase().includes(query)
         );
@@ -1650,7 +1645,10 @@
       const email = document.getElementById("signupEmail").value;
       const password = document.getElementById("signupPassword").value;
       const confirmPassword = document.getElementById("confirmPassword").value;
-      if (password !== confirmPassword) { showNotification("Passwords do not match!", "warning"); return; }
+      if (password !== confirmPassword) {
+        showNotification("Passwords do not match!", "warning");
+        return;
+      }
       currentUser = { firstName, lastName, email, mobile };
       showNotification("Sign Up successful!", "success");
       saveData();
@@ -1668,9 +1666,9 @@
     
     // Category-specific filters for Men's Wear
     function applyMenswearFilters() {
-      let size = document.getElementById("menswearFilterSize").value;
-      let color = document.getElementById("menswearFilterColor").value;
-      let price = document.getElementById("menswearFilterPrice").value;
+      const size = document.getElementById("menswearFilterSize").value;
+      const color = document.getElementById("menswearFilterColor").value;
+      const price = document.getElementById("menswearFilterPrice").value;
       let filteredProducts = products.filter(product => product.category === "Men's Wear");
       if (size) {
         filteredProducts = filteredProducts.filter(product => product.size.split(",").map(s => s.trim().toLowerCase()).includes(size.toLowerCase()));
@@ -1679,7 +1677,7 @@
         filteredProducts = filteredProducts.filter(product => product.color.split(",").map(c => c.trim().toLowerCase()).includes(color.toLowerCase()));
       }
       if (price) {
-        let [min, max] = price.split("-").map(Number);
+        const [min, max] = price.split("-").map(Number);
         filteredProducts = filteredProducts.filter(product => product.price >= min && product.price <= max);
       }
       generateProducts("menswearContainer", filteredProducts);
@@ -1688,15 +1686,15 @@
       document.getElementById("menswearFilterSize").value = "";
       document.getElementById("menswearFilterColor").value = "";
       document.getElementById("menswearFilterPrice").value = "";
-      let menswearProducts = products.filter(product => product.category === "Men's Wear");
+      const menswearProducts = products.filter(product => product.category === "Men's Wear");
       generateProducts("menswearContainer", menswearProducts);
     }
     
     // Category-specific filters for Accessories
     function applyAccessoriesFilters() {
-      let size = document.getElementById("accessoriesFilterSize").value;
-      let color = document.getElementById("accessoriesFilterColor").value;
-      let price = document.getElementById("accessoriesFilterPrice").value;
+      const size = document.getElementById("accessoriesFilterSize").value;
+      const color = document.getElementById("accessoriesFilterColor").value;
+      const price = document.getElementById("accessoriesFilterPrice").value;
       let filteredProducts = products.filter(product => product.category === "Accessories");
       if (size) {
         filteredProducts = filteredProducts.filter(product => product.size.split(",").map(s => s.trim().toLowerCase()).includes(size.toLowerCase()));
@@ -1705,7 +1703,7 @@
         filteredProducts = filteredProducts.filter(product => product.color.split(",").map(c => c.trim().toLowerCase()).includes(color.toLowerCase()));
       }
       if (price) {
-        let [min, max] = price.split("-").map(Number);
+        const [min, max] = price.split("-").map(Number);
         filteredProducts = filteredProducts.filter(product => product.price >= min && product.price <= max);
       }
       generateProducts("accessoriesContainer", filteredProducts);
@@ -1714,17 +1712,12 @@
       document.getElementById("accessoriesFilterSize").value = "";
       document.getElementById("accessoriesFilterColor").value = "";
       document.getElementById("accessoriesFilterPrice").value = "";
-      let accessoriesProducts = products.filter(product => product.category === "Accessories");
+      const accessoriesProducts = products.filter(product => product.category === "Accessories");
       generateProducts("accessoriesContainer", accessoriesProducts);
     }
-    
-    // Generic menu data for fallback (if needed)
-    const menuData = {
-      // Not used for items handled inline.
-    };
   </script>
   
-  <!-- Bootstrap JS Bundle -->
+  <!-- Bootstrap JS Bundle (includes Popper) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
