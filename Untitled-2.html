@@ -28,13 +28,8 @@
     .bg-light { background-color: #f8f9fa !important; }
     
     /* Fade-in animation */
-    .fade-in {
-      animation: fadeIn 0.5s ease-in-out;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+    .fade-in { animation: fadeIn 0.5s ease-in-out; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     
     /* General Styling */
     .hero { padding: 20px 0; }
@@ -55,33 +50,62 @@
     #notificationButton { font-size: 1.75rem; }
     
     /* Category Section */
-    .category-item { text-align: center; }
+    .category-item { text-align: center; cursor: pointer; }
     .category-item img { transition: transform 0.3s ease-in-out; }
     .category-item img:hover { transform: scale(1.05); }
     .category-item h4 { margin-top: 10px; font-size: 1.2rem; }
     .icon-button { font-size: 2rem; color: #000; background: transparent; border: none; padding: 10px; }
     
-    /* Section visibility */
+    /* Section Visibility */
     .section { display: none; }
     .active-section { display: block; }
     
-    /* Offcanvas Menu */
+    /* Offcanvas Menu - Custom Style */
+    .offcanvas {
+      background: #f8f9fa;
+      border-right: 4px solid #2a5298;
+    }
+    .offcanvas-header {
+      background: #2a5298;
+      color: #fff;
+    }
+    .offcanvas-header .btn-close {
+      filter: invert(1);
+    }
+    .custom-menu-item {
+      padding: 10px 15px;
+      font-size: 1rem;
+      border-bottom: 1px solid #ddd;
+      transition: background 0.3s;
+    }
+    .custom-menu-item:hover {
+      background: #e9f0fa;
+    }
     #menuAccountDetails {
-      padding: 15px; background-color: #fff; margin-bottom: 10px;
-      border-radius: 5px; text-align: center;
-    }
-    #menuAccountDetails h4 { margin-bottom: 0; }
-    #menuSocialSection {
-      margin-top: 20px;
+      padding: 15px;
+      background: #fff;
+      border-bottom: 2px solid #2a5298;
+      border-radius: 5px;
       text-align: center;
-      border-top: 1px solid #ddd;
-      padding-top: 10px;
+      margin-bottom: 10px;
     }
-    #menuSocialSection a {
-      margin: 0 10px;
-      font-size: 1.5rem;
+    
+    /* Popup Message Modal Custom Style */
+    .popup-modal-content {
+      border: 3px solid #2a5298;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #fff, #f0f8ff);
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
     }
-    /* Toast container */
+    .popup-modal-header, .popup-modal-footer { border: none; }
+    .popup-modal-body {
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: 600;
+      padding: 20px;
+    }
+    
+    /* Toast Container */
     #toastContainer {
       position: fixed;
       top: 1rem;
@@ -91,29 +115,46 @@
     
     /* Filter Section */
     #filterSection {
-      margin-top: 20px; border-top: 2px solid #2a5298; padding-top: 20px;
+      margin-top: 20px;
+      border-top: 2px solid #2a5298;
+      padding-top: 20px;
       background-color: #e9f0fa;
     }
     .filter-tags { margin-top: 10px; }
     .filter-tags .badge { cursor: pointer; }
     
-    /* Responsive */
-    @media (min-width: 768px) { .prod-col { flex: 0 0 50%; max-width: 50%; } }
-    @media (max-width: 767px) { .prod-col { flex: 0 0 100%; max-width: 100%; } }
+    /* Responsive Layout for Product Cards */
+    @media (min-width: 768px) {
+      .prod-col { flex: 0 0 50%; max-width: 50%; }
+    }
+    @media (max-width: 767px) {
+      .prod-col { flex: 0 0 100%; max-width: 100%; }
+    }
     
-    /* Fixed Footer */
+    /* Fixed Footer Navigation */
     .footer-nav {
-      position: fixed; bottom: 0; left: 0; right: 0;
-      background: #fff; border-top: 1px solid #ddd; z-index: 1200;
-      display: flex; justify-content: space-around;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #fff;
+      border-top: 1px solid #ddd;
+      z-index: 1200;
+      display: flex;
+      justify-content: space-around;
     }
     .footer-nav .nav-item { text-align: center; flex: 1; position: relative; }
     .footer-nav .nav-link { color: #2a5298; font-size: 1rem; }
     .footer-nav .nav-link i { font-size: 1.5rem; }
     .footer-bag-badge {
-      position: absolute; top: 5px; right: 20px;
-      background: #d9534f; color: #fff; border-radius: 50%;
-      padding: 2px 6px; font-size: 0.75rem;
+      position: absolute;
+      top: 5px;
+      right: 20px;
+      background: #d9534f;
+      color: #fff;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 0.75rem;
     }
     
     /* Search Section */
@@ -136,8 +177,26 @@
   </style>
 </head>
 <body>
-  <!-- Toast Container -->
+  <!-- Toast Container (for general notifications) -->
   <div id="toastContainer"></div>
+  
+  <!-- Decorative Popup Message Modal -->
+  <div class="modal fade" id="popupMessageModal" tabindex="-1" aria-labelledby="popupMessageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content popup-modal-content">
+        <div class="modal-header popup-modal-header">
+          <h5 class="modal-title" id="popupMessageModalLabel">Notification</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body popup-modal-body" id="popupMessageContent">
+          <!-- Message will be inserted dynamically -->
+        </div>
+        <div class="modal-footer popup-modal-footer" style="justify-content: center;">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Okay</button>
+        </div>
+      </div>
+    </div>
+  </div>
   
   <!-- Notifications Section -->
   <div id="notificationsSection" class="section">
@@ -161,44 +220,41 @@
       <i class="bi bi-person-circle me-2"></i>
       <span id="menuAccountText">Welcome Guest</span>
     </div>
-    <ul class="list-unstyled ps-3">
-      <li class="menu-item mb-3" onclick="showSection('ordersSection'); hideMenu();">
-        <i class="bi bi-receipt"></i> My Orders
+    <ul class="list-unstyled">
+      <li class="custom-menu-item" onclick="showSection('ordersSection'); hideMenu();">
+        <i class="bi bi-receipt me-2"></i> My Orders
       </li>
-      <li class="menu-item mb-3" onclick="showSection('aboutSection'); hideMenu();">
-        <i class="bi bi-info-circle"></i> About Us
+      <li class="custom-menu-item" onclick="showSection('aboutSection'); hideMenu();">
+        <i class="bi bi-info-circle me-2"></i> About Us
       </li>
-      <li class="menu-item mb-3" onclick="showSection('contactSection'); hideMenu();">
-        <i class="bi bi-envelope"></i> Contact Us
+      <li class="custom-menu-item" onclick="showSection('contactSection'); hideMenu();">
+        <i class="bi bi-envelope me-2"></i> Contact Us
       </li>
-      <li class="menu-item mb-3" onclick="showSection('couponsSection'); hideMenu();">
-        <i class="bi bi-tag"></i> Coupons
+      <li class="custom-menu-item" onclick="showSection('couponsSection'); hideMenu();">
+        <i class="bi bi-tag me-2"></i> Coupons
       </li>
-      <li class="menu-item mb-3" onclick="showSection('offerZoneSection'); hideMenu();">
-        <i class="bi bi-star"></i> Offer Zone
+      <li class="custom-menu-item" onclick="showSection('offerZoneSection'); hideMenu();">
+        <i class="bi bi-star me-2"></i> Offer Zone
       </li>
-      <li class="menu-item mb-3" onclick="showSection('helpSection'); hideMenu();">
-        <i class="bi bi-info-circle"></i> Help Line
+      <li class="custom-menu-item" onclick="showSection('helpSection'); hideMenu();">
+        <i class="bi bi-info-circle me-2"></i> Help Line
       </li>
     </ul>
-    <div id="menuContent" class="mt-4"></div>
-    <div id="menuSocialSection">
-        <a href="https://www.instagram.com/tedpole.in?igsh=MWI1Zmw5a2NpaGx0Ng==" target="_blank" class="mx-2"><i class="bi bi-instagram" style="color:#E1306C;"></i></a>
-        <a href="https://x.com/TedpoleIn?t=e9Z0Ovkjem7sfBhUO8bYZg&s=08" target="_blank" class="mx-2"><i class="bi bi-twitter" style="color:#1DA1F2;"></i></a>
-        <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="mx-2"><i class="bi bi-linkedin" style="color:#0077B5;"></i></a>
-        </a>
-      </a>
+    <div id="menuSocialSection" class="mt-3 text-center">
+      <a href="https://www.instagram.com/tedpole.in" target="_blank" class="mx-2"><i class="bi bi-instagram" style="color:#E1306C;"></i></a>
+      <a href="https://x.com/TedpoleIn" target="_blank" class="mx-2"><i class="bi bi-twitter" style="color:#1DA1F2;"></i></a>
+      <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="mx-2"><i class="bi bi-linkedin" style="color:#0077B5;"></i></a>
     </div>
   </div>
   
-  <!-- Home Section (No search bar on home page) -->
+  <!-- Home Section -->
   <div id="homeSection" class="section active-section fade-in">
     <header class="py-3 border-bottom">
       <div class="container d-flex justify-content-between align-items-center">
         <button class="btn text-white" data-bs-toggle="offcanvas" data-bs-target="#menuCanvas" aria-controls="menuCanvas">
           <i class="bi bi-list" style="font-size: 1.5rem;"></i>
         </button>
-        <h1 class="h5 mb-0 text-white">TEDPOLE <span id="headerProfile" class="profile-name"></span></h1>
+        <h1 class="h5 mb-0 text-white">DINOSAUR <span id="headerProfile" class="profile-name"></span></h1>
         <nav class="header-nav">
           <button class="btn text-white" id="notificationButton"><i class="bi bi-bell"></i></button>
           <button class="btn text-white" id="accountButton"><i class="bi bi-person-fill"></i></button>
@@ -207,8 +263,8 @@
     </header>
     <section class="hero text-center">
       <div class="container">
-        <h2 class="mt-4">Welcome to TEDPOLE</h2>
-        <p>Your destination for quality products.</p>
+        <h2 class="mt-4">Welcome to DINOSAUR SPA</h2>
+        <p>Your destination for quality products and exceptional service.</p>
         <button class="btn btn-dark btn-dynamic mt-2" id="shopNowButton" onclick="showSection('shopSection')">
           <i class="bi bi-cart-check"></i> Shop Now
         </button>
@@ -228,13 +284,13 @@
         <h2><i class="bi bi-columns-gap"></i> Shop by Categories</h2>
         <div class="row mt-4">
           <div class="col-md-6">
-            <div class="category-item" onclick="showSection('menswearSection')" style="cursor:pointer;">
+            <div class="category-item" onclick="showSection('menswearSection')">
               <img src="https://via.placeholder.com/400x300?text=Men%27s+Wear" class="img-fluid" alt="Men's Wear" />
               <h4 class="mt-3"><i class="bi bi-people"></i> Men's Wear</h4>
             </div>
           </div>
           <div class="col-md-6">
-            <div class="category-item" onclick="showSection('accessoriesSection')" style="cursor:pointer;">
+            <div class="category-item" onclick="showSection('accessoriesSection')">
               <img src="https://via.placeholder.com/400x300?text=Accessories" class="img-fluid" alt="Accessories" />
               <h4 class="mt-3"><i class="bi bi-watch"></i> Accessories</h4>
             </div>
@@ -373,7 +429,7 @@
     <div class="container my-4">
       <div class="row">
         <div class="col-6 mb-4">
-          <div class="card shadow-sm" style="cursor:pointer;" onclick="showSection('menswearSection')">
+          <div class="card shadow-sm" onclick="showSection('menswearSection')" style="cursor:pointer;">
             <img src="https://via.placeholder.com/400x300?text=Men%27s+Wear" class="card-img-top" alt="Men's Wear">
             <div class="card-body text-center">
               <h5 class="card-title">Men's Wear</h5>
@@ -381,7 +437,7 @@
           </div>
         </div>
         <div class="col-6 mb-4">
-          <div class="card shadow-sm" style="cursor:pointer;" onclick="showSection('accessoriesSection')">
+          <div class="card shadow-sm" onclick="showSection('accessoriesSection')" style="cursor:pointer;">
             <img src="https://via.placeholder.com/400x300?text=Accessories" class="card-img-top" alt="Accessories">
             <div class="card-body text-center">
               <h5 class="card-title">Accessories</h5>
@@ -817,7 +873,7 @@
       </div>
       <div class="nav-item">
         <button class="btn btn-link nav-link" onclick="showSection('categoriesSection')">
-          <i class="bi bi-grid-3x3-gap"></i><br>Shop
+          <i class="bi bi-grid-3x3-gap"></i><br>Categories
         </button>
       </div>
       <div class="nav-item">
@@ -1140,7 +1196,7 @@
       }
     }
     
-    // Show toast notification
+    // Show toast notification (for general notifications)
     function showNotification(message, type = "success", productId = null) {
       const notif = {
         message: message,
@@ -1172,6 +1228,14 @@
       const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
       toast.show();
       toastEl.addEventListener('hidden.bs.toast', function () { toastEl.remove(); });
+    }
+    
+    // Show decorative popup message after buying a product
+    function showPopupMessage(message) {
+      const popupContent = document.getElementById("popupMessageContent");
+      popupContent.innerHTML = message;
+      const popupModal = new bootstrap.Modal(document.getElementById("popupMessageModal"));
+      popupModal.show();
     }
     
     // Wishlist functions
@@ -1376,7 +1440,8 @@
         trackingStatus: "Order Confirmed"
       };
       orders.push(order);
-      showNotification("Thanks for ordering!", "success", currentProductForPurchase.id);
+      // Show decorative popup message in the center of the page
+      showPopupMessage("Thanks for ordering!");
       saveData();
       const buyModalEl = document.getElementById("buyModal");
       const modalInstance = bootstrap.Modal.getInstance(buyModalEl);
@@ -1524,7 +1589,7 @@
       }
     }
     
-    // Track Order function with embedded Google Map based on user's shipping address
+    // Track Order function with embedded Google Map based on the shipping address
     function trackOrder() {
       const order = orders[currentOrderIndex];
       if (order.cancelled) {
@@ -1536,7 +1601,7 @@
       else if (order.trackingStatus === "Out for Delivery") progress = 75;
       else if (order.trackingStatus === "Delivered") progress = 100;
       
-      // Use the shipping address for the map query.
+      // Build map URL using the shipping address
       let mapSrc = "";
       if (order.address) {
         mapSrc = "https://www.google.com/maps?q=" + encodeURIComponent(order.address) + "&output=embed";
