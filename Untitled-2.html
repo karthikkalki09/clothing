@@ -173,9 +173,8 @@
       transform: scale(1.05);
       transition: transform 0.3s;
     }
-    
-    /* Color Swatches */
-    .color-swatch {
+     /* Color Swatches */
+     .color-swatch {
       width: 20px;
       height: 20px;
       border-radius: 50%;
@@ -183,8 +182,6 @@
       margin-right: 5px;
       border: 1px solid #ddd;
     }
-    
-    
   </style>
 </head>
 <body>
@@ -257,9 +254,10 @@
       </li>
     </ul>
     <div id="menuSocialSection" class="mt-3 text-center">
-      <a href="https://www.instagram.com/tedpole.in" target="_blank" class="mx-2"><i class="bi bi-instagram" style="color:#E1306C;"></i></a>
-      <a href="https://x.com/TedpoleIn" target="_blank" class="mx-2"><i class="bi bi-twitter" style="color:#1DA1F2;"></i></a>
-      <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="mx-2"><i class="bi bi-linkedin" style="color:#0077B5;"></i></a>
+        <a href="https://www.instagram.com/tedpole.in" target="_blank" class="mx-2"><i class="bi bi-instagram" style="color:#E1306C;"></i></a>
+        <a href="https://x.com/TedpoleIn" target="_blank" class="mx-2"><i class="bi bi-twitter" style="color:#1DA1F2;"></i></a>
+        <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="mx-2"><i class="bi bi-linkedin" style="color:#0077B5;"></i></a>
+      </a>
     </div>
   </div>
   
@@ -525,8 +523,8 @@
     </div>
   </div>
   
-  <!-- Login Section -->
-  <div id="loginSection" class="section fade-in">
+ <!-- Login Section -->
+ <div id="loginSection" class="section fade-in">
     <header class="bg-light py-3 border-bottom">
       <div class="container d-flex justify-content-between align-items-center">
         <button class="btn" onclick="showSection('homeSection')">
@@ -980,7 +978,7 @@
     let currentOrderIndex = null;
     let activeFilters = {};
     
-    // Products array with stock and color codes
+    // Products array 
     const products = [
       { 
         id: 1, 
@@ -989,8 +987,7 @@
         category: "Men's Wear", 
         price: 19.99,
         size: "S, M, L, XL", 
-        colors: [{name: "Blue", code: "#0000FF"}, {name: "Red", code: "#FF0000"}, {name: "Black", code: "#000000"}], 
-        stock: 15,
+        color: "Blue, Red, Black", 
         clothType: "100% Cotton", 
         deliveryTime: "3-5 days", 
         returnPolicy: "10 days return policy", 
@@ -1006,9 +1003,9 @@
         description: "Premium quality leather watch.", 
         category: "Accessories", 
         price: 79.99,
-        stock: 10,
+       
         size: "One Size", 
-        colors: [{name: "Brown", code: "#A52A2A"}, {name: "Black", code: "#000000"}], 
+        color: "Brown, Black", 
         clothType: "Genuine Leather", 
         deliveryTime: "5-7 days", 
         returnPolicy: "10 days return policy", 
@@ -1025,9 +1022,8 @@
         description: "Trendy and comfortable denim jeans.", 
         category: "Men's Wear", 
         price: 39.99,
-        stock: 4,
         size: "32, 34, 36", 
-        colors: [{name: "Blue", code: "#0000FF"}], 
+        color: "Blue", 
         clothType: "Denim", 
         deliveryTime: "4-6 days", 
         returnPolicy: "10 days return policy", 
@@ -1043,9 +1039,8 @@
         description: "Stylish sunglasses to match any outfit.", 
         category: "Accessories", 
         price: 29.99,
-        stock: 20,
         size: "One Size", 
-        colors: [{name: "Black", code: "#000000"}], 
+        color: "Black", 
         clothType: "Plastic", 
         deliveryTime: "3-5 days", 
         returnPolicy: "10 days return policy", 
@@ -1061,9 +1056,8 @@
         description: "Relaxed fit shirt for casual outings.", 
         category: "Men's Wear", 
         price: 24.99,
-        stock: 3,
         size: "S, M, L, XL", 
-        colors: [{name: "White", code: "#FFFFFF"}, {name: "Blue", code: "#0000FF"}], 
+        color: "White, Blue", 
         clothType: "Cotton", 
         deliveryTime: "3-5 days", 
         returnPolicy: "10 days return policy", 
@@ -1128,7 +1122,7 @@
       if (offcanvasInstance) offcanvasInstance.hide();
     }
     
-    // Notify owner (simulated with console.log for demo)
+    // Notify owner
     function notifyOwner(message) {
       console.log("Owner Notification:", message);
     }
@@ -1142,7 +1136,7 @@
           sizeOk = sizes.includes(activeFilters.size.toLowerCase());
         }
         if (activeFilters.color) {
-          const colors = product.colors.map(c => c.name.toLowerCase());
+          const colors = product.color.split(",").map(c => c.trim().toLowerCase());
           colorOk = colors.includes(activeFilters.color.toLowerCase());
         }
         if (activeFilters.price) {
@@ -1231,17 +1225,15 @@
     function showProductDetails(productId) {
       const product = products.find(p => p.id === productId);
       if (product) {
-        const colorsHTML = product.colors.map(c => `<span class="color-swatch" style="background-color: ${c.code};" title="${c.name}"></span>`).join(' ');
         const detailContent = `
           <h5>${product.name}</h5>
           <p><strong>Description:</strong> ${product.description}</p>
           <p><strong>Sizes:</strong> ${product.size}</p>
-          <p><strong>Colors:</strong> ${colorsHTML}</p>
+          <p><strong>Colors:</strong> ${product.color}</p>
           <p><strong>Cloth Type:</strong> ${product.clothType}</p>
           <p><strong>Delivery:</strong> ${product.deliveryTime}</p>
           <p><strong>Return:</strong> ${product.returnPolicy}</p>
           <p><strong>Details:</strong> ${product.additionalDetails}</p>
-          
           <div class="mt-2">
             <button class="btn btn-sm btn-success me-2" onclick="buyProduct(${product.id})">Buy Now</button>
             <button class="btn btn-sm btn-primary" onclick="addToCart(${product.id})">Add to Bag</button>
@@ -1403,7 +1395,7 @@
       }
     }
     
-    // Generate product cards with color swatches
+    // Generate product cards
     function generateProducts(containerId, productList) {
       const container = document.getElementById(containerId);
       container.innerHTML = "";
@@ -1413,11 +1405,14 @@
         const col = document.createElement("div");
         col.className = "prod-col mb-4";
         const sizes = product.size.split(",").map(s => s.trim());
-        const colorsHTML = product.colors.map(color => `<span class="color-swatch" style="background-color: ${color.code};" title="${color.name}"></span>`).join(' ');
-        duct.stock < 5 ? `<span class="badge bg-warning stock-badge">Low Stock</span>` : `<span class="badge bg-success stock-badge">${product.stock} in stock</span>`;
+        const colors = product.color.split(",").map(c => c.trim());
+        let filterTagsHTML = `<div class="filter-tags"><small>Sizes:</small> `;
+        sizes.forEach(s => { filterTagsHTML += `<span class="badge bg-secondary me-1">${s}</span>`; });
+        filterTagsHTML += `<br><small>Colors:</small> `;
+        colors.forEach(c => { filterTagsHTML += `<span class="badge bg-secondary me-1">${c}</span>`; });
+        filterTagsHTML += `</div>`;
         col.innerHTML = `
-          <div class="card h-100 shadow-sm position-relative">
-            ${stockBadge}
+          <div class="card h-100 shadow-sm">
             <div class="position-relative">
               ${generateProductImageHTML(product)}
               <button class="btn btn-outline-danger btn-sm wishlist-btn position-absolute" style="top: 10px; right: 10px;" onclick="addToWishlist(${product.id})">
@@ -1428,7 +1423,7 @@
               <h5 class="card-title">${product.name}</h5>
               <p class="card-text">${product.description}</p>
               <p class="card-text"><strong>Sizes:</strong> ${product.size}</p>
-              <p class="card-text"><strong>Colors:</strong> ${colorsHTML}</p>
+              <p class="card-text"><strong>Colors:</strong> ${product.color}</p>
               <p class="card-text"><strong>Cloth Type:</strong> ${product.clothType}</p>
               <p class="card-text"><strong>Delivery:</strong> ${product.deliveryTime}</p>
               <p class="card-text"><strong>Return:</strong> ${product.returnPolicy}</p>
@@ -1442,6 +1437,7 @@
                   <button class="btn btn-sm btn-primary" onclick="addToCart(${product.id})">Add to Bag</button>
                 </div>
               </div>
+              ${filterTagsHTML}
             </div>
           </div>
         `;
@@ -1580,21 +1576,19 @@
       } else {
         let html = "";
         orders.forEach((order, index) => {
-          if (order.buyer.email === currentUser.email) {
-            html += `
-              <div class="card mb-3 shadow-sm" style="cursor:pointer;" onclick="showOrderDetailPage(${index})">
-                <div class="card-header">
-                  <span>Order #${index + 1} - ${order.date}</span>
-                </div>
-                <div class="card-body d-flex align-items-center">
-                  <img src="${order.product.images && order.product.images.length ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image'}" style="max-height:50px; margin-right:10px;" alt="${order.product.name}">
-                  <span>${order.product.name}</span>
-                </div>
+          html += `
+            <div class="card mb-3 shadow-sm" style="cursor:pointer;" onclick="showOrderDetailPage(${index})">
+              <div class="card-header">
+                <span>Order #${index + 1} - ${order.date}</span>
               </div>
-            `;
-          }
+              <div class="card-body d-flex align-items-center">
+                <img src="${order.product.images && order.product.images.length ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image'}" style="max-height:50px; margin-right:10px;" alt="${order.product.name}">
+                <span>${order.product.name}</span>
+              </div>
+            </div>
+          `;
         });
-        ordersList.innerHTML = html || "<p>You have not placed any orders yet.</p>";
+        ordersList.innerHTML = html;
       }
     }
     
@@ -1776,7 +1770,6 @@
       updateMenuAccountDetails();
       showSection("homeSection");
     });
-    
     // Contact Form submission
     document.getElementById("contactForm")?.addEventListener("submit", function(e) {
       e.preventDefault();
@@ -1791,7 +1784,7 @@
       const price = document.getElementById("menswearFilterPrice").value;
       let filteredProducts = products.filter(product => product.category === "Men's Wear");
       if (size) { filteredProducts = filteredProducts.filter(product => product.size.split(",").map(s => s.trim().toLowerCase()).includes(size.toLowerCase())); }
-      if (color) { filteredProducts = filteredProducts.filter(product => product.colors.some(c => c.name.toLowerCase() === color.toLowerCase())); }
+      if (color) { filteredProducts = filteredProducts.filter(product => product.color.split(",").map(c => c.trim().toLowerCase()).includes(color.toLowerCase())); }
       if (price) {
         const [min, max] = price.split("-").map(Number);
         filteredProducts = filteredProducts.filter(product => product.price >= min && product.price <= max);
@@ -1813,7 +1806,7 @@
       const price = document.getElementById("accessoriesFilterPrice").value;
       let filteredProducts = products.filter(product => product.category === "Accessories");
       if (size) { filteredProducts = filteredProducts.filter(product => product.size.split(",").map(s => s.trim().toLowerCase()).includes(size.toLowerCase())); }
-      if (color) { filteredProducts = filteredProducts.filter(product => product.colors.some(c => c.name.toLowerCase() === color.toLowerCase())); }
+      if (color) { filteredProducts = filteredProducts.filter(product => product.color.split(",").map(c => c.trim().toLowerCase()).includes(color.toLowerCase())); }
       if (price) {
         const [min, max] = price.split("-").map(Number);
         filteredProducts = filteredProducts.filter(product => product.price >= min && product.price <= max);
@@ -1840,7 +1833,7 @@
           html += `
             <div class="list-group-item">
               <strong>${user.firstName} ${user.lastName}</strong><br>
-              <small>Email: ${user.email}</small><br>
+              <small>${user.email}</small><br>
               <small>Mobile: ${user.mobile || "Not provided"}</small>
             </div>
           `;
