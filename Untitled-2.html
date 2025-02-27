@@ -180,7 +180,7 @@
       height: 20px;
       border-radius: 50%;
       display: inline-block;
-      margin-right: 3px;
+      margin-right: 5px;
       border: 1px solid #ddd;
     }
     
@@ -257,10 +257,9 @@
       </li>
     </ul>
     <div id="menuSocialSection" class="mt-3 text-center">
-        <a href="https://www.instagram.com/tedpole.in" target="_blank" class="mx-2"><i class="bi bi-instagram" style="color:#E1306C;"></i></a>
-        <a href="https://x.com/TedpoleIn" target="_blank" class="mx-2"><i class="bi bi-twitter" style="color:#1DA1F2;"></i></a>
-        <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="mx-2"><i class="bi bi-linkedin" style="color:#0077B5;"></i></a>
-      </a>
+      <a href="https://www.instagram.com/tedpole.in" target="_blank" class="mx-2"><i class="bi bi-instagram" style="color:#E1306C;"></i></a>
+      <a href="https://x.com/TedpoleIn" target="_blank" class="mx-2"><i class="bi bi-twitter" style="color:#1DA1F2;"></i></a>
+      <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="mx-2"><i class="bi bi-linkedin" style="color:#0077B5;"></i></a>
     </div>
   </div>
   
@@ -981,7 +980,7 @@
     let currentOrderIndex = null;
     let activeFilters = {};
     
-    // Products array with  color codes
+    // Products array with stock and color codes
     const products = [
       { 
         id: 1, 
@@ -991,7 +990,7 @@
         price: 19.99,
         size: "S, M, L, XL", 
         colors: [{name: "Blue", code: "#0000FF"}, {name: "Red", code: "#FF0000"}, {name: "Black", code: "#000000"}], 
-
+        stock: 15,
         clothType: "100% Cotton", 
         deliveryTime: "3-5 days", 
         returnPolicy: "10 days return policy", 
@@ -1007,7 +1006,7 @@
         description: "Premium quality leather watch.", 
         category: "Accessories", 
         price: 79.99,
-       
+        stock: 10,
         size: "One Size", 
         colors: [{name: "Brown", code: "#A52A2A"}, {name: "Black", code: "#000000"}], 
         clothType: "Genuine Leather", 
@@ -1026,7 +1025,7 @@
         description: "Trendy and comfortable denim jeans.", 
         category: "Men's Wear", 
         price: 39.99,
-   
+        stock: 4,
         size: "32, 34, 36", 
         colors: [{name: "Blue", code: "#0000FF"}], 
         clothType: "Denim", 
@@ -1044,7 +1043,7 @@
         description: "Stylish sunglasses to match any outfit.", 
         category: "Accessories", 
         price: 29.99,
-       
+        stock: 20,
         size: "One Size", 
         colors: [{name: "Black", code: "#000000"}], 
         clothType: "Plastic", 
@@ -1062,7 +1061,7 @@
         description: "Relaxed fit shirt for casual outings.", 
         category: "Men's Wear", 
         price: 24.99,
-       
+        stock: 3,
         size: "S, M, L, XL", 
         colors: [{name: "White", code: "#FFFFFF"}, {name: "Blue", code: "#0000FF"}], 
         clothType: "Cotton", 
@@ -1129,7 +1128,7 @@
       if (offcanvasInstance) offcanvasInstance.hide();
     }
     
-    // Notify owner
+    // Notify owner (simulated with console.log for demo)
     function notifyOwner(message) {
       console.log("Owner Notification:", message);
     }
@@ -1404,7 +1403,7 @@
       }
     }
     
-    // Generate product cards with  color swatches
+    // Generate product cards with color swatches
     function generateProducts(containerId, productList) {
       const container = document.getElementById(containerId);
       container.innerHTML = "";
@@ -1415,10 +1414,10 @@
         col.className = "prod-col mb-4";
         const sizes = product.size.split(",").map(s => s.trim());
         const colorsHTML = product.colors.map(color => `<span class="color-swatch" style="background-color: ${color.code};" title="${color.name}"></span>`).join(' ');
-        
+        duct.stock < 5 ? `<span class="badge bg-warning stock-badge">Low Stock</span>` : `<span class="badge bg-success stock-badge">${product.stock} in stock</span>`;
         col.innerHTML = `
           <div class="card h-100 shadow-sm position-relative">
-           
+            ${stockBadge}
             <div class="position-relative">
               ${generateProductImageHTML(product)}
               <button class="btn btn-outline-danger btn-sm wishlist-btn position-absolute" style="top: 10px; right: 10px;" onclick="addToWishlist(${product.id})">
@@ -1581,19 +1580,21 @@
       } else {
         let html = "";
         orders.forEach((order, index) => {
-          html += `
-            <div class="card mb-3 shadow-sm" style="cursor:pointer;" onclick="showOrderDetailPage(${index})">
-              <div class="card-header">
-                <span>Order #${index + 1} - ${order.date}</span>
+          if (order.buyer.email === currentUser.email) {
+            html += `
+              <div class="card mb-3 shadow-sm" style="cursor:pointer;" onclick="showOrderDetailPage(${index})">
+                <div class="card-header">
+                  <span>Order #${index + 1} - ${order.date}</span>
+                </div>
+                <div class="card-body d-flex align-items-center">
+                  <img src="${order.product.images && order.product.images.length ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image'}" style="max-height:50px; margin-right:10px;" alt="${order.product.name}">
+                  <span>${order.product.name}</span>
+                </div>
               </div>
-              <div class="card-body d-flex align-items-center">
-                <img src="${order.product.images && order.product.images.length ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image'}" style="max-height:50px; margin-right:10px;" alt="${order.product.name}">
-                <span>${order.product.name}</span>
-              </div>
-            </div>
-          `;
+            `;
+          }
         });
-        ordersList.innerHTML = html;
+        ordersList.innerHTML = html || "<p>You have not placed any orders yet.</p>";
       }
     }
     
@@ -1734,17 +1735,19 @@
     document.getElementById("loginForm")?.addEventListener("submit", function(e) {
       e.preventDefault();
       const email = document.getElementById("loginEmail").value;
-      currentUser = users.find(user => user.email === email);
-      if (!currentUser) {
-        currentUser = { firstName: "Valued", lastName: "Customer", email, mobile: "" };
-        users.push(currentUser);
+      const password = document.getElementById("loginPassword").value;
+      const user = users.find(user => user.email === email && user.password === password);
+      if (user) {
+        currentUser = user;
+        showNotification("Login successful!", "success");
+        notifyOwner("User logged in: " + currentUser.firstName + " " + currentUser.lastName + " (" + currentUser.email + ")");
+        saveData();
+        updateHeaderProfile();
+        updateMenuAccountDetails();
+        showSection("homeSection");
+      } else {
+        showNotification("Invalid email or password. Please sign up if you don't have an account.", "warning");
       }
-      showNotification("Login successful!", "success");
-      notifyOwner("User logged in: " + currentUser.firstName + " " + currentUser.lastName + " (" + currentUser.email + ")");
-      saveData();
-      updateHeaderProfile();
-      updateMenuAccountDetails();
-      showSection("homeSection");
     });
     
     // Sign Up form submission
@@ -1756,11 +1759,16 @@
       const email = document.getElementById("signupEmail").value;
       const password = document.getElementById("signupPassword").value;
       const confirmPassword = document.getElementById("confirmPassword").value;
-      if (password !== confirmPassword) { showNotification("Passwords do not match!", "warning"); return; }
-      currentUser = { firstName, lastName, email, mobile };
-      if (!users.some(user => user.email === email)) {
-        users.push(currentUser);
+      if (password !== confirmPassword) { 
+        showNotification("Passwords do not match!", "warning"); 
+        return; 
       }
+      if (users.some(user => user.email === email)) {
+        showNotification("User with this email already exists. Please log in.", "warning");
+        return;
+      }
+      currentUser = { firstName, lastName, email, mobile, password };
+      users.push(currentUser);
       showNotification("Sign Up successful!", "success");
       notifyOwner("New user signed up: " + currentUser.firstName + " " + currentUser.lastName + " (" + currentUser.email + ")");
       saveData();
@@ -1832,7 +1840,7 @@
           html += `
             <div class="list-group-item">
               <strong>${user.firstName} ${user.lastName}</strong><br>
-              <small>${user.email}</small><br>
+              <small>Email: ${user.email}</small><br>
               <small>Mobile: ${user.mobile || "Not provided"}</small>
             </div>
           `;
