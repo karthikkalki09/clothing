@@ -173,8 +173,8 @@
       transform: scale(1.05);
       transition: transform 0.3s;
     }
-     /* Color Swatches */
-     .color-swatch {
+    /* Color Swatches */
+    .color-swatch {
       width: 20px;
       height: 20px;
       border-radius: 50%;
@@ -254,10 +254,9 @@
       </li>
     </ul>
     <div id="menuSocialSection" class="mt-3 text-center">
-        <a href="https://www.instagram.com/tedpole.in" target="_blank" class="mx-2"><i class="bi bi-instagram" style="color:#E1306C;"></i></a>
-        <a href="https://x.com/TedpoleIn" target="_blank" class="mx-2"><i class="bi bi-twitter" style="color:#1DA1F2;"></i></a>
-        <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="mx-2"><i class="bi bi-linkedin" style="color:#0077B5;"></i></a>
-      </a>
+      <a href="https://www.instagram.com/tedpole.in" target="_blank" class="mx-2"><i class="bi bi-instagram" style="color:#E1306C;"></i></a>
+      <a href="https://x.com/TedpoleIn" target="_blank" class="mx-2"><i class="bi bi-twitter" style="color:#1DA1F2;"></i></a>
+      <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="mx-2"><i class="bi bi-linkedin" style="color:#0077B5;"></i></a>
     </div>
   </div>
   
@@ -268,7 +267,7 @@
         <button class="btn text-white" data-bs-toggle="offcanvas" data-bs-target="#menuCanvas" aria-controls="menuCanvas">
           <i class="bi bi-list" style="font-size: 1.5rem;"></i>
         </button>
-        <h1 class="h5 mb-0 text-white">DINOSAUR <span id="headerProfile" class="profile-name"></span></h1>
+        <h1 class="h5 mb-0 text-white">TEDPOLE <span id="headerProfile" class="profile-name"></span></h1>
         <nav class="header-nav">
           <button class="btn text-white" id="notificationButton"><i class="bi bi-bell"></i></button>
           <button class="btn text-white" id="accountButton"><i class="bi bi-person-fill"></i></button>
@@ -277,8 +276,8 @@
     </header>
     <section class="hero text-center">
       <div class="container">
-        <h2 class="mt-4">Welcome to DINOSAUR SPA</h2>
-        <p>Your destination for quality products and exceptional service.</p>
+        <h2 class="mt-4">Welcome to TEDPOLE</h2>
+        <p>Your destination for quality products.</p>
         <button class="btn btn-dark btn-dynamic mt-2" id="shopNowButton" onclick="showSection('shopSection')">
           <i class="bi bi-cart-check"></i> Shop Now
         </button>
@@ -523,8 +522,8 @@
     </div>
   </div>
   
- <!-- Login Section -->
- <div id="loginSection" class="section fade-in">
+  <!-- Login Section -->
+  <div id="loginSection" class="section fade-in">
     <header class="bg-light py-3 border-bottom">
       <div class="container d-flex justify-content-between align-items-center">
         <button class="btn" onclick="showSection('homeSection')">
@@ -943,7 +942,7 @@
       </div>
       <div class="nav-item">
         <button class="btn btn-link nav-link" onclick="showSection('categoriesSection')">
-          <i class="bi bi-grid-3x3-gap"></i><br>Categories
+          <i class="bi bi-grid-3x3-gap"></i><br>Shop
         </button>
       </div>
       <div class="nav-item">
@@ -1003,7 +1002,6 @@
         description: "Premium quality leather watch.", 
         category: "Accessories", 
         price: 79.99,
-       
         size: "One Size", 
         color: "Brown, Black", 
         clothType: "Genuine Leather", 
@@ -1068,6 +1066,15 @@
         ]
       }
     ];
+    
+    // Color mapping for swatches
+    const colorMap = {
+      "Blue": "#0000FF",
+      "Red": "#FF0000",
+      "Black": "#000000",
+      "Brown": "#A52A2A",
+      "White": "#FFFFFF"
+    };
     
     // Load data from localStorage
     window.onload = function() {
@@ -1221,7 +1228,7 @@
       }
     }
     
-    // Show product details in modal
+    // Show product details in modal with color swatches only
     function showProductDetails(productId) {
       const product = products.find(p => p.id === productId);
       if (product) {
@@ -1229,7 +1236,7 @@
           <h5>${product.name}</h5>
           <p><strong>Description:</strong> ${product.description}</p>
           <p><strong>Sizes:</strong> ${product.size}</p>
-          <p><strong>Colors:</strong> ${product.color}</p>
+          <p><strong>Colors:</strong> ${product.color.split(",").map(c => `<span class="color-swatch" style="background-color: ${colorMap[c.trim()] || '#000'}"></span>`).join(' ')}</p>
           <p><strong>Cloth Type:</strong> ${product.clothType}</p>
           <p><strong>Delivery:</strong> ${product.deliveryTime}</p>
           <p><strong>Return:</strong> ${product.returnPolicy}</p>
@@ -1395,7 +1402,7 @@
       }
     }
     
-    // Generate product cards
+    // Generate product cards with color swatches only
     function generateProducts(containerId, productList) {
       const container = document.getElementById(containerId);
       container.innerHTML = "";
@@ -1404,13 +1411,6 @@
       productList.forEach(product => {
         const col = document.createElement("div");
         col.className = "prod-col mb-4";
-        const sizes = product.size.split(",").map(s => s.trim());
-        const colors = product.color.split(",").map(c => c.trim());
-        let filterTagsHTML = `<div class="filter-tags"><small>Sizes:</small> `;
-        sizes.forEach(s => { filterTagsHTML += `<span class="badge bg-secondary me-1">${s}</span>`; });
-        filterTagsHTML += `<br><small>Colors:</small> `;
-        colors.forEach(c => { filterTagsHTML += `<span class="badge bg-secondary me-1">${c}</span>`; });
-        filterTagsHTML += `</div>`;
         col.innerHTML = `
           <div class="card h-100 shadow-sm">
             <div class="position-relative">
@@ -1423,7 +1423,7 @@
               <h5 class="card-title">${product.name}</h5>
               <p class="card-text">${product.description}</p>
               <p class="card-text"><strong>Sizes:</strong> ${product.size}</p>
-              <p class="card-text"><strong>Colors:</strong> ${product.color}</p>
+              <p class="card-text"><strong>Colors:</strong> ${product.color.split(",").map(c => `<span class="color-swatch" style="background-color: ${colorMap[c.trim()] || '#000'}"></span>`).join(' ')}</p>
               <p class="card-text"><strong>Cloth Type:</strong> ${product.clothType}</p>
               <p class="card-text"><strong>Delivery:</strong> ${product.deliveryTime}</p>
               <p class="card-text"><strong>Return:</strong> ${product.returnPolicy}</p>
@@ -1437,7 +1437,6 @@
                   <button class="btn btn-sm btn-primary" onclick="addToCart(${product.id})">Add to Bag</button>
                 </div>
               </div>
-              ${filterTagsHTML}
             </div>
           </div>
         `;
@@ -1770,6 +1769,7 @@
       updateMenuAccountDetails();
       showSection("homeSection");
     });
+    
     // Contact Form submission
     document.getElementById("contactForm")?.addEventListener("submit", function(e) {
       e.preventDefault();
