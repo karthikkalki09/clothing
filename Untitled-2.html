@@ -1291,6 +1291,8 @@
         saveData();
       }
     }
+    
+    // Updated Wishlist Section to show product details on click
     function updateWishlistSection() {
       const wishlistContainer = document.getElementById("wishlistContainer");
       if (wishlist.length === 0) {
@@ -1300,7 +1302,7 @@
       let html = "";
       wishlist.forEach((item, index) => {
         html += `
-          <div class="card mb-3 shadow-sm">
+          <div class="card mb-3 shadow-sm" onclick="showProductDetails(${item.id})" style="cursor: pointer;">
             <div class="row g-0">
               <div class="col-4">
                 <img src="${item.images && item.images.length ? item.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(item.name)}" class="img-fluid rounded-start" alt="${item.name}">
@@ -1309,7 +1311,7 @@
                 <div class="card-body">
                   <h5 class="card-title">${item.name}</h5>
                   <p class="card-text">${item.description}</p>
-                  <button class="btn btn-sm btn-danger" onclick="removeFromWishlist(${index})">Remove</button>
+                  <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); removeFromWishlist(${index})">Remove</button>
                 </div>
               </div>
             </div>
@@ -1318,6 +1320,7 @@
       });
       wishlistContainer.innerHTML = html;
     }
+    
     function removeFromWishlist(index) {
       wishlist.splice(index, 1);
       updateWishlistSection();
@@ -1500,7 +1503,7 @@
       }
     }
     
-    // Update Cart Section
+    // Updated Cart Section to show product details on click
     function updateCartSection() {
       const cartContent = document.getElementById("cartContent");
       if (cart.length === 0) {
@@ -1510,7 +1513,7 @@
       let html = "";
       cart.forEach((item, index) => {
         html += `
-          <div class="card mb-3 shadow-sm">
+          <div class="card mb-3 shadow-sm" onclick="showProductDetails(${item.id})" style="cursor: pointer;">
             <div class="row g-0">
               <div class="col-4">
                 <img src="${item.images && item.images.length ? item.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(item.name)}" class="img-fluid rounded-start" alt="${item.name}">
@@ -1520,7 +1523,7 @@
                   <h5 class="card-title">${item.name}</h5>
                   <p class="card-text">${item.description}</p>
                   <p class="card-text"><small class="text-muted">${item.category} | ₹${item.price.toFixed(2)}</small></p>
-                  <button class="btn btn-sm btn-danger" onclick="removeFromCart(${index})">Remove</button>
+                  <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); removeFromCart(${index})">Remove</button>
                 </div>
               </div>
             </div>
@@ -1536,6 +1539,7 @@
       cart.splice(index, 1);
       updateCartSection();
       updateCartCountBadge();
+      showNotification("Item removed from bag.", "info");
       saveData();
     }
     
