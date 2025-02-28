@@ -104,7 +104,6 @@
     /* Seller Dashboard styling */
     #sellerDashboard { padding: 20px; }
     #sellerDashboard h2 { font-size: 1.75rem; margin-bottom: 20px; }
-    .order-card { margin-bottom: 20px; }
     .order-card .card-header { background: #2a5298; color: #fff; }
     .order-card .card-body p { margin: 0.25rem 0; }
     
@@ -196,9 +195,7 @@
           <h5 class="modal-title" id="popupMessageModalLabel">Notification</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body popup-modal-body" id="popupMessageContent">
-          <!-- Message inserted dynamically -->
-        </div>
+        <div class="modal-body popup-modal-body" id="popupMessageContent"></div>
         <div class="modal-footer popup-modal-footer" style="justify-content: center;">
           <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Okay</button>
         </div>
@@ -478,7 +475,7 @@
     </footer>
   </div>
   
-  <!-- Seller Dashboard Section (For Owner/Seller) -->
+  <!-- Seller Dashboard Section -->
   <div id="sellerDashboard" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
@@ -489,12 +486,7 @@
         <div></div>
       </div>
     </header>
-    <div class="container" id="sellerDashboardContent">
-      <h2>Users</h2>
-      <div id="usersList"></div>
-      <h2 class="mt-4">Orders</h2>
-      <div id="sellerOrdersList"></div>
-    </div>
+    <div class="container" id="sellerDashboardContent"></div>
     <footer class="py-4">
       <div class="container text-center"></div>
     </footer>
@@ -640,7 +632,7 @@
     <div class="container my-4" id="cartContent"></div>
   </div>
   
-  <!-- Shop Section (with Filters at Top) -->
+  <!-- Shop Section -->
   <div id="shopSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
@@ -922,9 +914,7 @@
           <h5 class="modal-title" id="trackOrderModalLabel">Track Order</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body" id="trackOrderContent">
-          <!-- Tracking info will be injected here -->
-        </div>
+        <div class="modal-body" id="trackOrderContent"></div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
@@ -1492,6 +1482,7 @@
       };
       orders.push(order);
       showPopupMessage("Thanks for ordering!");
+      notifyOwner("New order placed by: " + currentUser.firstName + " " + currentUser.lastName + " (" + currentUser.email + ")");
       saveData();
       const buyModalEl = document.getElementById("buyModal");
       const modalInstance = bootstrap.Modal.getInstance(buyModalEl);
@@ -1821,7 +1812,7 @@
       generateProducts("accessoriesContainer", accessoriesProducts);
     }
     
-    // Update Seller Dashboard
+    // Update Seller Dashboard with detailed product and user info
     function updateSellerDashboard() {
       const sellerDashboardContent = document.getElementById("sellerDashboardContent");
       let html = "<h2>Users</h2>";
@@ -1844,23 +1835,41 @@
       if (orders.length === 0) {
         html += "<p>No orders yet.</p>";
       } else {
-        html += '<div class="list-group">';
         orders.forEach((order, index) => {
+          const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
           html += `
-            <div class="list-group-item">
-              <strong>Order #${index + 1}</strong><br>
-              <small>Date: ${order.date}</small><br>
-              <strong>Buyer:</strong> ${order.buyer.firstName} ${order.buyer.lastName} (${order.buyer.email})<br>
-              <strong>Product:</strong> ${order.product.name}<br>
-              <strong>Shipping Address:</strong> ${order.address}<br>
-              <strong>Mobile:</strong> ${order.mobile}<br>
-              <strong>Payment Method:</strong> ${order.payment}<br>
-              <strong>Status:</strong> ${order.cancelled ? 'Cancelled' : 'Active'}<br>
-              ${order.cancelled ? `<strong>Cancellation Reason:</strong> ${order.cancellationReason}<br>` : ''}
+            <div class="card mb-3 shadow-sm">
+              <div class="card-header">
+                Order #${index + 1} - ${order.date}
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-12 col-md-4 mb-3 mb-md-0">
+                    <h6>Buyer Information</h6>
+                    <p><strong>Name:</strong> ${order.buyer.firstName} ${order.buyer.lastName}</p>
+                    <p><strong>Email:</strong> ${order.buyer.email}</p>
+                    <p><strong>Mobile:</strong> ${order.mobile}</p>
+                  </div>
+                  <div class="col-12 col-md-4 mb-3 mb-md-0">
+                    <h6>Product Information</h6>
+                    <img src="${productImage}" alt="${order.product.name}" class="img-fluid mb-2" style="max-width:100px; max-height:100px;">
+                    <p><strong>Name:</strong> ${order.product.name}</p>
+                    <p><strong>Description:</strong> ${order.product.description}</p>
+                    <p><strong>Price:</strong> ₹${order.product.price.toFixed(2)}</p>
+                    <p><strong>Category:</strong> ${order.product.category}</p>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <h6>Shipping Information</h6>
+                    <p><strong>Address:</strong> ${order.address}</p>
+                    <p><strong>Payment Method:</strong> ${order.payment}</p>
+                    <p><strong>Status:</strong> ${order.cancelled ? 'Cancelled' : 'Active'}</p>
+                    ${order.cancelled ? `<p><strong>Cancellation Reason:</strong> ${order.cancellationReason}</p>` : ''}
+                  </div>
+                </div>
+              </div>
             </div>
           `;
         });
-        html += '</div>';
       }
       sellerDashboardContent.innerHTML = html;
     }
