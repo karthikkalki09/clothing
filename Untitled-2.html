@@ -12,12 +12,16 @@
     /* Base theme */
     body {
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #f6f9fc, #e9f0f8);
+      background: linear-gradient(135deg, #f6f9fc, #e9f0f8), url('https://www.toptal.com/designers/subtlepatterns/uploads/double-bubble-outline.png');
+      background-size: cover;
       margin-bottom: 70px;
     }
     header {
       background: linear-gradient(90deg, #1e3c72, #2a5298);
       color: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
     header h1, header .profile-name {
       color: #fff;
@@ -168,9 +172,13 @@
     }
     
     /* Dynamic Hover Effects */
-    .btn-dynamic:hover {
+    .btn:hover {
       transform: scale(1.05);
       transition: transform 0.3s;
+    }
+    .card:hover {
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: box-shadow 0.3s;
     }
     /* Color Swatches */
     .color-swatch {
@@ -180,6 +188,21 @@
       display: inline-block;
       margin-right: 5px;
       border: 1px solid #ddd;
+    }
+    /* Size and Color Buttons */
+    .size-btn, .color-btn { margin: 2px; }
+    .size-btn.active, .color-btn.active {
+      background-color: #2a5298;
+      color: #fff;
+      border-color: #2a5298;
+    }
+    /* Lazy Loading Images */
+    img[loading="lazy"] {
+      opacity: 0;
+      transition: opacity 0.5s ease-in;
+    }
+    img[loading="lazy"].loaded {
+      opacity: 1;
     }
   </style>
 </head>
@@ -202,7 +225,7 @@
       </div>
     </div>
   </div>
-  
+
   <!-- Notifications Section -->
   <div id="notificationsSection" class="section">
     <header class="bg-light py-3 border-bottom">
@@ -256,18 +279,18 @@
       <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="mx-2"><i class="bi bi-linkedin" style="color:#0077B5;"></i></a>
     </div>
   </div>
-  
+
   <!-- Home Section -->
   <div id="homeSection" class="section active-section fade-in">
     <header class="py-3 border-bottom">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn text-white" data-bs-toggle="offcanvas" data-bs-target="#menuCanvas" aria-controls="menuCanvas">
+        <button class="btn text-white" data-bs-toggle="offcanvas" data-bs-target="#menuCanvas" aria-controls="menuCanvas" aria-label="Toggle Menu">
           <i class="bi bi-list" style="font-size: 1.5rem;"></i>
         </button>
         <h1 class="h5 mb-0 text-white">TEDPOLE <span id="headerProfile" class="profile-name"></span></h1>
         <nav class="header-nav">
-          <button class="btn text-white" id="notificationButton"><i class="bi bi-bell"></i></button>
-          <button class="btn text-white" id="accountButton"><i class="bi bi-person-fill"></i></button>
+          <button class="btn text-white" id="notificationButton" aria-label="Notifications"><i class="bi bi-bell"></i></button>
+          <button class="btn text-white" id="accountButton" aria-label="Account"><i class="bi bi-person-fill"></i></button>
         </nav>
       </div>
     </header>
@@ -275,14 +298,14 @@
       <div class="container">
         <h2 class="mt-4">Welcome to TEDPOLE</h2>
         <p>Your destination for quality products.</p>
-        <button class="btn btn-dark btn-dynamic mt-2" id="shopNowButton" onclick="showSection('shopSection')">
+        <button class="btn btn-dark mt-2" id="shopNowButton" onclick="showSection('shopSection')" aria-label="Shop Now">
           <i class="bi bi-cart-check"></i> Shop Now
         </button>
       </div>
     </section>
     <section class="product-highlight py-5">
       <div class="container d-flex flex-column flex-md-row align-items-center">
-        <img src="https://via.placeholder.com/600x400?text=Product+Highlight" class="img-fluid mb-4 mb-md-0" alt="Product Highlight" />
+        <img src="https://via.placeholder.com/600x400?text=Product+Highlight" class="img-fluid mb-4 mb-md-0" alt="Product Highlight" loading="lazy" />
         <div class="ms-md-4">
           <h3><i class="bi bi-award"></i> Luxury in Every Stitch</h3>
           <p>Clothing is a form of self-expression.</p>
@@ -295,13 +318,13 @@
         <div class="row mt-4">
           <div class="col-md-6">
             <div class="category-item" onclick="showSection('menswearSection')">
-              <img src="https://via.placeholder.com/400x300?text=Men%27s+Wear" class="img-fluid" alt="Men's Wear" />
+              <img src="https://via.placeholder.com/400x300?text=Men%27s+Wear" class="img-fluid" alt="Men's Wear" loading="lazy" />
               <h4 class="mt-3"><i class="bi bi-people"></i> Men's Wear</h4>
             </div>
           </div>
           <div class="col-md-6">
             <div class="category-item" onclick="showSection('accessoriesSection')">
-              <img src="https://via.placeholder.com/400x300?text=Accessories" class="img-fluid" alt="Accessories" />
+              <img src="https://via.placeholder.com/400x300?text=Accessories" class="img-fluid" alt="Accessories" loading="lazy" />
               <h4 class="mt-3"><i class="bi bi-watch"></i> Accessories</h4>
             </div>
           </div>
@@ -312,12 +335,12 @@
       <div class="container text-center"></div>
     </footer>
   </div>
-  
+
   <!-- About Us Section -->
   <div id="aboutSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
+        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home">
           <i class="bi bi-arrow-left"></i> Home
         </button>
         <h1 class="h5 mb-0">About Us</h1>
@@ -331,12 +354,12 @@
       <div class="container text-center"></div>
     </footer>
   </div>
-  
+
   <!-- Contact Us Section -->
   <div id="contactSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
+        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home">
           <i class="bi bi-arrow-left"></i> Home
         </button>
         <h1 class="h5 mb-0">Contact Us</h1>
@@ -347,29 +370,29 @@
       <form id="contactForm">
         <div class="mb-3">
           <label for="contactName" class="form-label">Name</label>
-          <input type="text" class="form-control" id="contactName" placeholder="Your Name" required>
+          <input type="text" class="form-control" id="contactName" placeholder="Your Name" required aria-label="Your Name" />
         </div>
         <div class="mb-3">
           <label for="contactEmail" class="form-label">Email Address</label>
-          <input type="email" class="form-control" id="contactEmail" placeholder="Your Email" required>
+          <input type="email" class="form-control" id="contactEmail" placeholder="Your Email" required aria-label="Your Email" />
         </div>
         <div class="mb-3">
           <label for="contactQuestion" class="form-label">Question</label>
-          <textarea class="form-control" id="contactQuestion" placeholder="Your Question" required></textarea>
+          <textarea class="form-control" id="contactQuestion" placeholder="Your Question" required aria-label="Your Question"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary btn-dynamic">Send</button>
+        <button type="submit" class="btn btn-primary" aria-label="Send Message">Send</button>
       </form>
     </div>
     <footer class="py-4">
       <div class="container text-center"></div>
     </footer>
   </div>
-  
+
   <!-- Coupons Section -->
   <div id="couponsSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
+        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home">
           <i class="bi bi-arrow-left"></i> Home
         </button>
         <h1 class="h5 mb-0">Coupons</h1>
@@ -383,12 +406,12 @@
       <div class="container text-center"></div>
     </footer>
   </div>
-  
+
   <!-- Offer Zone Section -->
   <div id="offerZoneSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
+        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home">
           <i class="bi bi-arrow-left"></i> Home
         </button>
         <h1 class="h5 mb-0">Offer Zone</h1>
@@ -402,12 +425,12 @@
       <div class="container text-center"></div>
     </footer>
   </div>
-  
+
   <!-- Help Line Section -->
   <div id="helpSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
+        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home">
           <i class="bi bi-arrow-left"></i> Home
         </button>
         <h1 class="h5 mb-0">Help Line</h1>
@@ -421,12 +444,12 @@
       <div class="container text-center"></div>
     </footer>
   </div>
-  
+
   <!-- Wishlist Section -->
   <div id="wishlistSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
+        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home">
           <i class="bi bi-arrow-left"></i> Home
         </button>
         <h1 class="h5 mb-0">Wishlist</h1>
@@ -438,12 +461,12 @@
       <div class="container text-center"></div>
     </footer>
   </div>
-  
+
   <!-- Categories Section -->
   <div id="categoriesSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
+        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home">
           <i class="bi bi-arrow-left"></i> Home
         </button>
         <h1 class="h5 mb-0">Categories</h1>
@@ -454,7 +477,7 @@
       <div class="row">
         <div class="col-6 mb-4">
           <div class="card shadow-sm" onclick="showSection('menswearSection')" style="cursor:pointer;">
-            <img src="https://via.placeholder.com/400x300?text=Men%27s+Wear" class="card-img-top" alt="Men's Wear">
+            <img src="https://via.placeholder.com/400x300?text=Men%27s+Wear" class="card-img-top" alt="Men's Wear" loading="lazy" />
             <div class="card-body text-center">
               <h5 class="card-title">Men's Wear</h5>
             </div>
@@ -462,7 +485,7 @@
         </div>
         <div class="col-6 mb-4">
           <div class="card shadow-sm" onclick="showSection('accessoriesSection')" style="cursor:pointer;">
-            <img src="https://via.placeholder.com/400x300?text=Accessories" class="card-img-top" alt="Accessories">
+            <img src="https://via.placeholder.com/400x300?text=Accessories" class="card-img-top" alt="Accessories" loading="lazy" />
             <div class="card-body text-center">
               <h5 class="card-title">Accessories</h5>
             </div>
@@ -474,12 +497,12 @@
       <div class="container text-center"></div>
     </footer>
   </div>
-  
+
   <!-- Seller Dashboard Section -->
   <div id="sellerDashboard" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
+        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home">
           <i class="bi bi-arrow-left"></i> Home
         </button>
         <h1 class="h5 mb-0">Seller Dashboard</h1>
@@ -491,12 +514,12 @@
       <div class="container text-center"></div>
     </footer>
   </div>
-  
+
   <!-- Search Section -->
   <div id="searchSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
+        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home">
           <i class="bi bi-arrow-left"></i> Home
         </button>
         <h1 class="h5 mb-0">Search</h1>
@@ -505,20 +528,20 @@
     </header>
     <div class="container my-4">
       <div class="input-group mb-3 position-relative">
-        <input type="text" class="form-control" placeholder="Search for Products" id="searchSectionInput" autocomplete="off" />
-        <button class="btn btn-dark" type="button" id="searchSectionButton">
+        <input type="text" class="form-control" placeholder="Search for Products" id="searchSectionInput" autocomplete="off" aria-label="Search for Products" />
+        <button class="btn btn-dark" type="button" id="searchSectionButton" aria-label="Search">
           <i class="bi bi-search"></i>
         </button>
       </div>
       <div id="searchResultsContainer"></div>
     </div>
   </div>
-  
+
   <!-- Login Section -->
   <div id="loginSection" class="section fade-in">
     <header class="bg-light py-3 border-bottom">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
+        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home">
           <i class="bi bi-arrow-left"></i> Home
         </button>
         <h1 class="h5 mb-0">Login</h1>
@@ -533,13 +556,13 @@
               <form id="loginForm">
                 <div class="mb-3">
                   <label for="loginEmail" class="form-label">Email Address</label>
-                  <input type="email" class="form-control" id="loginEmail" placeholder="Enter your email" required />
+                  <input type="email" class="form-control" id="loginEmail" placeholder="Enter your email" required aria-label="Email Address" />
                 </div>
                 <div class="mb-3">
                   <label for="loginPassword" class="form-label">Password</label>
-                  <input type="password" class="form-control" id="loginPassword" placeholder="Enter your password" required />
+                  <input type="password" class="form-control" id="loginPassword" placeholder="Enter your password" required minlength="6" aria-label="Password" />
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Login</button>
+                <button type="submit" class="btn btn-primary w-100" aria-label="Login to your account">Login</button>
               </form>
               <p class="mt-3 text-center">Don't have an account? <a href="#" onclick="showSection('signupSection')">Sign Up</a></p>
             </div>
@@ -548,12 +571,12 @@
       </div>
     </div>
   </div>
-  
+
   <!-- Sign Up Section -->
   <div id="signupSection" class="section fade-in">
     <header class="bg-light py-3 border-bottom">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
+        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home">
           <i class="bi bi-arrow-left"></i> Home
         </button>
         <h1 class="h5 mb-0">Sign Up</h1>
@@ -569,32 +592,32 @@
                 <div class="row">
                   <div class="col-6 mb-3">
                     <label for="firstName" class="form-label">First Name</label>
-                    <input type="text" class="form-control" id="firstName" placeholder="First Name" required />
+                    <input type="text" class="form-control" id="firstName" placeholder="First Name" required aria-label="First Name" />
                   </div>
                   <div class="col-6 mb-3">
                     <label for="lastName" class="form-label">Last Name</label>
-                    <input type="text" class="form-control" id="lastName" placeholder="Last Name" required />
+                    <input type="text" class="form-control" id="lastName" placeholder="Last Name" required aria-label="Last Name" />
                   </div>
                 </div>
                 <div class="mb-3">
                   <label for="mobileNumberSignUp" class="form-label">Mobile Number</label>
-                  <input type="text" class="form-control" id="mobileNumberSignUp" placeholder="Enter your mobile number" required />
+                  <input type="text" class="form-control" id="mobileNumberSignUp" placeholder="Enter your mobile number" required aria-label="Mobile Number" />
                 </div>
                 <div class="mb-3">
                   <label for="signupEmail" class="form-label">Email Address</label>
-                  <input type="email" class="form-control" id="signupEmail" placeholder="Enter your email" required />
+                  <input type="email" class="form-control" id="signupEmail" placeholder="Enter your email" required aria-label="Email Address" />
                 </div>
                 <div class="row">
                   <div class="col-6 mb-3">
                     <label for="signupPassword" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="signupPassword" placeholder="Password" required />
+                    <input type="password" class="form-control" id="signupPassword" placeholder="Password" required minlength="6" aria-label="Password" />
                   </div>
                   <div class="col-6 mb-3">
                     <label for="confirmPassword" class="form-label">Confirm Password</label>
-                    <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password" required />
+                    <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password" required minlength="6" aria-label="Confirm Password" />
                   </div>
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+                <button type="submit" class="btn btn-primary w-100" aria-label="Sign Up">Sign Up</button>
               </form>
               <p class="mt-3 text-center">Already have an account? <a href="#" onclick="showSection('loginSection')">Login</a></p>
             </div>
@@ -603,12 +626,12 @@
       </div>
     </div>
   </div>
-  
+
   <!-- Account Section -->
   <div id="accountSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
+        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home">
           <i class="bi bi-arrow-left"></i> Home
         </button>
         <h1 class="h5 mb-0">My Account</h1>
@@ -617,12 +640,12 @@
     </header>
     <div class="container my-4" id="accountContent"></div>
   </div>
-  
+
   <!-- Cart Section -->
   <div id="cartSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
+        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home">
           <i class="bi bi-arrow-left"></i> Home
         </button>
         <h1 class="h5 mb-0">Your Bag</h1>
@@ -631,12 +654,12 @@
     </header>
     <div class="container my-4" id="cartContent"></div>
   </div>
-  
+
   <!-- Shop Section -->
   <div id="shopSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
+        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home">
           <i class="bi bi-arrow-left"></i> Home
         </button>
         <h1 class="h5 mb-0">All Products</h1>
@@ -648,7 +671,7 @@
         <h5>Filter Products</h5>
         <div class="row g-2">
           <div class="col-6 col-md-3">
-            <select id="filterSize" class="form-select">
+            <select id="filterSize" class="form-select" aria-label="Filter by Size">
               <option value="">All Sizes</option>
               <option value="S">S</option>
               <option value="M">M</option>
@@ -660,7 +683,7 @@
             </select>
           </div>
           <div class="col-6 col-md-3">
-            <select id="filterColor" class="form-select">
+            <select id="filterColor" class="form-select" aria-label="Filter by Color">
               <option value="">All Colors</option>
               <option value="Blue">Blue</option>
               <option value="Red">Red</option>
@@ -670,7 +693,7 @@
             </select>
           </div>
           <div class="col-6 col-md-3">
-            <select id="filterPrice" class="form-select">
+            <select id="filterPrice" class="form-select" aria-label="Filter by Price">
               <option value="">All Prices</option>
               <option value="100-150">₹100 - ₹150</option>
               <option value="150-200">₹150 - ₹200</option>
@@ -678,23 +701,25 @@
             </select>
           </div>
           <div class="col-6 col-md-3">
-            <button class="btn btn-primary w-100" onclick="applyFilters()">Apply Filters</button>
+            <button class="btn btn-primary w-100" onclick="applyFilters()" aria-label="Apply Filters">Apply Filters</button>
           </div>
         </div>
         <div class="mt-2" id="activeFilterDisplay"></div>
       </div>
     </div>
-    <div class="container my-4" id="shopProductContainer"></div>
+    <div class="container my-4">
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3" id="shopProductContainer"></div>
+    </div>
     <footer class="py-4">
       <div class="container text-center"></div>
     </footer>
   </div>
-  
+
   <!-- Men's Wear Section -->
   <div id="menswearSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
+        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home">
           <i class="bi bi-arrow-left"></i> Home
         </button>
         <h1 class="h5 mb-0">Men's Wear</h1>
@@ -704,7 +729,7 @@
     <div class="container mb-3" id="menswearFilterSection">
       <div class="row g-2">
         <div class="col-4">
-          <select id="menswearFilterSize" class="form-select">
+          <select id="menswearFilterSize" class="form-select" aria-label="Filter Men's Wear by Size">
             <option value="">All Sizes</option>
             <option value="S">S</option>
             <option value="M">M</option>
@@ -716,7 +741,7 @@
           </select>
         </div>
         <div class="col-4">
-          <select id="menswearFilterColor" class="form-select">
+          <select id="menswearFilterColor" class="form-select" aria-label="Filter Men's Wear by Color">
             <option value="">All Colors</option>
             <option value="Blue">Blue</option>
             <option value="Red">Red</option>
@@ -726,7 +751,7 @@
           </select>
         </div>
         <div class="col-4">
-          <select id="menswearFilterPrice" class="form-select">
+          <select id="menswearFilterPrice" class="form-select" aria-label="Filter Men's Wear by Price">
             <option value="">All Prices</option>
             <option value="100-150">₹100 - ₹150</option>
             <option value="150-200">₹150 - ₹200</option>
@@ -735,24 +760,26 @@
         </div>
       </div>
       <div class="mt-2">
-        <button class="btn btn-primary" onclick="applyMenswearFilters()">Apply Filters</button>
-        <button class="btn btn-outline-danger" onclick="clearMenswearFilters()">Clear Filters</button>
+        <button class="btn btn-primary" onclick="applyMenswearFilters()" aria-label="Apply Men's Wear Filters">Apply Filters</button>
+        <button class="btn btn-outline-danger" onclick="clearMenswearFilters()" aria-label="Clear Men's Wear Filters">Clear Filters</button>
       </div>
     </div>
-    <div class="container my-4" id="menswearContainer"></div>
+    <div class="container my-4">
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3" id="menswearContainer"></div>
+    </div>
     <div class="container text-center mb-4">
-      <button class="btn btn-success" onclick="showSection('cartSection')">Checkout</button>
+      <button class="btn btn-success" onclick="showSection('cartSection')" aria-label="Proceed to Checkout">Checkout</button>
     </div>
     <footer class="py-4">
       <div class="container text-center"></div>
     </footer>
   </div>
-  
+
   <!-- Accessories Section -->
   <div id="accessoriesSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
+        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home">
           <i class="bi bi-arrow-left"></i> Home
         </button>
         <h1 class="h5 mb-0">Accessories</h1>
@@ -762,7 +789,7 @@
     <div class="container mb-3" id="accessoriesFilterSection">
       <div class="row g-2">
         <div class="col-4">
-          <select id="accessoriesFilterSize" class="form-select">
+          <select id="accessoriesFilterSize" class="form-select" aria-label="Filter Accessories by Size">
             <option value="">All Sizes</option>
             <option value="S">S</option>
             <option value="M">M</option>
@@ -772,7 +799,7 @@
           </select>
         </div>
         <div class="col-4">
-          <select id="accessoriesFilterColor" class="form-select">
+          <select id="accessoriesFilterColor" class="form-select" aria-label="Filter Accessories by Color">
             <option value="">All Colors</option>
             <option value="Blue">Blue</option>
             <option value="Red">Red</option>
@@ -782,7 +809,7 @@
           </select>
         </div>
         <div class="col-4">
-          <select id="accessoriesFilterPrice" class="form-select">
+          <select id="accessoriesFilterPrice" class="form-select" aria-label="Filter Accessories by Price">
             <option value="">All Prices</option>
             <option value="100-150">₹100 - ₹150</option>
             <option value="150-200">₹150 - ₹200</option>
@@ -791,24 +818,26 @@
         </div>
       </div>
       <div class="mt-2">
-        <button class="btn btn-primary" onclick="applyAccessoriesFilters()">Apply Filters</button>
-        <button class="btn btn-outline-danger" onclick="clearAccessoriesFilters()">Clear Filters</button>
+        <button class="btn btn-primary" onclick="applyAccessoriesFilters()" aria-label="Apply Accessories Filters">Apply Filters</button>
+        <button class="btn btn-outline-danger" onclick="clearAccessoriesFilters()" aria-label="Clear Accessories Filters">Clear Filters</button>
       </div>
     </div>
-    <div class="container my-4" id="accessoriesContainer"></div>
+    <div class="container my-4">
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3" id="accessoriesContainer"></div>
+    </div>
     <div class="container text-center mb-4">
-      <button class="btn btn-success" onclick="showSection('cartSection')">Checkout</button>
+      <button class="btn btn-success" onclick="showSection('cartSection')" aria-label="Proceed to Checkout">Checkout</button>
     </div>
     <footer class="py-4">
       <div class="container text-center"></div>
     </footer>
   </div>
-  
+
   <!-- My Orders Section -->
   <div id="ordersSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')">
+        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home">
           <i class="bi bi-arrow-left"></i> Home
         </button>
         <h1 class="h5 mb-0">My Orders</h1>
@@ -817,12 +846,12 @@
     </header>
     <div class="container my-4" id="ordersList"></div>
   </div>
-  
+
   <!-- Order Detail Section -->
   <div id="orderDetailSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('ordersSection')">
+        <button class="btn" onclick="showSection('ordersSection')" aria-label="Back to Orders">
           <i class="bi bi-arrow-left"></i> Back to Orders
         </button>
         <h1 class="h5 mb-0">Order Details</h1>
@@ -831,7 +860,7 @@
     </header>
     <div class="container my-4" id="orderDetailPage"></div>
   </div>
-  
+
   <!-- Product Detail Modal -->
   <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -847,7 +876,7 @@
       </div>
     </div>
   </div>
-  
+
   <!-- Buy Now Modal -->
   <div class="modal fade" id="buyModal" tabindex="-1" aria-labelledby="buyModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -858,29 +887,30 @@
         </div>
         <div class="modal-body">
           <form id="buyForm">
+            <input type="hidden" name="csrf_token" value="some-token-value" />
             <div class="mb-3">
               <label for="shippingAddress" class="form-label">Address</label>
-              <textarea class="form-control" id="shippingAddress" required></textarea>
+              <textarea class="form-control" id="shippingAddress" required aria-label="Shipping Address"></textarea>
             </div>
             <div class="mb-3">
               <label for="mobileNumber" class="form-label">Mobile Number</label>
-              <input type="text" class="form-control" id="mobileNumber" required />
+              <input type="text" class="form-control" id="mobileNumber" required aria-label="Mobile Number" />
             </div>
             <div class="mb-3">
               <label for="additionalDetails" class="form-label">Additional Details</label>
-              <textarea class="form-control" id="additionalDetails"></textarea>
+              <textarea class="form-control" id="additionalDetails" aria-label="Additional Details"></textarea>
             </div>
             <div class="mb-3">
               <label class="form-label">Payment Method</label>
-              <input type="text" class="form-control" value="Cash on Delivery" disabled />
+              <input type="text" class="form-control" value="Cash on Delivery" disabled aria-label="Payment Method" />
             </div>
-            <button type="submit" class="btn btn-primary">Place Order</button>
+            <button type="submit" class="btn btn-primary" aria-label="Place Order">Place Order</button>
           </form>
         </div>
       </div>
     </div>
   </div>
-  
+
   <!-- Product Images Modal with Carousel -->
   <div class="modal fade" id="productImagesModal" tabindex="-1" aria-labelledby="productImagesModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -905,7 +935,7 @@
       </div>
     </div>
   </div>
-  
+
   <!-- Track Order Modal with Embedded Map -->
   <div class="modal fade" id="trackOrderModal" tabindex="-1" aria-labelledby="trackOrderModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -921,39 +951,39 @@
       </div>
     </div>
   </div>
-  
+
   <!-- Fixed Footer Navigation -->
   <footer class="footer-nav fixed-bottom bg-light">
     <div class="container d-flex justify-content-around">
       <div class="nav-item">
-        <button class="btn btn-link nav-link" onclick="showSection('homeSection')">
+        <button class="btn btn-link nav-link" onclick="showSection('homeSection')" aria-label="Home">
           <i class="bi bi-house"></i><br>Home
         </button>
       </div>
       <div class="nav-item">
-        <button class="btn btn-link nav-link" onclick="showSection('categoriesSection')">
+        <button class="btn btn-link nav-link" onclick="showSection('categoriesSection')" aria-label="Shop">
           <i class="bi bi-grid-3x3-gap"></i><br>Shop
         </button>
       </div>
       <div class="nav-item">
-        <button class="btn btn-link nav-link" onclick="showSection('searchSection')">
+        <button class="btn btn-link nav-link" onclick="showSection('searchSection')" aria-label="Search">
           <i class="bi bi-search"></i><br>Search
         </button>
       </div>
       <div class="nav-item">
-        <button class="btn btn-link nav-link" onclick="showSection('wishlistSection')">
+        <button class="btn btn-link nav-link" onclick="showSection('wishlistSection')" aria-label="Wishlist">
           <i class="bi bi-heart"></i><br>Wishlist
         </button>
       </div>
       <div class="nav-item">
-        <button class="btn btn-link nav-link" onclick="showSection('cartSection')">
+        <button class="btn btn-link nav-link" onclick="showSection('cartSection')" aria-label="Your Bag">
           <i class="bi bi-bag"></i><br>Bag
           <span class="footer-bag-badge" id="footerBagBadge">0</span>
         </button>
       </div>
     </div>
   </footer>
-  
+
   <!-- JavaScript: Dynamic Functionality & LocalStorage Persistence -->
   <script>
     // Global arrays and variables
@@ -961,102 +991,87 @@
     let cart = [];
     let orders = [];
     let notifications = [];
+    let ownerNotifications = [];
     let wishlist = [];
     let currentUser = null;
     let currentProductForPurchase = null;
     let currentOrderIndex = null;
     let activeFilters = {};
-    
-    // Products array 
+
+    // Products array with uploadedImages property
     const products = [
-      { 
-        id: 1, 
-        name: "Men's T-Shirt", 
-        description: "Comfortable and stylish men's t-shirt.", 
-        category: "Men's Wear", 
+      {
+        id: 1,
+        name: "Men's T-Shirt",
+        description: "Comfortable and stylish men's t-shirt.",
+        category: "Men's Wear",
         price: 19.99,
-        size: "S, M, L, XL", 
-        color: "Blue, Red, Black", 
-        clothType: "100% Cotton", 
-        deliveryTime: "3-5 days", 
-        returnPolicy: "10 days return policy", 
+        size: "S, M, L, XL",
+        color: "Blue, Red, Black",
+        clothType: "100% Cotton",
+        deliveryTime: "3-5 days",
+        returnPolicy: "10 days return policy",
         additionalDetails: "Machine washable, soft and breathable fabric.",
-        images: [
-          "https://via.placeholder.com/400x300?text=Men%27s+T-Shirt+Image+1",
-          "https://via.placeholder.com/400x300?text=Men%27s+T-Shirt+Image+2"
-        ]
+        uploadedImages: []
       },
-      { 
-        id: 2, 
-        name: "Leather Watch", 
-        description: "Premium quality leather watch.", 
-        category: "Accessories", 
+      {
+        id: 2,
+        name: "Leather Watch",
+        description: "Premium quality leather watch.",
+        category: "Accessories",
         price: 79.99,
-        size: "One Size", 
-        color: "Brown, Black", 
-        clothType: "Genuine Leather", 
-        deliveryTime: "5-7 days", 
-        returnPolicy: "10 days return policy", 
+        size: "One Size",
+        color: "Brown, Black",
+        clothType: "Genuine Leather",
+        deliveryTime: "5-7 days",
+        returnPolicy: "10 days return policy",
         additionalDetails: "Water resistant up to 50 meters.",
-        images: [
-          "https://via.placeholder.com/400x300?text=Leather+Watch+Image+1",
-          "https://via.placeholder.com/400x300?text=Leather+Watch+Image+2",
-          "https://via.placeholder.com/400x300?text=Leather+Watch+Image+3"
-        ]
+        uploadedImages: []
       },
-      { 
-        id: 3, 
-        name: "Denim Jeans", 
-        description: "Trendy and comfortable denim jeans.", 
-        category: "Men's Wear", 
+      {
+        id: 3,
+        name: "Denim Jeans",
+        description: "Trendy and comfortable denim jeans.",
+        category: "Men's Wear",
         price: 39.99,
-        size: "32, 34, 36", 
-        color: "Blue", 
-        clothType: "Denim", 
-        deliveryTime: "4-6 days", 
-        returnPolicy: "10 days return policy", 
+        size: "32, 34, 36",
+        color: "Blue",
+        clothType: "Denim",
+        deliveryTime: "4-6 days",
+        returnPolicy: "10 days return policy",
         additionalDetails: "Slim fit design. Durable and stylish.",
-        images: [
-          "https://via.placeholder.com/400x300?text=Denim+Jeans+Image+1",
-          "https://via.placeholder.com/400x300?text=Denim+Jeans+Image+2"
-        ]
+        uploadedImages: []
       },
-      { 
-        id: 4, 
-        name: "Sunglasses", 
-        description: "Stylish sunglasses to match any outfit.", 
-        category: "Accessories", 
+      {
+        id: 4,
+        name: "Sunglasses",
+        description: "Stylish sunglasses to match any outfit.",
+        category: "Accessories",
         price: 29.99,
-        size: "One Size", 
-        color: "Black", 
-        clothType: "Plastic", 
-        deliveryTime: "3-5 days", 
-        returnPolicy: "10 days return policy", 
+        size: "One Size",
+        color: "Black",
+        clothType: "Plastic",
+        deliveryTime: "3-5 days",
+        returnPolicy: "10 days return policy",
         additionalDetails: "UV protection lenses.",
-        images: [
-          "https://via.placeholder.com/400x300?text=Sunglasses+Image+1",
-          "https://via.placeholder.com/400x300?text=Sunglasses+Image+2"
-        ]
+        uploadedImages: []
       },
-      { 
-        id: 5, 
-        name: "Casual Shirt", 
-        description: "Relaxed fit shirt for casual outings.", 
-        category: "Men's Wear", 
+      {
+        id: 5,
+        name: "Casual Shirt",
+        description: "Relaxed fit shirt for casual outings.",
+        category: "Men's Wear",
         price: 24.99,
-        size: "S, M, L, XL", 
-        color: "White, Blue", 
-        clothType: "Cotton", 
-        deliveryTime: "3-5 days", 
-        returnPolicy: "10 days return policy", 
+        size: "S, M, L, XL",
+        color: "White, Blue",
+        clothType: "Cotton",
+        deliveryTime: "3-5 days",
+        returnPolicy: "10 days return policy",
         additionalDetails: "Easy to care, perfect for everyday wear.",
-        images: [
-          "https://via.placeholder.com/400x300?text=Casual+Shirt+Image+1",
-          "https://via.placeholder.com/400x300?text=Casual+Shirt+Image+2"
-        ]
+        uploadedImages: []
       }
     ];
-    
+
     // Color mapping for swatches
     const colorMap = {
       "Blue": "#0000FF",
@@ -1065,7 +1080,7 @@
       "Brown": "#A52A2A",
       "White": "#FFFFFF"
     };
-    
+
     // Load data from localStorage
     window.onload = function() {
       const storedUser = localStorage.getItem("userData");
@@ -1080,50 +1095,67 @@
       if (storedCart) { cart = JSON.parse(storedCart); updateCartCountBadge(); }
       const storedNotifications = localStorage.getItem("notificationsData");
       if (storedNotifications) { notifications = JSON.parse(storedNotifications); updateNotifications(); }
+      const storedOwnerNotifications = localStorage.getItem("ownerNotificationsData");
+      if (storedOwnerNotifications) { ownerNotifications = JSON.parse(storedOwnerNotifications); }
       const storedWishlist = localStorage.getItem("wishlistData");
       if (storedWishlist) { wishlist = JSON.parse(storedWishlist); }
       const storedUsers = localStorage.getItem("usersData");
       if (storedUsers) { users = JSON.parse(storedUsers); }
-      
-      document.getElementById("filterSize").addEventListener("change", applyFilters);
-      document.getElementById("filterColor").addEventListener("change", applyFilters);
-      document.getElementById("filterPrice").addEventListener("change", applyFilters);
+      const storedProducts = localStorage.getItem("productsData");
+      if (storedProducts) {
+        const parsedProducts = JSON.parse(storedProducts);
+        products.forEach((product, index) => {
+          product.uploadedImages = parsedProducts[index]?.uploadedImages || [];
+        });
+      }
+
+      document.getElementById("filterSize")?.addEventListener("change", applyFilters);
+      document.getElementById("filterColor")?.addEventListener("change", applyFilters);
+      document.getElementById("filterPrice")?.addEventListener("change", applyFilters);
     };
-    
+
     // Save data to localStorage
     function saveData() {
       localStorage.setItem("userData", JSON.stringify(currentUser));
       localStorage.setItem("ordersData", JSON.stringify(orders));
       localStorage.setItem("cartData", JSON.stringify(cart));
       localStorage.setItem("notificationsData", JSON.stringify(notifications));
+      localStorage.setItem("ownerNotificationsData", JSON.stringify(ownerNotifications));
       localStorage.setItem("wishlistData", JSON.stringify(wishlist));
       localStorage.setItem("usersData", JSON.stringify(users));
+      localStorage.setItem("productsData", JSON.stringify(products));
     }
-    
+
     // Update header profile display
     function updateHeaderProfile() {
       const headerProfile = document.getElementById("headerProfile");
       headerProfile.textContent = currentUser ? `Hi, ${currentUser.firstName}` : "";
     }
-    
+
     // Update cart badge
     function updateCartCountBadge() {
       const footerBadge = document.getElementById("footerBagBadge");
       if (footerBadge) { footerBadge.textContent = cart.length; }
     }
-    
+
     // Helper function to hide offcanvas menu
     function hideMenu() {
       const offcanvasEl = document.getElementById("menuCanvas");
       const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasEl);
       if (offcanvasInstance) offcanvasInstance.hide();
     }
-    
-    // Notify owner
+
+    // Notify owner with enhanced functionality
     function notifyOwner(message) {
+      const notif = {
+        message: message,
+        date: new Date().toLocaleString()
+      };
+      ownerNotifications.push(notif);
+      saveData();
       console.log("Owner Notification:", message);
     }
-    
+
     // Global filter function for Shop section
     function filterProducts() {
       return products.filter(product => {
@@ -1143,12 +1175,12 @@
         return sizeOk && colorOk && priceOk;
       });
     }
-    
+
     // Apply filters for Shop section
     function applyFilters() {
-      const size = document.getElementById("filterSize").value;
-      const color = document.getElementById("filterColor").value;
-      const price = document.getElementById("filterPrice").value;
+      const size = document.getElementById("filterSize")?.value;
+      const color = document.getElementById("filterColor")?.value;
+      const price = document.getElementById("filterPrice")?.value;
       activeFilters = {};
       if (size) activeFilters.size = size;
       if (color) activeFilters.color = color;
@@ -1157,13 +1189,14 @@
       generateProducts("shopProductContainer", filteredProducts);
       displayActiveFilters();
     }
-    
+
     // Display active filters for Shop section
     function displayActiveFilters() {
       const displayDiv = document.getElementById("activeFilterDisplay");
-      if (Object.keys(activeFilters).length === 0) { 
-        displayDiv.innerHTML = ""; 
-        return; 
+      if (!displayDiv) return;
+      if (Object.keys(activeFilters).length === 0) {
+        displayDiv.innerHTML = "";
+        return;
       }
       let html = `<p>Active Filters: `;
       for (let key in activeFilters) {
@@ -1173,7 +1206,7 @@
       html += `</p>`;
       displayDiv.innerHTML = html;
     }
-    
+
     // Clear all filters for Shop section
     function clearAllFilters() {
       activeFilters = {};
@@ -1183,7 +1216,7 @@
       generateProducts("shopProductContainer", products);
       displayActiveFilters();
     }
-    
+
     // Update Notifications page
     function updateNotifications() {
       const notificationsContent = document.getElementById("notificationsContent");
@@ -1208,7 +1241,7 @@
       notificationsContent.innerHTML = html;
       saveData();
     }
-    
+
     // Delete notifications
     function deleteAllNotifications() {
       if (confirm("Are you sure you want to delete all notifications?")) {
@@ -1217,31 +1250,107 @@
         showNotification("All notifications deleted.", "info");
       }
     }
-    
-    // Show product details in modal with color swatches only
+
+    // Show product details with size and color selection
     function showProductDetails(productId) {
       const product = products.find(p => p.id === productId);
       if (product) {
+        const sizes = product.size.split(",").map(s => s.trim());
+        let sizeHtml = '<p><strong>Sizes:</strong> ';
+        sizes.forEach(size => {
+          sizeHtml += `<button class="btn btn-outline-secondary btn-sm me-1 size-btn" data-size="${size}">${size}</button>`;
+        });
+        sizeHtml += '</p>';
+
+        const colors = product.color.split(",").map(c => c.trim());
+        let colorHtml = '<p><strong>Colors:</strong> ';
+        colors.forEach(color => {
+          colorHtml += `<button class="btn btn-outline-secondary btn-sm me-1 color-btn" data-color="${color}">${color}</button>`;
+        });
+        colorHtml += '</p>';
+
         const detailContent = `
           <h5>${product.name}</h5>
+          ${generateProductImageHTML(product)}
           <p><strong>Description:</strong> ${product.description}</p>
-          <p><strong>Sizes:</strong> ${product.size}</p>
-          <p><strong>Colors:</strong> ${product.color.split(",").map(c => `<span class="color-swatch" style="background-color: ${colorMap[c.trim()] || '#000'}"></span>`).join(' ')}</p>
+          ${sizeHtml}
+          ${colorHtml}
           <p><strong>Cloth Type:</strong> ${product.clothType}</p>
           <p><strong>Delivery:</strong> ${product.deliveryTime}</p>
           <p><strong>Return:</strong> ${product.returnPolicy}</p>
           <p><strong>Details:</strong> ${product.additionalDetails}</p>
-          <div class="mt-2">
-            <button class="btn btn-sm btn-success me-2" onclick="buyProduct(${product.id})">Buy Now</button>
-            <button class="btn btn-sm btn-primary" onclick="addToCart(${product.id})">Add to Bag</button>
+          <div class="d-grid gap-2">
+            <button class="btn btn-success" onclick="buyProductWithSelection(${product.id})">Buy Now</button>
+            <button class="btn btn-primary" onclick="addToCartWithSelection(${product.id})">Add to Bag</button>
           </div>
         `;
         document.getElementById("productDetailContent").innerHTML = detailContent;
+
+        // Add event listeners for size and color buttons
+        const sizeButtons = document.querySelectorAll("#productDetailContent .size-btn");
+        sizeButtons.forEach(btn => {
+          btn.addEventListener("click", function() {
+            sizeButtons.forEach(b => b.classList.remove("active"));
+            this.classList.add("active");
+            document.getElementById("productDetailModal").dataset.selectedSize = this.dataset.size;
+          });
+        });
+
+        const colorButtons = document.querySelectorAll("#productDetailContent .color-btn");
+        colorButtons.forEach(btn => {
+          btn.addEventListener("click", function() {
+            colorButtons.forEach(b => b.classList.remove("active"));
+            this.classList.add("active");
+            document.getElementById("productDetailModal").dataset.selectedColor = this.dataset.color;
+          });
+        });
+
         const modal = new bootstrap.Modal(document.getElementById("productDetailModal"));
         modal.show();
       }
     }
-    
+
+    // Clear selections when modal is hidden
+    document.getElementById("productDetailModal").addEventListener("hidden.bs.modal", function() {
+      delete this.dataset.selectedSize;
+      delete this.dataset.selectedColor;
+    });
+
+    // Buy product with selection
+    function buyProductWithSelection(productId) {
+      const selectedSize = document.getElementById("productDetailModal").dataset.selectedSize;
+      const selectedColor = document.getElementById("productDetailModal").dataset.selectedColor;
+      if (!selectedSize || !selectedColor) {
+        showNotification("Please select size and color.", "warning");
+        return;
+      }
+      const product = products.find(p => p.id === productId);
+      if (product) {
+        currentProductForPurchase = { ...product, selectedSize, selectedColor };
+        document.getElementById("buyForm").reset();
+        const buyModal = new bootstrap.Modal(document.getElementById("buyModal"));
+        buyModal.show();
+      }
+    }
+
+    // Add to cart with selection
+    function addToCartWithSelection(productId) {
+      const selectedSize = document.getElementById("productDetailModal").dataset.selectedSize;
+      const selectedColor = document.getElementById("productDetailModal").dataset.selectedColor;
+      if (!selectedSize || !selectedColor) {
+        showNotification("Please select size and color.", "warning");
+        return;
+      }
+      const product = products.find(p => p.id === productId);
+      if (product) {
+        const cartItem = { ...product, selectedSize, selectedColor };
+        cart.push(cartItem);
+        showNotification(`${product.name} added to your bag with size ${selectedSize} and color ${selectedColor}.`, "info");
+        updateCartCountBadge();
+        saveData();
+      }
+    }
+
     // Show toast notification
     function showNotification(message, type = "success") {
       const notif = {
@@ -1252,7 +1361,7 @@
       notifications.push(notif);
       saveData();
       updateNotifications();
-      
+
       const toastContainer = document.getElementById("toastContainer");
       const toastEl = document.createElement("div");
       toastEl.className = "toast align-items-center text-white bg-" + (type === "success" ? "success" : (type === "danger" ? "danger" : "info")) + " border-0 mb-2";
@@ -1270,7 +1379,7 @@
       toast.show();
       toastEl.addEventListener('hidden.bs.toast', function () { toastEl.remove(); });
     }
-    
+
     // Show decorative popup message
     function showPopupMessage(message) {
       const popupContent = document.getElementById("popupMessageContent");
@@ -1278,7 +1387,7 @@
       const popupModal = new bootstrap.Modal(document.getElementById("popupMessageModal"));
       popupModal.show();
     }
-    
+
     // Wishlist functions
     function addToWishlist(productId) {
       const product = products.find(p => p.id === productId);
@@ -1291,8 +1400,8 @@
         saveData();
       }
     }
-    
-    // Updated Wishlist Section to show product details on click
+
+    // Updated Wishlist Section
     function updateWishlistSection() {
       const wishlistContainer = document.getElementById("wishlistContainer");
       if (wishlist.length === 0) {
@@ -1301,11 +1410,12 @@
       }
       let html = "";
       wishlist.forEach((item, index) => {
+        const productImage = item.uploadedImages && item.uploadedImages.length ? item.uploadedImages[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(item.name);
         html += `
           <div class="card mb-3 shadow-sm" onclick="showProductDetails(${item.id})" style="cursor: pointer;">
             <div class="row g-0">
               <div class="col-4">
-                <img src="${item.images && item.images.length ? item.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(item.name)}" class="img-fluid rounded-start" alt="${item.name}">
+                <img src="${productImage}" class="img-fluid rounded-start" alt="${item.name}" loading="lazy">
               </div>
               <div class="col-8">
                 <div class="card-body">
@@ -1320,15 +1430,15 @@
       });
       wishlistContainer.innerHTML = html;
     }
-    
+
     function removeFromWishlist(index) {
       wishlist.splice(index, 1);
       updateWishlistSection();
       showNotification("Item removed from wishlist.", "info");
       saveData();
     }
-    
-    // Switch between sections with Seller Dashboard restriction
+
+    // Switch between sections
     function showSection(sectionId) {
       document.querySelectorAll(".section").forEach(section => {
         section.classList.remove("active-section", "fade-in");
@@ -1364,17 +1474,18 @@
         }
       }
     }
-    
-    // Generate product image HTML
+
+    // Generate product image HTML with lazy loading
     function generateProductImageHTML(product) {
-      if (product.images && product.images.length > 1) {
+      const images = product.uploadedImages || [];
+      if (images.length > 1) {
         const carouselId = "carousel-product-" + product.id;
         let indicators = "";
         let inner = "";
-        product.images.forEach((img, index) => {
+        images.forEach((img, index) => {
           indicators += `<button type="button" data-bs-target="#${carouselId}" data-bs-slide-to="${index}" ${index === 0 ? 'class="active" aria-current="true"' : ''} aria-label="Slide ${index+1}"></button>`;
           inner += `<div class="carousel-item ${index === 0 ? "active" : ""}">
-                      <img src="${img}" class="d-block w-100" alt="${product.name} image ${index+1}">
+                      <img src="${img}" class="d-block w-100" alt="${product.name} image ${index+1}" loading="lazy">
                     </div>`;
         });
         return `<div id="${carouselId}" class="carousel slide" data-bs-ride="carousel">
@@ -1390,25 +1501,23 @@
                   </button>
                 </div>`;
       } else {
-        const img = (product.images && product.images.length) ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name);
-        return `<img src="${img}" class="card-img-top" alt="${product.name}">`;
+        const img = images.length ? images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name);
+        return `<img src="${img}" class="card-img-top" alt="${product.name}" loading="lazy">`;
       }
     }
-    
-    // Generate product cards with color swatches only
+
+    // Generate product cards with images and buttons beside price
     function generateProducts(containerId, productList) {
       const container = document.getElementById(containerId);
       container.innerHTML = "";
-      const row = document.createElement("div");
-      row.className = "row";
       productList.forEach(product => {
         const col = document.createElement("div");
-        col.className = "prod-col mb-4";
+        col.className = "col mb-4";
         col.innerHTML = `
-          <div class="card h-100 shadow-sm">
+          <div class="card h-100 shadow-sm" onclick="showProductDetails(${product.id})" style="cursor: pointer;">
             <div class="position-relative">
               ${generateProductImageHTML(product)}
-              <button class="btn btn-outline-danger btn-sm wishlist-btn position-absolute" style="top: 10px; right: 10px;" onclick="addToWishlist(${product.id})">
+              <button class="btn btn-outline-danger btn-sm wishlist-btn position-absolute" style="top: 10px; right: 10px;" onclick="event.stopPropagation(); addToWishlist(${product.id})">
                 <i class="bi bi-heart"></i>
               </button>
             </div>
@@ -1422,13 +1531,55 @@
               <p class="card-text"><strong>Return:</strong> ${product.returnPolicy}</p>
               <p class="card-text"><strong>Details:</strong> ${product.additionalDetails}</p>
             </div>
-            <div class="card-footer">
-              <div class="d-flex justify-content-between align-items-center">
-                <span class="text-muted">${product.category} | ₹${product.price.toFixed(2)}</span>
-                <div>
-                  <button class="btn btn-sm btn-success me-1" onclick="buyProduct(${product.id})">Buy Now</button>
-                  <button class="btn btn-sm btn-primary" onclick="addToCart(${product.id})">Add to Bag</button>
-                </div>
+            <div class="card-footer d-flex justify-content-between align-items-center">
+              <span class="text-muted">${product.category} | ₹${product.price.toFixed(2)}</span>
+              <div>
+                <button class="btn btn-sm btn-success me-1" onclick="event.stopPropagation(); buyProductWithSelection(${product.id})">Buy Now</button>
+                <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); addToCartWithSelection(${product.id})">Add to Bag</button>
+              </div>
+            </div>
+          </div>
+        `;
+        container.appendChild(col);
+      });
+    }
+
+    // Generate search results with images and buttons beside price
+    function generateSearchResults(filteredProducts) {
+      const container = document.getElementById("searchResultsContainer");
+      container.innerHTML = "";
+      if (filteredProducts.length === 0) {
+        container.innerHTML = "<p>No products found.</p>";
+        return;
+      }
+      const row = document.createElement("div");
+      row.className = "row row-cols-1 row-cols-md-2 row-cols-lg-3";
+      filteredProducts.forEach(product => {
+        const col = document.createElement("div");
+        col.className = "col mb-4";
+        col.innerHTML = `
+          <div class="card h-100 shadow-sm" onclick="showProductDetails(${product.id})" style="cursor: pointer;">
+            <div class="position-relative">
+              ${generateProductImageHTML(product)}
+              <button class="btn btn-outline-danger btn-sm wishlist-btn position-absolute" style="top: 10px; right: 10px;" onclick="event.stopPropagation(); addToWishlist(${product.id})">
+                <i class="bi bi-heart"></i>
+              </button>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">${product.name}</h5>
+              <p class="card-text">${product.description}</p>
+              <p class="card-text"><strong>Sizes:</strong> ${product.size}</p>
+              <p class="card-text"><strong>Colors:</strong> ${product.color.split(",").map(c => `<span class="color-swatch" style="background-color: ${colorMap[c.trim()] || '#000'}"></span>`).join(' ')}</p>
+              <p class="card-text"><strong>Cloth Type:</strong> ${product.clothType}</p>
+              <p class="card-text"><strong>Delivery:</strong> ${product.deliveryTime}</p>
+              <p class="card-text"><strong>Return:</strong> ${product.returnPolicy}</p>
+              <p class="card-text"><strong>Details:</strong> ${product.additionalDetails}</p>
+            </div>
+            <div class="card-footer d-flex justify-content-between align-items-center">
+              <span class="text-muted">${product.category} | ₹${product.price.toFixed(2)}</span>
+              <div>
+                <button class="btn btn-sm btn-success me-1" onclick="event.stopPropagation(); buyProductWithSelection(${product.id})">Buy Now</button>
+                <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); addToCartWithSelection(${product.id})">Add to Bag</button>
               </div>
             </div>
           </div>
@@ -1437,29 +1588,7 @@
       });
       container.appendChild(row);
     }
-    
-    // Generate search results
-    function generateSearchResults(filteredProducts) {
-      const container = document.getElementById("searchResultsContainer");
-      container.innerHTML = "";
-      if (filteredProducts.length === 0) {
-        container.innerHTML = "<p>No products found.</p>";
-        return;
-      }
-      generateProducts("searchResultsContainer", filteredProducts);
-    }
-    
-    // Simulate buying a product
-    function buyProduct(productId) {
-      const product = products.find(p => p.id === productId);
-      if (product) {
-        currentProductForPurchase = product;
-        document.getElementById("buyForm").reset();
-        const buyModal = new bootstrap.Modal(document.getElementById("buyModal"));
-        buyModal.show();
-      }
-    }
-    
+
     // Buy form submission
     document.getElementById("buyForm").addEventListener("submit", function(e) {
       e.preventDefault();
@@ -1484,26 +1613,16 @@
         buyer: currentUser
       };
       orders.push(order);
+      const orderIndex = orders.length - 1;
       showPopupMessage("Thanks for ordering!");
-      notifyOwner("New order placed by: " + currentUser.firstName + " " + currentUser.lastName + " (" + currentUser.email + ")");
+      notifyOwner(`New order placed by: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email}) for product: ${order.product.name} (Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor}) at ₹${order.product.price.toFixed(2)} - Order #${orderIndex + 1}`);
       saveData();
       const buyModalEl = document.getElementById("buyModal");
       const modalInstance = bootstrap.Modal.getInstance(buyModalEl);
       modalInstance.hide();
     });
-    
-    // Add product to bag
-    function addToCart(productId) {
-      const product = products.find(p => p.id === productId);
-      if (product) {
-        cart.push(product);
-        showNotification(`${product.name} added to your bag.`, "info");
-        updateCartCountBadge();
-        saveData();
-      }
-    }
-    
-    // Updated Cart Section to show product details on click
+
+    // Updated Cart Section with selections
     function updateCartSection() {
       const cartContent = document.getElementById("cartContent");
       if (cart.length === 0) {
@@ -1512,16 +1631,18 @@
       }
       let html = "";
       cart.forEach((item, index) => {
+        const productImage = item.uploadedImages && item.uploadedImages.length ? item.uploadedImages[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(item.name);
         html += `
           <div class="card mb-3 shadow-sm" onclick="showProductDetails(${item.id})" style="cursor: pointer;">
             <div class="row g-0">
               <div class="col-4">
-                <img src="${item.images && item.images.length ? item.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(item.name)}" class="img-fluid rounded-start" alt="${item.name}">
+                <img src="${productImage}" class="img-fluid rounded-start" alt="${item.name}" loading="lazy">
               </div>
               <div class="col-8">
                 <div class="card-body">
                   <h5 class="card-title">${item.name}</h5>
                   <p class="card-text">${item.description}</p>
+                  <p class="card-text">Size: ${item.selectedSize}, Color: ${item.selectedColor}</p>
                   <p class="card-text"><small class="text-muted">${item.category} | ₹${item.price.toFixed(2)}</small></p>
                   <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); removeFromCart(${index})">Remove</button>
                 </div>
@@ -1530,10 +1651,20 @@
           </div>
         `;
       });
-      html += `<button class="btn btn-success">Checkout</button>`;
+      html += `<button class="btn btn-success" onclick="checkoutCart()">Checkout</button>`;
       cartContent.innerHTML = html;
     }
-    
+
+    // Checkout function (simplified for demonstration)
+    function checkoutCart() {
+      if (cart.length === 0) {
+        showNotification("Your bag is empty.", "warning");
+        return;
+      }
+      showNotification("Proceeding to checkout. Please complete the payment process.", "info");
+      // Add further checkout logic here if needed
+    }
+
     // Remove item from cart
     function removeFromCart(index) {
       cart.splice(index, 1);
@@ -1542,7 +1673,7 @@
       showNotification("Item removed from bag.", "info");
       saveData();
     }
-    
+
     // Update Account Section
     function updateAccountSection() {
       const accountContent = document.getElementById("accountContent");
@@ -1561,7 +1692,7 @@
         accountContent.innerHTML = "<p>No user details available. Please log in.</p>";
       }
     }
-    
+
     // Update Orders List
     function updateOrdersList() {
       const ordersList = document.getElementById("ordersList");
@@ -1570,14 +1701,15 @@
       } else {
         let html = "";
         orders.forEach((order, index) => {
+          const productImage = order.product.uploadedImages && order.product.uploadedImages.length ? order.product.uploadedImages[0] : 'https://via.placeholder.com/100x100?text=No+Image';
           html += `
             <div class="card mb-3 shadow-sm" style="cursor:pointer;" onclick="showOrderDetailPage(${index})">
               <div class="card-header">
                 <span>Order #${index + 1} - ${order.date}</span>
               </div>
               <div class="card-body d-flex align-items-center">
-                <img src="${order.product.images && order.product.images.length ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image'}" style="max-height:50px; margin-right:10px;" alt="${order.product.name}">
-                <span>${order.product.name}</span>
+                <img src="${productImage}" style="max-height:50px; margin-right:10px;" alt="${order.product.name}" loading="lazy">
+                <span>${order.product.name} (Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor})</span>
               </div>
             </div>
           `;
@@ -1585,8 +1717,8 @@
         ordersList.innerHTML = html;
       }
     }
-    
-    // Show Order Detail Page (for buyer)
+
+    // Show Order Detail Page with selections
     function showOrderDetailPage(orderIndex) {
       currentOrderIndex = orderIndex;
       const order = orders[orderIndex];
@@ -1594,9 +1726,17 @@
         <h3>Order #${orderIndex + 1}</h3>
         <p><strong>Date:</strong> ${order.date}</p>
         <hr>
+        <h5>Product Details</h5>
+        <p><strong>Name:</strong> ${order.product.name}</p>
+        <p><strong>Description:</strong> ${order.product.description}</p>
+        <p><strong>Selected Size:</strong> ${order.product.selectedSize}</p>
+        <p><strong>Selected Color:</strong> ${order.product.selectedColor}</p>
+        <p><strong>Price:</strong> ₹${order.product.price.toFixed(2)}</p>
+        <hr>
         <h5>Shipping Details</h5>
         <p><strong>Address:</strong> ${order.address}</p>
         <p><strong>Mobile:</strong> ${order.mobile}</p>
+        <p><strong>Additional Details:</strong> ${order.details || "None"}</p>
         <p><strong>Payment Method:</strong> ${order.payment}</p>
         <hr>
         <h5>Order Status</h5>
@@ -1614,7 +1754,7 @@
       document.getElementById("orderDetailPage").innerHTML = detailContent;
       showSection("orderDetailSection");
     }
-    
+
     // Cancel Order function
     function cancelOrder() {
       const order = orders[currentOrderIndex];
@@ -1627,14 +1767,15 @@
         orders[currentOrderIndex].cancelled = true;
         orders[currentOrderIndex].cancellationReason = reason;
         showNotification("Your order has been cancelled.", "danger");
+        notifyOwner(`Order cancelled by: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email}) for product: ${order.product.name} (Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor}) - Order #${currentOrderIndex + 1}`);
         saveData();
         updateOrdersList();
       } else {
         showNotification("Cancellation reason is required.", "warning");
       }
     }
-    
-    // Track Order function with embedded Google Map
+
+    // Track Order function
     function trackOrder() {
       const order = orders[currentOrderIndex];
       if (order.cancelled) {
@@ -1645,14 +1786,9 @@
       if (order.trackingStatus === "Shipped") progress = 50;
       else if (order.trackingStatus === "Out for Delivery") progress = 75;
       else if (order.trackingStatus === "Delivered") progress = 100;
-      
-      let mapSrc = "";
-      if (order.address) {
-        mapSrc = "https://www.google.com/maps?q=" + encodeURIComponent(order.address) + "&output=embed";
-      } else {
-        mapSrc = "https://www.google.com/maps?q=New+York&output=embed";
-      }
-      
+
+      let mapSrc = order.address ? "https://www.google.com/maps?q=" + encodeURIComponent(order.address) + "&output=embed" : "https://www.google.com/maps?q=New+York&output=embed";
+
       const trackingInfo = `
         <div class="mb-3">
           <h6>Order Progress: ${progress}%</h6>
@@ -1669,8 +1805,8 @@
       const trackModal = new bootstrap.Modal(document.getElementById("trackOrderModal"));
       trackModal.show();
     }
-    
-    // Update offcanvas menu account details with Seller Dashboard visibility
+
+    // Update offcanvas menu account details
     function updateMenuAccountDetails() {
       const container = document.getElementById("menuAccountDetails");
       if (currentUser) {
@@ -1685,7 +1821,7 @@
         document.getElementById("sellerDashboardMenuItem").style.display = "none";
       }
     }
-    
+
     // Logout function
     function logout() {
       currentUser = null;
@@ -1695,7 +1831,7 @@
       updateMenuAccountDetails();
       showSection("homeSection");
     }
-    
+
     // Header button actions
     document.getElementById("accountButton").addEventListener("click", function() {
       if (currentUser) { showSection("accountSection"); }
@@ -1704,7 +1840,7 @@
     document.getElementById("notificationButton").addEventListener("click", function() {
       showSection("notificationsSection");
     });
-    
+
     // Search functionality
     document.getElementById("searchSectionButton").addEventListener("click", function() {
       const query = document.getElementById("searchSectionInput").value.toLowerCase();
@@ -1718,7 +1854,7 @@
       }
       generateSearchResults(filteredProducts);
     });
-    
+
     // Login form submission
     document.getElementById("loginForm")?.addEventListener("submit", function(e) {
       e.preventDefault();
@@ -1728,7 +1864,7 @@
       if (user) {
         currentUser = user;
         showNotification("Login successful!", "success");
-        notifyOwner("User logged in: " + currentUser.firstName + " " + currentUser.lastName + " (" + currentUser.email + ")");
+        notifyOwner(`User logged in: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email})`);
         saveData();
         updateHeaderProfile();
         updateMenuAccountDetails();
@@ -1737,7 +1873,7 @@
         showNotification("Invalid email or password. Please sign up if you don't have an account.", "warning");
       }
     });
-    
+
     // Sign Up form submission
     document.getElementById("signupForm")?.addEventListener("submit", function(e) {
       e.preventDefault();
@@ -1747,9 +1883,9 @@
       const email = document.getElementById("signupEmail").value;
       const password = document.getElementById("signupPassword").value;
       const confirmPassword = document.getElementById("confirmPassword").value;
-      if (password !== confirmPassword) { 
-        showNotification("Passwords do not match!", "warning"); 
-        return; 
+      if (password !== confirmPassword) {
+        showNotification("Passwords do not match!", "warning");
+        return;
       }
       if (users.some(user => user.email === email)) {
         showNotification("User with this email already exists. Please log in.", "warning");
@@ -1758,20 +1894,20 @@
       currentUser = { firstName, lastName, email, mobile, password };
       users.push(currentUser);
       showNotification("Sign Up successful!", "success");
-      notifyOwner("New user signed up: " + currentUser.firstName + " " + currentUser.lastName + " (" + currentUser.email + ")");
+      notifyOwner(`New user signed up: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email})`);
       saveData();
       updateHeaderProfile();
       updateMenuAccountDetails();
       showSection("homeSection");
     });
-    
+
     // Contact Form submission
     document.getElementById("contactForm")?.addEventListener("submit", function(e) {
       e.preventDefault();
       showNotification("Message was sent", "success");
       document.getElementById("contactForm").reset();
     });
-    
+
     // Category-specific filters for Men's Wear
     function applyMenswearFilters() {
       const size = document.getElementById("menswearFilterSize").value;
@@ -1793,7 +1929,7 @@
       const menswearProducts = products.filter(product => product.category === "Men's Wear");
       generateProducts("menswearContainer", menswearProducts);
     }
-    
+
     // Category-specific filters for Accessories
     function applyAccessoriesFilters() {
       const size = document.getElementById("accessoriesFilterSize").value;
@@ -1815,8 +1951,42 @@
       const accessoriesProducts = products.filter(product => product.category === "Accessories");
       generateProducts("accessoriesContainer", accessoriesProducts);
     }
-    
-    // Update Seller Dashboard with detailed product and user info
+
+    // Upload product image function
+    function uploadProductImage(productId) {
+      const product = products.find(p => p.id === productId);
+      if (!product) return;
+
+      const fileInput = document.createElement("input");
+      fileInput.type = "file";
+      fileInput.accept = "image/*";
+      fileInput.onchange = function(event) {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const base64Image = e.target.result;
+            product.uploadedImages.push(base64Image);
+            saveData();
+            updateSellerDashboard();
+            showNotification(`Image uploaded for ${product.name}.`, "success");
+            // Refresh all sections to reflect the new image
+            if (document.getElementById("shopSection").classList.contains("active-section")) showSection("shopSection");
+            if (document.getElementById("menswearSection").classList.contains("active-section")) showSection("menswearSection");
+            if (document.getElementById("accessoriesSection").classList.contains("active-section")) showSection("accessoriesSection");
+            if (document.getElementById("searchSection").classList.contains("active-section")) showSection("searchSection");
+            if (document.getElementById("wishlistSection").classList.contains("active-section")) showSection("wishlistSection");
+            if (document.getElementById("cartSection").classList.contains("active-section")) showSection("cartSection");
+            if (document.getElementById("ordersSection").classList.contains("active-section")) showSection("ordersSection");
+            if (document.getElementById("sellerDashboard").classList.contains("active-section")) showSection("sellerDashboard");
+          };
+          reader.readAsDataURL(file);
+        }
+      };
+      fileInput.click();
+    }
+
+    // Update Seller Dashboard with image upload functionality
     function updateSellerDashboard() {
       const sellerDashboardContent = document.getElementById("sellerDashboardContent");
       let html = "<h2>Users</h2>";
@@ -1840,7 +2010,7 @@
         html += "<p>No orders yet.</p>";
       } else {
         orders.forEach((order, index) => {
-          const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
+          const productImage = order.product.uploadedImages && order.product.uploadedImages.length > 0 ? order.product.uploadedImages[0] : 'https://via.placeholder.com/100x100?text=No+Image';
           html += `
             <div class="card mb-3 shadow-sm">
               <div class="card-header">
@@ -1856,9 +2026,11 @@
                   </div>
                   <div class="col-12 col-md-4 mb-3 mb-md-0">
                     <h6>Product Information</h6>
-                    <img src="${productImage}" alt="${order.product.name}" class="img-fluid mb-2" style="max-width:100px; max-height:100px;">
+                    <img src="${productImage}" alt="${order.product.name}" class="img-fluid mb-2" style="max-width:100px; max-height:100px;" loading="lazy">
                     <p><strong>Name:</strong> ${order.product.name}</p>
                     <p><strong>Description:</strong> ${order.product.description}</p>
+                    <p><strong>Selected Size:</strong> ${order.product.selectedSize}</p>
+                    <p><strong>Selected Color:</strong> ${order.product.selectedColor}</p>
                     <p><strong>Price:</strong> ₹${order.product.price.toFixed(2)}</p>
                     <p><strong>Category:</strong> ${order.product.category}</p>
                   </div>
@@ -1875,10 +2047,60 @@
           `;
         });
       }
+      html += "<h2 class='mt-4'>Products</h2>";
+      html += '<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">';
+      products.forEach(product => {
+        const productImage = product.uploadedImages && product.uploadedImages.length ? product.uploadedImages[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name);
+        html += `
+          <div class="col mb-4">
+            <div class="card h-100 shadow-sm">
+              <img src="${productImage}" class="card-img-top" alt="${product.name}" loading="lazy">
+              <div class="card-body">
+                <h5 class="card-title">${product.name}</h5>
+                <p class="card-text">${product.description}</p>
+                <p class="card-text"><strong>Price:</strong> ₹${product.price.toFixed(2)}</p>
+                <p class="card-text"><strong>Uploaded Images:</strong> ${product.uploadedImages.length}</p>
+              </div>
+              <div class="card-footer">
+                <button class="btn btn-primary" onclick="uploadProductImage(${product.id})">Upload Image</button>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      html += '</div>';
+      html += "<h2 class='mt-4'>Notifications</h2>";
+      if (ownerNotifications.length === 0) {
+        html += "<p>No notifications yet.</p>";
+      } else {
+        html += `<div class="d-flex justify-content-end mb-3">
+                   <button class="btn btn-danger btn-sm" onclick="clearOwnerNotifications()">Clear Notifications</button>
+                 </div>`;
+        html += '<div class="list-group">';
+        ownerNotifications.slice().reverse().forEach(notif => {
+          html += `
+            <div class="list-group-item">
+              <i class="bi bi-bell-fill me-2"></i>
+              <strong>${notif.date}</strong>: ${notif.message}
+            </div>
+          `;
+        });
+        html += '</div>';
+      }
       sellerDashboardContent.innerHTML = html;
     }
+
+    // Clear owner notifications
+    function clearOwnerNotifications() {
+      if (confirm("Are you sure you want to clear all notifications?")) {
+        ownerNotifications = [];
+        saveData();
+        updateSellerDashboard();
+        showNotification("All notifications cleared.", "info");
+      }
+    }
   </script>
-  
+
   <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
