@@ -196,14 +196,7 @@
       color: #fff;
       border-color: #2a5298;
     }
-    /* Lazy Loading Images */
-    img[loading="lazy"] {
-      opacity: 0;
-      transition: opacity 0.5s ease-in;
-    }
-    img[loading="lazy"].loaded {
-      opacity: 1;
-    }
+    
   </style>
 </head>
 <body>
@@ -305,7 +298,7 @@
     </section>
     <section class="product-highlight py-5">
       <div class="container d-flex flex-column flex-md-row align-items-center">
-        <img src="https://via.placeholder.com/600x400?text=Product+Highlight" class="img-fluid mb-4 mb-md-0" alt="Product Highlight" loading="lazy" />
+        <img src="https://via.placeholder.com/600x400?text=Product+Highlight" class="img-fluid mb-4 mb-md-0" alt="Product Highlight"  />
         <div class="ms-md-4">
           <h3><i class="bi bi-award"></i> Luxury in Every Stitch</h3>
           <p>Clothing is a form of self-expression.</p>
@@ -318,13 +311,13 @@
         <div class="row mt-4">
           <div class="col-md-6">
             <div class="category-item" onclick="showSection('menswearSection')">
-              <img src="https://via.placeholder.com/400x300?text=Men%27s+Wear" class="img-fluid" alt="Men's Wear" loading="lazy" />
+              <img src="https://i.pinimg.com/474x/cc/eb/df/ccebdf5c0ef6b1c6944a308b1b526169.jpg" class="img-fluid" alt="Men's Wear" />
               <h4 class="mt-3"><i class="bi bi-people"></i> Men's Wear</h4>
             </div>
           </div>
           <div class="col-md-6">
             <div class="category-item" onclick="showSection('accessoriesSection')">
-              <img src="https://via.placeholder.com/400x300?text=Accessories" class="img-fluid" alt="Accessories" loading="lazy" />
+              <img src="https://via.placeholder.com/400x300?text=Accessories" class="img-fluid" alt="Accessories"  />
               <h4 class="mt-3"><i class="bi bi-watch"></i> Accessories</h4>
             </div>
           </div>
@@ -477,7 +470,7 @@
       <div class="row">
         <div class="col-6 mb-4">
           <div class="card shadow-sm" onclick="showSection('menswearSection')" style="cursor:pointer;">
-            <img src="https://via.placeholder.com/400x300?text=Men%27s+Wear" class="card-img-top" alt="Men's Wear" loading="lazy" />
+            <img src="https://i.pinimg.com/474x/cc/eb/df/ccebdf5c0ef6b1c6944a308b1b526169.jpg" class="card-img-top" alt="Men's Wear"  />
             <div class="card-body text-center">
               <h5 class="card-title">Men's Wear</h5>
             </div>
@@ -485,7 +478,7 @@
         </div>
         <div class="col-6 mb-4">
           <div class="card shadow-sm" onclick="showSection('accessoriesSection')" style="cursor:pointer;">
-            <img src="https://via.placeholder.com/400x300?text=Accessories" class="card-img-top" alt="Accessories" loading="lazy" />
+            <img src="https://via.placeholder.com/400x300?text=Accessories" class="card-img-top" alt="Accessories" />
             <div class="card-body text-center">
               <h5 class="card-title">Accessories</h5>
             </div>
@@ -911,30 +904,30 @@
     </div>
   </div>
 
-  <!-- Product Images Modal with Carousel -->
-  <div class="modal fade" id="productImagesModal" tabindex="-1" aria-labelledby="productImagesModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content shadow-sm">
-        <div class="modal-header">
-          <h5 class="modal-title" id="productImagesModalLabel">Product Images</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner" id="carouselInner"></div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div>
+ <!-- Product Images Modal with Carousel -->
+ <div class="modal fade" id="productImagesModal" tabindex="-1" aria-labelledby="productImagesModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content shadow-sm">
+      <div class="modal-header">
+        <h5 class="modal-title" id="productImagesModalLabel">Product Images</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner" id="carouselInner"></div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
         </div>
       </div>
     </div>
   </div>
+</div>
 
   <!-- Track Order Modal with Embedded Map -->
   <div class="modal fade" id="trackOrderModal" tabindex="-1" aria-labelledby="trackOrderModalLabel" aria-hidden="true">
@@ -998,7 +991,7 @@
     let currentOrderIndex = null;
     let activeFilters = {};
 
-    // Products array with uploadedImages property
+    // Products array
     const products = [
       {
         id: 1,
@@ -1012,7 +1005,10 @@
         deliveryTime: "3-5 days",
         returnPolicy: "10 days return policy",
         additionalDetails: "Machine washable, soft and breathable fabric.",
-        uploadedImages: []
+        images: [
+          "https://via.placeholder.com/400x300?text=Men%27s+T-Shirt+Image+1",
+          "https://via.placeholder.com/400x300?text=Men%27s+T-Shirt+Image+2"
+        ]
       },
       {
         id: 2,
@@ -1026,7 +1022,11 @@
         deliveryTime: "5-7 days",
         returnPolicy: "10 days return policy",
         additionalDetails: "Water resistant up to 50 meters.",
-        uploadedImages: []
+        images: [
+          "https://via.placeholder.com/400x300?text=Leather+Watch+Image+1",
+          "https://via.placeholder.com/400x300?text=Leather+Watch+Image+2",
+          "https://via.placeholder.com/400x300?text=Leather+Watch+Image+3"
+        ]
       },
       {
         id: 3,
@@ -1040,7 +1040,10 @@
         deliveryTime: "4-6 days",
         returnPolicy: "10 days return policy",
         additionalDetails: "Slim fit design. Durable and stylish.",
-        uploadedImages: []
+        images: [
+          "https://via.placeholder.com/400x300?text=Denim+Jeans+Image+1",
+          "https://via.placeholder.com/400x300?text=Denim+Jeans+Image+2"
+        ]
       },
       {
         id: 4,
@@ -1054,7 +1057,10 @@
         deliveryTime: "3-5 days",
         returnPolicy: "10 days return policy",
         additionalDetails: "UV protection lenses.",
-        uploadedImages: []
+        images: [
+          "https://via.placeholder.com/400x300?text=Sunglasses+Image+1",
+          "https://via.placeholder.com/400x300?text=Sunglasses+Image+2"
+        ]
       },
       {
         id: 5,
@@ -1068,7 +1074,10 @@
         deliveryTime: "3-5 days",
         returnPolicy: "10 days return policy",
         additionalDetails: "Easy to care, perfect for everyday wear.",
-        uploadedImages: []
+        images: [
+          "https://via.placeholder.com/400x300?text=Casual+Shirt+Image+1",
+          "https://via.placeholder.com/400x300?text=Casual+Shirt+Image+2"
+        ]
       }
     ];
 
@@ -1101,17 +1110,10 @@
       if (storedWishlist) { wishlist = JSON.parse(storedWishlist); }
       const storedUsers = localStorage.getItem("usersData");
       if (storedUsers) { users = JSON.parse(storedUsers); }
-      const storedProducts = localStorage.getItem("productsData");
-      if (storedProducts) {
-        const parsedProducts = JSON.parse(storedProducts);
-        products.forEach((product, index) => {
-          product.uploadedImages = parsedProducts[index]?.uploadedImages || [];
-        });
-      }
 
-      document.getElementById("filterSize")?.addEventListener("change", applyFilters);
-      document.getElementById("filterColor")?.addEventListener("change", applyFilters);
-      document.getElementById("filterPrice")?.addEventListener("change", applyFilters);
+      document.getElementById("filterSize").addEventListener("change", applyFilters);
+      document.getElementById("filterColor").addEventListener("change", applyFilters);
+      document.getElementById("filterPrice").addEventListener("change", applyFilters);
     };
 
     // Save data to localStorage
@@ -1123,7 +1125,6 @@
       localStorage.setItem("ownerNotificationsData", JSON.stringify(ownerNotifications));
       localStorage.setItem("wishlistData", JSON.stringify(wishlist));
       localStorage.setItem("usersData", JSON.stringify(users));
-      localStorage.setItem("productsData", JSON.stringify(products));
     }
 
     // Update header profile display
@@ -1178,9 +1179,9 @@
 
     // Apply filters for Shop section
     function applyFilters() {
-      const size = document.getElementById("filterSize")?.value;
-      const color = document.getElementById("filterColor")?.value;
-      const price = document.getElementById("filterPrice")?.value;
+      const size = document.getElementById("filterSize").value;
+      const color = document.getElementById("filterColor").value;
+      const price = document.getElementById("filterPrice").value;
       activeFilters = {};
       if (size) activeFilters.size = size;
       if (color) activeFilters.color = color;
@@ -1193,7 +1194,6 @@
     // Display active filters for Shop section
     function displayActiveFilters() {
       const displayDiv = document.getElementById("activeFilterDisplay");
-      if (!displayDiv) return;
       if (Object.keys(activeFilters).length === 0) {
         displayDiv.innerHTML = "";
         return;
@@ -1271,7 +1271,6 @@
 
         const detailContent = `
           <h5>${product.name}</h5>
-          ${generateProductImageHTML(product)}
           <p><strong>Description:</strong> ${product.description}</p>
           ${sizeHtml}
           ${colorHtml}
@@ -1410,12 +1409,11 @@
       }
       let html = "";
       wishlist.forEach((item, index) => {
-        const productImage = item.uploadedImages && item.uploadedImages.length ? item.uploadedImages[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(item.name);
         html += `
           <div class="card mb-3 shadow-sm" onclick="showProductDetails(${item.id})" style="cursor: pointer;">
             <div class="row g-0">
               <div class="col-4">
-                <img src="${productImage}" class="img-fluid rounded-start" alt="${item.name}" loading="lazy">
+                <img src="${item.images && item.images.length ? item.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(item.name)}" class="img-fluid rounded-start" alt="${item.name}">
               </div>
               <div class="col-8">
                 <div class="card-body">
@@ -1475,17 +1473,16 @@
       }
     }
 
-    // Generate product image HTML with lazy loading
+    // Generate product image HTML 
     function generateProductImageHTML(product) {
-      const images = product.uploadedImages || [];
-      if (images.length > 1) {
+      if (product.images && product.images.length > 1) {
         const carouselId = "carousel-product-" + product.id;
         let indicators = "";
         let inner = "";
-        images.forEach((img, index) => {
+        product.images.forEach((img, index) => {
           indicators += `<button type="button" data-bs-target="#${carouselId}" data-bs-slide-to="${index}" ${index === 0 ? 'class="active" aria-current="true"' : ''} aria-label="Slide ${index+1}"></button>`;
           inner += `<div class="carousel-item ${index === 0 ? "active" : ""}">
-                      <img src="${img}" class="d-block w-100" alt="${product.name} image ${index+1}" loading="lazy">
+                      <img src="${img}" class="d-block w-100" alt="${product.name} image ${index+1}" >
                     </div>`;
         });
         return `<div id="${carouselId}" class="carousel slide" data-bs-ride="carousel">
@@ -1501,8 +1498,8 @@
                   </button>
                 </div>`;
       } else {
-        const img = images.length ? images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name);
-        return `<img src="${img}" class="card-img-top" alt="${product.name}" loading="lazy">`;
+        const img = (product.images && product.images.length) ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name);
+        return `<img src="${img}" class="card-img-top" alt="${product.name}" >`;
       }
     }
 
@@ -1631,12 +1628,11 @@
       }
       let html = "";
       cart.forEach((item, index) => {
-        const productImage = item.uploadedImages && item.uploadedImages.length ? item.uploadedImages[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(item.name);
         html += `
           <div class="card mb-3 shadow-sm" onclick="showProductDetails(${item.id})" style="cursor: pointer;">
             <div class="row g-0">
               <div class="col-4">
-                <img src="${productImage}" class="img-fluid rounded-start" alt="${item.name}" loading="lazy">
+                <img src="${item.images && item.images.length ? item.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(item.name)}" class="img-fluid rounded-start" alt="${item.name}" >
               </div>
               <div class="col-8">
                 <div class="card-body">
@@ -1651,18 +1647,8 @@
           </div>
         `;
       });
-      html += `<button class="btn btn-success" onclick="checkoutCart()">Checkout</button>`;
+      html += `<button class="btn btn-success">Checkout</button>`;
       cartContent.innerHTML = html;
-    }
-
-    // Checkout function (simplified for demonstration)
-    function checkoutCart() {
-      if (cart.length === 0) {
-        showNotification("Your bag is empty.", "warning");
-        return;
-      }
-      showNotification("Proceeding to checkout. Please complete the payment process.", "info");
-      // Add further checkout logic here if needed
     }
 
     // Remove item from cart
@@ -1701,14 +1687,13 @@
       } else {
         let html = "";
         orders.forEach((order, index) => {
-          const productImage = order.product.uploadedImages && order.product.uploadedImages.length ? order.product.uploadedImages[0] : 'https://via.placeholder.com/100x100?text=No+Image';
           html += `
             <div class="card mb-3 shadow-sm" style="cursor:pointer;" onclick="showOrderDetailPage(${index})">
               <div class="card-header">
                 <span>Order #${index + 1} - ${order.date}</span>
               </div>
               <div class="card-body d-flex align-items-center">
-                <img src="${productImage}" style="max-height:50px; margin-right:10px;" alt="${order.product.name}" loading="lazy">
+                <img src="${order.product.images && order.product.images.length ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image'}" style="max-height:50px; margin-right:10px;" alt="${order.product.name}" >
                 <span>${order.product.name} (Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor})</span>
               </div>
             </div>
@@ -1736,7 +1721,6 @@
         <h5>Shipping Details</h5>
         <p><strong>Address:</strong> ${order.address}</p>
         <p><strong>Mobile:</strong> ${order.mobile}</p>
-        <p><strong>Additional Details:</strong> ${order.details || "None"}</p>
         <p><strong>Payment Method:</strong> ${order.payment}</p>
         <hr>
         <h5>Order Status</h5>
@@ -1798,7 +1782,7 @@
         </div>
         <div class="mb-3">
           <h6>Track Your Order at Your Shipping Address</h6>
-          <iframe src="${mapSrc}" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+          <iframe src="${mapSrc}" width="100%" height="300" style="border:0;" allowfullscreen="" ></iframe>
         </div>
       `;
       document.getElementById("trackOrderContent").innerHTML = trackingInfo;
@@ -1952,41 +1936,7 @@
       generateProducts("accessoriesContainer", accessoriesProducts);
     }
 
-    // Upload product image function
-    function uploadProductImage(productId) {
-      const product = products.find(p => p.id === productId);
-      if (!product) return;
-
-      const fileInput = document.createElement("input");
-      fileInput.type = "file";
-      fileInput.accept = "image/*";
-      fileInput.onchange = function(event) {
-        const file = event.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = function(e) {
-            const base64Image = e.target.result;
-            product.uploadedImages.push(base64Image);
-            saveData();
-            updateSellerDashboard();
-            showNotification(`Image uploaded for ${product.name}.`, "success");
-            // Refresh all sections to reflect the new image
-            if (document.getElementById("shopSection").classList.contains("active-section")) showSection("shopSection");
-            if (document.getElementById("menswearSection").classList.contains("active-section")) showSection("menswearSection");
-            if (document.getElementById("accessoriesSection").classList.contains("active-section")) showSection("accessoriesSection");
-            if (document.getElementById("searchSection").classList.contains("active-section")) showSection("searchSection");
-            if (document.getElementById("wishlistSection").classList.contains("active-section")) showSection("wishlistSection");
-            if (document.getElementById("cartSection").classList.contains("active-section")) showSection("cartSection");
-            if (document.getElementById("ordersSection").classList.contains("active-section")) showSection("ordersSection");
-            if (document.getElementById("sellerDashboard").classList.contains("active-section")) showSection("sellerDashboard");
-          };
-          reader.readAsDataURL(file);
-        }
-      };
-      fileInput.click();
-    }
-
-    // Update Seller Dashboard with image upload functionality
+    // Update Seller Dashboard with selections
     function updateSellerDashboard() {
       const sellerDashboardContent = document.getElementById("sellerDashboardContent");
       let html = "<h2>Users</h2>";
@@ -2010,7 +1960,7 @@
         html += "<p>No orders yet.</p>";
       } else {
         orders.forEach((order, index) => {
-          const productImage = order.product.uploadedImages && order.product.uploadedImages.length > 0 ? order.product.uploadedImages[0] : 'https://via.placeholder.com/100x100?text=No+Image';
+          const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
           html += `
             <div class="card mb-3 shadow-sm">
               <div class="card-header">
@@ -2026,7 +1976,7 @@
                   </div>
                   <div class="col-12 col-md-4 mb-3 mb-md-0">
                     <h6>Product Information</h6>
-                    <img src="${productImage}" alt="${order.product.name}" class="img-fluid mb-2" style="max-width:100px; max-height:100px;" loading="lazy">
+                    <img src="${productImage}" alt="${order.product.name}" class="img-fluid mb-2" style="max-width:100px; max-height:100px;" >
                     <p><strong>Name:</strong> ${order.product.name}</p>
                     <p><strong>Description:</strong> ${order.product.description}</p>
                     <p><strong>Selected Size:</strong> ${order.product.selectedSize}</p>
@@ -2047,28 +1997,6 @@
           `;
         });
       }
-      html += "<h2 class='mt-4'>Products</h2>";
-      html += '<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">';
-      products.forEach(product => {
-        const productImage = product.uploadedImages && product.uploadedImages.length ? product.uploadedImages[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name);
-        html += `
-          <div class="col mb-4">
-            <div class="card h-100 shadow-sm">
-              <img src="${productImage}" class="card-img-top" alt="${product.name}" loading="lazy">
-              <div class="card-body">
-                <h5 class="card-title">${product.name}</h5>
-                <p class="card-text">${product.description}</p>
-                <p class="card-text"><strong>Price:</strong> ₹${product.price.toFixed(2)}</p>
-                <p class="card-text"><strong>Uploaded Images:</strong> ${product.uploadedImages.length}</p>
-              </div>
-              <div class="card-footer">
-                <button class="btn btn-primary" onclick="uploadProductImage(${product.id})">Upload Image</button>
-              </div>
-            </div>
-          </div>
-        `;
-      });
-      html += '</div>';
       html += "<h2 class='mt-4'>Notifications</h2>";
       if (ownerNotifications.length === 0) {
         html += "<p>No notifications yet.</p>";
