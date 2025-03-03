@@ -1964,7 +1964,54 @@
       generateProducts("accessoriesContainer", accessoriesProducts);
     }
 
-    // Update Seller Dashboard with order slips and QR codes
+    // Function to print order slip (placeholder)
+    function printOrder(index) {
+      const order = orders[index];
+      const printContent = `
+        <h3>Order #${index + 1} - ${order.date}</h3>
+        <p><strong>Buyer:</strong> ${order.buyer.firstName} ${order.buyer.lastName}</p>
+        <p><strong>Email:</strong> ${order.buyer.email}</p>
+        <p><strong>Mobile:</strong> ${order.mobile}</p>
+        <p><strong>Product:</strong> ${order.product.name}</p>
+        <p><strong>Size:</strong> ${order.product.selectedSize}</p>
+        <p><strong>Color:</strong> ${order.product.selectedColor}</p>
+        <p><strong>Price:</strong> ₹${order.product.price.toFixed(2)}</p>
+        <p><strong>Address:</strong> ${order.address}</p>
+        <p><strong>Payment:</strong> ${order.payment}</p>
+        <p><strong>Status:</strong> ${order.cancelled ? 'Cancelled' : 'Active'}</p>
+      `;
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write(printContent);
+      printWindow.document.close();
+      printWindow.print();
+    }
+
+    // Function to download order slip (placeholder)
+    function downloadOrder(index) {
+      const order = orders[index];
+      const content = `
+        Order #${index + 1} - ${order.date}
+        Buyer: ${order.buyer.firstName} ${order.buyer.lastName}
+        Email: ${order.buyer.email}
+        Mobile: ${order.mobile}
+        Product: ${order.product.name}
+        Size: ${order.product.selectedSize}
+        Color: ${order.product.selectedColor}
+        Price: ₹${order.product.price.toFixed(2)}
+        Address: ${order.address}
+        Payment: ${order.payment}
+        Status: ${order.cancelled ? 'Cancelled' : 'Active'}
+      `;
+      const blob = new Blob([content], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `order_${index + 1}.txt`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // Update Seller Dashboard with Print and Download buttons
     function updateSellerDashboard() {
       const sellerDashboardContent = document.getElementById("sellerDashboardContent");
       let html = "<h2>Users</h2>";
@@ -2024,6 +2071,10 @@
                   <h6>Order QR Code</h6>
                   <div id="qrcode-${index}"></div>
                 </div>
+              </div>
+              <div class="card-footer text-end">
+                <button class="btn btn-primary me-2" onclick="printOrder(${index})">Print</button>
+                <button class="btn btn-secondary" onclick="downloadOrder(${index})">Download</button>
               </div>
             </div>
           `;
