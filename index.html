@@ -203,6 +203,21 @@
       text-align: center;
       margin-top: 10px;
     }
+    /* Print-specific styles */
+    @media print {
+      body.print-mode * {
+        visibility: hidden;
+      }
+      body.print-mode .print-selected,
+      body.print-mode .print-selected * {
+        visibility: visible;
+      }
+      body.print-mode .print-selected {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1964,51 +1979,41 @@
       generateProducts("accessoriesContainer", accessoriesProducts);
     }
 
-    // Function to print order slip (placeholder)
+    // Function to print order card with QR code
     function printOrder(index) {
-      const order = orders[index];
-      const printContent = `
-        <h3>Order #${index + 1} - ${order.date}</h3>
-        <p><strong>Buyer:</strong> ${order.buyer.firstName} ${order.buyer.lastName}</p>
-        <p><strong>Email:</strong> ${order.buyer.email}</p>
-        <p><strong>Mobile:</strong> ${order.mobile}</p>
-        <p><strong>Product:</strong> ${order.product.name}</p>
-        <p><strong>Size:</strong> ${order.product.selectedSize}</p>
-        <p><strong>Color:</strong> ${order.product.selectedColor}</p>
-        <p><strong>Price:</strong> ₹${order.product.price.toFixed(2)}</p>
-        <p><strong>Address:</strong> ${order.address}</p>
-        <p><strong>Payment:</strong> ${order.payment}</p>
-        <p><strong>Status:</strong> ${order.cancelled ? 'Cancelled' : 'Active'}</p>
-      `;
-      const printWindow = window.open('', '_blank');
-      printWindow.document.write(printContent);
-      printWindow.document.close();
-      printWindow.print();
+      const orderCards = document.querySelectorAll('.order-card');
+      if (index < 0 || index >= orderCards.length) return;
+      const orderCard = orderCards[index];
+      
+      // Add print-mode classes
+      document.body.classList.add('print-mode');
+      orderCard.classList.add('print-selected');
+      
+      // Trigger print
+      window.print();
+      
+      // Clean up after printing
+      window.addEventListener('afterprint', function() {
+        document.body.classList.remove('print-mode');
+        orderCard.classList.remove('print-selected');
+      }, { once: true });
     }
 
-    // Function to download order slip (placeholder)
+    // Function to download order card as PNG with QR code
     function downloadOrder(index) {
-      const order = orders[index];
-      const content = `
-        Order #${index + 1} - ${order.date}
-        Buyer: ${order.buyer.firstName} ${order.buyer.lastName}
-        Email: ${order.buyer.email}
-        Mobile: ${order.mobile}
-        Product: ${order.product.name}
-        Size: ${order.product.selectedSize}
-        Color: ${order.product.selectedColor}
-        Price: ₹${order.product.price.toFixed(2)}
-        Address: ${order.address}
-        Payment: ${order.payment}
-        Status: ${order.cancelled ? 'Cancelled' : 'Active'}
-      `;
-      const blob = new Blob([content], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `order_${index + 1}.txt`;
-      a.click();
-      URL.revokeObjectURL(url);
+      const orderCards = document.querySelectorAll('.order-card');
+      if (index < 0 || index >= orderCards.length) return;
+      const orderCard = orderCards[index];
+      
+      html2canvas(orderCard).then(canvas => {
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL('image/png');
+        link.download = `order_${index + 1}.png`;
+        link.click();
+      }).catch(error => {
+        console.error('Error generating image:', error);
+        showNotification('Failed to generate image for download.', 'danger');
+      });
     }
 
     // Update Seller Dashboard with Print and Download buttons
@@ -2126,5 +2131,7 @@
 
   <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- html2canvas Library for Download Functionality -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </body>
 </html>
