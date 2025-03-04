@@ -218,6 +218,15 @@
         top: 0;
       }
     }
+    /* Star Rating */
+    .star-rating {
+      display: inline-block;
+      font-size: 1.5rem;
+      color: #ffc107; /* Bootstrap yellow */
+    }
+    .star-rating i {
+      margin-right: 2px;
+    }
   </style>
 </head>
 <body>
@@ -1120,7 +1129,14 @@
         updateMenuAccountDetails();
       }
       const storedOrders = localStorage.getItem("ordersData");
-      if (storedOrders) { orders = JSON.parse(storedOrders); }
+      if (storedOrders) {
+        orders = JSON.parse(storedOrders).map(order => ({
+          ...order,
+          received: order.received || false,
+          rating: order.rating || null,
+          review: order.review || null
+        }));
+      }
       const storedCart = localStorage.getItem("cartData");
       if (storedCart) { cart = JSON.parse(storedCart); updateCartCountBadge(); }
       const storedNotifications = localStorage.getItem("notificationsData");
@@ -1650,7 +1666,10 @@
         cancellationReason: "",
         trackingStatus: "Order Confirmed",
         buyer: currentUser,
-        qrData: `Product: ${currentProductForPurchase.name}, Size: ${currentProductForPurchase.selectedSize}, Color: ${currentProductForPurchase.selectedColor}, Address: ${address}, Mobile: ${mobile}`
+        qrData: `Product: ${currentProductForPurchase.name}, Size: ${currentProductForPurchase.selectedSize}, Color: ${currentProductForPurchase.selectedColor}, Address: ${address}, Mobile: ${mobile}`,
+        received: false,
+        rating: null,
+        review: null
       };
       orders.push(order);
       const orderIndex = orders.length - 1;
@@ -1746,7 +1765,26 @@
       }
     }
 
-    // Show Order Detail Page with selections
+    // Generate star rating HTML
+    function generateStarRating(rating) {
+      const fullStar = '<i class="bi bi-star-fill"></i>';
+      const halfStar = '<i class="bi bi-star-half"></i>';
+      const emptyStar = '<i class="bi bi-star"></i>';
+      const maxRating = 5;
+      let stars = '';
+      for (let i = 1; i <= maxRating; i++) {
+        if (i <= rating) {
+          stars += fullStar;
+        } else if (i - 0.5 <= rating) {
+          stars += halfStar;
+        } else {
+          stars += emptyStar;
+        }
+      }
+      return `<div class="star-rating">${stars}</div>`;
+    }
+
+    // Show Order Detail Page with selections and review functionality
     function showOrderDetailPage(orderIndex) {
       currentOrderIndex = orderIndex;
       const order = orders[orderIndex];
@@ -1778,8 +1816,75 @@
           <button class="btn btn-primary" onclick="showProductDetails(${order.product.id})">View Product Details</button>
         </div>
       `;
+
+      if (!order.cancelled) {
+        if (!order.received) {
+          detailContent += `
+            <div class="mt-3">
+              <button class="btn btn-info" onclick="markAsReceived(${orderIndex})">Mark as Received</button>
+            </div>
+          `;
+        } else if (order.received && order.review === null) {
+          detailContent += `
+            <div class="mt-3" id="reviewForm">
+              <h5>Leave a Review</h5>
+              <form>
+                <div class="mb-3">
+                  <label for="rating-${orderIndex}" class="form-label">Rating (1-5)</label>
+                  <input type="number" class="form-control" id="rating-${orderIndex}" min="1" max="5" step="0.5" required />
+                </div>
+                <div class="mb-3">
+                  <label for="reviewText-${orderIndex}" class="form-label">Review</label>
+                  <textarea class="form-control" id="reviewText-${orderIndex}" required></textarea>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="submitReview(${orderIndex})">Submit Review</button>
+              </form>
+            </div>
+          `;
+        } else if (order.review !== null) {
+          detailContent += `
+            <div class="mt-3">
+              <h5>Your Review</h5>
+              <p><strong>Rating:</strong> ${generateStarRating(order.rating)}</p>
+              <p><strong>Review:</strong> ${order.review}</p>
+            </div>
+          `;
+        }
+      }
+
       document.getElementById("orderDetailPage").innerHTML = detailContent;
       showSection("orderDetailSection");
+    }
+
+    // Mark order as received
+    function markAsReceived(orderIndex) {
+      orders[orderIndex].received = true;
+      saveData();
+      showNotification("Order marked as received.", "success");
+      showOrderDetailPage(orderIndex);
+    }
+
+    // Submit review
+    function submitReview(orderIndex) {
+      const ratingInput = document.getElementById(`rating-${orderIndex}`);
+      const reviewTextInput = document.getElementById(`reviewText-${orderIndex}`);
+      const rating = parseFloat(ratingInput.value);
+      const review = reviewTextInput.value.trim();
+
+      if (isNaN(rating) || rating < 1 || rating > 5) {
+        showNotification("Please enter a valid rating between 1 and 5.", "warning");
+        return;
+      }
+      if (review === "") {
+        showNotification("Please enter a review.", "warning");
+        return;
+      }
+
+      orders[orderIndex].rating = rating;
+      orders[orderIndex].review = review;
+      saveData();
+      showNotification("Thank you for your review!", "success");
+      showOrderDetailPage(orderIndex);
     }
 
     // Cancel Order function
@@ -1979,44 +2084,7 @@
       generateProducts("accessoriesContainer", accessoriesProducts);
     }
 
-    // Function to print order card with QR code
-    function printOrder(index) {
-      const orderCards = document.querySelectorAll('.order-card');
-      if (index < 0 || index >= orderCards.length) return;
-      const orderCard = orderCards[index];
-      
-      // Add print-mode classes
-      document.body.classList.add('print-mode');
-      orderCard.classList.add('print-selected');
-      
-      // Trigger print
-      window.print();
-      
-      // Clean up after printing
-      window.addEventListener('afterprint', function() {
-        document.body.classList.remove('print-mode');
-        orderCard.classList.remove('print-selected');
-      }, { once: true });
-    }
-
-    // Function to download order card as PNG with QR code
-    function downloadOrder(index) {
-      const orderCards = document.querySelectorAll('.order-card');
-      if (index < 0 || index >= orderCards.length) return;
-      const orderCard = orderCards[index];
-      
-      html2canvas(orderCard).then(canvas => {
-        const link = document.createElement('a');
-        link.href = canvas.toDataURL('image/png');
-        link.download = `order_${index + 1}.png`;
-        link.click();
-      }).catch(error => {
-        console.error('Error generating image:', error);
-        showNotification('Failed to generate image for download.', 'danger');
-      });
-    }
-
-    // Update Seller Dashboard with Print and Download buttons
+    // Update Seller Dashboard with Print and Download buttons and reviews
     function updateSellerDashboard() {
       const sellerDashboardContent = document.getElementById("sellerDashboardContent");
       let html = "<h2>Users</h2>";
@@ -2070,6 +2138,11 @@
                     <p><strong>Payment Method:</strong> ${order.payment}</p>
                     <p><strong>Status:</strong> ${order.cancelled ? 'Cancelled' : 'Active'}</p>
                     ${order.cancelled ? `<p><strong>Cancellation Reason:</strong> ${order.cancellationReason}</p>` : ''}
+                    ${order.review !== null ? `
+                      <h6>Customer Review</h6>
+                      <p><strong>Rating:</strong> ${generateStarRating(order.rating)}</p>
+                      <p><strong>Review:</strong> ${order.review}</p>
+                    ` : ''}
                   </div>
                 </div>
                 <div class="qr-code-container mt-3">
@@ -2126,6 +2199,43 @@
         updateSellerDashboard();
         showNotification("All notifications cleared.", "info");
       }
+    }
+
+    // Function to print order card with QR code
+    function printOrder(index) {
+      const orderCards = document.querySelectorAll('.order-card');
+      if (index < 0 || index >= orderCards.length) return;
+      const orderCard = orderCards[index];
+      
+      // Add print-mode classes
+      document.body.classList.add('print-mode');
+      orderCard.classList.add('print-selected');
+      
+      // Trigger print
+      window.print();
+      
+      // Clean up after printing
+      window.addEventListener('afterprint', function() {
+        document.body.classList.remove('print-mode');
+        orderCard.classList.remove('print-selected');
+      }, { once: true });
+    }
+
+    // Function to download order card as PNG with QR code
+    function downloadOrder(index) {
+      const orderCards = document.querySelectorAll('.order-card');
+      if (index < 0 || index >= orderCards.length) return;
+      const orderCard = orderCards[index];
+      
+      html2canvas(orderCard).then(canvas => {
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL('image/png');
+        link.download = `order_${index + 1}.png`;
+        link.click();
+      }).catch(error => {
+        console.error('Error generating image:', error);
+        showNotification('Failed to generate image for download.', 'danger');
+      });
     }
   </script>
 
