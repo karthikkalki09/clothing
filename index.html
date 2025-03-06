@@ -1579,7 +1579,7 @@
       }
     }
 
-    // Generate Product Cards with Heart Button
+    // Generate Product Cards with Icons
     function generateProducts(containerId, productList) {
       const container = document.getElementById(containerId);
       container.innerHTML = "";
@@ -1596,20 +1596,20 @@
               </button>
             </div>
             <div class="card-body" onclick="showProductDetails(${product.id})">
-              <h5 class="card-title">${product.name}</h5>
-              <p class="card-text">${product.description}</p>
-              <p class="card-text"><strong>Sizes:</strong> ${product.size}</p>
-              <p class="card-text"><strong>Colors:</strong> ${product.color.split(",").map(c => `<span class="color-swatch" style="background-color: ${colorMap[c.trim()] || '#000'}"></span>`).join(' ')}</p>
-              <p class="card-text"><strong>Cloth Type:</strong> ${product.clothType}</p>
-              <p class="card-text"><strong>Delivery:</strong> ${product.deliveryTime}</p>
-              <p class="card-text"><strong>Return:</strong> ${product.returnPolicy}</p>
-              <p class="card-text"><strong>Details:</strong> ${product.additionalDetails}</p>
+              <h5 class="card-title"><i class="bi bi-shirt me-2"></i> ${product.name}</h5>
+              <p class="card-text"><i class="bi bi-info-circle me-2"></i> ${product.description}</p>
+              <p class="card-text"><strong><i class="bi bi-rulers me-2"></i> Sizes:</strong> ${product.size}</p>
+              <p class="card-text"><strong><i class="bi bi-palette me-2"></i> Colors:</strong> ${product.color.split(",").map(c => `<span class="color-swatch" style="background-color: ${colorMap[c.trim()] || '#000'}"></span>`).join(' ')}</p>
+              <p class="card-text"><strong><i class="bi bi-book me-2"></i> Cloth Type:</strong> ${product.clothType}</p>
+              <p class="card-text"><strong><i class="bi bi-truck me-2"></i> Delivery:</strong> ${product.deliveryTime}</p>
+              <p class="card-text"><strong><i class="bi bi-arrow-repeat me-2"></i> Return:</strong> ${product.returnPolicy}</p>
+              <p class="card-text"><strong><i class="bi bi-card-text me-2"></i> Details:</strong> ${product.additionalDetails}</p>
             </div>
             <div class="card-footer d-flex justify-content-between align-items-center" onclick="showProductDetails(${product.id})">
               <span class="text-muted">${product.category} | ₹${product.price.toFixed(2)}</span>
               <div>
-                <button class="btn btn-sm btn-success me-1" onclick="event.stopPropagation(); buyProductWithSelection(${product.id})">Buy Now</button>
-                <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); addToCartWithSelection(${product.id})">Add to Bag</button>
+                <button class="btn btn-sm btn-success me-1" onclick="event.stopPropagation(); buyProductWithSelection(${product.id})"><i class="bi bi-cash me-1"></i> Buy Now</button>
+                <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); addToCartWithSelection(${product.id})"><i class="bi bi-cart-plus me-1"></i> Add to Bag</button>
               </div>
             </div>
           </div>
@@ -1618,7 +1618,7 @@
       });
     }
 
-    // Generate search results with images clickable separately
+    // Generate search results with images clickable separately and icons
     function generateSearchResults(filteredProducts) {
       const container = document.getElementById("searchResultsContainer");
       container.innerHTML = "";
@@ -1641,20 +1641,20 @@
               </button>
             </div>
             <div class="card-body" onclick="showProductDetails(${product.id})">
-              <h5 class="card-title">${product.name}</h5>
-              <p class="card-text">${product.description}</p>
-              <p class="card-text"><strong>Sizes:</strong> ${product.size}</p>
-              <p class="card-text"><strong>Colors:</strong> ${product.color.split(",").map(c => `<span class="color-swatch" style="background-color: ${colorMap[c.trim()] || '#000'}"></span>`).join(' ')}</p>
-              <p class="card-text"><strong>Cloth Type:</strong> ${product.clothType}</p>
-              <p class="card-text"><strong>Delivery:</strong> ${product.deliveryTime}</p>
-              <p class="card-text"><strong>Return:</strong> ${product.returnPolicy}</p>
-              <p class="card-text"><strong>Details:</strong> ${product.additionalDetails}</p>
+              <h5 class="card-title"><i class="bi bi-shirt me-2"></i> ${product.name}</h5>
+              <p class="card-text"><i class="bi bi-info-circle me-2"></i> ${product.description}</p>
+              <p class="card-text"><strong><i class="bi bi-rulers me-2"></i> Sizes:</strong> ${product.size}</p>
+              <p class="card-text"><strong><i class="bi bi-palette me-2"></i> Colors:</strong> ${product.color.split(",").map(c => `<span class="color-swatch" style="background-color: ${colorMap[c.trim()] || '#000'}"></span>`).join(' ')}</p>
+              <p class="card-text"><strong><i class="bi bi-book me-2"></i> Cloth Type:</strong> ${product.clothType}</p>
+              <p class="card-text"><strong><i class="bi bi-truck me-2"></i> Delivery:</strong> ${product.deliveryTime}</p>
+              <p class="card-text"><strong><i class="bi bi-arrow-repeat me-2"></i> Return:</strong> ${product.returnPolicy}</p>
+              <p class="card-text"><strong><i class="bi bi-card-text me-2"></i> Details:</strong> ${product.additionalDetails}</p>
             </div>
             <div class="card-footer d-flex justify-content-between align-items-center" onclick="showProductDetails(${product.id})">
               <span class="text-muted">${product.category} | ₹${product.price.toFixed(2)}</span>
               <div>
-                <button class="btn btn-sm btn-success me-1" onclick="event.stopPropagation(); buyProductWithSelection(${product.id})">Buy Now</button>
-                <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); addToCartWithSelection(${product.id})">Add to Bag</button>
+                <button class="btn btn-sm btn-success me-1" onclick="event.stopPropagation(); buyProductWithSelection(${product.id})"><i class="bi bi-cash me-1"></i> Buy Now</button>
+                <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); addToCartWithSelection(${product.id})"><i class="bi bi-cart-plus me-1"></i> Add to Bag</button>
               </div>
             </div>
           </div>
@@ -1664,7 +1664,7 @@
       container.appendChild(row);
     }
 
-    // Buy form submission with QR code generation
+    // Buy form submission with enhanced thank you popup
     document.getElementById("buyForm").addEventListener("submit", function(e) {
       e.preventDefault();
       if (!currentUser) {
@@ -1693,7 +1693,7 @@
       };
       orders.push(order);
       const orderIndex = orders.length - 1;
-      showPopupMessage("Thanks for ordering!");
+      showPopupMessage(`Thank you for ordering ${currentProductForPurchase.name}! Your order  has been placed. We will deliver it to ${address}.`);
       notifyOwner(`New order placed by: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email}) for product: ${order.product.name} (Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor}) at ₹${order.product.price.toFixed(2)} - Order #${orderIndex + 1}`);
       saveData();
       const buyModalEl = document.getElementById("buyModal");
@@ -2243,25 +2243,25 @@
 
     // Function to download order card as PNG with QR code
     function downloadOrder(index) {
-      const orderCards = document.querySelectorAll('.order-card');
-      if (index < 0 || index >= orderCards.length) return;
-      const orderCard = orderCards[index];
-      
-      html2canvas(orderCard).then(canvas => {
-        const link = document.createElement('a');
-        link.href = canvas.toDataURL('image/png');
-        link.download = `order_${index + 1}.png`;
-        link.click();
-      }).catch(error => {
-        console.error('Error generating image:', error);
-        showNotification('Failed to generate image for download.', 'danger');
-      });
-    }
-  </script>
-
-  <!-- Bootstrap JS Bundle -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- html2canvas Library for Download Functionality -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-</body>
-</html>
+        const orderCards = document.querySelectorAll('.order-card');
+        if (index < 0 || index >= orderCards.length) return;
+        const orderCard = orderCards[index];
+        
+        html2canvas(orderCard).then(canvas => {
+          const link = document.createElement('a');
+          link.href = canvas.toDataURL('image/png');
+          link.download = `order_${index + 1}.png`;
+          link.click();
+        }).catch(error => {
+          console.error('Error generating image:', error);
+          showNotification('Failed to generate image for download.', 'danger');
+        });
+      }
+    </script>
+  
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- html2canvas Library for Download Functionality -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  </body>
+  </html>
