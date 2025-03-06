@@ -32,18 +32,18 @@
     .btn-danger { background-color: #d9534f; border-color: #d43f3a; }
     .btn-info { background-color: #5bc0de; border-color: #46b8da; }
     .bg-light { background-color: #f8f9fa !important; }
-    
+
     /* Fade-in animation */
     .fade-in { animation: fadeIn 0.5s ease-in-out; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    
+
     /* General Styling */
     .hero { padding: 20px 0; }
     .hero h2 { font-size: 1.75rem; margin-bottom: 0.5rem; }
     .product-highlight img, .category-item img { border-radius: 5px; }
     header h1 { font-size: 1.125rem; font-weight: 600; }
     header .profile-name { font-size: 1rem; margin-left: 10px; }
-    
+
     /* Header Navigation */
     nav a, nav button {
       font-size: 0.9rem; padding: 5px 1px; color: #fff;
@@ -54,18 +54,18 @@
     nav .btn i:hover { color: #ffdd57; }
     .header-nav { display: flex; gap: 0.5rem; align-items: center; }
     #notificationButton { font-size: 1.75rem; }
-    
+
     /* Category Section */
     .category-item { text-align: center; cursor: pointer; }
     .category-item img { transition: transform 0.3s ease-in-out; }
     .category-item img:hover { transform: scale(1.05); }
     .category-item h4 { margin-top: 10px; font-size: 1.2rem; }
     .icon-button { font-size: 2rem; color: #000; background: transparent; border: none; padding: 10px; }
-    
+
     /* Section Visibility */
     .section { display: none; }
     .active-section { display: block; }
-    
+
     /* Offcanvas Menu – Custom Style */
     .offcanvas {
       background: #f8f9fa;
@@ -91,7 +91,7 @@
       text-align: center;
       margin-bottom: 10px;
     }
-    
+
     /* Decorative Popup Modal */
     .popup-modal-content {
       border: 3px solid #2a5298;
@@ -106,13 +106,13 @@
       font-weight: 600;
       padding: 20px;
     }
-    
+
     /* Seller Dashboard styling */
     #sellerDashboard { padding: 20px; }
     #sellerDashboard h2 { font-size: 1.75rem; margin-bottom: 20px; }
     .order-card .card-header { background: #2a5298; color: #fff; }
     .order-card .card-body p { margin: 0.25rem 0; }
-    
+
     /* Toast Container */
     #toastContainer {
       position: fixed;
@@ -120,7 +120,7 @@
       right: 1rem;
       z-index: 1100;
     }
-    
+
     /* Filter Section */
     #filterSection {
       margin-top: 20px;
@@ -130,11 +130,11 @@
     }
     .filter-tags { margin-top: 10px; }
     .filter-tags .badge { cursor: pointer; }
-    
+
     /* Responsive Layout for Product Cards */
     @media (min-width: 768px) { .prod-col { flex: 0 0 50%; max-width: 50%; } }
     @media (max-width: 767px) { .prod-col { flex: 0 0 100%; max-width: 100%; } }
-    
+
     /* Fixed Footer Navigation */
     .footer-nav {
       position: fixed;
@@ -148,23 +148,33 @@
       justify-content: space-around;
     }
     .footer-nav .nav-item { text-align: center; flex: 1; position: relative; }
-    .footer-nav .nav-link { color: #2a5298; font-size: 1rem; }
-    .footer-nav .nav-link i { font-size: 1.5rem; }
+    .footer-nav .nav-link { 
+      color: #2a5298; 
+      font-size: 1rem; 
+      transition: color 0.3s ease; 
+    }
+    .footer-nav .nav-link i { 
+      font-size: 1.75rem; 
+      transition: color 0.3s ease; 
+    }
+    .footer-nav .nav-link:hover i { 
+      color: #ffdd57; 
+    }
     .footer-bag-badge {
       position: absolute;
       top: 5px;
-      right: 20px;
+      right: 10px;
       background: #d9534f;
       color: #fff;
       border-radius: 50%;
       padding: 2px 6px;
       font-size: 0.75rem;
     }
-    
+
     /* Search Section */
     #searchSection { padding-top: 20px; margin-bottom: 80px; }
     #searchResultsContainer { margin-top: 20px; }
-    
+
     /* Wishlist Button Styling */
     .wishlist-btn {
       background: rgba(255, 255, 255, 0.8);
@@ -172,7 +182,7 @@
       border: none;
       padding: 5px;
     }
-    
+
     /* Dynamic Hover Effects */
     .btn:hover {
       transform: scale(1.05);
@@ -328,7 +338,7 @@
     </section>
     <section class="product-highlight py-5">
       <div class="container d-flex flex-column flex-md-row align-items-center">
-        <img src="https://i.pinimg.com/474x/d0/fd/28/d0fd28fc614775339300cf6f2ab043d2.jpg" class="img-fluid mb-4 mb-md-0" alt="Product Highlight"  />
+        <img src="https://i.pinimg.com/474x/d0/fd/28/d0fd28fc614775339300cf6f2ab043d2.jpg" class="img-fluid mb-4 mb-md-0" alt="Product Highlight" />
         <div class="ms-md-4">
           <h3><i class="bi bi-award"></i> Luxury in Every Stitch</h3>
           <p>Clothing is a form of self-expression.</p>
@@ -347,7 +357,7 @@
           </div>
           <div class="col-md-6">
             <div class="category-item" onclick="showSection('accessoriesSection')">
-              <img src="https://i.pinimg.com/474x/f4/96/20/f496209cab01d85a80a84b785068c007.jpg" class="img-fluid" alt="Accessories"  />
+              <img src="https://i.pinimg.com/474x/f4/96/20/f496209cab01d85a80a84b785068c007.jpg" class="img-fluid" alt="Accessories" />
               <h4 class="mt-3"><i class="bi bi-watch"></i> Accessories</h4>
             </div>
           </div>
@@ -500,7 +510,7 @@
       <div class="row">
         <div class="col-6 mb-4">
           <div class="card shadow-sm" onclick="showSection('menswearSection')" style="cursor:pointer;">
-            <img src="https://i.pinimg.com/474x/1e/d0/ed/1ed0ede5c364f2c8959976120f65271f.jpg" class="card-img-top" alt="Men's Wear"  />
+            <img src="https://i.pinimg.com/474x/1e/d0/ed/1ed0ede5c364f2c8959976120f65271f.jpg" class="card-img-top" alt="Men's Wear" />
             <div class="card-body text-center">
               <h5 class="card-title">Men's Wear</h5>
             </div>
@@ -1308,7 +1318,7 @@
       }
     }
 
-    // Show product details with size and color selection
+    // Show product details with size and color selection, symbols, and delivery date
     function showProductDetails(productId) {
       const product = products.find(p => p.id === productId);
       if (product) {
@@ -1326,14 +1336,23 @@
         });
         colorHtml += '</p>';
 
+        // Calculate estimated delivery date
+        const deliveryDays = parseInt(product.deliveryTime.split("-")[0]);
+        const today = new Date();
+        const deliveryDate = new Date(today);
+        deliveryDate.setDate(today.getDate() + deliveryDays);
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const formattedDate = deliveryDate.toLocaleDateString('en-US', options);
+
         const detailContent = `
           <h5>${product.name}</h5>
           <p><strong>Description:</strong> ${product.description}</p>
           ${sizeHtml}
           ${colorHtml}
           <p><strong>Cloth Type:</strong> ${product.clothType}</p>
-          <p><strong>Delivery:</strong> ${product.deliveryTime}</p>
-          <p><strong>Return:</strong> ${product.returnPolicy}</p>
+          <p><strong>Delivery:</strong> <i class="bi bi-truck"></i> ${product.deliveryTime} (Estimated: ${formattedDate})</p>
+          <p><strong>Return Policy:</strong> <i class="bi bi-arrow-repeat"></i> ${product.returnPolicy}</p>
+          <p><strong>Payment:</strong> <i class="bi bi-cash-stack"></i> Cash on Delivery Available</p>
           <p><strong>Details:</strong> ${product.additionalDetails}</p>
           <div class="d-grid gap-2">
             <button class="btn btn-success" onclick="buyProductWithSelection(${product.id})">Buy Now</button>
@@ -1454,6 +1473,7 @@
         wishlist.push(product);
         showNotification(`${product.name} added to your wishlist.`, "success");
         saveData();
+        updateWishlistSection(); // Update wishlist section immediately
       }
     }
 
