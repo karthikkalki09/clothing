@@ -131,9 +131,12 @@
     .filter-tags { margin-top: 10px; }
     .filter-tags .badge { cursor: pointer; }
 
-    /* Responsive Layout for Product Cards */
-    @media (min-width: 768px) { .prod-col { flex: 0 0 50%; max-width: 50%; } }
-    @media (max-width: 767px) { .prod-col { flex: 0 0 100%; max-width: 100%; } }
+    /* Product Detail Styling */
+    #productDetailPage .row { align-items: center; }
+    .product-detail-img {
+      max-height: 400px;
+      object-fit: contain;
+    }
 
     /* Fixed Footer Navigation */
     .footer-nav {
@@ -215,18 +218,10 @@
     }
     /* Print-specific styles */
     @media print {
-      body.print-mode * {
-        visibility: hidden;
-      }
+      body.print-mode * { visibility: hidden; }
       body.print-mode .print-selected,
-      body.print-mode .print-selected * {
-        visibility: visible;
-      }
-      body.print-mode .print-selected {
-        position: absolute;
-        left: 0;
-        top: 0;
-      }
+      body.print-mode .print-selected * { visibility: visible; }
+      body.print-mode .print-selected { position: absolute; left: 0; top: 0; }
     }
     /* Star Rating */
     .star-rating {
@@ -234,9 +229,11 @@
       font-size: 1.5rem;
       color: #ffc107; /* Bootstrap yellow */
     }
-    .star-rating i {
-      margin-right: 2px;
-    }
+    .star-rating i { margin-right: 2px; }
+
+    /* Responsive Layout for Product Cards */
+    @media (min-width: 768px) { .prod-col { flex: 0 0 50%; max-width: 50%; } }
+    @media (max-width: 767px) { .prod-col { flex: 0 0 100%; max-width: 100%; } }
   </style>
 </head>
 <body>
@@ -741,7 +738,7 @@
       </div>
     </div>
     <div class="container my-4">
-      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3" id="shopProductContainer"></div>
+      <div class="row" id="shopProductContainer"></div>
     </div>
     <footer class="py-4">
       <div class="container text-center"></div>
@@ -798,7 +795,7 @@
       </div>
     </div>
     <div class="container my-4">
-      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3" id="menswearContainer"></div>
+      <div class="row" id="menswearContainer"></div>
     </div>
     <div class="container text-center mb-4">
       <button class="btn btn-success" onclick="showSection('cartSection')" aria-label="Proceed to Checkout">Checkout</button>
@@ -856,7 +853,7 @@
       </div>
     </div>
     <div class="container my-4">
-      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3" id="accessoriesContainer"></div>
+      <div class="row" id="accessoriesContainer"></div>
     </div>
     <div class="container text-center mb-4">
       <button class="btn btn-success" onclick="showSection('cartSection')" aria-label="Proceed to Checkout">Checkout</button>
@@ -894,20 +891,18 @@
     <div class="container my-4" id="orderDetailPage"></div>
   </div>
 
-  <!-- Product Detail Modal -->
-  <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content shadow-sm">
-        <div class="modal-header">
-          <h5 class="modal-title" id="productDetailModalLabel">Product Details</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body" id="productDetailContent"></div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
+  <!-- Product Detail Section -->
+  <div id="productDetailSection" class="section fade-in">
+    <header class="py-3 border-bottom bg-light">
+      <div class="container d-flex justify-content-between align-items-center">
+        <button class="btn" onclick="showSection('shopSection')" aria-label="Back to Shop">
+          <i class="bi bi-arrow-left"></i> Back to Shop
+        </button>
+        <h1 class="h5 mb-0">Product Details</h1>
+        <div></div>
       </div>
-    </div>
+    </header>
+    <div class="container my-4" id="productDetailPage"></div>
   </div>
 
   <!-- Buy Now Modal -->
@@ -1318,7 +1313,7 @@
       }
     }
 
-    // Show product details with size and color selection, symbols, and delivery date
+    // Show product details in the new section
     function showProductDetails(productId) {
       const product = products.find(p => p.id === productId);
       if (product) {
@@ -1345,56 +1340,57 @@
         const formattedDate = deliveryDate.toLocaleDateString('en-US', options);
 
         const detailContent = `
-          <h5>${product.name}</h5>
-          <p><strong>Description:</strong> ${product.description}</p>
-          ${sizeHtml}
-          ${colorHtml}
-          <p><strong>Cloth Type:</strong> ${product.clothType}</p>
-          <p><strong>Delivery:</strong> <i class="bi bi-truck"></i> ${product.deliveryTime} (Estimated: ${formattedDate})</p>
-          <p><strong>Return Policy:</strong> <i class="bi bi-arrow-repeat"></i> ${product.returnPolicy}</p>
-          <p><strong>Payment:</strong> <i class="bi bi-cash-stack"></i> Cash on Delivery Available</p>
-          <p><strong>Details:</strong> ${product.additionalDetails}</p>
-          <div class="d-grid gap-2">
-            <button class="btn btn-success" onclick="buyProductWithSelection(${product.id})">Buy Now</button>
-            <button class="btn btn-primary" onclick="addToCartWithSelection(${product.id})">Add to Bag</button>
+          <div class="row">
+            <div class="col-md-6">
+              ${generateProductImageHTML(product)}
+            </div>
+            <div class="col-md-6">
+              <h3>${product.name}</h3>
+              <p><strong>Description:</strong> ${product.description}</p>
+              <p><strong>Price:</strong> <s>₹${(product.price * 1.2).toFixed(2)}</s> ₹${product.price.toFixed(2)}</p>
+              ${sizeHtml}
+              ${colorHtml}
+              <p><strong>Cloth Type:</strong> ${product.clothType}</p>
+              <p><strong>Delivery:</strong> <i class="bi bi-truck"></i> ${product.deliveryTime} (Estimated: ${formattedDate})</p>
+              <p><strong>Return Policy:</strong> <i class="bi bi-arrow-repeat"></i> ${product.returnPolicy}</p>
+              <p><strong>Payment:</strong> <i class="bi bi-cash-stack"></i> Cash on Delivery Available</p>
+              <p><strong>Details:</strong> ${product.additionalDetails}</p>
+              <div class="d-grid gap-2">
+                <button class="btn btn-success" onclick="buyProductWithSelection(${product.id})">Buy Now</button>
+                <button class="btn btn-primary" onclick="addToCartWithSelection(${product.id})">Add to Bag</button>
+              </div>
+            </div>
           </div>
         `;
-        document.getElementById("productDetailContent").innerHTML = detailContent;
+        document.getElementById("productDetailPage").innerHTML = detailContent;
 
         // Add event listeners for size and color buttons
-        const sizeButtons = document.querySelectorAll("#productDetailContent .size-btn");
+        const sizeButtons = document.querySelectorAll("#productDetailPage .size-btn");
         sizeButtons.forEach(btn => {
           btn.addEventListener("click", function() {
             sizeButtons.forEach(b => b.classList.remove("active"));
             this.classList.add("active");
-            document.getElementById("productDetailModal").dataset.selectedSize = this.dataset.size;
+            document.getElementById("productDetailSection").dataset.selectedSize = this.dataset.size;
           });
         });
 
-        const colorButtons = document.querySelectorAll("#productDetailContent .color-btn");
+        const colorButtons = document.querySelectorAll("#productDetailPage .color-btn");
         colorButtons.forEach(btn => {
           btn.addEventListener("click", function() {
             colorButtons.forEach(b => b.classList.remove("active"));
             this.classList.add("active");
-            document.getElementById("productDetailModal").dataset.selectedColor = this.dataset.color;
+            document.getElementById("productDetailSection").dataset.selectedColor = this.dataset.color;
           });
         });
 
-        const modal = new bootstrap.Modal(document.getElementById("productDetailModal"));
-        modal.show();
+        showSection("productDetailSection");
       }
     }
 
-    // Clear selections when modal is hidden
-    document.getElementById("productDetailModal").addEventListener("hidden.bs.modal", function() {
-      delete this.dataset.selectedSize;
-      delete this.dataset.selectedColor;
-    });
-
     // Buy product with selection
     function buyProductWithSelection(productId) {
-      const selectedSize = document.getElementById("productDetailModal").dataset.selectedSize;
-      const selectedColor = document.getElementById("productDetailModal").dataset.selectedColor;
+      const selectedSize = document.getElementById("productDetailSection").dataset.selectedSize;
+      const selectedColor = document.getElementById("productDetailSection").dataset.selectedColor;
       if (!selectedSize || !selectedColor) {
         showNotification("Please select size and color.", "warning");
         return;
@@ -1410,8 +1406,8 @@
 
     // Add to cart with selection
     function addToCartWithSelection(productId) {
-      const selectedSize = document.getElementById("productDetailModal").dataset.selectedSize;
-      const selectedColor = document.getElementById("productDetailModal").dataset.selectedColor;
+      const selectedSize = document.getElementById("productDetailSection").dataset.selectedSize;
+      const selectedColor = document.getElementById("productDetailSection").dataset.selectedColor;
       if (!selectedSize || !selectedColor) {
         showNotification("Please select size and color.", "warning");
         return;
@@ -1473,7 +1469,7 @@
         wishlist.push(product);
         showNotification(`${product.name} added to your wishlist.`, "success");
         saveData();
-        updateWishlistSection(); // Update wishlist section immediately
+        updateWishlistSection();
       }
     }
 
@@ -1519,6 +1515,10 @@
       });
       const targetSection = document.getElementById(sectionId);
       targetSection.classList.add("active-section", "fade-in");
+      if (sectionId !== "productDetailSection") {
+        delete document.getElementById("productDetailSection").dataset.selectedSize;
+        delete document.getElementById("productDetailSection").dataset.selectedColor;
+      }
       if (sectionId === "shopSection") {
         const filteredProducts = Object.keys(activeFilters).length ? filterProducts() : products;
         generateProducts("shopProductContainer", filteredProducts);
@@ -1558,7 +1558,7 @@
         product.images.forEach((img, index) => {
           indicators += `<button type="button" data-bs-target="#${carouselId}" data-bs-slide-to="${index}" ${index === 0 ? 'class="active" aria-current="true"' : ''} aria-label="Slide ${index+1}"></button>`;
           inner += `<div class="carousel-item ${index === 0 ? "active" : ""}">
-                      <img src="${img}" class="d-block w-100" alt="${product.name} image ${index+1}" >
+                      <img src="${img}" class="d-block w-100 product-detail-img" alt="${product.name} image ${index+1}" >
                     </div>`;
         });
         return `<div id="${carouselId}" class="carousel slide" data-bs-ride="carousel">
@@ -1575,22 +1575,21 @@
                 </div>`;
       } else {
         const img = (product.images && product.images.length) ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name);
-        return `<img src="${img}" class="card-img-top" alt="${product.name}" >`;
+        return `<img src="${img}" class="img-fluid product-detail-img" alt="${product.name}" >`;
       }
     }
 
-    // Generate Product Cards with Icons
+    // Generate Product Cards with Icons and Price Display
     function generateProducts(containerId, productList) {
       const container = document.getElementById(containerId);
       container.innerHTML = "";
       productList.forEach(product => {
         const col = document.createElement("div");
-        col.className = "col mb-4";
+        col.className = "col prod-col mb-4";
         col.innerHTML = `
           <div class="card h-100 shadow-sm" style="cursor: pointer;">
             <div class="position-relative" onclick="event.stopPropagation(); showProductImages(${product.id})" style="cursor: zoom-in;">
               ${generateProductImageHTML(product)}
-              <!-- Heart button to add to wishlist -->
               <button class="btn btn-outline-danger btn-sm wishlist-btn position-absolute" style="top: 10px; right: 10px;" onclick="event.stopPropagation(); addToWishlist(${product.id})">
                 <i class="bi bi-heart"></i>
               </button>
@@ -1606,7 +1605,7 @@
               <p class="card-text"><strong><i class="bi bi-card-text me-2"></i> Details:</strong> ${product.additionalDetails}</p>
             </div>
             <div class="card-footer d-flex justify-content-between align-items-center" onclick="showProductDetails(${product.id})">
-              <span class="text-muted">${product.category} | ₹${product.price.toFixed(2)}</span>
+              <span class="text-muted">${product.category} | <s>₹${(product.price * 1.2).toFixed(2)}</s> ₹${product.price.toFixed(2)}</span>
               <div>
                 <button class="btn btn-sm btn-success me-1" onclick="event.stopPropagation(); buyProductWithSelection(${product.id})"><i class="bi bi-cash me-1"></i> Buy Now</button>
                 <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); addToCartWithSelection(${product.id})"><i class="bi bi-cart-plus me-1"></i> Add to Bag</button>
@@ -1627,15 +1626,14 @@
         return;
       }
       const row = document.createElement("div");
-      row.className = "row row-cols-1 row-cols-md-2 row-cols-lg-3";
+      row.className = "row";
       filteredProducts.forEach(product => {
         const col = document.createElement("div");
-        col.className = "col mb-4";
+        col.className = "col prod-col mb-4";
         col.innerHTML = `
           <div class="card h-100 shadow-sm" style="cursor: pointer;">
             <div class="position-relative" onclick="event.stopPropagation(); showProductImages(${product.id})" style="cursor: zoom-in;">
               ${generateProductImageHTML(product)}
-              <!-- Heart button to add to wishlist -->
               <button class="btn btn-outline-danger btn-sm wishlist-btn position-absolute" style="top: 10px; right: 10px;" onclick="event.stopPropagation(); addToWishlist(${product.id})">
                 <i class="bi bi-heart"></i>
               </button>
@@ -1651,7 +1649,7 @@
               <p class="card-text"><strong><i class="bi bi-card-text me-2"></i> Details:</strong> ${product.additionalDetails}</p>
             </div>
             <div class="card-footer d-flex justify-content-between align-items-center" onclick="showProductDetails(${product.id})">
-              <span class="text-muted">${product.category} | ₹${product.price.toFixed(2)}</span>
+              <span class="text-muted">${product.category} | <s>₹${(product.price * 1.2).toFixed(2)}</s> ₹${product.price.toFixed(2)}</span>
               <div>
                 <button class="btn btn-sm btn-success me-1" onclick="event.stopPropagation(); buyProductWithSelection(${product.id})"><i class="bi bi-cash me-1"></i> Buy Now</button>
                 <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); addToCartWithSelection(${product.id})"><i class="bi bi-cart-plus me-1"></i> Add to Bag</button>
@@ -1693,7 +1691,7 @@
       };
       orders.push(order);
       const orderIndex = orders.length - 1;
-      showPopupMessage(`Thank you for ordering ${currentProductForPurchase.name}! Your order  has been placed. We will deliver it to ${address}.`);
+      showPopupMessage(`Thank you for ordering ${currentProductForPurchase.name}! Your order has been placed. We will deliver it to ${address}.`);
       notifyOwner(`New order placed by: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email}) for product: ${order.product.name} (Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor}) at ₹${order.product.price.toFixed(2)} - Order #${orderIndex + 1}`);
       saveData();
       const buyModalEl = document.getElementById("buyModal");
@@ -1721,7 +1719,7 @@
                   <h5 class="card-title">${item.name}</h5>
                   <p class="card-text">${item.description}</p>
                   <p class="card-text">Size: ${item.selectedSize}, Color: ${item.selectedColor}</p>
-                  <p class="card-text"><small class="text-muted">${item.category} | ₹${item.price.toFixed(2)}</small></p>
+                  <p class="card-text"><small class="text-muted">${item.category} | <s>₹${(item.price * 1.2).toFixed(2)}</s> ₹${item.price.toFixed(2)}</small></p>
                   <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); removeFromCart(${index})">Remove</button>
                 </div>
               </div>
@@ -1761,7 +1759,7 @@
       }
     }
 
-    // Update Orders List
+    // Update Orders List with image and original price
     function updateOrdersList() {
       const ordersList = document.getElementById("ordersList");
       if (orders.length === 0) {
@@ -1769,14 +1767,19 @@
       } else {
         let html = "";
         orders.forEach((order, index) => {
+          const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
+          const originalPrice = (order.product.price * 1.2).toFixed(2); // Assuming 20% discount for demo
           html += `
             <div class="card mb-3 shadow-sm" style="cursor:pointer;" onclick="showOrderDetailPage(${index})">
               <div class="card-header">
                 <span>Order #${index + 1} - ${order.date}</span>
               </div>
               <div class="card-body d-flex align-items-center">
-                <img src="${order.product.images && order.product.images.length ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image'}" style="max-height:50px; margin-right:10px;" alt="${order.product.name}" >
-                <span>${order.product.name} (Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor})</span>
+                <img src="${productImage}" style="max-height:50px; margin-right:10px;" alt="${order.product.name}" >
+                <div>
+                  <span>${order.product.name} (Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor})</span><br>
+                  <small class="text-muted"><s>₹${originalPrice}</s> ₹${order.product.price.toFixed(2)}</small>
+                </div>
               </div>
             </div>
           `;
@@ -1817,7 +1820,7 @@
         <p><strong>Description:</strong> ${order.product.description}</p>
         <p><strong>Selected Size:</strong> ${order.product.selectedSize}</p>
         <p><strong>Selected Color:</strong> ${order.product.selectedColor}</p>
-        <p><strong>Price:</strong> ₹${order.product.price.toFixed(2)}</p>
+        <p><strong>Price:</strong> <s>₹${(order.product.price * 1.2).toFixed(2)}</s> ₹${order.product.price.toFixed(2)}</p>
         <hr>
         <h5>Shipping Details</h5>
         <p><strong>Address:</strong> ${order.address}</p>
@@ -2149,7 +2152,12 @@
                     <p><strong>Description:</strong> ${order.product.description}</p>
                     <p><strong>Selected Size:</strong> ${order.product.selectedSize}</p>
                     <p><strong>Selected Color:</strong> ${order.product.selectedColor}</p>
-                    <p><strong>Price:</strong> ₹${order.product.price.toFixed(2)}</p>
+                    <p><strong>Price:</strong> 
+                      ${order.product.originalPrice && order.product.originalPrice > order.product.price ? 
+                        `<s>₹${order.product.originalPrice.toFixed(2)}</s> ` : 
+                        ''}
+                      ₹${order.product.price.toFixed(2)}
+                    </p>
                     <p><strong>Category:</strong> ${order.product.category}</p>
                   </div>
                   <div class="col-12 col-md-4">
