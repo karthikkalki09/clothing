@@ -234,12 +234,6 @@
     /* Responsive Layout for Product Cards */
     @media (min-width: 768px) { .prod-col { flex: 0 0 50%; max-width: 50%; } }
     @media (max-width: 767px) { .prod-col { flex: 0 0 100%; max-width: 100%; } }
-
-    /* Added Focus Style for Accessibility */
-    .btn:focus {
-      outline: 2px solid #2a5298;
-      outline-offset: 2px;
-    }
   </style>
 </head>
 <body>
@@ -1362,8 +1356,8 @@
               <p><strong>Payment:</strong> <i class="bi bi-cash-stack"></i> Cash on Delivery Available</p>
               <p><strong>Details:</strong> ${product.additionalDetails}</p>
               <div class="d-grid gap-2">
-                <button class="btn btn-success" onclick="buyProductWithSelection(${product.id})" data-bs-toggle="tooltip" title="Buy this product now"><i class="bi bi-bag-check me-1"></i> Buy Now</button>
-                <button class="btn btn-primary" onclick="addToCartWithSelection(${product.id})" data-bs-toggle="tooltip" title="Add this product to your bag"><i class="bi bi-bag-plus me-1"></i> Add to Bag</button>
+                <button class="btn btn-success" onclick="buyProductWithSelection(${product.id})">Buy Now</button>
+                <button class="btn btn-primary" onclick="addToCartWithSelection(${product.id})">Add to Bag</button>
               </div>
             </div>
           </div>
@@ -1387,12 +1381,6 @@
             this.classList.add("active");
             document.getElementById("productDetailSection").dataset.selectedColor = this.dataset.color;
           });
-        });
-
-        // Initialize tooltips
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('#productDetailPage [data-bs-toggle="tooltip"]'));
-        tooltipTriggerList.forEach(function (tooltipTriggerEl) {
-          new bootstrap.Tooltip(tooltipTriggerEl);
         });
 
         showSection("productDetailSection");
@@ -1471,7 +1459,8 @@
       popupModal.show();
     }
 
-    // Wishlist Functions
+   
+         // Wishlist Functions
     function addToWishlist(productId) {
         const product = products.find(p => p.id === productId);
         if (!product) return;
@@ -1593,7 +1582,7 @@
       }
     }
 
-    // Generate Product Cards with Updated Icons and Tooltips
+    // Generate Product Cards with Icons and Price Display
     function generateProducts(containerId, productList) {
       const container = document.getElementById(containerId);
       container.innerHTML = "";
@@ -1621,23 +1610,17 @@
             <div class="card-footer d-flex justify-content-between align-items-center" onclick="showProductDetails(${product.id})">
               <span class="text-muted">${product.category} | <s>₹${(product.price * 1.2).toFixed(2)}</s> ₹${product.price.toFixed(2)}</span>
               <div>
-                <button class="btn btn-sm btn-success me-1" onclick="event.stopPropagation(); buyProductWithSelection(${product.id})" data-bs-toggle="tooltip" title="Buy this product now"><i class="bi bi-bag-check me-1"></i> Buy Now</button>
-                <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); addToCartWithSelection(${product.id})" data-bs-toggle="tooltip" title="Add this product to your bag"><i class="bi bi-bag-plus me-1"></i> Add to Bag</button>
+                <button class="btn btn-sm btn-success me-1" onclick="event.stopPropagation(); buyProductWithSelection(${product.id})"><i class="bi bi-cash me-1"></i> Buy Now</button>
+                <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); addToCartWithSelection(${product.id})"><i class="bi bi-cart-plus me-1"></i> Add to Bag</button>
               </div>
             </div>
           </div>
         `;
         container.appendChild(col);
       });
-
-      // Initialize tooltips
-      var tooltipTriggerList = [].slice.call(container.querySelectorAll('[data-bs-toggle="tooltip"]'));
-      tooltipTriggerList.forEach(function (tooltipTriggerEl) {
-        new bootstrap.Tooltip(tooltipTriggerEl);
-      });
     }
 
-    // Generate search results with updated icons and tooltips
+    // Generate search results with images clickable separately and icons
     function generateSearchResults(filteredProducts) {
       const container = document.getElementById("searchResultsContainer");
       container.innerHTML = "";
@@ -1671,8 +1654,8 @@
             <div class="card-footer d-flex justify-content-between align-items-center" onclick="showProductDetails(${product.id})">
               <span class="text-muted">${product.category} | <s>₹${(product.price * 1.2).toFixed(2)}</s> ₹${product.price.toFixed(2)}</span>
               <div>
-                <button class="btn btn-sm btn-success me-1" onclick="event.stopPropagation(); buyProductWithSelection(${product.id})" data-bs-toggle="tooltip" title="Buy this product now"><i class="bi bi-bag-check me-1"></i> Buy Now</button>
-                <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); addToCartWithSelection(${product.id})" data-bs-toggle="tooltip" title="Add this product to your bag"><i class="bi bi-bag-plus me-1"></i> Add to Bag</button>
+                <button class="btn btn-sm btn-success me-1" onclick="event.stopPropagation(); buyProductWithSelection(${product.id})"><i class="bi bi-cash me-1"></i> Buy Now</button>
+                <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); addToCartWithSelection(${product.id})"><i class="bi bi-cart-plus me-1"></i> Add to Bag</button>
               </div>
             </div>
           </div>
@@ -1680,12 +1663,6 @@
         row.appendChild(col);
       });
       container.appendChild(row);
-
-      // Initialize tooltips
-      var tooltipTriggerList = [].slice.call(container.querySelectorAll('[data-bs-toggle="tooltip"]'));
-      tooltipTriggerList.forEach(function (tooltipTriggerEl) {
-        new bootstrap.Tooltip(tooltipTriggerEl);
-      });
     }
 
     // Buy form submission with enhanced thank you popup
@@ -1725,48 +1702,47 @@
       modalInstance.hide();
     });
 
-     // Updated Cart Section with selections and updated buttons
-     function updateCartSection() {
-        const cartContent = document.getElementById("cartContent");
-        if (cart.length === 0) {
-          cartContent.innerHTML = "<p>Your bag is empty.</p>";
-          return;
-        }
-        let html = "";
-        cart.forEach((item, index) => {
-          html += `
-            <div class="card mb-3 shadow-sm" onclick="showProductDetails(${item.id})" style="cursor: pointer;">
-              <div class="row g-0">
-                <div class="col-4">
-                  <img src="${item.images && item.images.length ? item.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(item.name)}" class="img-fluid rounded-start" alt="${item.name}" >
-                </div>
-                <div class="col-8">
-                  <div class="card-body">
-                    <h5 class="card-title">${item.name}</h5>
-                    <p class="card-text">${item.description}</p>
-                    <p class="card-text">Size: ${item.selectedSize}, Color: ${item.selectedColor}</p>
-                    <p class="card-text"><small class="text-muted">${item.category} | <s>₹${(item.price * 1.2).toFixed(2)}</s> ₹${item.price.toFixed(2)}</small></p>
-                    <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); removeFromCart(${index})" aria-label="Remove ${item.name} from Bag"><i class="bi bi-trash me-1"></i> Remove</button>
-                  </div>
-                </div>
+   // Updated Cart Section with selections and updated buttons
+   function updateCartSection() {
+    const cartContent = document.getElementById("cartContent");
+    if (cart.length === 0) {
+      cartContent.innerHTML = "<p>Your bag is empty.</p>";
+      return;
+    }
+    let html = "";
+    cart.forEach((item, index) => {
+      html += `
+        <div class="card mb-3 shadow-sm" onclick="showProductDetails(${item.id})" style="cursor: pointer;">
+          <div class="row g-0">
+            <div class="col-4">
+              <img src="${item.images && item.images.length ? item.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(item.name)}" class="img-fluid rounded-start" alt="${item.name}" >
+            </div>
+            <div class="col-8">
+              <div class="card-body">
+                <h5 class="card-title">${item.name}</h5>
+                <p class="card-text">${item.description}</p>
+                <p class="card-text">Size: ${item.selectedSize}, Color: ${item.selectedColor}</p>
+                <p class="card-text"><small class="text-muted">${item.category} | <s>₹${(item.price * 1.2).toFixed(2)}</s> ₹${item.price.toFixed(2)}</small></p>
+                <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); removeFromCart(${index})" aria-label="Remove ${item.name} from Bag"><i class="bi bi-trash me-1"></i> Remove</button>
               </div>
             </div>
-          `;
-        });
-        html += `<button class="btn btn-success" aria-label="Checkout"><i class="bi bi-bag-check me-1"></i> Checkout</button>`;
-        cartContent.innerHTML = html;
-      }
-    // Remove item from cart with confirmation
-    function removeFromCart(index) {
-      if (confirm("Are you sure you want to remove this item from your bag?")) {
-        cart.splice(index, 1);
-        updateCartSection();
-        updateCartCountBadge();
-        showNotification("Item removed from bag.", "info");
-        saveData();
-      }
-    }
-
+          </div>
+        </div>
+      `;
+    });
+    html += `<button class="btn btn-success" aria-label="Checkout"><i class="bi bi-bag-check me-1"></i> Checkout</button>`;
+    cartContent.innerHTML = html;
+  }
+// Remove item from cart with confirmation
+function removeFromCart(index) {
+  if (confirm("Are you sure you want to remove this item from your bag?")) {
+    cart.splice(index, 1);
+    updateCartSection();
+    updateCartCountBadge();
+    showNotification("Item removed from bag.", "info");
+    saveData();
+  }
+}
     // Update Account Section
     function updateAccountSection() {
       const accountContent = document.getElementById("accountContent");
@@ -2037,266 +2013,266 @@
       generateSearchResults(filteredProducts);
     });
 
-   // Login form submission
-   document.getElementById("loginForm")?.addEventListener("submit", function(e) {
-    e.preventDefault();
-    const email = document.getElementById("loginEmail").value;
-    const password = document.getElementById("loginPassword").value;
-    const user = users.find(user => user.email === email && user.password === password);
-    if (user) {
-      currentUser = user;
-      showNotification("Login successful!", "success");
-      notifyOwner(`User logged in: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email})`);
+    // Login form submission
+    document.getElementById("loginForm")?.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
+      const user = users.find(user => user.email === email && user.password === password);
+      if (user) {
+        currentUser = user;
+        showNotification("Login successful!", "success");
+        notifyOwner(`User logged in: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email})`);
+        saveData();
+        updateHeaderProfile();
+        updateMenuAccountDetails();
+        showSection("homeSection");
+      } else {
+        showNotification("Invalid email or password. Please sign up if you don't have an account.", "warning");
+      }
+    });
+
+    // Sign Up form submission
+    document.getElementById("signupForm")?.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const firstName = document.getElementById("firstName").value;
+      const lastName = document.getElementById("lastName").value;
+      const mobile = document.getElementById("mobileNumberSignUp").value;
+      const email = document.getElementById("signupEmail").value;
+      const password = document.getElementById("signupPassword").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+      if (password !== confirmPassword) {
+        showNotification("Passwords do not match!", "warning");
+        return;
+      }
+      if (users.some(user => user.email === email)) {
+        showNotification("User with this email already exists. Please log in.", "warning");
+        return;
+      }
+      currentUser = { firstName, lastName, email, mobile, password };
+      users.push(currentUser);
+      showNotification("Sign Up successful!", "success");
+      notifyOwner(`New user signed up: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email})`);
       saveData();
       updateHeaderProfile();
       updateMenuAccountDetails();
       showSection("homeSection");
-    } else {
-      showNotification("Invalid email or password. Please sign up if you don't have an account.", "warning");
-    }
-  });
+    });
 
-  // Sign Up form submission
-  document.getElementById("signupForm")?.addEventListener("submit", function(e) {
-    e.preventDefault();
-    const firstName = document.getElementById("firstName").value;
-    const lastName = document.getElementById("lastName").value;
-    const mobile = document.getElementById("mobileNumberSignUp").value;
-    const email = document.getElementById("signupEmail").value;
-    const password = document.getElementById("signupPassword").value;
-    const confirmPassword = document.getElementById("confirmPassword").value;
-    if (password !== confirmPassword) {
-      showNotification("Passwords do not match!", "warning");
-      return;
-    }
-    if (users.some(user => user.email === email)) {
-      showNotification("User with this email already exists. Please log in.", "warning");
-      return;
-    }
-    currentUser = { firstName, lastName, email, mobile, password };
-    users.push(currentUser);
-    showNotification("Sign Up successful!", "success");
-    notifyOwner(`New user signed up: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email})`);
-    saveData();
-    updateHeaderProfile();
-    updateMenuAccountDetails();
-    showSection("homeSection");
-  });
+    // Contact Form submission
+    document.getElementById("contactForm")?.addEventListener("submit", function(e) {
+      e.preventDefault();
+      showNotification("Message was sent", "success");
+      document.getElementById("contactForm").reset();
+    });
 
-  // Contact Form submission
-  document.getElementById("contactForm")?.addEventListener("submit", function(e) {
-    e.preventDefault();
-    showNotification("Message was sent", "success");
-    document.getElementById("contactForm").reset();
-  });
-
-  // Category-specific filters for Men's Wear
-  function applyMenswearFilters() {
-    const size = document.getElementById("menswearFilterSize").value;
-    const color = document.getElementById("menswearFilterColor").value;
-    const price = document.getElementById("menswearFilterPrice").value;
-    let filteredProducts = products.filter(product => product.category === "Men's Wear");
-    if (size) { filteredProducts = filteredProducts.filter(product => product.size.split(",").map(s => s.trim().toLowerCase()).includes(size.toLowerCase())); }
-    if (color) { filteredProducts = filteredProducts.filter(product => product.color.split(",").map(c => c.trim().toLowerCase()).includes(color.toLowerCase())); }
-    if (price) {
-      const [min, max] = price.split("-").map(Number);
-      filteredProducts = filteredProducts.filter(product => product.price >= min && product.price <= max);
+    // Category-specific filters for Men's Wear
+    function applyMenswearFilters() {
+      const size = document.getElementById("menswearFilterSize").value;
+      const color = document.getElementById("menswearFilterColor").value;
+      const price = document.getElementById("menswearFilterPrice").value;
+      let filteredProducts = products.filter(product => product.category === "Men's Wear");
+      if (size) { filteredProducts = filteredProducts.filter(product => product.size.split(",").map(s => s.trim().toLowerCase()).includes(size.toLowerCase())); }
+      if (color) { filteredProducts = filteredProducts.filter(product => product.color.split(",").map(c => c.trim().toLowerCase()).includes(color.toLowerCase())); }
+      if (price) {
+        const [min, max] = price.split("-").map(Number);
+        filteredProducts = filteredProducts.filter(product => product.price >= min && product.price <= max);
+      }
+      generateProducts("menswearContainer", filteredProducts);
     }
-    generateProducts("menswearContainer", filteredProducts);
-  }
-  function clearMenswearFilters() {
-    document.getElementById("menswearFilterSize").value = "";
-    document.getElementById("menswearFilterColor").value = "";
-    document.getElementById("menswearFilterPrice").value = "";
-    const menswearProducts = products.filter(product => product.category === "Men's Wear");
-    generateProducts("menswearContainer", menswearProducts);
-  }
-
-  // Category-specific filters for Accessories
-  function applyAccessoriesFilters() {
-    const size = document.getElementById("accessoriesFilterSize").value;
-    const color = document.getElementById("accessoriesFilterColor").value;
-    const price = document.getElementById("accessoriesFilterPrice").value;
-    let filteredProducts = products.filter(product => product.category === "Accessories");
-    if (size) { filteredProducts = filteredProducts.filter(product => product.size.split(",").map(s => s.trim().toLowerCase()).includes(size.toLowerCase())); }
-    if (color) { filteredProducts = filteredProducts.filter(product => product.color.split(",").map(c => c.trim().toLowerCase()).includes(color.toLowerCase())); }
-    if (price) {
-      const [min, max] = price.split("-").map(Number);
-      filteredProducts = filteredProducts.filter(product => product.price >= min && product.price <= max);
+    function clearMenswearFilters() {
+      document.getElementById("menswearFilterSize").value = "";
+      document.getElementById("menswearFilterColor").value = "";
+      document.getElementById("menswearFilterPrice").value = "";
+      const menswearProducts = products.filter(product => product.category === "Men's Wear");
+      generateProducts("menswearContainer", menswearProducts);
     }
-    generateProducts("accessoriesContainer", filteredProducts);
-  }
-  function clearAccessoriesFilters() {
-    document.getElementById("accessoriesFilterSize").value = "";
-    document.getElementById("accessoriesFilterColor").value = "";
-    document.getElementById("accessoriesFilterPrice").value = "";
-    const accessoriesProducts = products.filter(product => product.category === "Accessories");
-    generateProducts("accessoriesContainer", accessoriesProducts);
-  }
 
-  // Update Seller Dashboard with Print and Download buttons and reviews
-  function updateSellerDashboard() {
-    const sellerDashboardContent = document.getElementById("sellerDashboardContent");
-    let html = "<h2>Users</h2>";
-    if (users.length === 0) {
-      html += "<p>No users yet.</p>";
-    } else {
-      html += '<div class="list-group">';
-      users.forEach(user => {
-        html += `
-          <div class="list-group-item">
-            <strong>${user.firstName} ${user.lastName}</strong><br>
-            <small>${user.email}</small><br>
-            <small>Mobile: ${user.mobile || "Not provided"}</small>
-          </div>
-        `;
-      });
-      html += '</div>';
+    // Category-specific filters for Accessories
+    function applyAccessoriesFilters() {
+      const size = document.getElementById("accessoriesFilterSize").value;
+      const color = document.getElementById("accessoriesFilterColor").value;
+      const price = document.getElementById("accessoriesFilterPrice").value;
+      let filteredProducts = products.filter(product => product.category === "Accessories");
+      if (size) { filteredProducts = filteredProducts.filter(product => product.size.split(",").map(s => s.trim().toLowerCase()).includes(size.toLowerCase())); }
+      if (color) { filteredProducts = filteredProducts.filter(product => product.color.split(",").map(c => c.trim().toLowerCase()).includes(color.toLowerCase())); }
+      if (price) {
+        const [min, max] = price.split("-").map(Number);
+        filteredProducts = filteredProducts.filter(product => product.price >= min && product.price <= max);
+      }
+      generateProducts("accessoriesContainer", filteredProducts);
     }
-    html += "<h2 class='mt-4'>Orders</h2>";
-    if (orders.length === 0) {
-      html += "<p>No orders yet.</p>";
-    } else {
-      orders.forEach((order, index) => {
-        const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
-        html += `
-          <div class="card mb-3 shadow-sm order-card">
-            <div class="card-header">
-              Order #${index + 1} - ${order.date}
+    function clearAccessoriesFilters() {
+      document.getElementById("accessoriesFilterSize").value = "";
+      document.getElementById("accessoriesFilterColor").value = "";
+      document.getElementById("accessoriesFilterPrice").value = "";
+      const accessoriesProducts = products.filter(product => product.category === "Accessories");
+      generateProducts("accessoriesContainer", accessoriesProducts);
+    }
+
+    // Update Seller Dashboard with Print and Download buttons and reviews
+    function updateSellerDashboard() {
+      const sellerDashboardContent = document.getElementById("sellerDashboardContent");
+      let html = "<h2>Users</h2>";
+      if (users.length === 0) {
+        html += "<p>No users yet.</p>";
+      } else {
+        html += '<div class="list-group">';
+        users.forEach(user => {
+          html += `
+            <div class="list-group-item">
+              <strong>${user.firstName} ${user.lastName}</strong><br>
+              <small>${user.email}</small><br>
+              <small>Mobile: ${user.mobile || "Not provided"}</small>
             </div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-12 col-md-4 mb-3 mb-md-0">
-                  <h6>Buyer Information</h6>
-                  <p><strong>Name:</strong> ${order.buyer.firstName} ${order.buyer.lastName}</p>
-                  <p><strong>Email:</strong> ${order.buyer.email}</p>
-                  <p><strong>Mobile:</strong> ${order.mobile}</p>
+          `;
+        });
+        html += '</div>';
+      }
+      html += "<h2 class='mt-4'>Orders</h2>";
+      if (orders.length === 0) {
+        html += "<p>No orders yet.</p>";
+      } else {
+        orders.forEach((order, index) => {
+          const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
+          html += `
+            <div class="card mb-3 shadow-sm order-card">
+              <div class="card-header">
+                Order #${index + 1} - ${order.date}
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-12 col-md-4 mb-3 mb-md-0">
+                    <h6>Buyer Information</h6>
+                    <p><strong>Name:</strong> ${order.buyer.firstName} ${order.buyer.lastName}</p>
+                    <p><strong>Email:</strong> ${order.buyer.email}</p>
+                    <p><strong>Mobile:</strong> ${order.mobile}</p>
+                  </div>
+                  <div class="col-12 col-md-4 mb-3 mb-md-0">
+                    <h6>Product Information</h6>
+                    <img src="${productImage}" alt="${order.product.name}" class="img-fluid mb-2" style="max-width:100px; max-height:100px;" >
+                    <p><strong>Name:</strong> ${order.product.name}</p>
+                    <p><strong>Description:</strong> ${order.product.description}</p>
+                    <p><strong>Selected Size:</strong> ${order.product.selectedSize}</p>
+                    <p><strong>Selected Color:</strong> ${order.product.selectedColor}</p>
+                    <p><strong>Price:</strong> 
+                      ${order.product.originalPrice && order.product.originalPrice > order.product.price ? 
+                        `<s>₹${order.product.originalPrice.toFixed(2)}</s> ` : 
+                        ''}
+                      ₹${order.product.price.toFixed(2)}
+                    </p>
+                    <p><strong>Category:</strong> ${order.product.category}</p>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <h6>Shipping Information</h6>
+                    <p><strong>Address:</strong> ${order.address}</p>
+                    <p><strong>Payment Method:</strong> ${order.payment}</p>
+                    <p><strong>Status:</strong> ${order.cancelled ? 'Cancelled' : 'Active'}</p>
+                    ${order.cancelled ? `<p><strong>Cancellation Reason:</strong> ${order.cancellationReason}</p>` : ''}
+                    ${order.review !== null ? `
+                      <h6>Customer Review</h6>
+                      <p><strong>Rating:</strong> ${generateStarRating(order.rating)}</p>
+                      <p><strong>Review:</strong> ${order.review}</p>
+                    ` : ''}
+                  </div>
                 </div>
-                <div class="col-12 col-md-4 mb-3 mb-md-0">
-                  <h6>Product Information</h6>
-                  <img src="${productImage}" alt="${order.product.name}" class="img-fluid mb-2" style="max-width:100px; max-height:100px;" >
-                  <p><strong>Name:</strong> ${order.product.name}</p>
-                  <p><strong>Description:</strong> ${order.product.description}</p>
-                  <p><strong>Selected Size:</strong> ${order.product.selectedSize}</p>
-                  <p><strong>Selected Color:</strong> ${order.product.selectedColor}</p>
-                  <p><strong>Price:</strong> 
-                    ${order.product.originalPrice && order.product.originalPrice > order.product.price ? 
-                      `<s>₹${order.product.originalPrice.toFixed(2)}</s> ` : 
-                      ''}
-                    ₹${order.product.price.toFixed(2)}
-                  </p>
-                  <p><strong>Category:</strong> ${order.product.category}</p>
-                </div>
-                <div class="col-12 col-md-4">
-                  <h6>Shipping Information</h6>
-                  <p><strong>Address:</strong> ${order.address}</p>
-                  <p><strong>Payment Method:</strong> ${order.payment}</p>
-                  <p><strong>Status:</strong> ${order.cancelled ? 'Cancelled' : 'Active'}</p>
-                  ${order.cancelled ? `<p><strong>Cancellation Reason:</strong> ${order.cancellationReason}</p>` : ''}
-                  ${order.review !== null ? `
-                    <h6>Customer Review</h6>
-                    <p><strong>Rating:</strong> ${generateStarRating(order.rating)}</p>
-                    <p><strong>Review:</strong> ${order.review}</p>
-                  ` : ''}
+                <div class="qr-code-container mt-3">
+                  <h6>Order QR Code</h6>
+                  <div id="qrcode-${index}"></div>
                 </div>
               </div>
-              <div class="qr-code-container mt-3">
-                <h6>Order QR Code</h6>
-                <div id="qrcode-${index}"></div>
+              <div class="card-footer text-end">
+                <button class="btn btn-primary me-2" onclick="printOrder(${index})">Print</button>
+                <button class="btn btn-secondary" onclick="downloadOrder(${index})">Download</button>
               </div>
             </div>
-            <div class="card-footer text-end">
-              <button class="btn btn-primary me-2" onclick="printOrder(${index})">Print</button>
-              <button class="btn btn-secondary" onclick="downloadOrder(${index})">Download</button>
-            </div>
-          </div>
-        `;
-      });
-    }
-    html += "<h2 class='mt-4'>Notifications</h2>";
-    if (ownerNotifications.length === 0) {
-      html += "<p>No notifications yet.</p>";
-    } else {
-      html += `<div class="d-flex justify-content-end mb-3">
-                 <button class="btn btn-danger btn-sm" onclick="clearOwnerNotifications()">Clear Notifications</button>
-               </div>`;
-      html += '<div class="list-group">';
-      ownerNotifications.slice().reverse().forEach(notif => {
-        html += `
-          <div class="list-group-item">
-            <i class="bi bi-bell-fill me-2"></i>
-            <strong>${notif.date}</strong>: ${notif.message}
-          </div>
-        `;
-      });
-      html += '</div>';
-    }
-    sellerDashboardContent.innerHTML = html;
-
-    // Generate QR codes for each order
-    orders.forEach((order, index) => {
-      const qrDiv = document.getElementById(`qrcode-${index}`);
-      if (qrDiv) {
-        new QRCode(qrDiv, {
-          text: order.qrData,
-          width: 128,
-          height: 128
+          `;
         });
       }
-    });
-  }
+      html += "<h2 class='mt-4'>Notifications</h2>";
+      if (ownerNotifications.length === 0) {
+        html += "<p>No notifications yet.</p>";
+      } else {
+        html += `<div class="d-flex justify-content-end mb-3">
+                   <button class="btn btn-danger btn-sm" onclick="clearOwnerNotifications()">Clear Notifications</button>
+                 </div>`;
+        html += '<div class="list-group">';
+        ownerNotifications.slice().reverse().forEach(notif => {
+          html += `
+            <div class="list-group-item">
+              <i class="bi bi-bell-fill me-2"></i>
+              <strong>${notif.date}</strong>: ${notif.message}
+            </div>
+          `;
+        });
+        html += '</div>';
+      }
+      sellerDashboardContent.innerHTML = html;
 
-  // Clear owner notifications
-  function clearOwnerNotifications() {
-    if (confirm("Are you sure you want to clear all notifications?")) {
-      ownerNotifications = [];
-      saveData();
-      updateSellerDashboard();
-      showNotification("All notifications cleared.", "info");
+      // Generate QR codes for each order
+      orders.forEach((order, index) => {
+        const qrDiv = document.getElementById(`qrcode-${index}`);
+        if (qrDiv) {
+          new QRCode(qrDiv, {
+            text: order.qrData,
+            width: 128,
+            height: 128
+          });
+        }
+      });
     }
-  }
 
-  // Function to print order card with QR code
-  function printOrder(index) {
-    const orderCards = document.querySelectorAll('.order-card');
-    if (index < 0 || index >= orderCards.length) return;
-    const orderCard = orderCards[index];
-    
-    // Add print-mode classes
-    document.body.classList.add('print-mode');
-    orderCard.classList.add('print-selected');
-    
-    // Trigger print
-    window.print();
-    
-    // Clean up after printing
-    window.addEventListener('afterprint', function() {
-      document.body.classList.remove('print-mode');
-      orderCard.classList.remove('print-selected');
-    }, { once: true });
-  }
+    // Clear owner notifications
+    function clearOwnerNotifications() {
+      if (confirm("Are you sure you want to clear all notifications?")) {
+        ownerNotifications = [];
+        saveData();
+        updateSellerDashboard();
+        showNotification("All notifications cleared.", "info");
+      }
+    }
 
-  // Function to download order card as PNG with QR code
-  function downloadOrder(index) {
+    // Function to print order card with QR code
+    function printOrder(index) {
       const orderCards = document.querySelectorAll('.order-card');
       if (index < 0 || index >= orderCards.length) return;
       const orderCard = orderCards[index];
       
-      html2canvas(orderCard).then(canvas => {
-        const link = document.createElement('a');
-        link.href = canvas.toDataURL('image/png');
-        link.download = `order_${index + 1}.png`;
-        link.click();
-      }).catch(error => {
-        console.error('Error generating image:', error);
-        showNotification('Failed to generate image for download.', 'danger');
-      });
+      // Add print-mode classes
+      document.body.classList.add('print-mode');
+      orderCard.classList.add('print-selected');
+      
+      // Trigger print
+      window.print();
+      
+      // Clean up after printing
+      window.addEventListener('afterprint', function() {
+        document.body.classList.remove('print-mode');
+        orderCard.classList.remove('print-selected');
+      }, { once: true });
     }
-  </script>
 
-  <!-- Bootstrap JS Bundle -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- html2canvas Library for Download Functionality -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-</body>
-</html>
+    // Function to download order card as PNG with QR code
+    function downloadOrder(index) {
+        const orderCards = document.querySelectorAll('.order-card');
+        if (index < 0 || index >= orderCards.length) return;
+        const orderCard = orderCards[index];
+        
+        html2canvas(orderCard).then(canvas => {
+          const link = document.createElement('a');
+          link.href = canvas.toDataURL('image/png');
+          link.download = `order_${index + 1}.png`;
+          link.click();
+        }).catch(error => {
+          console.error('Error generating image:', error);
+          showNotification('Failed to generate image for download.', 'danger');
+        });
+      }
+    </script>
+  
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- html2canvas Library for Download Functionality -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  </body>
+  </html>
