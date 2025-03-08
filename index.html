@@ -107,11 +107,11 @@
       padding: 20px;
     }
 
-    /* Seller Dashboard styling */
-    #sellerDashboard { padding: 20px; }
-    #sellerDashboard h2 { font-size: 1.75rem; margin-bottom: 20px; }
-    .order-card .card-header { background: #2a5298; color: #fff; }
-    .order-card .card-body p { margin: 0.25rem 0; }
+    /* Owner Dashboard Styling */
+    #ownerDashboard { padding: 20px; }
+    #ownerDashboard h2 { font-size: 1.75rem; margin-bottom: 20px; }
+    .dashboard-card .card-header { background: #2a5298; color: #fff; }
+    .dashboard-card .card-body p { margin: 0.25rem 0; }
 
     /* Toast Container */
     #toastContainer {
@@ -286,6 +286,9 @@
       </li>
       <li id="sellerDashboardMenuItem" class="custom-menu-item" onclick="hideMenu(); showSection('sellerDashboard');" style="display: none;">
         <i class="bi bi-shop-window me-2"></i> Seller Dashboard
+      </li>
+      <li id="ownerDashboardMenuItem" class="custom-menu-item" onclick="hideMenu(); showSection('ownerDashboard');" style="display: none;">
+        <i class="bi bi-shop-window me-2"></i> Owner Dashboard
       </li>
       <li class="custom-menu-item" onclick="hideMenu(); showSection('aboutSection');">
         <i class="bi bi-info-circle me-2"></i> About Us
@@ -468,7 +471,7 @@
       </div>
     </header>
     <div class="container my-4">
-      <p>For assistance, please call <strong>+91 7661838006</strong> or email us at <strong>tedpole.in@gamil.com</strong>.</p>
+      <p>For assistance, please call <strong>+91 7661838006</strong> or email us at <strong>tedpole.in@gmail.com</strong>.</p>
     </div>
     <footer class="py-4">
       <div class="container text-center"></div>
@@ -543,6 +546,20 @@
     <footer class="py-4">
       <div class="container text-center"></div>
     </footer>
+  </div>
+
+  <!-- Owner Dashboard Section -->
+  <div id="ownerDashboard" class="section fade-in">
+    <header class="py-3 border-bottom bg-light">
+      <div class="container d-flex justify-content-between align-items-center">
+        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home">
+          <i class="bi bi-arrow-left"></i> Home
+        </button>
+        <h1 class="h5 mb-0">Owner Dashboard</h1>
+        <div></div>
+      </div>
+    </header>
+    <div class="container my-4" id="ownerDashboardContent"></div>
   </div>
 
   <!-- Search Section -->
@@ -1026,6 +1043,9 @@
     let currentOrderIndex = null;
     let activeFilters = {};
 
+    // Simulated locations for demonstration
+    const locations = ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix"];
+
     // Products array
     const products = [
       {
@@ -1169,6 +1189,15 @@
       localStorage.setItem("usersData", JSON.stringify(users));
     }
 
+    // Update user activity
+    function updateUserActivity() {
+      if (currentUser) {
+        currentUser.lastActivity = new Date().toISOString();
+        currentUser.isLoggedIn = true;
+        saveData();
+      }
+    }
+
     // Update header profile display
     function updateHeaderProfile() {
       const headerProfile = document.getElementById("headerProfile");
@@ -1204,12 +1233,10 @@
       return products.filter(product => {
         let sizeOk = true, colorOk = true, priceOk = true;
         if (activeFilters.size) {
-          const sizes = product.size.split(",").map(s => s.trim().toLowerCase());
-          sizeOk = sizes.includes(activeFilters.size.toLowerCase());
+          sizeOk = product.size.split(",").map(s => s.trim().toLowerCase()).includes(activeFilters.size.toLowerCase());
         }
         if (activeFilters.color) {
-          const colors = product.color.split(",").map(c => c.trim().toLowerCase());
-          colorOk = colors.includes(activeFilters.color.toLowerCase());
+          colorOk = product.color.split(",").map(c => c.trim().toLowerCase()).includes(activeFilters.color.toLowerCase());
         }
         if (activeFilters.price) {
           const [min, max] = activeFilters.price.split("-").map(Number);
@@ -1221,45 +1248,25 @@
 
     // Apply filters for Shop section
     function applyFilters() {
-      const size = document.getElementById("filterSize").value;
-      const color = document.getElementById("filterColor").value;
-      const price = document.getElementById("filterPrice").value;
-      activeFilters = {};
-      if (size) activeFilters.size = size;
-      if (color) activeFilters.color = color;
-      if (price) activeFilters.price = price;
-      const filteredProducts = filterProducts();
+      activeFilters.size = document.getElementById("filterSize").value;
+      activeFilters.color = document.getElementById("filterColor").value;
+      activeFilters.price = document.getElementById("filterPrice").value;
+      const filteredProducts = Object.keys(activeFilters).length ? filterProducts() : products;
       generateProducts("shopProductContainer", filteredProducts);
       displayActiveFilters();
     }
 
-    // Display active filters for Shop section
+    // Display active filters
     function displayActiveFilters() {
-      const displayDiv = document.getElementById("activeFilterDisplay");
-      if (Object.keys(activeFilters).length === 0) {
-        displayDiv.innerHTML = "";
-        return;
-      }
-      let html = `<p>Active Filters: `;
-      for (let key in activeFilters) {
-        html += `<span class="badge bg-primary me-1">${key}: ${activeFilters[key]}</span>`;
-      }
-      html += `<button class="btn btn-sm btn-outline-danger ms-2" onclick="clearAllFilters()">Clear Filters</button>`;
-      html += `</p>`;
-      displayDiv.innerHTML = html;
+      const activeFilterDisplay = document.getElementById("activeFilterDisplay");
+      let filterTags = "";
+      if (activeFilters.size) filterTags += `<span class="badge bg-primary me-2">Size: ${activeFilters.size}</span>`;
+      if (activeFilters.color) filterTags += `<span class="badge bg-primary me-2">Color: ${activeFilters.color}</span>`;
+      if (activeFilters.price) filterTags += `<span class="badge bg-primary me-2">Price: ${activeFilters.price}</span>`;
+      activeFilterDisplay.innerHTML = filterTags ? `<div class="filter-tags">${filterTags}</div>` : "";
     }
 
-    // Clear all filters for Shop section
-    function clearAllFilters() {
-      activeFilters = {};
-      document.getElementById("filterSize").value = "";
-      document.getElementById("filterColor").value = "";
-      document.getElementById("filterPrice").value = "";
-      generateProducts("shopProductContainer", products);
-      displayActiveFilters();
-    }
-
-    // Update Notifications page
+    // Update notifications section
     function updateNotifications() {
       const notificationsContent = document.getElementById("notificationsContent");
       let html = `<div class="d-flex justify-content-end mb-3">
@@ -1459,57 +1466,56 @@
       popupModal.show();
     }
 
-   
-         // Wishlist Functions
+    // Wishlist Functions
     function addToWishlist(productId) {
-        const product = products.find(p => p.id === productId);
-        if (!product) return;
-        if (wishlist.some(p => p.id === productId)) {
-          showNotification(`${product.name} is already in your wishlist.`, "info");
-        } else {
-          wishlist.push(product);
-          showNotification(`${product.name} added to your wishlist.`, "success");
-          saveData();
-          updateWishlistSection();
-        }
+      const product = products.find(p => p.id === productId);
+      if (!product) return;
+      if (wishlist.some(p => p.id === productId)) {
+        showNotification(`${product.name} is already in your wishlist.`, "info");
+      } else {
+        wishlist.push(product);
+        showNotification(`${product.name} added to your wishlist.`, "success");
+        saveData();
+        updateWishlistSection();
       }
+    }
   
-      function updateWishlistSection() {
-        const wishlistContainer = document.getElementById("wishlistContainer");
-        if (wishlist.length === 0) {
-          wishlistContainer.innerHTML = "<p>Your wishlist is empty.</p>";
-          return;
-        }
-        let html = "";
-        wishlist.forEach((item, index) => {
-          html += `
-            <div class="card mb-3 shadow-sm" onclick="showProductDetails(${item.id})" style="cursor: pointer;">
-              <div class="row g-0">
-                <div class="col-4">
-                  <img src="${item.images && item.images.length ? item.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(item.name)}" class="img-fluid rounded-start" alt="${item.name}">
-                </div>
-                <div class="col-8">
-                  <div class="card-body">
-                    <h5 class="card-title">${item.name}</h5>
-                    <p class="card-text">${item.description}</p>
-                    <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); removeFromWishlist(${index})" aria-label="Remove ${item.name} from Wishlist"><i class="bi bi-trash me-1"></i> Remove</button>
-                  </div>
+    function updateWishlistSection() {
+      const wishlistContainer = document.getElementById("wishlistContainer");
+      if (wishlist.length === 0) {
+        wishlistContainer.innerHTML = "<p>Your wishlist is empty.</p>";
+        return;
+      }
+      let html = "";
+      wishlist.forEach((item, index) => {
+        html += `
+          <div class="card mb-3 shadow-sm" onclick="showProductDetails(${item.id})" style="cursor: pointer;">
+            <div class="row g-0">
+              <div class="col-4">
+                <img src="${item.images && item.images.length ? item.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(item.name)}" class="img-fluid rounded-start" alt="${item.name}">
+              </div>
+              <div class="col-8">
+                <div class="card-body">
+                  <h5 class="card-title">${item.name}</h5>
+                  <p class="card-text">${item.description}</p>
+                  <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); removeFromWishlist(${index})" aria-label="Remove ${item.name} from Wishlist"><i class="bi bi-trash me-1"></i> Remove</button>
                 </div>
               </div>
             </div>
-          `;
-        });
-        wishlistContainer.innerHTML = html;
-      }
+          </div>
+        `;
+      });
+      wishlistContainer.innerHTML = html;
+    }
   
-      function removeFromWishlist(index) {
-        if (confirm("Are you sure you want to remove this item from your wishlist?")) {
-          wishlist.splice(index, 1);
-          updateWishlistSection();
-          showNotification("Item removed from wishlist.", "info");
-          saveData();
-        }
+    function removeFromWishlist(index) {
+      if (confirm("Are you sure you want to remove this item from your wishlist?")) {
+        wishlist.splice(index, 1);
+        updateWishlistSection();
+        showNotification("Item removed from wishlist.", "info");
+        saveData();
       }
+    }
 
     // Switch between sections
     function showSection(sectionId) {
@@ -1522,6 +1528,7 @@
         delete document.getElementById("productDetailSection").dataset.selectedSize;
         delete document.getElementById("productDetailSection").dataset.selectedColor;
       }
+      updateUserActivity(); // Update activity on section change
       if (sectionId === "shopSection") {
         const filteredProducts = Object.keys(activeFilters).length ? filterProducts() : products;
         generateProducts("shopProductContainer", filteredProducts);
@@ -1547,6 +1554,13 @@
           updateSellerDashboard();
         } else {
           showNotification("Access denied. Only the owner can view the Seller Dashboard.", "danger");
+          showSection("homeSection");
+        }
+      } else if (sectionId === "ownerDashboard") {
+        if (currentUser && currentUser.email === "tedpole.in@gmail.com") {
+          updateOwnerDashboard();
+        } else {
+          showNotification("Access denied. Only the owner can view this dashboard.", "danger");
           showSection("homeSection");
         }
       }
@@ -1702,47 +1716,51 @@
       modalInstance.hide();
     });
 
-   // Updated Cart Section with selections and updated buttons
-   function updateCartSection() {
-    const cartContent = document.getElementById("cartContent");
-    if (cart.length === 0) {
-      cartContent.innerHTML = "<p>Your bag is empty.</p>";
-      return;
-    }
-    let html = "";
-    cart.forEach((item, index) => {
-      html += `
-        <div class="card mb-3 shadow-sm" onclick="showProductDetails(${item.id})" style="cursor: pointer;">
-          <div class="row g-0">
-            <div class="col-4">
-              <img src="${item.images && item.images.length ? item.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(item.name)}" class="img-fluid rounded-start" alt="${item.name}" >
-            </div>
-            <div class="col-8">
-              <div class="card-body">
-                <h5 class="card-title">${item.name}</h5>
-                <p class="card-text">${item.description}</p>
-                <p class="card-text">Size: ${item.selectedSize}, Color: ${item.selectedColor}</p>
-                <p class="card-text"><small class="text-muted">${item.category} | <s>₹${(item.price * 1.2).toFixed(2)}</s> ₹${item.price.toFixed(2)}</small></p>
-                <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); removeFromCart(${index})" aria-label="Remove ${item.name} from Bag"><i class="bi bi-trash me-1"></i> Remove</button>
+    // Updated Cart Section with selections and delete icon
+    function updateCartSection() {
+      const cartContent = document.getElementById("cartContent");
+      if (cart.length === 0) {
+        cartContent.innerHTML = "<p>Your bag is empty.</p>";
+        return;
+      }
+      let html = "";
+      cart.forEach((item, index) => {
+        html += `
+          <div class="card mb-3 shadow-sm" onclick="showProductDetails(${item.id})" style="cursor: pointer;">
+            <div class="row g-0">
+              <div class="col-4">
+                <img src="${item.images && item.images.length ? item.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(item.name)}" class="img-fluid rounded-start" alt="${item.name}" >
+              </div>
+              <div class="col-8">
+                <div class="card-body">
+                  <h5 class="card-title">${item.name}</h5>
+                  <p class="card-text">${item.description}</p>
+                  <p class="card-text">Size: ${item.selectedSize}, Color: ${item.selectedColor}</p>
+                  <p class="card-text"><small class="text-muted">${item.category} | <s>₹${(item.price * 1.2).toFixed(2)}</s> ₹${item.price.toFixed(2)}</small></p>
+                  <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); removeFromCart(${index})">
+                    <i class="bi bi-trash me-1"></i> Remove
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      `;
-    });
-    html += `<button class="btn btn-success" aria-label="Checkout"><i class="bi bi-bag-check me-1"></i> Checkout</button>`;
-    cartContent.innerHTML = html;
-  }
-// Remove item from cart with confirmation
-function removeFromCart(index) {
-  if (confirm("Are you sure you want to remove this item from your bag?")) {
-    cart.splice(index, 1);
-    updateCartSection();
-    updateCartCountBadge();
-    showNotification("Item removed from bag.", "info");
-    saveData();
-  }
-}
+        `;
+      });
+      html += `<button class="btn btn-success">Checkout</button>`;
+      cartContent.innerHTML = html;
+    }
+
+    // Remove item from cart with confirmation
+    function removeFromCart(index) {
+      if (confirm("Are you sure you want to remove this item from your bag?")) {
+        cart.splice(index, 1);
+        updateCartSection();
+        updateCartCountBadge();
+        showNotification("Item removed from bag.", "info");
+        saveData();
+      }
+    }
+
     // Update Account Section
     function updateAccountSection() {
       const accountContent = document.getElementById("accountContent");
@@ -1971,17 +1989,24 @@ function removeFromCart(index) {
         container.innerHTML = `<i class="bi bi-person-circle me-2"></i><h4 class="d-inline">${currentUser.firstName} ${currentUser.lastName}</h4><br><small>${currentUser.email}</small>`;
         if (currentUser.email === "tedpole.in@gmail.com") {
           document.getElementById("sellerDashboardMenuItem").style.display = "block";
+          document.getElementById("ownerDashboardMenuItem").style.display = "block";
         } else {
           document.getElementById("sellerDashboardMenuItem").style.display = "none";
+          document.getElementById("ownerDashboardMenuItem").style.display = "none";
         }
       } else {
         container.innerHTML = `<h4>Welcome Guest</h4>`;
         document.getElementById("sellerDashboardMenuItem").style.display = "none";
+        document.getElementById("ownerDashboardMenuItem").style.display = "none";
       }
     }
 
     // Logout function
     function logout() {
+      if (currentUser) {
+        currentUser.isLoggedIn = false;
+        currentUser.lastActivity = new Date().toISOString();
+      }
       currentUser = null;
       showNotification("You have been logged out.", "info");
       saveData();
@@ -2021,6 +2046,8 @@ function removeFromCart(index) {
       const user = users.find(user => user.email === email && user.password === password);
       if (user) {
         currentUser = user;
+        currentUser.isLoggedIn = true;
+        currentUser.lastActivity = new Date().toISOString();
         showNotification("Login successful!", "success");
         notifyOwner(`User logged in: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email})`);
         saveData();
@@ -2049,7 +2076,16 @@ function removeFromCart(index) {
         showNotification("User with this email already exists. Please log in.", "warning");
         return;
       }
-      currentUser = { firstName, lastName, email, mobile, password };
+      currentUser = { 
+        firstName, 
+        lastName, 
+        email, 
+        mobile, 
+        password, 
+        isLoggedIn: true, 
+        lastActivity: new Date().toISOString(),
+        location: locations[Math.floor(Math.random() * locations.length)]
+      };
       users.push(currentUser);
       showNotification("Sign Up successful!", "success");
       notifyOwner(`New user signed up: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email})`);
@@ -2110,169 +2146,169 @@ function removeFromCart(index) {
       generateProducts("accessoriesContainer", accessoriesProducts);
     }
 
-    // Update Seller Dashboard with Print and Download buttons and reviews
-    function updateSellerDashboard() {
-      const sellerDashboardContent = document.getElementById("sellerDashboardContent");
-      let html = "<h2>Users</h2>";
-      if (users.length === 0) {
-        html += "<p>No users yet.</p>";
-      } else {
-        html += '<div class="list-group">';
-        users.forEach(user => {
-          html += `
-            <div class="list-group-item">
-              <strong>${user.firstName} ${user.lastName}</strong><br>
-              <small>${user.email}</small><br>
-              <small>Mobile: ${user.mobile || "Not provided"}</small>
-            </div>
-          `;
-        });
-        html += '</div>';
-      }
-      html += "<h2 class='mt-4'>Orders</h2>";
-      if (orders.length === 0) {
-        html += "<p>No orders yet.</p>";
-      } else {
-        orders.forEach((order, index) => {
-          const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
-          html += `
-            <div class="card mb-3 shadow-sm order-card">
-              <div class="card-header">
-                Order #${index + 1} - ${order.date}
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-12 col-md-4 mb-3 mb-md-0">
-                    <h6>Buyer Information</h6>
-                    <p><strong>Name:</strong> ${order.buyer.firstName} ${order.buyer.lastName}</p>
-                    <p><strong>Email:</strong> ${order.buyer.email}</p>
-                    <p><strong>Mobile:</strong> ${order.mobile}</p>
-                  </div>
-                  <div class="col-12 col-md-4 mb-3 mb-md-0">
-                    <h6>Product Information</h6>
-                    <img src="${productImage}" alt="${order.product.name}" class="img-fluid mb-2" style="max-width:100px; max-height:100px;" >
-                    <p><strong>Name:</strong> ${order.product.name}</p>
-                    <p><strong>Description:</strong> ${order.product.description}</p>
-                    <p><strong>Selected Size:</strong> ${order.product.selectedSize}</p>
-                    <p><strong>Selected Color:</strong> ${order.product.selectedColor}</p>
-                    <p><strong>Price:</strong> 
-                      ${order.product.originalPrice && order.product.originalPrice > order.product.price ? 
-                        `<s>₹${order.product.originalPrice.toFixed(2)}</s> ` : 
-                        ''}
-                      ₹${order.product.price.toFixed(2)}
-                    </p>
-                    <p><strong>Category:</strong> ${order.product.category}</p>
-                  </div>
-                  <div class="col-12 col-md-4">
-                    <h6>Shipping Information</h6>
-                    <p><strong>Address:</strong> ${order.address}</p>
-                    <p><strong>Payment Method:</strong> ${order.payment}</p>
-                    <p><strong>Status:</strong> ${order.cancelled ? 'Cancelled' : 'Active'}</p>
-                    ${order.cancelled ? `<p><strong>Cancellation Reason:</strong> ${order.cancellationReason}</p>` : ''}
-                    ${order.review !== null ? `
-                      <h6>Customer Review</h6>
-                      <p><strong>Rating:</strong> ${generateStarRating(order.rating)}</p>
-                      <p><strong>Review:</strong> ${order.review}</p>
-                    ` : ''}
-                  </div>
-                </div>
-                <div class="qr-code-container mt-3">
-                  <h6>Order QR Code</h6>
-                  <div id="qrcode-${index}"></div>
-                </div>
-              </div>
-              <div class="card-footer text-end">
-                <button class="btn btn-primary me-2" onclick="printOrder(${index})">Print</button>
-                <button class="btn btn-secondary" onclick="downloadOrder(${index})">Download</button>
-              </div>
-            </div>
-          `;
-        });
-      }
-      html += "<h2 class='mt-4'>Notifications</h2>";
-      if (ownerNotifications.length === 0) {
-        html += "<p>No notifications yet.</p>";
-      } else {
-        html += `<div class="d-flex justify-content-end mb-3">
-                   <button class="btn btn-danger btn-sm" onclick="clearOwnerNotifications()">Clear Notifications</button>
-                 </div>`;
-        html += '<div class="list-group">';
-        ownerNotifications.slice().reverse().forEach(notif => {
-          html += `
-            <div class="list-group-item">
-              <i class="bi bi-bell-fill me-2"></i>
-              <strong>${notif.date}</strong>: ${notif.message}
-            </div>
-          `;
-        });
-        html += '</div>';
-      }
-      sellerDashboardContent.innerHTML = html;
-
-      // Generate QR codes for each order
+   // Update Seller Dashboard with Print and Download buttons and reviews
+  function updateSellerDashboard() {
+    const sellerDashboardContent = document.getElementById("sellerDashboardContent");
+    let html = "<h2>Users</h2>";
+    if (users.length === 0) {
+      html += "<p>No users yet.</p>";
+    } else {
+      html += '<div class="list-group">';
+      users.forEach(user => {
+        html += `
+          <div class="list-group-item">
+            <strong>${user.firstName} ${user.lastName}</strong><br>
+            <small>${user.email}</small><br>
+            <small>Mobile: ${user.mobile || "Not provided"}</small>
+          </div>
+        `;
+      });
+      html += '</div>';
+    }
+    html += "<h2 class='mt-4'>Orders</h2>";
+    if (orders.length === 0) {
+      html += "<p>No orders yet.</p>";
+    } else {
       orders.forEach((order, index) => {
-        const qrDiv = document.getElementById(`qrcode-${index}`);
-        if (qrDiv) {
-          new QRCode(qrDiv, {
-            text: order.qrData,
-            width: 128,
-            height: 128
-          });
-        }
+        const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
+        html += `
+          <div class="card mb-3 shadow-sm order-card">
+            <div class="card-header">
+              Order #${index + 1} - ${order.date}
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12 col-md-4 mb-3 mb-md-0">
+                  <h6>Buyer Information</h6>
+                  <p><strong>Name:</strong> ${order.buyer.firstName} ${order.buyer.lastName}</p>
+                  <p><strong>Email:</strong> ${order.buyer.email}</p>
+                  <p><strong>Mobile:</strong> ${order.mobile}</p>
+                </div>
+                <div class="col-12 col-md-4 mb-3 mb-md-0">
+                  <h6>Product Information</h6>
+                  <img src="${productImage}" alt="${order.product.name}" class="img-fluid mb-2" style="max-width:100px; max-height:100px;" >
+                  <p><strong>Name:</strong> ${order.product.name}</p>
+                  <p><strong>Description:</strong> ${order.product.description}</p>
+                  <p><strong>Selected Size:</strong> ${order.product.selectedSize}</p>
+                  <p><strong>Selected Color:</strong> ${order.product.selectedColor}</p>
+                  <p><strong>Price:</strong> 
+                    ${order.product.originalPrice && order.product.originalPrice > order.product.price ? 
+                      `<s>₹${order.product.originalPrice.toFixed(2)}</s> ` : 
+                      ''}
+                    ₹${order.product.price.toFixed(2)}
+                  </p>
+                  <p><strong>Category:</strong> ${order.product.category}</p>
+                </div>
+                <div class="col-12 col-md-4">
+                  <h6>Shipping Information</h6>
+                  <p><strong>Address:</strong> ${order.address}</p>
+                  <p><strong>Payment Method:</strong> ${order.payment}</p>
+                  <p><strong>Status:</strong> ${order.cancelled ? 'Cancelled' : 'Active'}</p>
+                  ${order.cancelled ? `<p><strong>Cancellation Reason:</strong> ${order.cancellationReason}</p>` : ''}
+                  ${order.review !== null ? `
+                    <h6>Customer Review</h6>
+                    <p><strong>Rating:</strong> ${generateStarRating(order.rating)}</p>
+                    <p><strong>Review:</strong> ${order.review}</p>
+                  ` : ''}
+                </div>
+              </div>
+              <div class="qr-code-container mt-3">
+                <h6>Order QR Code</h6>
+                <div id="qrcode-${index}"></div>
+              </div>
+            </div>
+            <div class="card-footer text-end">
+              <button class="btn btn-primary me-2" onclick="printOrder(${index})">Print</button>
+              <button class="btn btn-secondary" onclick="downloadOrder(${index})">Download</button>
+            </div>
+          </div>
+        `;
       });
     }
-
-    // Clear owner notifications
-    function clearOwnerNotifications() {
-      if (confirm("Are you sure you want to clear all notifications?")) {
-        ownerNotifications = [];
-        saveData();
-        updateSellerDashboard();
-        showNotification("All notifications cleared.", "info");
-      }
+    html += "<h2 class='mt-4'>Notifications</h2>";
+    if (ownerNotifications.length === 0) {
+      html += "<p>No notifications yet.</p>";
+    } else {
+      html += `<div class="d-flex justify-content-end mb-3">
+                 <button class="btn btn-danger btn-sm" onclick="clearOwnerNotifications()">Clear Notifications</button>
+               </div>`;
+      html += '<div class="list-group">';
+      ownerNotifications.slice().reverse().forEach(notif => {
+        html += `
+          <div class="list-group-item">
+            <i class="bi bi-bell-fill me-2"></i>
+            <strong>${notif.date}</strong>: ${notif.message}
+          </div>
+        `;
+      });
+      html += '</div>';
     }
+    sellerDashboardContent.innerHTML = html;
 
-    // Function to print order card with QR code
-    function printOrder(index) {
+    // Generate QR codes for each order
+    orders.forEach((order, index) => {
+      const qrDiv = document.getElementById(`qrcode-${index}`);
+      if (qrDiv) {
+        new QRCode(qrDiv, {
+          text: order.qrData,
+          width: 128,
+          height: 128
+        });
+      }
+    });
+  }
+
+  // Clear owner notifications
+  function clearOwnerNotifications() {
+    if (confirm("Are you sure you want to clear all notifications?")) {
+      ownerNotifications = [];
+      saveData();
+      updateSellerDashboard();
+      showNotification("All notifications cleared.", "info");
+    }
+  }
+
+  // Function to print order card with QR code
+  function printOrder(index) {
+    const orderCards = document.querySelectorAll('.order-card');
+    if (index < 0 || index >= orderCards.length) return;
+    const orderCard = orderCards[index];
+    
+    // Add print-mode classes
+    document.body.classList.add('print-mode');
+    orderCard.classList.add('print-selected');
+    
+    // Trigger print
+    window.print();
+    
+    // Clean up after printing
+    window.addEventListener('afterprint', function() {
+      document.body.classList.remove('print-mode');
+      orderCard.classList.remove('print-selected');
+    }, { once: true });
+  }
+
+  // Function to download order card as PNG with QR code
+  function downloadOrder(index) {
       const orderCards = document.querySelectorAll('.order-card');
       if (index < 0 || index >= orderCards.length) return;
       const orderCard = orderCards[index];
       
-      // Add print-mode classes
-      document.body.classList.add('print-mode');
-      orderCard.classList.add('print-selected');
-      
-      // Trigger print
-      window.print();
-      
-      // Clean up after printing
-      window.addEventListener('afterprint', function() {
-        document.body.classList.remove('print-mode');
-        orderCard.classList.remove('print-selected');
-      }, { once: true });
+      html2canvas(orderCard).then(canvas => {
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL('image/png');
+        link.download = `order_${index + 1}.png`;
+        link.click();
+      }).catch(error => {
+        console.error('Error generating image:', error);
+        showNotification('Failed to generate image for download.', 'danger');
+      });
     }
+  </script>
 
-    // Function to download order card as PNG with QR code
-    function downloadOrder(index) {
-        const orderCards = document.querySelectorAll('.order-card');
-        if (index < 0 || index >= orderCards.length) return;
-        const orderCard = orderCards[index];
-        
-        html2canvas(orderCard).then(canvas => {
-          const link = document.createElement('a');
-          link.href = canvas.toDataURL('image/png');
-          link.download = `order_${index + 1}.png`;
-          link.click();
-        }).catch(error => {
-          console.error('Error generating image:', error);
-          showNotification('Failed to generate image for download.', 'danger');
-        });
-      }
-    </script>
-  
-    <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- html2canvas Library for Download Functionality -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  </body>
-  </html>
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- html2canvas Library for Download Functionality -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</body>
+</html>
