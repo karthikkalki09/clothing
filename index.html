@@ -958,39 +958,48 @@
     <div class="container my-4" id="productDetailPage"></div>
   </div>
 
-  <!-- Buy Now Modal -->
-  <div class="modal fade" id="buyModal" tabindex="-1" aria-labelledby="buyModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content shadow-sm">
-        <div class="modal-header">
-          <h5 class="modal-title" id="buyModalLabel">Enter Shipping Details</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id="buyForm">
-            <input type="hidden" name="csrf_token" value="some-token-value" />
-            <div class="mb-3">
-              <label for="shippingAddress" class="form-label">Address</label>
-              <textarea class="form-control" id="shippingAddress" required aria-label="Shipping Address"></textarea>
-            </div>
-            <div class="mb-3">
-              <label for="mobileNumber" class="form-label">Mobile Number</label>
-              <input type="text" class="form-control" id="mobileNumber" required aria-label="Mobile Number" />
-            </div>
-            <div class="mb-3">
-              <label for="additionalDetails" class="form-label">Additional Details</label>
-              <textarea class="form-control" id="additionalDetails" aria-label="Additional Details"></textarea>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Payment Method</label>
-              <input type="text" class="form-control" value="Cash on Delivery" disabled aria-label="Payment Method" />
-            </div>
-            <button type="submit" class="btn btn-primary" aria-label="Place Order">Place Order</button>
-          </form>
-        </div>
+<!-- Buy Now Modal -->
+<div class="modal fade" id="buyModal" tabindex="-1" aria-labelledby="buyModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content shadow-sm">
+      <div class="modal-header">
+        <h5 class="modal-title" id="buyModalLabel">Enter Shipping Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="buyForm">
+          <input type="hidden" name="csrf_token" value="some-token-value" />
+          <div class="mb-3">
+            <label for="shippingAddress" class="form-label">Address</label>
+            <textarea class="form-control" id="shippingAddress" required aria-label="Shipping Address"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="mobileNumber" class="form-label">Mobile Number</label>
+            <input type="text" class="form-control" id="mobileNumber" required aria-label="Mobile Number" />
+          </div>
+          <div class="mb-3">
+            <label for="additionalDetails" class="form-label">Additional Details</label>
+            <textarea class="form-control" id="additionalDetails" aria-label="Additional Details"></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Payment Method</label>
+            <input type="text" class="form-control" value="Cash on Delivery" disabled aria-label="Payment Method" />
+          </div>
+          <!-- Display Product Details -->
+          <div class="mb-3">
+            <p><strong>Product:</strong> <span id="modalProductName"></span></p>
+            <p><strong>Size:</strong> <span id="modalProductSize"></span></p>
+            <p><strong>Color:</strong> <span id="modalProductColor"></span></p>
+            <p><strong>Price:</strong> ₹<span id="modalProductPrice"></span></p>
+            <p><strong>Total Amount:</strong> ₹<span id="modalTotalAmount"></span></p>
+          </div>
+          <hr />
+          <button type="submit" class="btn btn-primary">Proceed to Payment</button>
+        </form>
       </div>
     </div>
   </div>
+</div>
 
   <!-- Product Images Modal with Carousel -->
   <div class="modal fade" id="productImagesModal" tabindex="-1" aria-labelledby="productImagesModalLabel" aria-hidden="true">
@@ -1361,22 +1370,33 @@
       }
     }
 
-    // Buy product with selection
-    function buyProductWithSelection(productId) {
-      const selectedSize = document.getElementById("productDetailSection").dataset.selectedSize;
-      const selectedColor = document.getElementById("productDetailSection").dataset.selectedColor;
-      if (!selectedSize || !selectedColor) {
-        showNotification("Please select size and color.", "warning");
-        return;
-      }
-      const product = products.find(p => p.id === productId);
-      if (product) {
-        currentProductForPurchase = { ...product, selectedSize, selectedColor };
-        document.getElementById("buyForm").reset();
-        const buyModal = new bootstrap.Modal(document.getElementById("buyModal"));
-        buyModal.show();
-      }
-    }
+  // Buy product with selection
+function buyProductWithSelection(productId) {
+  const selectedSize = document.getElementById("productDetailSection").dataset.selectedSize;
+  const selectedColor = document.getElementById("productDetailSection").dataset.selectedColor;
+  if (!selectedSize || !selectedColor) {
+    showNotification("Please select size and color.", "warning");
+    return;
+  }
+  const product = products.find(p => p.id === productId);
+  if (product) {
+    currentProductForPurchase = { ...product, selectedSize, selectedColor };
+
+    // Update modal content with selected product details
+    document.getElementById("modalProductName").textContent = product.name;
+    document.getElementById("modalProductSize").textContent = selectedSize;
+    document.getElementById("modalProductColor").textContent = selectedColor;
+    document.getElementById("modalProductPrice").textContent = product.price.toFixed(2);
+    document.getElementById("modalTotalAmount").textContent = (product.price + 5).toFixed(2); // Add shipping cost or other fees if needed
+
+    // Reset the form
+    document.getElementById("buyForm").reset();
+
+    // Show the modal
+    const buyModal = new bootstrap.Modal(document.getElementById("buyModal"));
+    buyModal.show();
+  }
+}
 
     // Add to cart with selection
     function addToCartWithSelection(productId) {
@@ -1743,6 +1763,7 @@
         rating: null,
         review: null
       };
+      
       orders.push(order);
       const orderIndex = orders.length - 1;
       showPopupMessage(`Thank you for ordering ${currentProductForPurchase.name}! Your order has been placed. We will deliver it to ${address}.`);
