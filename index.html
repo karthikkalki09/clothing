@@ -1,20 +1,25 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=0.8" />
   <title>DINOSAUR - Professional Mobile SPA</title>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+  <!-- Font Awesome CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
   <!-- QR Code Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <!-- html2canvas Library for Download Functionality -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
-    /* Base theme */
-    body {
+     /* Base theme */
+     body {
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #f6f9fc, #e9f0f8), url('https://www.toptal.com/designers/subtlepatterns/uploads/double-bubble-outline.png');
       background-size: cover;
@@ -146,23 +151,29 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background: #fff;
+      background: linear-gradient(90deg, #1e3c72, #2a5298);
       border-top: 1px solid #ddd;
       z-index: 1200;
-      display: flex;
-      justify-content: space-around;
+      padding: 10px 0;
     }
     .footer-nav .nav-item { text-align: center; flex: 1; position: relative; }
     .footer-nav .nav-link { 
-      color: #2a5298; 
+      color: #fff; 
       font-size: 1rem; 
       transition: color 0.3s ease; 
     }
     .footer-nav .nav-link i { 
       font-size: 1.75rem; 
+      color: #fff;
       transition: color 0.3s ease; 
     }
-    .footer-nav .nav-link:hover i { 
+    .footer-nav .nav-text {
+      font-size: 0.75rem;
+      color: #fff;
+    }
+    .footer-nav .nav-link:hover,
+    .footer-nav .nav-link:hover i,
+    .footer-nav .nav-link:hover .nav-text { 
       color: #ffdd57; 
     }
     .footer-bag-badge {
@@ -1042,32 +1053,31 @@
     </div>
   </div>
 
-  <!-- Fixed Footer Navigation -->
-  <footer class="footer-nav fixed-bottom bg-light">
+   <!-- Fixed Footer Navigation with Updated Font Awesome Icons -->
+   <footer class="footer-nav fixed-bottom">
     <div class="container d-flex justify-content-around">
       <div class="nav-item">
         <button class="btn btn-link nav-link" onclick="showSection('homeSection')" aria-label="Home">
-          <i class="bi bi-house"></i><br>HOME
+          <i class="fas fa-home fa-lg"></i><br>
+          <span class="nav-text">Home</span>
         </button>
       </div>
       <div class="nav-item">
         <button class="btn btn-link nav-link" onclick="showSection('categoriesSection')" aria-label="Shop">
-          <i class="bi bi-grid-3x3-gap"></i><br>SHOP
+          <i class="fas fa-th-large fa-lg"></i><br>
+          <span class="nav-text">Shop</span>
         </button>
       </div>
       <div class="nav-item">
         <button class="btn btn-link nav-link" onclick="showSection('searchSection')" aria-label="Search">
-          <i class="bi bi-search"></i><br>SEARCH
-        </button>
-      </div>
-      <div class="nav-item">
-        <button class="btn btn-link nav-link" onclick="showSection('wishlistSection')" aria-label="Wishlist">
-          <i class="bi bi-heart"></i><br>WISHLIST
+          <i class="fas fa-search fa-lg"></i><br>
+          <span class="nav-text">Search</span>
         </button>
       </div>
       <div class="nav-item">
         <button class="btn btn-link nav-link" onclick="showSection('cartSection')" aria-label="Your Bag">
-          <i class="bi bi-bag"></i><br>BAG
+          <i class="fas fa-shopping-bag fa-lg"></i><br>
+          <span class="nav-text">Bag</span>
           <span class="footer-bag-badge" id="footerBagBadge">0</span>
         </button>
       </div>
@@ -1296,78 +1306,70 @@
       }
     }
 
-    // Show product details in the new section
+    // Show product details with size and color selection
     function showProductDetails(productId) {
       const product = products.find(p => p.id === productId);
-      if (product) {
-        const sizes = product.size.split(",").map(s => s.trim());
-        let sizeHtml = '<p><strong>Sizes:</strong> ';
-        sizes.forEach(size => {
-          sizeHtml += `<button class="btn btn-outline-secondary btn-sm me-1 size-btn" data-size="${size}">${size}</button>`;
-        });
-        sizeHtml += '</p>';
-
-        const colors = product.color.split(",").map(c => c.trim());
-        let colorHtml = '<p><strong>Colors:</strong> ';
-        colors.forEach(color => {
-          colorHtml += `<button class="btn btn-outline-secondary btn-sm me-1 color-btn" data-color="${color}">${color}</button>`;
-        });
-        colorHtml += '</p>';
-
-        // Calculate estimated delivery date
-        const deliveryDays = parseInt(product.deliveryTime.split("-")[0]);
-        const today = new Date();
-        const deliveryDate = new Date(today);
-        deliveryDate.setDate(today.getDate() + deliveryDays);
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        const formattedDate = deliveryDate.toLocaleDateString('en-US', options);
-
-        const detailContent = `
-          <div class="row">
-            <div class="col-md-6">
-              ${generateProductImageHTML(product)}
+      if (!product) return;
+      let sizeButtons = product.size.split(",").map(size => `
+        <button class="btn btn-outline-primary size-btn m-1" onclick="selectSize('${size.trim()}')">${size.trim()}</button>
+      `).join("");
+      let colorButtons = product.color.split(",").map(color => `
+        <button class="btn btn-outline-primary color-btn m-1" onclick="selectColor('${color.trim()}')" style="background-color: ${colorMap[color.trim()] || '#000'}; width: 30px; height: 30px; padding: 0;"></button>
+      `).join("");
+      const productDetailPage = document.getElementById("productDetailPage");
+      productDetailPage.innerHTML = `
+        <div class="row">
+          <div class="col-md-6">${generateProductImageHTML(product)}</div>
+          <div class="col-md-6">
+            <h3>${product.name}</h3>
+            <p>${product.description}</p>
+            <p><strong>Category:</strong> ${product.category}</p>
+            <p><strong>Price:</strong> <s>₹${(product.price * 1.2).toFixed(2)}</s> ₹${product.price.toFixed(2)}</p>
+            <p><strong>Cloth Type:</strong> ${product.clothType}</p>
+            <p><strong>Delivery:</strong> ${product.deliveryTime}</p>
+            <p><strong>Return Policy:</strong> ${product.returnPolicy}</p>
+            <p><strong>Additional Details:</strong> ${product.additionalDetails}</p>
+            <div class="mb-3">
+              <strong>Sizes:</strong><br>${sizeButtons}
             </div>
-            <div class="col-md-6">
-              <h3>${product.name}</h3>
-              <p><strong>Description:</strong> ${product.description}</p>
-              <p><strong>Price:</strong> <s>₹${(product.price * 1.2).toFixed(2)}</s> ₹${product.price.toFixed(2)}</p>
-              ${sizeHtml}
-              ${colorHtml}
-              <p><strong>Cloth Type:</strong> ${product.clothType}</p>
-              <p><strong>Delivery:</strong> <i class="bi bi-truck"></i> ${product.deliveryTime} (Estimated: ${formattedDate})</p>
-              <p><strong>Return Policy:</strong> <i class="bi bi-arrow-repeat"></i> ${product.returnPolicy}</p>
-              <p><strong>Payment:</strong> <i class="bi bi-cash-stack"></i> Cash on Delivery Available</p>
-              <p><strong>Details:</strong> ${product.additionalDetails}</p>
-              <div class="d-grid gap-2">
-                <button class="btn btn-success" onclick="buyProductWithSelection(${product.id})">Buy Now</button>
-                <button class="btn btn-primary" onclick="addToCartWithSelection(${product.id})">Add to Bag</button>
-              </div>
+            <div class="mb-3">
+              <strong>Colors:</strong><br>${colorButtons}
             </div>
+            <button class="btn btn-success me-2" onclick="buyProductWithSelection(${product.id})">Buy Now</button>
+            <button class="btn btn-primary" onclick="addToCartWithSelection(${product.id})">Add to Bag</button>
           </div>
-        `;
-        document.getElementById("productDetailPage").innerHTML = detailContent;
+        </div>
+      `;
+      showSection("productDetailSection");
+    }
 
-        // Add event listeners for size and color buttons
-        const sizeButtons = document.querySelectorAll("#productDetailPage .size-btn");
-        sizeButtons.forEach(btn => {
-          btn.addEventListener("click", function() {
-            sizeButtons.forEach(b => b.classList.remove("active"));
-            this.classList.add("active");
-            document.getElementById("productDetailSection").dataset.selectedSize = this.dataset.size;
-          });
-        });
+    // Show product images in modal
+    function showProductImages(productId) {
+      const product = products.find(p => p.id === productId);
+      if (!product || !product.images || product.images.length === 0) return;
+      const carouselInner = document.getElementById("carouselInner");
+      carouselInner.innerHTML = product.images.map((img, index) => `
+        <div class="carousel-item ${index === 0 ? "active" : ""}">
+          <img src="${img}" class="d-block w-100" alt="${product.name} image ${index + 1}">
+        </div>
+      `).join("");
+      const modal = new bootstrap.Modal(document.getElementById("productImagesModal"));
+      modal.show();
+    }
 
-        const colorButtons = document.querySelectorAll("#productDetailPage .color-btn");
-        colorButtons.forEach(btn => {
-          btn.addEventListener("click", function() {
-            colorButtons.forEach(b => b.classList.remove("active"));
-            this.classList.add("active");
-            document.getElementById("productDetailSection").dataset.selectedColor = this.dataset.color;
-          });
-        });
+    // Show product details with size and color selection
+    // Select size
+    function selectSize(size) {
+      document.querySelectorAll(".size-btn").forEach(btn => btn.classList.remove("active"));
+      event.target.classList.add("active");
+      document.getElementById("productDetailSection").dataset.selectedSize = size;
+    }
 
-        showSection("productDetailSection");
-      }
+    // Select color
+    function selectColor(color) {
+      document.querySelectorAll(".color-btn").forEach(btn => btn.classList.remove("active"));
+      event.target.classList.add("active");
+      document.getElementById("productDetailSection").dataset.selectedColor = color;
     }
 
   // Buy product with selection
