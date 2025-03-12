@@ -1235,39 +1235,49 @@
       "White": "#ffffff"
     };
 
-    // Load data from localStorage
-    function loadData() {
-      const storedUsers = localStorage.getItem("users");
-      const storedCart = localStorage.getItem("cart");
-      const storedOrders = localStorage.getItem("orders");
-      const storedNotifications = localStorage.getItem("notifications");
-      const storedOwnerNotifications = localStorage.getItem("ownerNotifications");
-      const storedWishlist = localStorage.getItem("wishlist");
-      const storedCurrentUser = localStorage.getItem("currentUser");
-
-      users = storedUsers ? JSON.parse(storedUsers) : [];
-      cart = storedCart ? JSON.parse(storedCart) : [];
-      orders = storedOrders ? JSON.parse(storedOrders) : [];
-      notifications = storedNotifications ? JSON.parse(storedNotifications) : [];
-      ownerNotifications = storedOwnerNotifications ? JSON.parse(storedOwnerNotifications) : [];
-      wishlist = storedWishlist ? JSON.parse(storedWishlist) : [];
-      currentUser = storedCurrentUser ? JSON.parse(storedCurrentUser) : null;
-
+   // Load data from localStorage
+   window.onload = function() {
+    const storedUser = localStorage.getItem("userData");
+    if (storedUser) {
+      currentUser = JSON.parse(storedUser);
       updateHeaderProfile();
       updateMenuAccountDetails();
-      updateCartCountBadge();
     }
+    const storedOrders = localStorage.getItem("ordersData");
+    if (storedOrders) {
+      orders = JSON.parse(storedOrders).map(order => ({
+        ...order,
+        received: order.received || false,
+        rating: order.rating || null,
+        review: order.review || null
+      }));
+    }
+    const storedCart = localStorage.getItem("cartData");
+    if (storedCart) { cart = JSON.parse(storedCart); updateCartCountBadge(); }
+    const storedNotifications = localStorage.getItem("notificationsData");
+    if (storedNotifications) { notifications = JSON.parse(storedNotifications); updateNotifications(); }
+    const storedOwnerNotifications = localStorage.getItem("ownerNotificationsData");
+    if (storedOwnerNotifications) { ownerNotifications = JSON.parse(storedOwnerNotifications); }
+    const storedWishlist = localStorage.getItem("wishlistData");
+    if (storedWishlist) { wishlist = JSON.parse(storedWishlist); }
+    const storedUsers = localStorage.getItem("usersData");
+    if (storedUsers) { users = JSON.parse(storedUsers); }
 
-    // Save data to localStorage
-    function saveData() {
-      localStorage.setItem("users", JSON.stringify(users));
-      localStorage.setItem("cart", JSON.stringify(cart));
-      localStorage.setItem("orders", JSON.stringify(orders));
-      localStorage.setItem("notifications", JSON.stringify(notifications));
-      localStorage.setItem("ownerNotifications", JSON.stringify(ownerNotifications));
-      localStorage.setItem("wishlist", JSON.stringify(wishlist));
-      localStorage.setItem("currentUser", JSON.stringify(currentUser));
-    }
+    document.getElementById("filterSize").addEventListener("change", applyFilters);
+    document.getElementById("filterColor").addEventListener("change", applyFilters);
+    document.getElementById("filterPrice").addEventListener("change", applyFilters);
+  };
+
+  // Save data to localStorage
+  function saveData() {
+    localStorage.setItem("userData", JSON.stringify(currentUser));
+    localStorage.setItem("ordersData", JSON.stringify(orders));
+    localStorage.setItem("cartData", JSON.stringify(cart));
+    localStorage.setItem("notificationsData", JSON.stringify(notifications));
+    localStorage.setItem("ownerNotificationsData", JSON.stringify(ownerNotifications));
+    localStorage.setItem("wishlistData", JSON.stringify(wishlist));
+    localStorage.setItem("usersData", JSON.stringify(users));
+  }
 
     // Notify owner
     function notifyOwner(message) {
