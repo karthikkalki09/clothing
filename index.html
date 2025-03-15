@@ -1992,7 +1992,7 @@
       }
     }
 
-     // Update Seller Dashboard
+     // Update Seller Dashboard with Print and Download buttons and reviews
      function updateSellerDashboard() {
       const sellerDashboardContent = document.getElementById("sellerDashboardContent");
       let html = "<h2>Users</h2>";
@@ -2051,6 +2051,11 @@
                     <p><strong>Payment Method:</strong> ${order.payment}</p>
                     <p><strong>Status:</strong> ${order.cancelled ? 'Cancelled' : 'Active'}</p>
                     ${order.cancelled ? `<p><strong>Cancellation Reason:</strong> ${order.cancellationReason}</p>` : ''}
+                    ${order.review !== null ? `
+                      <h6>Customer Review</h6>
+                      <p><strong>Rating:</strong> ${generateStarRating(order.rating)}</p>
+                      <p><strong>Review:</strong> ${order.review}</p>
+                    ` : ''}
                   </div>
                 </div>
                 <div class="qr-code-container mt-3">
@@ -2085,7 +2090,7 @@
         html += '</div>';
       }
       sellerDashboardContent.innerHTML = html;
-
+  
       // Generate QR codes for each order
       orders.forEach((order, index) => {
         const qrDiv = document.getElementById(`qrcode-${index}`);
@@ -2098,7 +2103,7 @@
         }
       });
     }
-
+  
     // Clear owner notifications
     function clearOwnerNotifications() {
       if (confirm("Are you sure you want to clear all notifications?")) {
@@ -2108,46 +2113,53 @@
         showNotification("All notifications cleared.", "info");
       }
     }
-
+  
     // Function to print order card with QR code
     function printOrder(index) {
       const orderCards = document.querySelectorAll('.order-card');
       if (index < 0 || index >= orderCards.length) return;
       const orderCard = orderCards[index];
       
+      // Add print-mode classes
       document.body.classList.add('print-mode');
       orderCard.classList.add('print-selected');
       
+      // Trigger print
       window.print();
       
+      // Clean up after printing
       window.addEventListener('afterprint', function() {
         document.body.classList.remove('print-mode');
         orderCard.classList.remove('print-selected');
       }, { once: true });
     }
-
+  
     // Function to download order card as PNG with QR code
     function downloadOrder(index) {
-      const orderCards = document.querySelectorAll('.order-card');
-      if (index < 0 || index >= orderCards.length) return;
-      const orderCard = orderCards[index];
-      
-      html2canvas(orderCard).then(canvas => {
-        const link = document.createElement('a');
-        link.href = canvas.toDataURL('image/png');
-        link.download = `order_${index + 1}.png`;
-        link.click();
-      }).catch(error => {
-        console.error('Error generating image:', error);
-        showNotification('Failed to generate image for download.', 'danger');
-      });
-    }
+        const orderCards = document.querySelectorAll('.order-card');
+        if (index < 0 || index >= orderCards.length) return;
+        const orderCard = orderCards[index];
+        
+        html2canvas(orderCard).then(canvas => {
+          const link = document.createElement('a');
+          link.href = canvas.toDataURL('image/png');
+          link.download = `order_${index + 1}.png`;
+          link.click();
+        }).catch(error => {
+          console.error('Error generating image:', error);
+          showNotification('Failed to generate image for download.', 'danger');
+        });
+      }
+    </script>
 
-    // Initialize
-    loadData();
-  </script>
-
-  <!-- Bootstrap JS Bundle -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+<!-- Bootstrap JS Bundle -->
+<script src="index.js"></script>
+<!-- html2canvas Library for Download Functionality -->
+<script src="index1.js"></script>
+  
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- html2canvas Library for Download Functionality -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  </body>
+  </html>
