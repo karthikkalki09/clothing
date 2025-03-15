@@ -988,37 +988,47 @@
 
 
     // Load data from localStorage
-    function loadData() {
-      const savedUsers = localStorage.getItem("users");
-      const savedCart = localStorage.getItem("cart");
-      const savedOrders = localStorage.getItem("orders");
-      const savedNotifications = localStorage.getItem("notifications");
-      const savedOwnerNotifications = localStorage.getItem("ownerNotifications");
-      const savedWishlist = localStorage.getItem("wishlist");
-      const savedUser = localStorage.getItem("currentUser");
-
-      users = savedUsers ? JSON.parse(savedUsers) : [];
-      cart = savedCart ? JSON.parse(savedCart) : [];
-      orders = savedOrders ? JSON.parse(savedOrders) : [];
-      notifications = savedNotifications ? JSON.parse(savedNotifications) : [];
-      ownerNotifications = savedOwnerNotifications ? JSON.parse(savedOwnerNotifications) : [];
-      wishlist = savedWishlist ? JSON.parse(savedWishlist) : [];
-      currentUser = savedUser ? JSON.parse(savedUser) : null;
-
-      updateCartCountBadge();
-      updateHeaderProfile();
-      updateMenuAccountDetails();
-    }
-
+    window.onload = function() {
+      const storedUser = localStorage.getItem("userData");
+      if (storedUser) {
+        currentUser = JSON.parse(storedUser);
+        updateHeaderProfile();
+        updateMenuAccountDetails();
+      }
+      const storedOrders = localStorage.getItem("ordersData");
+      if (storedOrders) {
+        orders = JSON.parse(storedOrders).map(order => ({
+          ...order,
+          received: order.received || false,
+          rating: order.rating || null,
+          review: order.review || null
+        }));
+      }
+      const storedCart = localStorage.getItem("cartData");
+      if (storedCart) { cart = JSON.parse(storedCart); updateCartCountBadge(); }
+      const storedNotifications = localStorage.getItem("notificationsData");
+      if (storedNotifications) { notifications = JSON.parse(storedNotifications); updateNotifications(); }
+      const storedOwnerNotifications = localStorage.getItem("ownerNotificationsData");
+      if (storedOwnerNotifications) { ownerNotifications = JSON.parse(storedOwnerNotifications); }
+      const storedWishlist = localStorage.getItem("wishlistData");
+      if (storedWishlist) { wishlist = JSON.parse(storedWishlist); }
+      const storedUsers = localStorage.getItem("usersData");
+      if (storedUsers) { users = JSON.parse(storedUsers); }
+  
+      document.getElementById("filterSize").addEventListener("change", applyFilters);
+      document.getElementById("filterColor").addEventListener("change", applyFilters);
+      document.getElementById("filterPrice").addEventListener("change", applyFilters);
+    };
+  
     // Save data to localStorage
     function saveData() {
-      localStorage.setItem("users", JSON.stringify(users));
-      localStorage.setItem("cart", JSON.stringify(cart));
-      localStorage.setItem("orders", JSON.stringify(orders));
-      localStorage.setItem("notifications", JSON.stringify(notifications));
-      localStorage.setItem("ownerNotifications", JSON.stringify(ownerNotifications));
-      localStorage.setItem("wishlist", JSON.stringify(wishlist));
-      localStorage.setItem("currentUser", JSON.stringify(currentUser));
+      localStorage.setItem("userData", JSON.stringify(currentUser));
+      localStorage.setItem("ordersData", JSON.stringify(orders));
+      localStorage.setItem("cartData", JSON.stringify(cart));
+      localStorage.setItem("notificationsData", JSON.stringify(notifications));
+      localStorage.setItem("ownerNotificationsData", JSON.stringify(ownerNotifications));
+      localStorage.setItem("wishlistData", JSON.stringify(wishlist));
+      localStorage.setItem("usersData", JSON.stringify(users));
     }
 
     // Update header profile
@@ -1992,150 +2002,142 @@
       }
     }
 
-     // Update Seller Dashboard with Print and Download buttons and reviews
-     function updateSellerDashboard() {
-      const sellerDashboardContent = document.getElementById("sellerDashboardContent");
-      let html = "<h2>Users</h2>";
-      if (users.length === 0) {
-        html += "<p>No users yet.</p>";
-      } else {
-        html += '<div class="list-group">';
-        users.forEach(user => {
-          html += `
-            <div class="list-group-item">
-              <strong>${user.firstName} ${user.lastName}</strong><br>
-              <small>${user.email}</small><br>
-              <small>Mobile: ${user.mobile || "Not provided"}</small>
-            </div>
-          `;
-        });
-        html += '</div>';
-      }
-      html += "<h2 class='mt-4'>Orders</h2>";
-      if (orders.length === 0) {
-        html += "<p>No orders yet.</p>";
-      } else {
-        orders.forEach((order, index) => {
-          const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
-          html += `
-            <div class="card mb-3 shadow-sm order-card">
-              <div class="card-header">
-                Order #${index + 1} - ${order.date}
+      // Update Seller Dashboard
+      function updateSellerDashboard() {
+        const sellerDashboardContent = document.getElementById("sellerDashboardContent");
+        let html = "<h2>Users</h2>";
+        if (users.length === 0) {
+          html += "<p>No users yet.</p>";
+        } else {
+          html += '<div class="list-group">';
+          users.forEach(user => {
+            html += `
+              <div class="list-group-item">
+                <strong>${user.firstName} ${user.lastName}</strong><br>
+                <small>${user.email}</small><br>
+                <small>Mobile: ${user.mobile || "Not provided"}</small>
               </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-12 col-md-4 mb-3 mb-md-0">
-                    <h6>Buyer Information</h6>
-                    <p><strong>Name:</strong> ${order.buyer.firstName} ${order.buyer.lastName}</p>
-                    <p><strong>Email:</strong> ${order.buyer.email}</p>
-                    <p><strong>Mobile:</strong> ${order.mobile}</p>
+            `;
+          });
+          html += '</div>';
+        }
+        html += "<h2 class='mt-4'>Orders</h2>";
+        if (orders.length === 0) {
+          html += "<p>No orders yet.</p>";
+        } else {
+          orders.forEach((order, index) => {
+            const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
+            html += `
+              <div class="card mb-3 shadow-sm order-card">
+                <div class="card-header">
+                  Order #${index + 1} - ${order.date}
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-12 col-md-4 mb-3 mb-md-0">
+                      <h6>Buyer Information</h6>
+                      <p><strong>Name:</strong> ${order.buyer.firstName} ${order.buyer.lastName}</p>
+                      <p><strong>Email:</strong> ${order.buyer.email}</p>
+                      <p><strong>Mobile:</strong> ${order.mobile}</p>
+                    </div>
+                    <div class="col-12 col-md-4 mb-3 mb-md-0">
+                      <h6>Product Information</h6>
+                      <img src="${productImage}" alt="${order.product.name}" class="img-fluid mb-2" style="max-width:100px; max-height:100px;" >
+                      <p><strong>Name:</strong> ${order.product.name}</p>
+                      <p><strong>Description:</strong> ${order.product.description}</p>
+                      <p><strong>Selected Size:</strong> ${order.product.selectedSize}</p>
+                      <p><strong>Selected Color:</strong> ${order.product.selectedColor}</p>
+                      <p><strong>Price:</strong> 
+                        ${order.product.originalPrice && order.product.originalPrice > order.product.price ? 
+                          `<s>₹${order.product.originalPrice.toFixed(2)}</s> ` : 
+                          ''}
+                        ₹${order.product.price.toFixed(2)}
+                      </p>
+                      <p><strong>Category:</strong> ${order.product.category}</p>
+                    </div>
+                    <div class="col-12 col-md-4">
+                      <h6>Shipping Information</h6>
+                      <p><strong>Address:</strong> ${order.address}</p>
+                      <p><strong>Payment Method:</strong> ${order.payment}</p>
+                      <p><strong>Status:</strong> ${order.cancelled ? 'Cancelled' : 'Active'}</p>
+                      ${order.cancelled ? `<p><strong>Cancellation Reason:</strong> ${order.cancellationReason}</p>` : ''}
+                    </div>
                   </div>
-                  <div class="col-12 col-md-4 mb-3 mb-md-0">
-                    <h6>Product Information</h6>
-                    <img src="${productImage}" alt="${order.product.name}" class="img-fluid mb-2" style="max-width:100px; max-height:100px;" >
-                    <p><strong>Name:</strong> ${order.product.name}</p>
-                    <p><strong>Description:</strong> ${order.product.description}</p>
-                    <p><strong>Selected Size:</strong> ${order.product.selectedSize}</p>
-                    <p><strong>Selected Color:</strong> ${order.product.selectedColor}</p>
-                    <p><strong>Price:</strong> 
-                      ${order.product.originalPrice && order.product.originalPrice > order.product.price ? 
-                        `<s>₹${order.product.originalPrice.toFixed(2)}</s> ` : 
-                        ''}
-                      ₹${order.product.price.toFixed(2)}
-                    </p>
-                    <p><strong>Category:</strong> ${order.product.category}</p>
-                  </div>
-                  <div class="col-12 col-md-4">
-                    <h6>Shipping Information</h6>
-                    <p><strong>Address:</strong> ${order.address}</p>
-                    <p><strong>Payment Method:</strong> ${order.payment}</p>
-                    <p><strong>Status:</strong> ${order.cancelled ? 'Cancelled' : 'Active'}</p>
-                    ${order.cancelled ? `<p><strong>Cancellation Reason:</strong> ${order.cancellationReason}</p>` : ''}
-                    ${order.review !== null ? `
-                      <h6>Customer Review</h6>
-                      <p><strong>Rating:</strong> ${generateStarRating(order.rating)}</p>
-                      <p><strong>Review:</strong> ${order.review}</p>
-                    ` : ''}
+                  <div class="qr-code-container mt-3">
+                    <h6>Order QR Code</h6>
+                    <div id="qrcode-${index}"></div>
                   </div>
                 </div>
-                <div class="qr-code-container mt-3">
-                  <h6>Order QR Code</h6>
-                  <div id="qrcode-${index}"></div>
+                <div class="card-footer text-end">
+                  <button class="btn btn-primary me-2" onclick="printOrder(${index})">Print</button>
+                  <button class="btn btn-secondary" onclick="downloadOrder(${index})">Download</button>
                 </div>
               </div>
-              <div class="card-footer text-end">
-                <button class="btn btn-primary me-2" onclick="printOrder(${index})">Print</button>
-                <button class="btn btn-secondary" onclick="downloadOrder(${index})">Download</button>
-              </div>
-            </div>
-          `;
-        });
-      }
-      html += "<h2 class='mt-4'>Notifications</h2>";
-      if (ownerNotifications.length === 0) {
-        html += "<p>No notifications yet.</p>";
-      } else {
-        html += `<div class="d-flex justify-content-end mb-3">
-                   <button class="btn btn-danger btn-sm" onclick="clearOwnerNotifications()">Clear Notifications</button>
-                 </div>`;
-        html += '<div class="list-group">';
-        ownerNotifications.slice().reverse().forEach(notif => {
-          html += `
-            <div class="list-group-item">
-              <i class="bi bi-bell-fill me-2"></i>
-              <strong>${notif.date}</strong>: ${notif.message}
-            </div>
-          `;
-        });
-        html += '</div>';
-      }
-      sellerDashboardContent.innerHTML = html;
-  
-      // Generate QR codes for each order
-      orders.forEach((order, index) => {
-        const qrDiv = document.getElementById(`qrcode-${index}`);
-        if (qrDiv) {
-          new QRCode(qrDiv, {
-            text: order.qrData,
-            width: 128,
-            height: 128
+            `;
           });
         }
-      });
-    }
+        html += "<h2 class='mt-4'>Notifications</h2>";
+        if (ownerNotifications.length === 0) {
+          html += "<p>No notifications yet.</p>";
+        } else {
+          html += `<div class="d-flex justify-content-end mb-3">
+                     <button class="btn btn-danger btn-sm" onclick="clearOwnerNotifications()">Clear Notifications</button>
+                   </div>`;
+          html += '<div class="list-group">';
+          ownerNotifications.slice().reverse().forEach(notif => {
+            html += `
+              <div class="list-group-item">
+                <i class="bi bi-bell-fill me-2"></i>
+                <strong>${notif.date}</strong>: ${notif.message}
+              </div>
+            `;
+          });
+          html += '</div>';
+        }
+        sellerDashboardContent.innerHTML = html;
   
-    // Clear owner notifications
-    function clearOwnerNotifications() {
-      if (confirm("Are you sure you want to clear all notifications?")) {
-        ownerNotifications = [];
-        saveData();
-        updateSellerDashboard();
-        showNotification("All notifications cleared.", "info");
+        // Generate QR codes for each order
+        orders.forEach((order, index) => {
+          const qrDiv = document.getElementById(`qrcode-${index}`);
+          if (qrDiv) {
+            new QRCode(qrDiv, {
+              text: order.qrData,
+              width: 128,
+              height: 128
+            });
+          }
+        });
       }
-    }
   
-    // Function to print order card with QR code
-    function printOrder(index) {
-      const orderCards = document.querySelectorAll('.order-card');
-      if (index < 0 || index >= orderCards.length) return;
-      const orderCard = orderCards[index];
-      
-      // Add print-mode classes
-      document.body.classList.add('print-mode');
-      orderCard.classList.add('print-selected');
-      
-      // Trigger print
-      window.print();
-      
-      // Clean up after printing
-      window.addEventListener('afterprint', function() {
-        document.body.classList.remove('print-mode');
-        orderCard.classList.remove('print-selected');
-      }, { once: true });
-    }
+      // Clear owner notifications
+      function clearOwnerNotifications() {
+        if (confirm("Are you sure you want to clear all notifications?")) {
+          ownerNotifications = [];
+          saveData();
+          updateSellerDashboard();
+          showNotification("All notifications cleared.", "info");
+        }
+      }
   
-    // Function to download order card as PNG with QR code
-    function downloadOrder(index) {
+      // Function to print order card with QR code
+      function printOrder(index) {
+        const orderCards = document.querySelectorAll('.order-card');
+        if (index < 0 || index >= orderCards.length) return;
+        const orderCard = orderCards[index];
+        
+        document.body.classList.add('print-mode');
+        orderCard.classList.add('print-selected');
+        
+        window.print();
+        
+        window.addEventListener('afterprint', function() {
+          document.body.classList.remove('print-mode');
+          orderCard.classList.remove('print-selected');
+        }, { once: true });
+      }
+  
+      // Function to download order card as PNG with QR code
+      function downloadOrder(index) {
         const orderCards = document.querySelectorAll('.order-card');
         if (index < 0 || index >= orderCards.length) return;
         const orderCard = orderCards[index];
@@ -2150,16 +2152,12 @@
           showNotification('Failed to generate image for download.', 'danger');
         });
       }
+  
+      // Initialize
+      loadData();
     </script>
-
-<!-- Bootstrap JS Bundle -->
-<script src="index.js"></script>
-<!-- html2canvas Library for Download Functionality -->
-<script src="index1.js"></script>
   
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- html2canvas Library for Download Functionality -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   </body>
   </html>
