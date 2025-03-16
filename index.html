@@ -99,6 +99,7 @@
     .footer-nav .nav-link:hover, .footer-nav .nav-link:hover i, .footer-nav .nav-link:hover .nav-text { color: #ffdd57; }
     .footer-bag-badge { position: absolute; top: 5px; right: 10px; background: #d9534f; color: #fff; border-radius: 50%; padding: 2px 6px; font-size: 0.75rem; }
 
+    
     /* Wishlist Button Styling */
     .wishlist-btn { background: rgba(255, 255, 255, 0.8); border-radius: 50%; border: none; padding: 5px; }
 
@@ -376,18 +377,17 @@
     </div>
   </div>
 
-  <!-- Wishlist Section -->
-  <div id="wishlistSection" class="section fade-in">
-    <header class="py-3 border-bottom bg-light">
-      <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home"><i class="bi bi-arrow-left"></i> Home</button>
-        <h1 class="h5 mb-0">Wishlist</h1>
-        <div></div>
-      </div>
-    </header>
-    <div class="container my-4" id="wishlistContainer"></div>
-  </div>
-
+ <!-- Wishlist Section -->
+ <div id="wishlistSection" class="section fade-in">
+  <header class="py-3 border-bottom bg-light">
+    <div class="container d-flex justify-content-between align-items-center">
+      <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home"><i class="bi bi-arrow-left"></i> Home</button>
+      <h1 class="h5 mb-0">Wishlist</h1>
+      <div></div>
+    </div>
+  </header>
+  <div class="container my-4" id="wishlistContainer"></div>
+</div>
   <!-- Categories Section -->
   <div id="categoriesSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
@@ -1066,6 +1066,31 @@
       }
     ];
 
+     // Load data from localStorage
+     function loadData() {
+      const savedUsers = localStorage.getItem("users");
+      const savedCart = localStorage.getItem("cart");
+      const savedOrders = localStorage.getItem("orders");
+      const savedNotifications = localStorage.getItem("notifications");
+      const savedOwnerNotifications = localStorage.getItem("ownerNotifications");
+      const savedWishlist = localStorage.getItem("wishlist");
+      if (savedUsers) users = JSON.parse(savedUsers);
+      if (savedCart) cart = JSON.parse(savedCart);
+      if (savedOrders) orders = JSON.parse(savedOrders);
+      if (savedNotifications) notifications = JSON.parse(savedNotifications);
+      if (savedOwnerNotifications) ownerNotifications = JSON.parse(savedOwnerNotifications);
+      if (savedWishlist) wishlist = JSON.parse(savedWishlist);
+      currentUser = users.find(u => u.isLoggedIn) || null;
+      updateHeaderProfile();
+      updateMenuAccountDetails();
+      updateCartCountBadge();
+      applyFilters();
+      applyMenswearFilters();
+      applyAccessoriesFilters();
+      updateWishlistSection();
+      updateOrdersList();
+    }
+
     // Save data to localStorage
     function saveData() {
       localStorage.setItem("users", JSON.stringify(users));
@@ -1074,33 +1099,6 @@
       localStorage.setItem("notifications", JSON.stringify(notifications));
       localStorage.setItem("ownerNotifications", JSON.stringify(ownerNotifications));
       localStorage.setItem("wishlist", JSON.stringify(wishlist));
-      localStorage.setItem("currentUser", JSON.stringify(currentUser));
-    }
-
-    // Load data from localStorage
-    function loadData() {
-      users = JSON.parse(localStorage.getItem("users")) || [];
-      cart = JSON.parse(localStorage.getItem("cart")) || [];
-      orders = JSON.parse(localStorage.getItem("orders")) || [];
-      notifications = JSON.parse(localStorage.getItem("notifications")) || [];
-      ownerNotifications = JSON.parse(localStorage.getItem("ownerNotifications")) || [];
-      wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-      currentUser = JSON.parse(localStorage.getItem("currentUser"));
-      if (currentUser && currentUser.isLoggedIn) {
-        const userIndex = users.findIndex(u => u.email === currentUser.email);
-        if (userIndex !== -1) {
-          currentUser = users[userIndex];
-          currentUser.isLoggedIn = true;
-        } else {
-          currentUser = null;
-        }
-      } else {
-        currentUser = null;
-      }
-      updateHeaderProfile();
-      updateMenuAccountDetails();
-      updateCartCountBadge();
-      updateOrdersList();
     }
 
     // Update header profile
@@ -1115,31 +1113,35 @@
       if (menuCanvas) menuCanvas.hide();
     }
 
-    // Generate products
-    function generateProducts(containerId, productList) {
-      const container = document.getElementById(containerId);
-      if (productList.length === 0) {
-        container.innerHTML = "<p>No products available.</p>";
-        return;
-      }
-      let html = "";
-      productList.forEach(product => {
-        const originalPrice = (product.price * 1.2).toFixed(2);
-        html += `
-          <div class="col-6 col-md-4 col-lg-3 mb-4">
-            <div class="card h-100 shadow-sm" style="cursor: pointer;" onclick="showProductDetails(${product.id})">
-              <img src="${product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name)}" class="card-img-top" alt="${product.name}">
-              <div class="card-body">
-                <h5 class="card-title">${product.name}</h5>
-                <p class="card-text">${product.description.substring(0, 50)}...</p>
-                <p class="card-text"><small class="text-muted"><s>₹${originalPrice}</s> ₹${product.price.toFixed(2)}</small></p>
-              </div>
+  // Generate products
+  function generateProducts(containerId, productList) {
+    const container = document.getElementById(containerId);
+    if (productList.length === 0) {
+      container.innerHTML = "<p>No products available.</p>";
+      return;
+    }
+    let html = "";
+    productList.forEach(product => {
+      const originalPrice = (product.price * 1.2).toFixed(2);
+      html += `
+        <div class="col-6 col-md-4 col-lg-3 mb-4">
+          <div class="card h-100 shadow-sm" style="cursor: pointer;" onclick="showProductDetails(${product.id})">
+            <img src="${product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name)}" class="card-img-top" alt="${product.name}">
+            <div class="card-body">
+              <h5 class="card-title">${product.name}</h5>
+              <p class="card-text">${product.description.substring(0, 50)}...</p>
+              <p class="card-text"><small class="text-muted"><s>₹${originalPrice}</s> ₹${product.price.toFixed(2)}</small></p>
+            </div>
+           <button class="wishlist-btn position-absolute top-0 end-0 m-2" onclick="event.stopPropagation(); addToWishlist(${product.id})" aria-label="Add ${product.name} to Wishlist">
+                <i class="fas fa-heart"></i>
+              </button>
             </div>
           </div>
-        `;
-      });
-      container.innerHTML = html;
-    }
+        </div>
+      `;
+    });
+    container.innerHTML = html;
+  }
 
     // Show product details with size and color selection and icons
     function showProductDetails(productId) {
@@ -1264,12 +1266,14 @@
 
     // Show notification
     function showNotification(message, type = "success") {
+      const notif = { message, type, date: new Date().toLocaleString() };
+      notifications.push(notif);
+      saveData();
+      updateNotifications();
+
       const toastContainer = document.getElementById("toastContainer");
       const toastEl = document.createElement("div");
-      toastEl.className = `toast align-items-center text-white bg-${type} border-0`;
-      toastEl.setAttribute("role", "alert");
-      toastEl.setAttribute("aria-live", "assertive");
-      toastEl.setAttribute("aria-atomic", "true");
+      toastEl.className = `toast align-items-center text-white bg-${type === "success" ? "success" : (type === "danger" ? "danger" : "warning")} border-0 mb-2`;
       toastEl.innerHTML = `
         <div class="d-flex">
           <div class="toast-body">${message}</div>
@@ -1589,35 +1593,34 @@
       }
     }
 
-    // Update orders list
-    function updateOrdersList() {
-      const ordersList = document.getElementById("ordersList");
-      if (!currentUser || orders.length === 0) {
-        ordersList.innerHTML = "<p>You have not placed any orders yet.</p>";
-      } else {
-        let html = "";
-        orders.filter(order => order.buyer.email === currentUser.email).forEach((order, index) => {
-          const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
-          const originalPrice = (order.product.price * 1.2).toFixed(2);
-          html += `
-            <div class="card mb-3 shadow-sm" style="cursor:pointer;" onclick="showOrderDetailPage(${index})">
-              <div class="card-header"><span>Order #${index + 1} - ${order.date}</span></div>
-              <div class="card-body d-flex align-items-center">
-                <img src="${productImage}" style="max-height:50px; margin-right:10px;" alt="${order.product.name}">
-                <div>
-                  <span>${order.product.name} (Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor})</span><br>
-                  <small class="text-muted"><s>₹${originalPrice}</s> ₹${order.product.price.toFixed(2)}</small>
-                  ${order.received ? '<span class="badge bg-success ms-2">Received</span>' : ''}
-                  ${order.cancelled ? '<span class="badge bg-danger ms-2">Cancelled</span>' : ''}
-                </div>
+   // Update orders list
+   function updateOrdersList() {
+    const ordersList = document.getElementById("ordersList");
+    if (!currentUser || orders.length === 0) {
+      ordersList.innerHTML = "<p>You have not placed any orders yet.</p>";
+    } else {
+      let html = "";
+      orders.filter(order => order.buyer.email === currentUser.email).forEach((order, index) => {
+        const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
+        const originalPrice = (order.product.price * 1.2).toFixed(2);
+        html += `
+          <div class="card mb-3 shadow-sm" style="cursor:pointer;" onclick="showOrderDetailPage(${index})">
+            <div class="card-header"><span>Order #${index + 1} - ${order.date}</span></div>
+            <div class="card-body d-flex align-items-center">
+              <img src="${productImage}" style="max-height:50px; margin-right:10px;" alt="${order.product.name}">
+              <div>
+                <span>${order.product.name} (Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor})</span><br>
+                <small class="text-muted"><s>₹${originalPrice}</s> ₹${order.product.price.toFixed(2)}</small>
+                ${order.received ? '<span class="badge bg-success ms-2">Received</span>' : ''}
+                ${order.cancelled ? '<span class="badge bg-danger ms-2">Cancelled</span>' : ''}
               </div>
             </div>
-          `;
-        });
-        ordersList.innerHTML = html || "<p>You have not placed any orders yet.</p>";
-      }
+          </div>
+        `;
+      });
+      ordersList.innerHTML = html || "<p>You have not placed any orders yet.</p>";
     }
-
+  }
     // Show order detail page with track bar
     function showOrderDetailPage(orderIndex) {
       currentOrderIndex = orderIndex;
