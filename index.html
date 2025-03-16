@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -104,8 +105,9 @@
     /* Dynamic Hover Effects */
     .btn:hover { transform: scale(1.05); transition: transform 0.3s; }
     .card:hover { box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s; }
-     /* Track Bar Styling */
-     .track-bar {
+
+    /* Updated Track Bar Styling */
+    .track-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -126,10 +128,10 @@
       background-color: #ccc;
       z-index: -1;
     }
-    .track-step.active:not(:last-child):after {
+    .track-bar.received .track-step:not(:last-child):after {
       background-color: #28a745;
     }
-    .track-step.cancelled:not(:last-child):after {
+    .track-bar.cancelled .track-step:not(:last-child):after {
       background-color: #dc3545;
     }
     .track-step span {
@@ -429,84 +431,84 @@
     <div class="container" id="sellerDashboardContent"></div>
   </div>
 
- <!-- Owner Dashboard Section -->
- <div id="ownerDashboard" class="section fade-in">
-  <header class="py-3 border-bottom bg-light">
-    <div class="container d-flex justify-content-between align-items-center">
-      <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home"><i class="bi bi-arrow-left"></i> Home</button>
-      <h1 class="h5 mb-0">Owner Dashboard</h1>
-      <button class="btn btn-primary" onclick="updateOwnerDashboard()" aria-label="Refresh Dashboard"><i class="bi bi-arrow-clockwise"></i> Refresh</button>
+  <!-- Owner Dashboard Section -->
+  <div id="ownerDashboard" class="section fade-in">
+    <header class="py-3 border-bottom bg-light">
+      <div class="container d-flex justify-content-between align-items-center">
+        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home"><i class="bi bi-arrow-left"></i> Home</button>
+        <h1 class="h5 mb-0">Owner Dashboard</h1>
+        <button class="btn btn-primary" onclick="updateOwnerDashboard()" aria-label="Refresh Dashboard"><i class="bi bi-arrow-clockwise"></i> Refresh</button>
+      </div>
+    </header>
+    <div class="container my-4">
+      <h2>Website Statistics</h2>
+      <div class="row mt-4">
+        <div class="col-md-4">
+          <div class="card text-center shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Total Members</h5>
+              <p class="card-text display-4" id="totalMembers">0</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card text-center shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Active Users</h5>
+              <p class="card-text display-4" id="activeUsers">0</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card text-center shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Live Users</h5>
+              <p class="card-text display-4" id="liveUsers">0</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2 class="mt-5">Order Statistics</h2>
+      <div class="row mt-4">
+        <div class="col-md-3">
+          <div class="card text-center shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Total Orders</h5>
+              <p class="card-text display-4" id="totalOrders">0</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card text-center shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Active Orders</h5>
+              <p class="card-text display-4" id="activeOrders">0</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card text-center shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Cancelled Orders</h5>
+              <p class="card-text display-4" id="cancelledOrders">0</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card text-center shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Received Orders</h5>
+              <p class="card-text display-4" id="receivedOrders">0</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2 class="mt-5">Order Details</h2>
+      <div id="orderDetailsContainer" class="mt-4"></div>
+      <h2 class="mt-5">User Locations</h2>
+      <div id="userLocationsContainer" class="mt-4"></div>
     </div>
-  </header>
-  <div class="container my-4">
-    <h2>Website Statistics</h2>
-    <div class="row mt-4">
-      <div class="col-md-4">
-        <div class="card text-center shadow-sm">
-          <div class="card-body">
-            <h5 class="card-title">Total Members</h5>
-            <p class="card-text display-4" id="totalMembers">0</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card text-center shadow-sm">
-          <div class="card-body">
-            <h5 class="card-title">Active Users</h5>
-            <p class="card-text display-4" id="activeUsers">0</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card text-center shadow-sm">
-          <div class="card-body">
-            <h5 class="card-title">Live Users</h5>
-            <p class="card-text display-4" id="liveUsers">0</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <h2 class="mt-5">Order Statistics</h2>
-    <div class="row mt-4">
-      <div class="col-md-3">
-        <div class="card text-center shadow-sm">
-          <div class="card-body">
-            <h5 class="card-title">Total Orders</h5>
-            <p class="card-text display-4" id="totalOrders">0</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card text-center shadow-sm">
-          <div class="card-body">
-            <h5 class="card-title">Active Orders</h5>
-            <p class="card-text display-4" id="activeOrders">0</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card text-center shadow-sm">
-          <div class="card-body">
-            <h5 class="card-title">Cancelled Orders</h5>
-            <p class="card-text display-4" id="cancelledOrders">0</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card text-center shadow-sm">
-          <div class="card-body">
-            <h5 class="card-title">Received Orders</h5>
-            <p class="card-text display-4" id="receivedOrders">0</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <h2 class="mt-5">Order Details</h2>
-    <div id="orderDetailsContainer" class="mt-4"></div>
-    <h2 class="mt-5">User Locations</h2>
-    <div id="userLocationsContainer" class="mt-4"></div>
   </div>
-</div>
 
   <!-- Search Section -->
   <div id="searchSection" class="section fade-in">
@@ -1049,71 +1051,62 @@
       {
         id: 5,
         name: "Casual Shirt",
-        description: "Relaxed fit shirt for casual outings.",
+        description: "Elegant casual shirt for everyday wear.",
         category: "Men's Wear",
         price: 24.99,
-        size: "S, M, L, XL",
+        size: "S, M, L",
         color: "White, Blue",
-        clothType: "Cotton",
+        clothType: "Cotton Blend",
         deliveryTime: "3-5 days",
         returnPolicy: "10 days return policy",
-        additionalDetails: "Easy to care, perfect for everyday wear.",
+        additionalDetails: "Breathable fabric, perfect for casual outings.",
         images: [
-          "https://i.pinimg.com/474x/33/06/5a/33065a3f2e278f12599ee3303c762f18.jpg",
-          "https://i.pinimg.com/474x/ac/ef/2d/acef2d3d92bb1b1f664..."
+          "https://i.pinimg.com/474x/1e/d0/ed/1ed0ede5c364f2c8959976120f65271f.jpg"
         ]
       }
     ];
 
-    // Load data from localStorage
-    window.onload = function() {
-      const storedUser = localStorage.getItem("userData");
-      if (storedUser) {
-        currentUser = JSON.parse(storedUser);
-        updateHeaderProfile();
-        updateMenuAccountDetails();
-      }
-      const storedOrders = localStorage.getItem("ordersData");
-      if (storedOrders) {
-        orders = JSON.parse(storedOrders).map(order => ({
-          ...order,
-          received: order.received || false,
-          receivedDate: order.receivedDate || null,
-          rating: order.rating || null,
-          review: order.review || null
-        }));
-      }
-      const storedCart = localStorage.getItem("cartData");
-      if (storedCart) { cart = JSON.parse(storedCart); updateCartCountBadge(); }
-      const storedNotifications = localStorage.getItem("notificationsData");
-      if (storedNotifications) { notifications = JSON.parse(storedNotifications); updateNotifications(); }
-      const storedOwnerNotifications = localStorage.getItem("ownerNotificationsData");
-      if (storedOwnerNotifications) { ownerNotifications = JSON.parse(storedOwnerNotifications); }
-      const storedWishlist = localStorage.getItem("wishlistData");
-      if (storedWishlist) { wishlist = JSON.parse(storedWishlist); }
-      const storedUsers = localStorage.getItem("usersData");
-      if (storedUsers) { users = JSON.parse(storedUsers); }
-
-      document.getElementById("filterSize").addEventListener("change", applyFilters);
-      document.getElementById("filterColor").addEventListener("change", applyFilters);
-      document.getElementById("filterPrice").addEventListener("change", applyFilters);
-    };
-
     // Save data to localStorage
     function saveData() {
-      localStorage.setItem("userData", JSON.stringify(currentUser));
-      localStorage.setItem("ordersData", JSON.stringify(orders));
-      localStorage.setItem("cartData", JSON.stringify(cart));
-      localStorage.setItem("notificationsData", JSON.stringify(notifications));
-      localStorage.setItem("ownerNotificationsData", JSON.stringify(ownerNotifications));
-      localStorage.setItem("wishlistData", JSON.stringify(wishlist));
-      localStorage.setItem("usersData", JSON.stringify(users));
+      localStorage.setItem("users", JSON.stringify(users));
+      localStorage.setItem("cart", JSON.stringify(cart));
+      localStorage.setItem("orders", JSON.stringify(orders));
+      localStorage.setItem("notifications", JSON.stringify(notifications));
+      localStorage.setItem("ownerNotifications", JSON.stringify(ownerNotifications));
+      localStorage.setItem("wishlist", JSON.stringify(wishlist));
+      localStorage.setItem("currentUser", JSON.stringify(currentUser));
+    }
+
+    // Load data from localStorage
+    function loadData() {
+      users = JSON.parse(localStorage.getItem("users")) || [];
+      cart = JSON.parse(localStorage.getItem("cart")) || [];
+      orders = JSON.parse(localStorage.getItem("orders")) || [];
+      notifications = JSON.parse(localStorage.getItem("notifications")) || [];
+      ownerNotifications = JSON.parse(localStorage.getItem("ownerNotifications")) || [];
+      wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      currentUser = JSON.parse(localStorage.getItem("currentUser"));
+      if (currentUser && currentUser.isLoggedIn) {
+        const userIndex = users.findIndex(u => u.email === currentUser.email);
+        if (userIndex !== -1) {
+          currentUser = users[userIndex];
+          currentUser.isLoggedIn = true;
+        } else {
+          currentUser = null;
+        }
+      } else {
+        currentUser = null;
+      }
+      updateHeaderProfile();
+      updateMenuAccountDetails();
+      updateCartCountBadge();
+      updateOrdersList();
     }
 
     // Update header profile
     function updateHeaderProfile() {
       const headerProfile = document.getElementById("headerProfile");
-      headerProfile.textContent = currentUser ? currentUser.firstName : "";
+      headerProfile.textContent = currentUser ? `${currentUser.firstName} ${currentUser.lastName}` : "";
     }
 
     // Hide menu
@@ -1125,180 +1118,158 @@
     // Generate products
     function generateProducts(containerId, productList) {
       const container = document.getElementById(containerId);
-      container.innerHTML = "";
+      if (productList.length === 0) {
+        container.innerHTML = "<p>No products available.</p>";
+        return;
+      }
+      let html = "";
       productList.forEach(product => {
-        const originalPrice = product.price * 1.2;
-        const discountPercentage = ((originalPrice - product.price) / originalPrice * 100).toFixed(2);
-        const col = document.createElement("div");
-        col.className = "col-6 mb-4";
-        col.innerHTML = `
-          <div class="card h-100 shadow-sm" style="cursor: pointer;">
-            <div class="position-relative" onclick="event.stopPropagation(); showProductImages(${product.id})" style="cursor: zoom-in;">
+        const originalPrice = (product.price * 1.2).toFixed(2);
+        html += `
+          <div class="col-6 col-md-4 col-lg-3 mb-4">
+            <div class="card h-100 shadow-sm" style="cursor: pointer;" onclick="showProductDetails(${product.id})">
+              <img src="${product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name)}" class="card-img-top" alt="${product.name}">
+              <div class="card-body">
+                <h5 class="card-title">${product.name}</h5>
+                <p class="card-text">${product.description.substring(0, 50)}...</p>
+                <p class="card-text"><small class="text-muted"><s>₹${originalPrice}</s> ₹${product.price.toFixed(2)}</small></p>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+
+    // Show product details with size and color selection and icons
+    function showProductDetails(productId) {
+        const product = products.find(p => p.id === productId);
+        if (!product) return;
+    
+        const sizes = product.size.split(",").map(s => s.trim());
+        const colors = product.color.split(",").map(c => c.trim());
+    
+        let sizeButtons = sizes.map(size => `
+          <button type="button" class="btn btn-outline-secondary size-btn" data-size="${size}" onclick="selectSize('${size}')">${size}</button>
+        `).join("");
+        let colorButtons = colors.map(color => `
+          <button type="button" class="btn btn-outline-secondary color-btn" data-color="${color}" onclick="selectColor('${color}')" style="background-color: ${colorMap[color] || '#000'}; width: 30px; height: 30px;"></button>
+        `).join("");
+    
+        const detailContent = `
+          <div class="row">
+            <div class="col-md-6">
               ${generateProductImageHTML(product)}
-              <button class="btn btn-outline-danger btn-sm wishlist-btn position-absolute" style="top: 10px; right: 10px;" onclick="event.stopPropagation(); addToWishlist(${product.id})">
-                <i class="bi bi-heart"></i>
-              </button>
             </div>
-            <div class="card-body" onclick="showProductDetails(${product.id})">
-              <h5 class="card-title">${product.name}</h5>
-            </div>
-            <div class="card-footer d-flex flex-column align-items-stretch">
-              <span class="text-muted mb-2"><s>₹${originalPrice.toFixed(2)}</s> ₹${product.price.toFixed(2)} (${discountPercentage}% off)</span>
-              <p class="text-muted mb-2"><i class="bi bi-people me-2"></i> Bought by ${getUniqueRecentBuyers(product.id)} members in the last 10 days</p>
-              <button class="btn btn-success w-100 mb-2" onclick="event.stopPropagation(); showProductDetails(${product.id})">
+            <div class="col-md-6">
+              <h3>${product.name}</h3>
+              <p>${product.description}</p>
+              <p><i class="fas fa-tag"></i> <strong>Price:</strong> <s>₹${(product.price * 1.2).toFixed(2)}</s> ₹${product.price.toFixed(2)}</p>
+              <p><i class="fas fa-list-alt"></i> <strong>Category:</strong> ${product.category}</p>
+              <p><i class="fas fa-tshirt"></i> <strong>Cloth Type:</strong> ${product.clothType}</p>
+              <p><i class="fas fa-truck"></i> <strong>Delivery:</strong> ${product.deliveryTime}</p>
+              <p><i class="fas fa-undo"></i> <strong>Return:</strong> ${product.returnPolicy}</p>
+              <p><i class="fas fa-info-circle"></i> <strong>Details:</strong> ${product.additionalDetails}</p>
+              <div class="mb-3">
+                <label><strong>Sizes:</strong></label><br>
+                ${sizeButtons}
+              </div>
+              <div class="mb-3">
+                <label><strong>Colors:</strong></label><br>
+                ${colorButtons}
+              </div>
+              <button class="btn btn-success w-100 mb-2" onclick="buyProductWithSelection(${product.id})">
                 <i class="fas fa-shopping-cart me-1"></i> Buy Now
               </button>
-              <button class="btn btn-primary w-100" onclick="event.stopPropagation(); addToCartWithSelection(${product.id})">
+              <button class="btn btn-primary w-100" onclick="addToCartWithSelection(${product.id})">
                 <i class="fas fa-cart-plus me-1"></i> Add to Bag
               </button>
             </div>
           </div>
         `;
-        container.appendChild(col);
-      });
-    }
-
-    // Get unique recent buyers (dummy function for now)
-    function getUniqueRecentBuyers(productId) {
-      return Math.floor(Math.random() * 10) + 1; // Placeholder
-    }
-
-    // Show product images
-    function showProductImages(productId) {
-      const product = products.find(p => p.id === productId);
-      if (!product || !product.images || product.images.length === 0) return;
-      const carouselInner = document.getElementById("carouselInner");
-      carouselInner.innerHTML = "";
-      product.images.forEach((img, index) => {
-        const div = document.createElement("div");
-        div.className = `carousel-item ${index === 0 ? "active" : ""}`;
-        div.innerHTML = `<img src="${img}" class="d-block w-100" alt="${product.name} image ${index + 1}">`;
-        carouselInner.appendChild(div);
-      });
-      const modal = new bootstrap.Modal(document.getElementById("productImagesModal"));
-      modal.show();
-    }
-
-    // Show product details with size and color selection and icons
-    function showProductDetails(productId) {
-      const product = products.find(p => p.id === productId);
-      if (!product) return;
-  
-      const sizes = product.size.split(",").map(s => s.trim());
-      const colors = product.color.split(",").map(c => c.trim());
-  
-      let sizeButtons = sizes.map(size => `
-        <button type="button" class="btn btn-outline-secondary size-btn" data-size="${size}" onclick="selectSize('${size}')">${size}</button>
-      `).join("");
-      let colorButtons = colors.map(color => `
-        <button type="button" class="btn btn-outline-secondary color-btn" data-color="${color}" onclick="selectColor('${color}')" style="background-color: ${colorMap[color] || '#000'}; width: 30px; height: 30px;"></button>
-      `).join("");
-  
-      const detailContent = `
-        <div class="row">
-          <div class="col-md-6">
-            ${generateProductImageHTML(product)}
-          </div>
-          <div class="col-md-6">
-            <h3>${product.name}</h3>
-            <p>${product.description}</p>
-            <p><i class="fas fa-tag"></i> <strong>Price:</strong> <s>₹${(product.price * 1.2).toFixed(2)}</s> ₹${product.price.toFixed(2)}</p>
-            <p><i class="fas fa-list-alt"></i> <strong>Category:</strong> ${product.category}</p>
-            <p><i class="fas fa-tshirt"></i> <strong>Cloth Type:</strong> ${product.clothType}</p>
-            <p><i class="fas fa-truck"></i> <strong>Delivery:</strong> ${product.deliveryTime}</p>
-            <p><i class="fas fa-undo"></i> <strong>Return:</strong> ${product.returnPolicy}</p>
-            <p><i class="fas fa-info-circle"></i> <strong>Details:</strong> ${product.additionalDetails}</p>
-            <div class="mb-3">
-              <label><strong>Sizes:</strong></label><br>
-              ${sizeButtons}
-            </div>
-            <div class="mb-3">
-              <label><strong>Colors:</strong></label><br>
-              ${colorButtons}
-            </div>
-            <button class="btn btn-success w-100 mb-2" onclick="buyProductWithSelection(${product.id})">
-              <i class="fas fa-shopping-cart me-1"></i> Buy Now
-            </button>
-            <button class="btn btn-primary w-100" onclick="addToCartWithSelection(${product.id})">
-              <i class="fas fa-cart-plus me-1"></i> Add to Bag
-            </button>
-          </div>
-        </div>
-      `;
-      document.getElementById("productDetailPage").innerHTML = detailContent;
-      showSection("productDetailSection");
-    }
-      // Select size
-      function selectSize(size) {
-        document.querySelectorAll(".size-btn").forEach(btn => btn.classList.remove("active"));
-        const button = document.querySelector(`.size-btn[data-size="${size}"]`);
-        button.classList.add("active");
-        document.getElementById("productDetailSection").dataset.selectedSize = size;
+        document.getElementById("productDetailPage").innerHTML = detailContent;
+        showSection("productDetailSection");
       }
-  
-      // Select color
-      function selectColor(color) {
-        document.querySelectorAll(".color-btn").forEach(btn => btn.classList.remove("active"));
-        const button = document.querySelector(`.color-btn[data-color="${color}"]`);
-        button.classList.add("active");
-        document.getElementById("productDetailSection").dataset.selectedColor = color;
-      }
+        // Select size
+        function selectSize(size) {
+          document.querySelectorAll(".size-btn").forEach(btn => btn.classList.remove("active"));
+          const button = document.querySelector(`.size-btn[data-size="${size}"]`);
+          button.classList.add("active");
+          document.getElementById("productDetailSection").dataset.selectedSize = size;
+        }
+    
+        // Select color
+        function selectColor(color) {
+          document.querySelectorAll(".color-btn").forEach(btn => btn.classList.remove("active"));
+          const button = document.querySelector(`.color-btn[data-color="${color}"]`);
+          button.classList.add("active");
+          document.getElementById("productDetailSection").dataset.selectedColor = color;
+        }
+
+    // Update product selection
+    function updateProductSelection(productId) {
+      const product = products.find(p => p.id === productId);
+      const sizeSelect = document.getElementById(`sizeSelect-${productId}`);
+      const colorSelect = document.getElementById(`colorSelect-${productId}`);
+      product.selectedSize = sizeSelect.value;
+      product.selectedColor = colorSelect.value;
+      showProductDetails(productId);
+    }
+
     // Buy product with selection
     function buyProductWithSelection(productId) {
-      if (!currentUser) {
-        showNotification("Please log in or sign up before placing an order.", "warning");
-        showSection("loginSection");
-        return;
+        if (!currentUser) {
+          showNotification("Please log in or sign up before placing an order.", "warning");
+          showSection("loginSection");
+          return;
+        }
+        const selectedSize = document.getElementById("sizeSelect")?.value || document.getElementById("productDetailSection").dataset.selectedSize;
+        const selectedColor = document.getElementById("colorSelect")?.value || document.getElementById("productDetailSection").dataset.selectedColor;
+        if (!selectedSize || !selectedColor) {
+          showNotification("Please select size and color.", "warning");
+          return;
+        }
+        const product = products.find(p => p.id === productId);
+        if (product) {
+          currentProductForPurchase = { ...product, selectedSize, selectedColor };
+          document.getElementById("modalProductName").textContent = product.name;
+          document.getElementById("modalProductSize").textContent = selectedSize;
+          document.getElementById("modalProductColor").textContent = selectedColor;
+          document.getElementById("modalProductPrice").textContent = product.price.toFixed(2);
+          document.getElementById("modalDeliveryTime").textContent = product.deliveryTime;
+          document.getElementById("modalTotalAmount").textContent = (product.price + 5).toFixed(2); // Assuming +5 for shipping
+          document.getElementById("buyForm").reset();
+          const buyModal = new bootstrap.Modal(document.getElementById("buyModal"));
+          buyModal.show();
+        }
       }
-      const selectedSize = document.getElementById("sizeSelect")?.value || document.getElementById("productDetailSection").dataset.selectedSize;
-      const selectedColor = document.getElementById("colorSelect")?.value || document.getElementById("productDetailSection").dataset.selectedColor;
-      if (!selectedSize || !selectedColor) {
-        showNotification("Please select size and color.", "warning");
-        return;
+  
+      // Add to cart with selection
+      function addToCartWithSelection(productId) {
+        const selectedSize = document.getElementById("sizeSelect")?.value || document.getElementById("productDetailSection").dataset.selectedSize;
+        const selectedColor = document.getElementById("colorSelect")?.value || document.getElementById("productDetailSection").dataset.selectedColor;
+        if (!selectedSize || !selectedColor) {
+          showNotification("Please select size and color.", "warning");
+          return;
+        }
+        const product = products.find(p => p.id === productId);
+        if (product) {
+          const cartItem = { ...product, selectedSize, selectedColor };
+          cart.push(cartItem);
+          showNotification(`${product.name} added to your bag with size ${selectedSize} and color ${selectedColor}.`, "info");
+          updateCartCountBadge();
+          saveData();
+        }
       }
-      const product = products.find(p => p.id === productId);
-      if (product) {
-        currentProductForPurchase = { ...product, selectedSize, selectedColor };
-        document.getElementById("modalProductName").textContent = product.name;
-        document.getElementById("modalProductSize").textContent = selectedSize;
-        document.getElementById("modalProductColor").textContent = selectedColor;
-        document.getElementById("modalProductPrice").textContent = product.price.toFixed(2);
-        document.getElementById("modalDeliveryTime").textContent = product.deliveryTime;
-        document.getElementById("modalTotalAmount").textContent = (product.price + 5).toFixed(2); // Assuming +5 for shipping
-        document.getElementById("buyForm").reset();
-        const buyModal = new bootstrap.Modal(document.getElementById("buyModal"));
-        buyModal.show();
-      }
-    }
-
-    // Add to cart with selection
-    function addToCartWithSelection(productId) {
-      const selectedSize = document.getElementById("sizeSelect")?.value || document.getElementById("productDetailSection").dataset.selectedSize;
-      const selectedColor = document.getElementById("colorSelect")?.value || document.getElementById("productDetailSection").dataset.selectedColor;
-      if (!selectedSize || !selectedColor) {
-        showNotification("Please select size and color.", "warning");
-        return;
-      }
-      const product = products.find(p => p.id === productId);
-      if (product) {
-        const cartItem = { ...product, selectedSize, selectedColor };
-        cart.push(cartItem);
-        showNotification(`${product.name} added to your bag with size ${selectedSize} and color ${selectedColor}.`, "info");
-        updateCartCountBadge();
-        saveData();
-      }
-    }
 
     // Show notification
     function showNotification(message, type = "success") {
-      const notif = { message, type, date: new Date().toLocaleString() };
-      notifications.push(notif);
-      saveData();
-      updateNotifications();
-
       const toastContainer = document.getElementById("toastContainer");
       const toastEl = document.createElement("div");
-      toastEl.className = `toast align-items-center text-white bg-${type === "success" ? "success" : (type === "danger" ? "danger" : "warning")} border-0 mb-2`;
+      toastEl.className = `toast align-items-center text-white bg-${type} border-0`;
+      toastEl.setAttribute("role", "alert");
+      toastEl.setAttribute("aria-live", "assertive");
+      toastEl.setAttribute("aria-atomic", "true");
       toastEl.innerHTML = `
         <div class="d-flex">
           <div class="toast-body">${message}</div>
@@ -1395,55 +1366,50 @@
       return users.filter(user => new Date(user.lastActivity) > oneMinuteAgo).length;
     }
 
-   // Update owner dashboard
-   function updateOwnerDashboard() {
-    // Update user statistics
-    document.getElementById("totalMembers").textContent = users.length;
-    document.getElementById("activeUsers").textContent = getActiveUsers();
-    document.getElementById("liveUsers").textContent = getLiveUsers();
+    // Update owner dashboard
+    function updateOwnerDashboard() {
+      document.getElementById("totalMembers").textContent = users.length;
+      document.getElementById("activeUsers").textContent = getActiveUsers();
+      document.getElementById("liveUsers").textContent = getLiveUsers();
 
-    // Update order statistics
-    const totalOrders = orders.length;
-    const activeOrders = orders.filter(order => !order.cancelled && !order.received).length;
-    const cancelledOrders = orders.filter(order => order.cancelled).length;
-    const receivedOrders = orders.filter(order => order.received).length;
+      const totalOrders = orders.length;
+      const activeOrders = orders.filter(order => !order.cancelled && !order.received).length;
+      const cancelledOrders = orders.filter(order => order.cancelled).length;
+      const receivedOrders = orders.filter(order => order.received).length;
 
-    document.getElementById("totalOrders").textContent = totalOrders;
-    document.getElementById("activeOrders").textContent = activeOrders;
-    document.getElementById("cancelledOrders").textContent = cancelledOrders;
-    document.getElementById("receivedOrders").textContent = receivedOrders;
+      document.getElementById("totalOrders").textContent = totalOrders;
+      document.getElementById("activeOrders").textContent = activeOrders;
+      document.getElementById("cancelledOrders").textContent = cancelledOrders;
+      document.getElementById("receivedOrders").textContent = receivedOrders;
 
-    // Update order details
-    let orderHtml = "";
-    orders.forEach((order, index) => {
-      orderHtml += `
-        <div class="card mb-3">
-          <div class="card-header">Order #${index + 1}</div>
-          <div class="card-body">
-            <p><strong>Product:</strong> ${order.product.name}</p>
-            <p><strong>Buyer:</strong> ${order.buyer.firstName} ${order.buyer.lastName}</p>
-            <p><strong>Status:</strong> ${order.cancelled ? 'Cancelled' : (order.received ? 'Received' : 'Active')}</p>
+      let orderHtml = "";
+      orders.forEach((order, index) => {
+        orderHtml += `
+          <div class="card mb-3">
+            <div class="card-header">Order #${index + 1}</div>
+            <div class="card-body">
+              <p><strong>Product:</strong> ${order.product.name}</p>
+              <p><strong>Buyer:</strong> ${order.buyer.firstName} ${order.buyer.lastName}</p>
+              <p><strong>Status:</strong> ${order.cancelled ? 'Cancelled' : (order.received ? 'Received' : 'Active')}</p>
+            </div>
           </div>
-        </div>
-      `;
-    });
-    document.getElementById("orderDetailsContainer").innerHTML = orderHtml;
+        `;
+      });
+      document.getElementById("orderDetailsContainer").innerHTML = orderHtml;
 
-    // Update user locations
-    let locationsHtml = "";
-    users.forEach(user => {
-      locationsHtml += `
-        <div class="card mb-3">
-          <div class="card-body">
-            <p><strong>User:</strong> ${user.firstName} ${user.lastName}</p>
-            <p><strong>Location:</strong> ${user.location}</p>
+      let locationsHtml = "";
+      users.forEach(user => {
+        locationsHtml += `
+          <div class="card mb-3">
+            <div class="card-body">
+              <p><strong>User:</strong> ${user.firstName} ${user.lastName}</p>
+              <p><strong>Location:</strong> ${user.location}</p>
+            </div>
           </div>
-        </div>
-      `;
-    });
-    document.getElementById("userLocationsContainer").innerHTML = locationsHtml;
-  }
-
+        `;
+      });
+      document.getElementById("userLocationsContainer").innerHTML = locationsHtml;
+    }
 
     // Show section
     function showSection(sectionId) {
@@ -1511,7 +1477,7 @@
       }
     }
 
-    // Buy form submission with enhanced thank you popup
+    // Buy form submission
     document.getElementById("buyForm").addEventListener("submit", function(e) {
       e.preventDefault();
       if (!currentUser) {
@@ -1623,7 +1589,7 @@
       }
     }
 
-    // Update orders list with status badges
+    // Update orders list
     function updateOrdersList() {
       const ordersList = document.getElementById("ordersList");
       if (!currentUser || orders.length === 0) {
@@ -1651,7 +1617,6 @@
         ordersList.innerHTML = html || "<p>You have not placed any orders yet.</p>";
       }
     }
-    
 
     // Show order detail page with track bar
     function showOrderDetailPage(orderIndex) {
@@ -1682,7 +1647,7 @@
         <p><strong>Payment Method:</strong> ${order.payment}</p>
         <hr>
         <h5>Order Status</h5>
-        <div class="track-bar">
+        <div class="track-bar ${order.received ? 'received' : (order.cancelled ? 'cancelled' : '')}">
           <div class="track-step active">
             <span>1</span>
             <small>Ordered</small>
@@ -1730,84 +1695,7 @@
       detailContent += `
         <div class="mt-3">
           <button class="btn btn-secondary" onclick="showSection('ordersSection')">Back to Orders</button>
-          <button class="btn btn-primary ms-2" onclick="showOrderedProductDetails(${orderIndex})">View Product Details</button>
-        </div>
-      `;
-
-      document.getElementById("orderDetailPage").innerHTML = detailContent;
-      showSection("orderDetailSection");
-    }
-
-    // Show order detail page with Mark as Received and Review features
-    function showOrderDetailPage(orderIndex) {
-      currentOrderIndex = orderIndex;
-      const order = orders[orderIndex];
-      let detailContent = `
-        <h3>Order #${orderIndex + 1}</h3>
-        <p><strong>Date:</strong> ${order.date}</p>
-        <hr>
-        <h5>Product Details</h5>
-        <p><strong>Name:</strong> ${order.product.name}</p>
-        <p><strong>Description:</strong> ${order.product.description}</p>
-        <p><strong>Selected Size:</strong> ${order.product.selectedSize}</p>
-        <p><strong>Selected Color:</strong> ${order.product.selectedColor}</p>
-        <p><strong>Price:</strong> <s>₹${(order.product.price * 1.2).toFixed(2)}</s> ₹${order.product.price.toFixed(2)}</p>
-        <hr>
-        <h5>Shipping Details</h5>
-        <p><strong>Address:</strong> ${order.address}</p>
-        <p><strong>Mobile:</strong> ${order.mobile}</p>
-        <p><strong>Payment Method:</strong> ${order.payment}</p>
-        <hr>
-        <h5>Order Status</h5>
-        <p><strong>Status:</strong> ${order.cancelled ? '<span class="text-danger">Cancelled</span>' : (order.received ? '<span class="text-success">Received</span>' : '<span class="text-primary">Active</span>')}</p>
-        <p><strong>Tracking Status:</strong> ${order.trackingStatus}</p>
-      `;
-
-      if (!order.cancelled && !order.received) {
-        detailContent += `
-          <button class="btn btn-success mt-3" onclick="markAsReceived(${orderIndex})">Mark as Received</button>
-        `;
-      } else if (order.received && !order.rating) {
-        detailContent += `
-          <h5 class="mt-3">Leave a Review</h5>
-          <div class="mb-3">
-            <label for="rating-${orderIndex}" class="form-label">Rating</label>
-            <select id="rating-${orderIndex}" class="form-select">
-              <option value="">Select Rating</option>
-              <option value="1">1 Star</option>
-              <option value="2">2 Stars</option>
-              <option value="3">3 Stars</option>
-              <option value="4">4 Stars</option>
-              <option value="5">5 Stars</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="review-${orderIndex}" class="form-label">Review</label>
-            <textarea id="review-${orderIndex}" class="form-control" rows="3"></textarea>
-          </div>
-          <button class="btn btn-primary" onclick="submitReview(${orderIndex})">Submit Review</button>
-        `;
-      } else if (order.received && order.rating) {
-        detailContent += `
-          <h5 class="mt-3">Your Review</h5>
-          <p><strong>Rating:</strong> ${order.rating} Stars</p>
-          <p><strong>Review:</strong> ${order.review || 'No review provided.'}</p>
-        `;
-      }
-
-      if (!order.cancelled && !order.received) {
-        detailContent += `
-          <div class="mt-3">
-            <button class="btn btn-info me-2" onclick="trackOrder()">Track Order</button>
-            <button class="btn btn-danger" onclick="cancelOrder(); showOrderDetailPage(${orderIndex})">Cancel Order</button>
-          </div>
-        `;
-      }
-
-      detailContent += `
-        <div class="mt-3">
-          <button class="btn btn-secondary" onclick="showSection('ordersSection')">Back to Orders</button>
-          <button class="btn btn-primary" onclick="showProductDetails(${order.product.id})">View Product Details</button>
+          <button class="btn btn-primary ms-2" onclick="showProductDetails(${order.product.id})">View Product Details</button>
         </div>
       `;
 
@@ -1862,7 +1750,7 @@
       }
     }
 
-    // Track order
+    // Track order 
     function trackOrder() {
       const order = orders[currentOrderIndex];
       if (order.cancelled) {
@@ -2180,163 +2068,160 @@
       }
     }
 
-      // Update Seller Dashboard
-      function updateSellerDashboard() {
-        const sellerDashboardContent = document.getElementById("sellerDashboardContent");
-        let html = "<h2>Users</h2>";
-        if (users.length === 0) {
-          html += "<p>No users yet.</p>";
-        } else {
-          html += '<div class="list-group">';
-          users.forEach(user => {
-            html += `
-              <div class="list-group-item">
-                <strong>${user.firstName} ${user.lastName}</strong><br>
-                <small>${user.email}</small><br>
-                <small>Mobile: ${user.mobile || "Not provided"}</small>
-              </div>
-            `;
-          });
-          html += '</div>';
-        }
-        html += "<h2 class='mt-4'>Orders</h2>";
-        if (orders.length === 0) {
-          html += "<p>No orders yet.</p>";
-        } else {
-          orders.forEach((order, index) => {
-            const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
-            html += `
-              <div class="card mb-3 shadow-sm order-card">
-                <div class="card-header">
-                  Order #${index + 1} - ${order.date}
+   // Update Seller Dashboard
+   function updateSellerDashboard() {
+    const sellerDashboardContent = document.getElementById("sellerDashboardContent");
+    let html = "<h2>Users</h2>";
+    if (users.length === 0) {
+      html += "<p>No users yet.</p>";
+    } else {
+      html += '<div class="list-group">';
+      users.forEach(user => {
+        html += `
+          <div class="list-group-item">
+            <strong>${user.firstName} ${user.lastName}</strong><br>
+            <small>${user.email}</small><br>
+            <small>Mobile: ${user.mobile || "Not provided"}</small>
+          </div>
+        `;
+      });
+      html += '</div>';
+    }
+    html += "<h2 class='mt-4'>Orders</h2>";
+    if (orders.length === 0) {
+      html += "<p>No orders yet.</p>";
+    } else {
+      orders.forEach((order, index) => {
+        const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
+        html += `
+          <div class="card mb-3 shadow-sm order-card">
+            <div class="card-header">
+              Order #${index + 1} - ${order.date}
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12 col-md-4 mb-3 mb-md-0">
+                  <h6>Buyer Information</h6>
+                  <p><strong>Name:</strong> ${order.buyer.firstName} ${order.buyer.lastName}</p>
+                  <p><strong>Email:</strong> ${order.buyer.email}</p>
+                  <p><strong>Mobile:</strong> ${order.mobile}</p>
                 </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-12 col-md-4 mb-3 mb-md-0">
-                      <h6>Buyer Information</h6>
-                      <p><strong>Name:</strong> ${order.buyer.firstName} ${order.buyer.lastName}</p>
-                      <p><strong>Email:</strong> ${order.buyer.email}</p>
-                      <p><strong>Mobile:</strong> ${order.mobile}</p>
-                    </div>
-                    <div class="col-12 col-md-4 mb-3 mb-md-0">
-                      <h6>Product Information</h6>
-                      <img src="${productImage}" alt="${order.product.name}" class="img-fluid mb-2" style="max-width:100px; max-height:100px;" >
-                      <p><strong>Name:</strong> ${order.product.name}</p>
-                      <p><strong>Description:</strong> ${order.product.description}</p>
-                      <p><strong>Selected Size:</strong> ${order.product.selectedSize}</p>
-                      <p><strong>Selected Color:</strong> ${order.product.selectedColor}</p>
-                      <p><strong>Price:</strong> 
-                        ${order.product.originalPrice && order.product.originalPrice > order.product.price ? 
-                          `<s>₹${order.product.originalPrice.toFixed(2)}</s> ` : 
-                          ''}
-                        ₹${order.product.price.toFixed(2)}
-                      </p>
-                      <p><strong>Category:</strong> ${order.product.category}</p>
-                    </div>
-                    <div class="col-12 col-md-4">
-                      <h6>Shipping Information</h6>
-                      <p><strong>Address:</strong> ${order.address}</p>
-                      <p><strong>Payment Method:</strong> ${order.payment}</p>
-                      <p><strong>Status:</strong> ${order.cancelled ? 'Cancelled' : 'Active'}</p>
-                      ${order.cancelled ? `<p><strong>Cancellation Reason:</strong> ${order.cancellationReason}</p>` : ''}
-                    </div>
-                  </div>
-                  <div class="qr-code-container mt-3">
-                    <h6>Order QR Code</h6>
-                    <div id="qrcode-${index}"></div>
-                  </div>
+                <div class="col-12 col-md-4 mb-3 mb-md-0">
+                  <h6>Product Information</h6>
+                  <img src="${productImage}" alt="${order.product.name}" class="img-fluid mb-2" style="max-width:100px; max-height:100px;" >
+                  <p><strong>Name:</strong> ${order.product.name}</p>
+                  <p><strong>Description:</strong> ${order.product.description}</p>
+                  <p><strong>Selected Size:</strong> ${order.product.selectedSize}</p>
+                  <p><strong>Selected Color:</strong> ${order.product.selectedColor}</p>
+                  <p><strong>Price:</strong> 
+                    ${order.product.originalPrice && order.product.originalPrice > order.product.price ? 
+                      `<s>₹${order.product.originalPrice.toFixed(2)}</s> ` : 
+                      ''}
+                    ₹${order.product.price.toFixed(2)}
+                  </p>
+                  <p><strong>Category:</strong> ${order.product.category}</p>
                 </div>
-                <div class="card-footer text-end">
-                  <button class="btn btn-primary me-2" onclick="printOrder(${index})">Print</button>
-                  <button class="btn btn-secondary" onclick="downloadOrder(${index})">Download</button>
+                <div class="col-12 col-md-4">
+                  <h6>Shipping Information</h6>
+                  <p><strong>Address:</strong> ${order.address}</p>
+                  <p><strong>Payment Method:</strong> ${order.payment}</p>
+                  <p><strong>Status:</strong> ${order.cancelled ? 'Cancelled' : 'Active'}</p>
+                  ${order.cancelled ? `<p><strong>Cancellation Reason:</strong> ${order.cancellationReason}</p>` : ''}
                 </div>
               </div>
-            `;
-          });
-        }
-        html += "<h2 class='mt-4'>Notifications</h2>";
-        if (ownerNotifications.length === 0) {
-          html += "<p>No notifications yet.</p>";
-        } else {
-          html += `<div class="d-flex justify-content-end mb-3">
-                     <button class="btn btn-danger btn-sm" onclick="clearOwnerNotifications()">Clear Notifications</button>
-                   </div>`;
-          html += '<div class="list-group">';
-          ownerNotifications.slice().reverse().forEach(notif => {
-            html += `
-              <div class="list-group-item">
-                <i class="bi bi-bell-fill me-2"></i>
-                <strong>${notif.date}</strong>: ${notif.message}
+              <div class="qr-code-container mt-3">
+                <h6>Order QR Code</h6>
+                <div id="qrcode-${index}"></div>
               </div>
-            `;
-          });
-          html += '</div>';
-        }
-        sellerDashboardContent.innerHTML = html;
-  
-        // Generate QR codes for each order
-        orders.forEach((order, index) => {
-          const qrDiv = document.getElementById(`qrcode-${index}`);
-          if (qrDiv) {
-            new QRCode(qrDiv, {
-              text: order.qrData,
-              width: 128,
-              height: 128
-            });
-          }
+            </div>
+            <div class="card-footer text-end">
+              <button class="btn btn-primary me-2" onclick="printOrder(${index})">Print</button>
+              <button class="btn btn-secondary" onclick="downloadOrder(${index})">Download</button>
+            </div>
+          </div>
+        `;
+      });
+    }
+    html += "<h2 class='mt-4'>Notifications</h2>";
+    if (ownerNotifications.length === 0) {
+      html += "<p>No notifications yet.</p>";
+    } else {
+      html += `<div class="d-flex justify-content-end mb-3">
+                 <button class="btn btn-danger btn-sm" onclick="clearOwnerNotifications()">Clear Notifications</button>
+               </div>`;
+      html += '<div class="list-group">';
+      ownerNotifications.slice().reverse().forEach(notif => {
+        html += `
+          <div class="list-group-item">
+            <i class="bi bi-bell-fill me-2"></i>
+            <strong>${notif.date}</strong>: ${notif.message}
+          </div>
+        `;
+      });
+      html += '</div>';
+    }
+    sellerDashboardContent.innerHTML = html;
+
+    // Generate QR codes for each order
+    orders.forEach((order, index) => {
+      const qrDiv = document.getElementById(`qrcode-${index}`);
+      if (qrDiv) {
+        new QRCode(qrDiv, {
+          text: order.qrData,
+          width: 128,
+          height: 128
         });
       }
-  
-      // Clear owner notifications
-      function clearOwnerNotifications() {
-        if (confirm("Are you sure you want to clear all notifications?")) {
-          ownerNotifications = [];
-          saveData();
-          updateSellerDashboard();
-          showNotification("All notifications cleared.", "info");
-        }
-      }
-  
-      // Function to print order card with QR code
-      function printOrder(index) {
-        const orderCards = document.querySelectorAll('.order-card');
-        if (index < 0 || index >= orderCards.length) return;
-        const orderCard = orderCards[index];
-        
-        document.body.classList.add('print-mode');
-        orderCard.classList.add('print-selected');
-        
-        window.print();
-        
-        window.addEventListener('afterprint', function() {
-          document.body.classList.remove('print-mode');
-          orderCard.classList.remove('print-selected');
-        }, { once: true });
-      }
-  
-      // Function to download order card as PNG with QR code
-      function downloadOrder(index) {
-        const orderCards = document.querySelectorAll('.order-card');
-        if (index < 0 || index >= orderCards.length) return;
-        const orderCard = orderCards[index];
-        
-        html2canvas(orderCard).then(canvas => {
-          const link = document.createElement('a');
-          link.href = canvas.toDataURL('image/png');
-          link.download = `order_${index + 1}.png`;
-          link.click();
-        }).catch(error => {
-          console.error('Error generating image:', error);
-          showNotification('Failed to generate image for download.', 'danger');
-        });
-      }
-  
-      // Initialize
-      loadData();
-    </script>
-  
+    });
+  }
+
+  // Clear owner notifications
+  function clearOwnerNotifications() {
+    if (confirm("Are you sure you want to clear all notifications?")) {
+      ownerNotifications = [];
+      saveData();
+      updateSellerDashboard();
+      showNotification("All notifications cleared.", "info");
+    }
+  }
+
+  // Function to print order card with QR code
+  function printOrder(index) {
+    const orderCards = document.querySelectorAll('.order-card');
+    if (index < 0 || index >= orderCards.length) return;
+    const orderCard = orderCards[index];
     
-    <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
-  </html>
+    document.body.classList.add('print-mode');
+    orderCard.classList.add('print-selected');
+    
+    window.print();
+    
+    window.addEventListener('afterprint', function() {
+      document.body.classList.remove('print-mode');
+      orderCard.classList.remove('print-selected');
+    }, { once: true });
+  }
+
+  // Function to download order card as PNG with QR code
+  function downloadOrder(index) {
+    const orderCards = document.querySelectorAll('.order-card');
+    if (index < 0 || index >= orderCards.length) return;
+    const orderCard = orderCards[index];
+    
+    html2canvas(orderCard).then(canvas => {
+      const link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
+      link.download = `order_${index + 1}.png`;
+      link.click();
+    }).catch(error => {
+      console.error('Error generating image:', error);
+      showNotification('Failed to generate image for download.', 'danger');
+    });
+  }
+  // Initialize
+  loadData();
+</script>
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
