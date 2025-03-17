@@ -1602,13 +1602,15 @@
         ordersList.innerHTML = "<p>You have not placed any orders yet.</p>";
       } else {
         let html = "";
-        orders.filter(order => order.buyer.email === currentUser.email).forEach((order, index) => {
+        const userOrders = orders.filter(order => order.buyer.email === currentUser.email);
+        userOrders.forEach((order) => {
+          const originalIndex = orders.indexOf(order);
           const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
           const originalPrice = (order.product.price * 1.2).toFixed(2);
           const discount = ((originalPrice - order.product.price) / originalPrice * 100).toFixed(0);
           html += `
-            <div class="card mb-3 shadow-sm" style="cursor:pointer;" onclick="showOrderDetailPage(${index})">
-              <div class="card-header"><span>Order #${index + 1} - ${order.date}</span></div>
+            <div class="card mb-3 shadow-sm" style="cursor:pointer;" onclick="showOrderDetailPage(${originalIndex})">
+              <div class="card-header"><span>Order #${originalIndex + 1} - ${order.date}</span></div>
               <div class="card-body d-flex align-items-center">
                 <img src="${productImage}" style="max-height:50px; margin-right:10px;" alt="${order.product.name}">
                 <div>
