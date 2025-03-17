@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -99,7 +98,6 @@
     .footer-nav .nav-link:hover, .footer-nav .nav-link:hover i, .footer-nav .nav-link:hover .nav-text { color: #ffdd57; }
     .footer-bag-badge { position: absolute; top: 5px; right: 10px; background: #d9534f; color: #fff; border-radius: 50%; padding: 2px 6px; font-size: 0.75rem; }
 
-    
     /* Wishlist Button Styling */
     .wishlist-btn { background: rgba(255, 255, 255, 0.8); border-radius: 50%; border: none; padding: 5px; }
 
@@ -377,17 +375,18 @@
     </div>
   </div>
 
- <!-- Wishlist Section -->
- <div id="wishlistSection" class="section fade-in">
-  <header class="py-3 border-bottom bg-light">
-    <div class="container d-flex justify-content-between align-items-center">
-      <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home"><i class="bi bi-arrow-left"></i> Home</button>
-      <h1 class="h5 mb-0">Wishlist</h1>
-      <div></div>
-    </div>
-  </header>
-  <div class="container my-4" id="wishlistContainer"></div>
-</div>
+  <!-- Wishlist Section -->
+  <div id="wishlistSection" class="section fade-in">
+    <header class="py-3 border-bottom bg-light">
+      <div class="container d-flex justify-content-between align-items-center">
+        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home"><i class="bi bi-arrow-left"></i> Home</button>
+        <h1 class="h5 mb-0">Wishlist</h1>
+        <div></div>
+      </div>
+    </header>
+    <div class="container my-4" id="wishlistContainer"></div>
+  </div>
+
   <!-- Categories Section -->
   <div id="categoriesSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
@@ -1044,50 +1043,34 @@
         returnPolicy: "10 days return policy",
         additionalDetails: "UV protection lenses.",
         images: [
-          "https://i.pinimg.com/474x/84/17/a8/8417a8928ca921fd76cc441293133ffb.jpg",
-          "https://i.pinimg.com/474x/65/82/9e/65829e26a19777ba28eb52eba1acf4fc.jpg"
-        ]
-      },
-      {
-        id: 5,
-        name: "Casual Shirt",
-        description: "Elegant casual shirt for everyday wear.",
-        category: "Men's Wear",
-        price: 24.99,
-        size: "S, M, L",
-        color: "White, Blue",
-        clothType: "Cotton Blend",
-        deliveryTime: "3-5 days",
-        returnPolicy: "10 days return policy",
-        additionalDetails: "Breathable fabric, perfect for casual outings.",
-        images: [
-          "https://i.pinimg.com/474x/1e/d0/ed/1ed0ede5c364f2c8959976120f65271f.jpg"
+          "https://i.pinimg.com/474x/8e/5f/6e/8e5f6e8a8e5f6e8a8e5f6e8a8e5f6e8a.jpg"
         ]
       }
     ];
 
-     // Load data from localStorage
-     function loadData() {
-      const savedUsers = localStorage.getItem("users");
-      const savedCart = localStorage.getItem("cart");
-      const savedOrders = localStorage.getItem("orders");
-      const savedNotifications = localStorage.getItem("notifications");
-      const savedOwnerNotifications = localStorage.getItem("ownerNotifications");
-      const savedWishlist = localStorage.getItem("wishlist");
-      if (savedUsers) users = JSON.parse(savedUsers);
-      if (savedCart) cart = JSON.parse(savedCart);
-      if (savedOrders) orders = JSON.parse(savedOrders);
-      if (savedNotifications) notifications = JSON.parse(savedNotifications);
-      if (savedOwnerNotifications) ownerNotifications = JSON.parse(savedOwnerNotifications);
-      if (savedWishlist) wishlist = JSON.parse(savedWishlist);
-      currentUser = users.find(u => u.isLoggedIn) || null;
+    // Load data from localStorage
+    function loadData() {
+      const storedUsers = localStorage.getItem("users");
+      const storedCart = localStorage.getItem("cart");
+      const storedOrders = localStorage.getItem("orders");
+      const storedNotifications = localStorage.getItem("notifications");
+      const storedOwnerNotifications = localStorage.getItem("ownerNotifications");
+      const storedWishlist = localStorage.getItem("wishlist");
+      const storedCurrentUser = localStorage.getItem("currentUser");
+
+      if (storedUsers) users = JSON.parse(storedUsers);
+      if (storedCart) cart = JSON.parse(storedCart);
+      if (storedOrders) orders = JSON.parse(storedOrders);
+      if (storedNotifications) notifications = JSON.parse(storedNotifications);
+      if (storedOwnerNotifications) ownerNotifications = JSON.parse(storedOwnerNotifications);
+      if (storedWishlist) wishlist = JSON.parse(storedWishlist);
+      if (storedCurrentUser) {
+        currentUser = JSON.parse(storedCurrentUser);
+        if (currentUser && !currentUser.isLoggedIn) currentUser = null;
+      }
       updateHeaderProfile();
       updateMenuAccountDetails();
       updateCartCountBadge();
-      applyFilters();
-      applyMenswearFilters();
-      applyAccessoriesFilters();
-      updateWishlistSection();
       updateOrdersList();
     }
 
@@ -1099,12 +1082,13 @@
       localStorage.setItem("notifications", JSON.stringify(notifications));
       localStorage.setItem("ownerNotifications", JSON.stringify(ownerNotifications));
       localStorage.setItem("wishlist", JSON.stringify(wishlist));
+      localStorage.setItem("currentUser", JSON.stringify(currentUser));
     }
 
     // Update header profile
     function updateHeaderProfile() {
-      const headerProfile = document.getElementById("headerProfile");
-      headerProfile.textContent = currentUser ? `${currentUser.firstName} ${currentUser.lastName}` : "";
+      const profileElement = document.getElementById("headerProfile");
+      profileElement.textContent = currentUser ? `${currentUser.firstName} ${currentUser.lastName}` : "";
     }
 
     // Hide menu
@@ -1113,156 +1097,154 @@
       if (menuCanvas) menuCanvas.hide();
     }
 
-  // Generate products
-  function generateProducts(containerId, productList) {
-    const container = document.getElementById(containerId);
-    if (productList.length === 0) {
-      container.innerHTML = "<p>No products available.</p>";
-      return;
-    }
-    let html = "";
-    productList.forEach(product => {
-      const originalPrice = (product.price * 1.2).toFixed(2);
-      html += `
-        <div class="col-6 col-md-4 col-lg-3 mb-4">
-          <div class="card h-100 shadow-sm" style="cursor: pointer;" onclick="showProductDetails(${product.id})">
-            <img src="${product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name)}" class="card-img-top" alt="${product.name}">
-            <div class="card-body">
-              <h5 class="card-title">${product.name}</h5>
-              <p class="card-text">${product.description.substring(0, 50)}...</p>
-              <p class="card-text"><small class="text-muted"><s>₹${originalPrice}</s> ₹${product.price.toFixed(2)}</small></p>
-            </div>
-           <button class="wishlist-btn position-absolute top-0 end-0 m-2" onclick="event.stopPropagation(); addToWishlist(${product.id})" aria-label="Add ${product.name} to Wishlist">
+    // Generate products
+    function generateProducts(containerId, productList) {
+      const container = document.getElementById(containerId);
+      if (!productList.length) {
+        container.innerHTML = "<p>No products available.</p>";
+        return;
+      }
+      let html = "";
+      productList.forEach(product => {
+        const image = product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name);
+        const originalPrice = (product.price * 1.2).toFixed(2);
+        const discount = ((originalPrice - product.price) / originalPrice * 100).toFixed(0);
+        html += `
+          <div class="col-6 col-md-4 mb-4">
+            <div class="card shadow-sm" style="cursor: pointer;" onclick="showProductDetails(${product.id})">
+              <img src="${image}" class="card-img-top" alt="${product.name}">
+              <div class="card-body">
+                <h5 class="card-title">${product.name}</h5>
+                <p class="card-text">${product.description}</p>
+                <p class="card-text"><s>₹${originalPrice}</s> ₹${product.price.toFixed(2)} <span class="badge bg-success"><i class="bi bi-arrow-down"></i> ${discount}% off</span></p>
+               </div>
+                <button class="wishlist-btn position-absolute top-0 end-0 m-2" onclick="event.stopPropagation(); addToWishlist(${product.id})" aria-label="Add ${product.name} to Wishlist">
                 <i class="fas fa-heart"></i>
               </button>
             </div>
           </div>
-        </div>
-      `;
-    });
-    container.innerHTML = html;
-  }
-
-    // Show product details with size and color selection and icons
-    function showProductDetails(productId) {
-        const product = products.find(p => p.id === productId);
-        if (!product) return;
-    
-        const sizes = product.size.split(",").map(s => s.trim());
-        const colors = product.color.split(",").map(c => c.trim());
-    
-        let sizeButtons = sizes.map(size => `
-          <button type="button" class="btn btn-outline-secondary size-btn" data-size="${size}" onclick="selectSize('${size}')">${size}</button>
-        `).join("");
-        let colorButtons = colors.map(color => `
-          <button type="button" class="btn btn-outline-secondary color-btn" data-color="${color}" onclick="selectColor('${color}')" style="background-color: ${colorMap[color] || '#000'}; width: 30px; height: 30px;"></button>
-        `).join("");
-    
-        const detailContent = `
-          <div class="row">
-            <div class="col-md-6">
-              ${generateProductImageHTML(product)}
-            </div>
-            <div class="col-md-6">
-              <h3>${product.name}</h3>
-              <p>${product.description}</p>
-              <p><i class="fas fa-tag"></i> <strong>Price:</strong> <s>₹${(product.price * 1.2).toFixed(2)}</s> ₹${product.price.toFixed(2)}</p>
-              <p><i class="fas fa-list-alt"></i> <strong>Category:</strong> ${product.category}</p>
-              <p><i class="fas fa-tshirt"></i> <strong>Cloth Type:</strong> ${product.clothType}</p>
-              <p><i class="fas fa-truck"></i> <strong>Delivery:</strong> ${product.deliveryTime}</p>
-              <p><i class="fas fa-undo"></i> <strong>Return:</strong> ${product.returnPolicy}</p>
-              <p><i class="fas fa-info-circle"></i> <strong>Details:</strong> ${product.additionalDetails}</p>
-              <div class="mb-3">
-                <label><strong>Sizes:</strong></label><br>
-                ${sizeButtons}
-              </div>
-              <div class="mb-3">
-                <label><strong>Colors:</strong></label><br>
-                ${colorButtons}
-              </div>
-              <button class="btn btn-success w-100 mb-2" onclick="buyProductWithSelection(${product.id})">
-                <i class="fas fa-shopping-cart me-1"></i> Buy Now
-              </button>
-              <button class="btn btn-primary w-100" onclick="addToCartWithSelection(${product.id})">
-                <i class="fas fa-cart-plus me-1"></i> Add to Bag
-              </button>
-            </div>
-          </div>
         `;
-        document.getElementById("productDetailPage").innerHTML = detailContent;
-        showSection("productDetailSection");
-      }
-        // Select size
-        function selectSize(size) {
-          document.querySelectorAll(".size-btn").forEach(btn => btn.classList.remove("active"));
-          const button = document.querySelector(`.size-btn[data-size="${size}"]`);
-          button.classList.add("active");
-          document.getElementById("productDetailSection").dataset.selectedSize = size;
-        }
-    
-        // Select color
-        function selectColor(color) {
-          document.querySelectorAll(".color-btn").forEach(btn => btn.classList.remove("active"));
-          const button = document.querySelector(`.color-btn[data-color="${color}"]`);
-          button.classList.add("active");
-          document.getElementById("productDetailSection").dataset.selectedColor = color;
-        }
+      });
+      container.innerHTML = html;
+    }
 
-    // Update product selection
-    function updateProductSelection(productId) {
-      const product = products.find(p => p.id === productId);
-      const sizeSelect = document.getElementById(`sizeSelect-${productId}`);
-      const colorSelect = document.getElementById(`colorSelect-${productId}`);
-      product.selectedSize = sizeSelect.value;
-      product.selectedColor = colorSelect.value;
-      showProductDetails(productId);
+   // Show product details with size and color selection and icons
+   function showProductDetails(productId) {
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
+
+    const sizes = product.size.split(",").map(s => s.trim());
+    const colors = product.color.split(",").map(c => c.trim());
+
+    let sizeButtons = sizes.map(size => `
+      <button type="button" class="btn btn-outline-secondary size-btn" data-size="${size}" onclick="selectSize('${size}')">${size}</button>
+    `).join("");
+    let colorButtons = colors.map(color => `
+      <button type="button" class="btn btn-outline-secondary color-btn" data-color="${color}" onclick="selectColor('${color}')" style="background-color: ${colorMap[color] || '#000'}; width: 30px; height: 30px;"></button>
+    `).join("");
+
+    const detailContent = `
+      <div class="row">
+        <div class="col-md-6">
+          ${generateProductImageHTML(product)}
+        </div>
+        <div class="col-md-6">
+          <h3>${product.name}</h3>
+          <p>${product.description}</p>
+          <p><i class="fas fa-tag"></i> <strong>Price:</strong> <s>₹${(product.price * 1.2).toFixed(2)}</s> ₹${product.price.toFixed(2)}</p>
+          <p><i class="fas fa-list-alt"></i> <strong>Category:</strong> ${product.category}</p>
+          <p><i class="fas fa-tshirt"></i> <strong>Cloth Type:</strong> ${product.clothType}</p>
+          <p><i class="fas fa-truck"></i> <strong>Delivery:</strong> ${product.deliveryTime}</p>
+          <p><i class="fas fa-undo"></i> <strong>Return:</strong> ${product.returnPolicy}</p>
+          <p><i class="fas fa-info-circle"></i> <strong>Details:</strong> ${product.additionalDetails}</p>
+          <div class="mb-3">
+            <label><strong>Sizes:</strong></label><br>
+            ${sizeButtons}
+          </div>
+          <div class="mb-3">
+            <label><strong>Colors:</strong></label><br>
+            ${colorButtons}
+          </div>
+          <button class="btn btn-success w-100 mb-2" onclick="buyProductWithSelection(${product.id})">
+            <i class="fas fa-shopping-cart me-1"></i> Buy Now
+          </button>
+          <button class="btn btn-primary w-100" onclick="addToCartWithSelection(${product.id})">
+            <i class="fas fa-cart-plus me-1"></i> Add to Bag
+          </button>
+        </div>
+      </div>
+    `;
+    document.getElementById("productDetailPage").innerHTML = detailContent;
+    showSection("productDetailSection");
+  }
+    // Select size
+    function selectSize(size) {
+      document.querySelectorAll(".size-btn").forEach(btn => btn.classList.remove("active"));
+      const button = document.querySelector(`.size-btn[data-size="${size}"]`);
+      button.classList.add("active");
+      document.getElementById("productDetailSection").dataset.selectedSize = size;
+    }
+
+    // Select color
+    function selectColor(color) {
+      document.querySelectorAll(".color-btn").forEach(btn => btn.classList.remove("active"));
+      const button = document.querySelector(`.color-btn[data-color="${color}"]`);
+      button.classList.add("active");
+      document.getElementById("productDetailSection").dataset.selectedColor = color;
     }
 
     // Buy product with selection
     function buyProductWithSelection(productId) {
-        if (!currentUser) {
-          showNotification("Please log in or sign up before placing an order.", "warning");
-          showSection("loginSection");
-          return;
-        }
-        const selectedSize = document.getElementById("sizeSelect")?.value || document.getElementById("productDetailSection").dataset.selectedSize;
-        const selectedColor = document.getElementById("colorSelect")?.value || document.getElementById("productDetailSection").dataset.selectedColor;
-        if (!selectedSize || !selectedColor) {
-          showNotification("Please select size and color.", "warning");
-          return;
-        }
-        const product = products.find(p => p.id === productId);
-        if (product) {
-          currentProductForPurchase = { ...product, selectedSize, selectedColor };
-          document.getElementById("modalProductName").textContent = product.name;
-          document.getElementById("modalProductSize").textContent = selectedSize;
-          document.getElementById("modalProductColor").textContent = selectedColor;
-          document.getElementById("modalProductPrice").textContent = product.price.toFixed(2);
-          document.getElementById("modalDeliveryTime").textContent = product.deliveryTime;
-          document.getElementById("modalTotalAmount").textContent = (product.price + 5).toFixed(2); // Assuming +5 for shipping
-          document.getElementById("buyForm").reset();
-          const buyModal = new bootstrap.Modal(document.getElementById("buyModal"));
-          buyModal.show();
-        }
+      if (!currentUser) {
+        showNotification("Please log in or sign up before placing an order.", "warning");
+        showSection("loginSection");
+        return;
       }
-  
-      // Add to cart with selection
-      function addToCartWithSelection(productId) {
-        const selectedSize = document.getElementById("sizeSelect")?.value || document.getElementById("productDetailSection").dataset.selectedSize;
-        const selectedColor = document.getElementById("colorSelect")?.value || document.getElementById("productDetailSection").dataset.selectedColor;
-        if (!selectedSize || !selectedColor) {
-          showNotification("Please select size and color.", "warning");
-          return;
-        }
-        const product = products.find(p => p.id === productId);
-        if (product) {
-          const cartItem = { ...product, selectedSize, selectedColor };
-          cart.push(cartItem);
-          showNotification(`${product.name} added to your bag with size ${selectedSize} and color ${selectedColor}.`, "info");
-          updateCartCountBadge();
-          saveData();
-        }
+      const selectedSize = document.getElementById("sizeSelect")?.value || document.getElementById("productDetailSection").dataset.selectedSize;
+      const selectedColor = document.getElementById("productDetailSection").dataset.selectedColor;
+      if (!selectedSize || !selectedColor) {
+        showNotification("Please select size and color.", "warning");
+        return;
       }
+      const product = products.find(p => p.id === productId);
+      if (product) {
+        currentProductForPurchase = { ...product, selectedSize, selectedColor };
+        const daysRange = product.deliveryTime.match(/\d+-\d+/)[0];
+        const maxDays = parseInt(daysRange.split("-")[1]);
+        const today = new Date();
+        const estimatedDeliveryDate = new Date(today);
+        estimatedDeliveryDate.setDate(today.getDate() + maxDays);
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const formattedDate = estimatedDeliveryDate.toLocaleDateString('en-US', options);
+        document.getElementById("modalProductName").textContent = product.name;
+        document.getElementById("modalProductSize").textContent = selectedSize;
+        document.getElementById("modalProductColor").textContent = selectedColor;
+        document.getElementById("modalProductPrice").textContent = product.price.toFixed(2);
+        document.getElementById("modalDeliveryTime").textContent = formattedDate;
+        document.getElementById("modalTotalAmount").textContent = (product.price + 5).toFixed(2); // Assuming +5 for shipping
+        document.getElementById("buyForm").reset();
+        const buyModal = new bootstrap.Modal(document.getElementById("buyModal"));
+        buyModal.show();
+      }
+    }
+
+    // Add to cart with selection
+    function addToCartWithSelection(productId) {
+      const selectedSize = document.getElementById("sizeSelect")?.value || document.getElementById("productDetailSection").dataset.selectedSize;
+      const selectedColor = document.getElementById("productDetailSection").dataset.selectedColor;
+      if (!selectedSize || !selectedColor) {
+        showNotification("Please select size and color.", "warning");
+        return;
+      }
+      const product = products.find(p => p.id === productId);
+      if (product) {
+        const cartItem = { ...product, selectedSize, selectedColor };
+        cart.push(cartItem);
+        showNotification(`${product.name} added to your bag with size ${selectedSize} and color ${selectedColor}.`, "info");
+        updateCartCountBadge();
+        saveData();
+      }
+    }
 
     // Show notification
     function showNotification(message, type = "success") {
@@ -1492,18 +1474,25 @@
       const address = document.getElementById("shippingAddress").value;
       const mobile = document.getElementById("mobileNumber").value;
       const details = document.getElementById("additionalDetails").value;
+      const daysRange = currentProductForPurchase.deliveryTime.match(/\d+-\d+/)[0];
+      const maxDays = parseInt(daysRange.split("-")[1]);
+      const orderDate = new Date();
+      const estimatedDeliveryDate = new Date(orderDate);
+      estimatedDeliveryDate.setDate(orderDate.getDate() + maxDays);
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const formattedDate = estimatedDeliveryDate.toLocaleDateString('en-US', options);
       const order = {
         product: currentProductForPurchase,
         address,
         mobile,
         details,
         payment: "Cash on Delivery",
-        date: new Date().toLocaleString(),
+        date: orderDate.toLocaleString(),
         cancelled: false,
         cancellationReason: "",
         trackingStatus: "Order Confirmed",
         buyer: currentUser,
-        qrData: `Order #${orders.length + 1}\nProduct: ${currentProductForPurchase.name}\nSize: ${currentProductForPurchase.selectedSize}\nColor: ${currentProductForPurchase.selectedColor}\nAddress: ${address}\nMobile: ${mobile}\nBuyer: ${currentUser.firstName} ${currentUser.lastName}\nDate: ${new Date().toLocaleString()}`,
+        qrData: `Order #${orders.length + 1}\nProduct: ${currentProductForPurchase.name}\nSize: ${currentProductForPurchase.selectedSize}\nColor: ${currentProductForPurchase.selectedColor}\nAddress: ${address}\nMobile: ${mobile}\nBuyer: ${currentUser.firstName} ${currentUser.lastName}\nDate: ${orderDate.toLocaleString()}`,
         received: false,
         receivedDate: null,
         rating: null,
@@ -1516,7 +1505,7 @@
         <p><strong>Product:</strong> ${currentProductForPurchase.name}</p>
         <p><strong>Size:</strong> ${currentProductForPurchase.selectedSize}</p>
         <p><strong>Color:</strong> ${currentProductForPurchase.selectedColor}</p>
-        <p><strong>Delivery Time:</strong> ${currentProductForPurchase.deliveryTime}</p>
+        <p><strong>Estimated Delivery:</strong> ${formattedDate}</p>
         <p><strong>Shipping Address:</strong> ${address}</p>
         <p>Your order has been placed successfully. We will deliver it to you soon.</p>
       `);
@@ -1592,40 +1581,65 @@
         accountContent.innerHTML = "<p>No user details available. Please log in.</p>";
       }
     }
+      // Calculate estimated delivery dates
+      function calculateDeliveryDate(orderDate, deliveryTime) {
+        const [minDays, maxDays] = deliveryTime.split('-').map(s => parseInt(s.trim().replace(' days', '')));
+        const orderDateObj = new Date(orderDate);
+        const minDeliveryDate = new Date(orderDateObj);
+        minDeliveryDate.setDate(orderDateObj.getDate() + minDays);
+        const maxDeliveryDate = new Date(orderDateObj);
+        maxDeliveryDate.setDate(orderDateObj.getDate() + maxDays);
+        return {
+          min: minDeliveryDate.toLocaleDateString(),
+          max: maxDeliveryDate.toLocaleDateString()
+        };
+      }
 
-   // Update orders list
-   function updateOrdersList() {
-    const ordersList = document.getElementById("ordersList");
-    if (!currentUser || orders.length === 0) {
-      ordersList.innerHTML = "<p>You have not placed any orders yet.</p>";
-    } else {
-      let html = "";
-      orders.filter(order => order.buyer.email === currentUser.email).forEach((order, index) => {
-        const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
-        const originalPrice = (order.product.price * 1.2).toFixed(2);
-        html += `
-          <div class="card mb-3 shadow-sm" style="cursor:pointer;" onclick="showOrderDetailPage(${index})">
-            <div class="card-header"><span>Order #${index + 1} - ${order.date}</span></div>
-            <div class="card-body d-flex align-items-center">
-              <img src="${productImage}" style="max-height:50px; margin-right:10px;" alt="${order.product.name}">
-              <div>
-                <span>${order.product.name} (Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor})</span><br>
-                <small class="text-muted"><s>₹${originalPrice}</s> ₹${order.product.price.toFixed(2)}</small>
-                ${order.received ? '<span class="badge bg-success ms-2">Received</span>' : ''}
-                ${order.cancelled ? '<span class="badge bg-danger ms-2">Cancelled</span>' : ''}
+    // Update orders list
+    function updateOrdersList() {
+      const ordersList = document.getElementById("ordersList");
+      if (!currentUser || orders.length === 0) {
+        ordersList.innerHTML = "<p>You have not placed any orders yet.</p>";
+      } else {
+        let html = "";
+        orders.filter(order => order.buyer.email === currentUser.email).forEach((order, index) => {
+          const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
+          const originalPrice = (order.product.price * 1.2).toFixed(2);
+          const discount = ((originalPrice - order.product.price) / originalPrice * 100).toFixed(0);
+          html += `
+            <div class="card mb-3 shadow-sm" style="cursor:pointer;" onclick="showOrderDetailPage(${index})">
+              <div class="card-header"><span>Order #${index + 1} - ${order.date}</span></div>
+              <div class="card-body d-flex align-items-center">
+                <img src="${productImage}" style="max-height:50px; margin-right:10px;" alt="${order.product.name}">
+                <div>
+                  <span>${order.product.name} (Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor})</span><br>
+                 
+                  ${order.received ? '<span class="badge bg-success ms-2">Received</span>' : ''}
+                  ${order.cancelled ? '<span class="badge bg-danger ms-2">Cancelled</span>' : ''}
+                </div>
               </div>
             </div>
-          </div>
-        `;
-      });
-      ordersList.innerHTML = html || "<p>You have not placed any orders yet.</p>";
+          `;
+        });
+        ordersList.innerHTML = html || "<p>You have not placed any orders yet.</p>";
+      }
     }
-  }
-    // Show order detail page with track bar
+
+    // Show order detail page with track bar, estimated delivery, and discount
     function showOrderDetailPage(orderIndex) {
       currentOrderIndex = orderIndex;
       const order = orders[orderIndex];
       const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(order.product.name);
+      const originalPrice = (order.product.price * 1.2).toFixed(2);
+      const discount = ((originalPrice - order.product.price) / originalPrice * 100).toFixed(0);
+      const deliveryTime = order.product.deliveryTime;
+      const daysRange = deliveryTime.match(/\d+-\d+/)[0];
+      const maxDays = parseInt(daysRange.split("-")[1]);
+      const orderDate = new Date(order.date);
+      const estimatedDeliveryDate = new Date(orderDate);
+      estimatedDeliveryDate.setDate(orderDate.getDate() + maxDays);
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const formattedDate = estimatedDeliveryDate.toLocaleDateString('en-US', options);
       let detailContent = `
         <h3>Order #${orderIndex + 1}</h3>
         <p><strong>Date:</strong> ${order.date}</p>
@@ -1640,7 +1654,7 @@
             <p><strong>Description:</strong> ${order.product.description}</p>
             <p><strong>Selected Size:</strong> ${order.product.selectedSize}</p>
             <p><strong>Selected Color:</strong> ${order.product.selectedColor}</p>
-            <p><strong>Price:</strong> <s>₹${(order.product.price * 1.2).toFixed(2)}</s> ₹${order.product.price.toFixed(2)}</p>
+            <p><strong>Price:</strong> <s>₹${originalPrice}</s> ₹${order.product.price.toFixed(2)} <span class="badge bg-success"><i class="bi bi-arrow-down"></i> ${discount}% off</span></p>
           </div>
         </div>
         <hr>
@@ -1648,6 +1662,7 @@
         <p><strong>Address:</strong> ${order.address}</p>
         <p><strong>Mobile:</strong> ${order.mobile}</p>
         <p><strong>Payment Method:</strong> ${order.payment}</p>
+        <p><strong>Estimated Delivery:</strong> ${formattedDate}</p>
         <hr>
         <h5>Order Status</h5>
         <div class="track-bar ${order.received ? 'received' : (order.cancelled ? 'cancelled' : '')}">
@@ -1779,286 +1794,381 @@
       trackModal.show();
     }
 
-    // Update menu account details
-    function updateMenuAccountDetails() {
-      const container = document.getElementById("menuAccountDetails");
-      if (currentUser) {
-        container.innerHTML = `<i class="bi bi-person-circle me-2"></i><h4 class="d-inline">${currentUser.firstName} ${currentUser.lastName}</h4><br><small>${currentUser.email}</small>`;
-        if (currentUser.email === "tedpole.in@gmail.com") {
-          document.getElementById("sellerDashboardMenuItem").style.display = "block";
-          document.getElementById("ownerDashboardMenuItem").style.display = "block";
+     // Update menu account details
+     function updateMenuAccountDetails() {
+        const container = document.getElementById("menuAccountDetails");
+        if (currentUser) {
+          container.innerHTML = `<i class="bi bi-person-circle me-2"></i><h4 class="d-inline">${currentUser.firstName} ${currentUser.lastName}</h4><br><small>${currentUser.email}</small>`;
+          if (currentUser.email === "tedpole.in@gmail.com") {
+            document.getElementById("sellerDashboardMenuItem").style.display = "block";
+            document.getElementById("ownerDashboardMenuItem").style.display = "block";
+          }
+        } else {
+          container.innerHTML = `<h4>Welcome Guest</h4>`;
+          document.getElementById("sellerDashboardMenuItem").style.display = "none";
+          document.getElementById("ownerDashboardMenuItem").style.display = "none";
         }
-      } else {
-        container.innerHTML = `<h4>Welcome Guest</h4>`;
-        document.getElementById("sellerDashboardMenuItem").style.display = "none";
-        document.getElementById("ownerDashboardMenuItem").style.display = "none";
       }
-    }
-
-    // Logout
-    function logout() {
-      if (currentUser) {
-        currentUser.isLoggedIn = false;
-        currentUser.lastActivity = new Date().toISOString();
-      }
-      currentUser = null;
-      showNotification("You have been logged out.", "info");
-      saveData();
-      updateHeaderProfile();
-      updateMenuAccountDetails();
-      showSection("homeSection");
-    }
-
-    // Header button actions
-    document.getElementById("accountButton").addEventListener("click", () => currentUser ? showSection("accountSection") : showSection("loginSection"));
-    document.getElementById("notificationButton").addEventListener("click", () => showSection("notificationsSection"));
-
-    // Search functionality
-    document.getElementById("searchSectionButton").addEventListener("click", () => {
-      const query = document.getElementById("searchSectionInput").value.toLowerCase();
-      const filteredProducts = query.trim() === "" ? products : products.filter(p => p.name.toLowerCase().includes(query) || p.description.toLowerCase().includes(query));
-      generateProducts("searchResultsContainer", filteredProducts);
-    });
-
-    // Login form submission
-    document.getElementById("loginForm")?.addEventListener("submit", function(e) {
-      e.preventDefault();
-      const email = document.getElementById("loginEmail").value;
-      const password = document.getElementById("loginPassword").value;
-      const user = users.find(u => u.email === email && u.password === password);
-      if (user) {
-        currentUser = user;
-        currentUser.isLoggedIn = true;
-        currentUser.lastActivity = new Date().toISOString();
-        showNotification("Login successful!", "success");
-        notifyOwner(`User logged in: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email})`);
+  
+      // Logout
+      function logout() {
+        if (currentUser) {
+          currentUser.isLoggedIn = false;
+          currentUser.lastActivity = new Date().toISOString();
+        }
+        currentUser = null;
+        showNotification("You have been logged out.", "info");
         saveData();
         updateHeaderProfile();
         updateMenuAccountDetails();
         showSection("homeSection");
+      }
+  
+      // Header button actions
+      document.getElementById("accountButton").addEventListener("click", () => currentUser ? showSection("accountSection") : showSection("loginSection"));
+      document.getElementById("notificationButton").addEventListener("click", () => showSection("notificationsSection"));
+  
+      // Search functionality
+      document.getElementById("searchSectionButton").addEventListener("click", () => {
+        const query = document.getElementById("searchSectionInput").value.toLowerCase();
+        const filteredProducts = query.trim() === "" ? products : products.filter(p => p.name.toLowerCase().includes(query) || p.description.toLowerCase().includes(query));
+        generateProducts("searchResultsContainer", filteredProducts);
+      });
+  
+      // Login form submission
+      document.getElementById("loginForm")?.addEventListener("submit", function(e) {
+        e.preventDefault();
+        const email = document.getElementById("loginEmail").value;
+        const password = document.getElementById("loginPassword").value;
+        const user = users.find(u => u.email === email && u.password === password);
+        if (user) {
+          currentUser = user;
+          currentUser.isLoggedIn = true;
+          currentUser.lastActivity = new Date().toISOString();
+          showNotification("Login successful!", "success");
+          notifyOwner(`User logged in: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email})`);
+          saveData();
+          updateHeaderProfile();
+          updateMenuAccountDetails();
+          showSection("homeSection");
+        } else {
+          showNotification("Invalid email or password. Please sign up if you don't have an account.", "warning");
+        }
+      });
+  
+      // Sign up form submission
+      document.getElementById("signupForm")?.addEventListener("submit", function(e) {
+        e.preventDefault();
+        const firstName = document.getElementById("firstName").value;
+        const lastName = document.getElementById("lastName").value;
+        const mobile = document.getElementById("mobileNumberSignUp").value;
+        const email = document.getElementById("signupEmail").value;
+        const password = document.getElementById("signupPassword").value;
+        const confirmPassword = document.getElementById("confirmPassword").value;
+        if (password !== confirmPassword) {
+          showNotification("Passwords do not match!", "warning");
+          return;
+        }
+        if (users.some(u => u.email === email)) {
+          showNotification("User with this email already exists. Please log in.", "warning");
+          return;
+        }
+        currentUser = { firstName, lastName, email, mobile, password, isLoggedIn: true, lastActivity: new Date().toISOString(), location: locations[Math.floor(Math.random() * locations.length)] };
+        users.push(currentUser);
+        showNotification("Sign Up successful!", "success");
+        notifyOwner(`New user signed up: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email})`);
+        saveData();
+        updateHeaderProfile();
+        updateMenuAccountDetails();
+        showSection("homeSection");
+      });
+  
+      // Contact form submission
+      document.getElementById("contactForm")?.addEventListener("submit", function(e) {
+        e.preventDefault();
+        showNotification("Message was sent", "success");
+        this.reset();
+      });
+  
+      // Apply filters for Shop section
+      function applyFilters() {
+        const size = document.getElementById("filterSize").value;
+        const color = document.getElementById("filterColor").value;
+        const price = document.getElementById("filterPrice").value;
+        activeFilters = {};
+        if (size) activeFilters.size = size;
+        if (color) activeFilters.color = color;
+        if (price) activeFilters.price = price;
+        let filteredProducts = [...products];
+        if (activeFilters.size) {
+          filteredProducts = filteredProducts.filter(p => p.size.split(",").map(s => s.trim().toLowerCase()).includes(activeFilters.size.toLowerCase()));
+        }
+        if (activeFilters.color) {
+          filteredProducts = filteredProducts.filter(p => p.color.split(",").map(c => c.trim().toLowerCase()).includes(activeFilters.color.toLowerCase()));
+        }
+        if (activeFilters.price) {
+          const [min, max] = activeFilters.price.split("-").map(Number);
+          filteredProducts = filteredProducts.filter(p => p.price >= min && p.price <= max);
+        }
+        generateProducts("shopProductContainer", filteredProducts);
+        displayActiveFilters();
+      }
+  
+      // Display active filters for Shop section
+      function displayActiveFilters() {
+        const activeFilterDisplay = document.getElementById("activeFilterDisplay");
+        let html = "";
+        if (Object.keys(activeFilters).length > 0) {
+          html += '<div class="filter-tags">';
+          if (activeFilters.size) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeFilter('size')">Size: ${activeFilters.size} <i class="bi bi-x"></i></span>`;
+          if (activeFilters.color) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeFilter('color')">Color: ${activeFilters.color} <i class="bi bi-x"></i></span>`;
+          if (activeFilters.price) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeFilter('price')">Price: ${activeFilters.price} <i class="bi bi-x"></i></span>`;
+          html += '</div>';
+        }
+        activeFilterDisplay.innerHTML = html;
+      }
+  
+      // Remove filter for Shop section
+      function removeFilter(filterType) {
+        if (filterType === 'size') document.getElementById('filterSize').value = '';
+        else if (filterType === 'color') document.getElementById('filterColor').value = '';
+        else if (filterType === 'price') document.getElementById('filterPrice').value = '';
+        applyFilters();
+      }
+  
+      // Clear all filters for Shop section
+      function clearAllFilters() {
+        document.getElementById('filterSize').value = '';
+        document.getElementById('filterColor').value = '';
+        document.getElementById('filterPrice').value = '';
+        activeFilters = {};
+        generateProducts("shopProductContainer", products);
+        displayActiveFilters();
+      }
+  
+      // Apply filters for Men's Wear section
+      function applyMenswearFilters() {
+        const size = document.getElementById("menswearFilterSize").value;
+        const color = document.getElementById("menswearFilterColor").value;
+        const price = document.getElementById("menswearFilterPrice").value;
+        menswearActiveFilters = {};
+        if (size) menswearActiveFilters.size = size;
+        if (color) menswearActiveFilters.color = color;
+        if (price) menswearActiveFilters.price = price;
+        let filteredProducts = products.filter(p => p.category === "Men's Wear");
+        if (menswearActiveFilters.size) {
+          filteredProducts = filteredProducts.filter(p => p.size.split(",").map(s => s.trim().toLowerCase()).includes(menswearActiveFilters.size.toLowerCase()));
+        }
+        if (menswearActiveFilters.color) {
+          filteredProducts = filteredProducts.filter(p => p.color.split(",").map(c => c.trim().toLowerCase()).includes(menswearActiveFilters.color.toLowerCase()));
+        }
+        if (menswearActiveFilters.price) {
+          const [min, max] = menswearActiveFilters.price.split("-").map(Number);
+          filteredProducts = filteredProducts.filter(p => p.price >= min && p.price <= max);
+        }
+        generateProducts("menswearContainer", filteredProducts);
+        displayMenswearActiveFilters();
+      }
+  
+      // Display active filters for Men's Wear section
+      function displayMenswearActiveFilters() {
+        const activeFilterDisplay = document.getElementById("menswearActiveFilterDisplay");
+        let html = "";
+        if (Object.keys(menswearActiveFilters).length > 0) {
+          html += '<div class="filter-tags">';
+          if (menswearActiveFilters.size) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeMenswearFilter('size')">Size: ${menswearActiveFilters.size} <i class="bi bi-x"></i></span>`;
+          if (menswearActiveFilters.color) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeMenswearFilter('color')">Color: ${menswearActiveFilters.color} <i class="bi bi-x"></i></span>`;
+          if (menswearActiveFilters.price) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeMenswearFilter('price')">Price: ${menswearActiveFilters.price} <i class="bi bi-x"></i></span>`;
+          html += '</div>';
+        }
+        activeFilterDisplay.innerHTML = html;
+      }
+  
+      // Remove filter for Men's Wear section
+      function removeMenswearFilter(filterType) {
+        if (filterType === 'size') document.getElementById('menswearFilterSize').value = '';
+        else if (filterType === 'color') document.getElementById('menswearFilterColor').value = '';
+        else if (filterType === 'price') document.getElementById('menswearFilterPrice').value = '';
+        applyMenswearFilters();
+      }
+  
+      // Clear filters for Men's Wear section
+      function clearMenswearFilters() {
+        document.getElementById("menswearFilterSize").value = "";
+        document.getElementById("menswearFilterColor").value = "";
+        document.getElementById("menswearFilterPrice").value = "";
+        menswearActiveFilters = {};
+        const menswearProducts = products.filter(p => p.category === "Men's Wear");
+        generateProducts("menswearContainer", menswearProducts);
+        displayMenswearActiveFilters();
+      }
+  
+      // Apply filters for Accessories section
+      function applyAccessoriesFilters() {
+        const size = document.getElementById("accessoriesFilterSize").value;
+        const color = document.getElementById("accessoriesFilterColor").value;
+        const price = document.getElementById("accessoriesFilterPrice").value;
+        accessoriesActiveFilters = {};
+        if (size) accessoriesActiveFilters.size = size;
+        if (color) accessoriesActiveFilters.color = color;
+        if (price) accessoriesActiveFilters.price = price;
+        let filteredProducts = products.filter(p => p.category === "Accessories");
+        if (accessoriesActiveFilters.size) {
+          filteredProducts = filteredProducts.filter(p => p.size.split(",").map(s => s.trim().toLowerCase()).includes(accessoriesActiveFilters.size.toLowerCase()));
+        }
+        if (accessoriesActiveFilters.color) {
+          filteredProducts = filteredProducts.filter(p => p.color.split(",").map(c => c.trim().toLowerCase()).includes(accessoriesActiveFilters.color.toLowerCase()));
+        }
+        if (accessoriesActiveFilters.price) {
+          const [min, max] = accessoriesActiveFilters.price.split("-").map(Number);
+          filteredProducts = filteredProducts.filter(p => p.price >= min && p.price <= max);
+        }
+        generateProducts("accessoriesContainer", filteredProducts);
+        displayAccessoriesActiveFilters();
+      }
+  
+      // Display active filters for Accessories section
+      function displayAccessoriesActiveFilters() {
+        const activeFilterDisplay = document.getElementById("accessoriesActiveFilterDisplay");
+        let html = "";
+        if (Object.keys(accessoriesActiveFilters).length > 0) {
+          html += '<div class="filter-tags">';
+          if (accessoriesActiveFilters.size) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeAccessoriesFilter('size')">Size: ${accessoriesActiveFilters.size} <i class="bi bi-x"></i></span>`;
+          if (accessoriesActiveFilters.color) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeAccessoriesFilter('color')">Color: ${accessoriesActiveFilters.color} <i class="bi bi-x"></i></span>`;
+          if (accessoriesActiveFilters.price) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeAccessoriesFilter('price')">Price: ${accessoriesActiveFilters.price} <i class="bi bi-x"></i></span>`;
+          html += '</div>';
+        }
+        activeFilterDisplay.innerHTML = html;
+      }
+  
+      // Remove filter for Accessories section
+      function removeAccessoriesFilter(filterType) {
+        if (filterType === 'size') document.getElementById('accessoriesFilterSize').value = '';
+        else if (filterType === 'color') document.getElementById('accessoriesFilterColor').value = '';
+        else if (filterType === 'price') document.getElementById('accessoriesFilterPrice').value = '';
+        applyAccessoriesFilters();
+      }
+  
+      // Clear filters for Accessories section
+      function clearAccessoriesFilters() {
+        document.getElementById("accessoriesFilterSize").value = "";
+        document.getElementById("accessoriesFilterColor").value = "";
+        document.getElementById("accessoriesFilterPrice").value = "";
+        accessoriesActiveFilters = {};
+        const accessoriesProducts = products.filter(p => p.category === "Accessories");
+        generateProducts("accessoriesContainer", accessoriesProducts);
+        displayAccessoriesActiveFilters();
+      }
+  
+      // Notify owner
+      function notifyOwner(message) {
+        ownerNotifications.push({ message, date: new Date().toLocaleString() });
+        saveData();
+      }
+  
+      // Update notifications
+      function updateNotifications() {
+        const notificationsContent = document.getElementById("notificationsContent");
+        if (notifications.length === 0) {
+          notificationsContent.innerHTML = "<p>No notifications yet.</p>";
+        } else {
+          let html = '<div class="list-group">';
+          notifications.slice().reverse().forEach(notif => {
+            html += `
+              <div class="list-group-item">
+                <i class="bi bi-bell-fill me-2"></i>
+                <strong>${notif.date}</strong>: ${notif.message}
+              </div>
+            `;
+          });
+          html += '</div>';
+          notificationsContent.innerHTML = html;
+        }
+      }
+  
+     // Update Seller Dashboard
+     function updateSellerDashboard() {
+      const sellerDashboardContent = document.getElementById("sellerDashboardContent");
+      let html = "<h2>Users</h2>";
+      if (users.length === 0) {
+        html += "<p>No users yet.</p>";
       } else {
-        showNotification("Invalid email or password. Please sign up if you don't have an account.", "warning");
-      }
-    });
-
-    // Sign up form submission
-    document.getElementById("signupForm")?.addEventListener("submit", function(e) {
-      e.preventDefault();
-      const firstName = document.getElementById("firstName").value;
-      const lastName = document.getElementById("lastName").value;
-      const mobile = document.getElementById("mobileNumberSignUp").value;
-      const email = document.getElementById("signupEmail").value;
-      const password = document.getElementById("signupPassword").value;
-      const confirmPassword = document.getElementById("confirmPassword").value;
-      if (password !== confirmPassword) {
-        showNotification("Passwords do not match!", "warning");
-        return;
-      }
-      if (users.some(u => u.email === email)) {
-        showNotification("User with this email already exists. Please log in.", "warning");
-        return;
-      }
-      currentUser = { firstName, lastName, email, mobile, password, isLoggedIn: true, lastActivity: new Date().toISOString(), location: locations[Math.floor(Math.random() * locations.length)] };
-      users.push(currentUser);
-      showNotification("Sign Up successful!", "success");
-      notifyOwner(`New user signed up: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email})`);
-      saveData();
-      updateHeaderProfile();
-      updateMenuAccountDetails();
-      showSection("homeSection");
-    });
-
-    // Contact form submission
-    document.getElementById("contactForm")?.addEventListener("submit", function(e) {
-      e.preventDefault();
-      showNotification("Message was sent", "success");
-      this.reset();
-    });
-
-    // Apply filters for Shop section
-    function applyFilters() {
-      const size = document.getElementById("filterSize").value;
-      const color = document.getElementById("filterColor").value;
-      const price = document.getElementById("filterPrice").value;
-      activeFilters = {};
-      if (size) activeFilters.size = size;
-      if (color) activeFilters.color = color;
-      if (price) activeFilters.price = price;
-      let filteredProducts = [...products];
-      if (activeFilters.size) {
-        filteredProducts = filteredProducts.filter(p => p.size.split(",").map(s => s.trim().toLowerCase()).includes(activeFilters.size.toLowerCase()));
-      }
-      if (activeFilters.color) {
-        filteredProducts = filteredProducts.filter(p => p.color.split(",").map(c => c.trim().toLowerCase()).includes(activeFilters.color.toLowerCase()));
-      }
-      if (activeFilters.price) {
-        const [min, max] = activeFilters.price.split("-").map(Number);
-        filteredProducts = filteredProducts.filter(p => p.price >= min && p.price <= max);
-      }
-      generateProducts("shopProductContainer", filteredProducts);
-      displayActiveFilters();
-    }
-
-    // Display active filters for Shop section
-    function displayActiveFilters() {
-      const activeFilterDisplay = document.getElementById("activeFilterDisplay");
-      let html = "";
-      if (Object.keys(activeFilters).length > 0) {
-        html += '<div class="filter-tags">';
-        if (activeFilters.size) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeFilter('size')">Size: ${activeFilters.size} <i class="bi bi-x"></i></span>`;
-        if (activeFilters.color) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeFilter('color')">Color: ${activeFilters.color} <i class="bi bi-x"></i></span>`;
-        if (activeFilters.price) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeFilter('price')">Price: ${activeFilters.price} <i class="bi bi-x"></i></span>`;
+        html += '<div class="list-group">';
+        users.forEach(user => {
+          html += `
+            <div class="list-group-item">
+              <strong>${user.firstName} ${user.lastName}</strong><br>
+              <small>${user.email}</small><br>
+              <small>Mobile: ${user.mobile || "Not provided"}</small>
+            </div>
+          `;
+        });
         html += '</div>';
       }
-      activeFilterDisplay.innerHTML = html;
-    }
-
-    // Remove filter for Shop section
-    function removeFilter(filterType) {
-      if (filterType === 'size') document.getElementById('filterSize').value = '';
-      else if (filterType === 'color') document.getElementById('filterColor').value = '';
-      else if (filterType === 'price') document.getElementById('filterPrice').value = '';
-      applyFilters();
-    }
-
-    // Clear all filters for Shop section
-    function clearAllFilters() {
-      document.getElementById('filterSize').value = '';
-      document.getElementById('filterColor').value = '';
-      document.getElementById('filterPrice').value = '';
-      activeFilters = {};
-      generateProducts("shopProductContainer", products);
-      displayActiveFilters();
-    }
-
-    // Apply filters for Men's Wear section
-    function applyMenswearFilters() {
-      const size = document.getElementById("menswearFilterSize").value;
-      const color = document.getElementById("menswearFilterColor").value;
-      const price = document.getElementById("menswearFilterPrice").value;
-      menswearActiveFilters = {};
-      if (size) menswearActiveFilters.size = size;
-      if (color) menswearActiveFilters.color = color;
-      if (price) menswearActiveFilters.price = price;
-      let filteredProducts = products.filter(p => p.category === "Men's Wear");
-      if (menswearActiveFilters.size) {
-        filteredProducts = filteredProducts.filter(p => p.size.split(",").map(s => s.trim().toLowerCase()).includes(menswearActiveFilters.size.toLowerCase()));
-      }
-      if (menswearActiveFilters.color) {
-        filteredProducts = filteredProducts.filter(p => p.color.split(",").map(c => c.trim().toLowerCase()).includes(menswearActiveFilters.color.toLowerCase()));
-      }
-      if (menswearActiveFilters.price) {
-        const [min, max] = menswearActiveFilters.price.split("-").map(Number);
-        filteredProducts = filteredProducts.filter(p => p.price >= min && p.price <= max);
-      }
-      generateProducts("menswearContainer", filteredProducts);
-      displayMenswearActiveFilters();
-    }
-
-    // Display active filters for Men's Wear section
-    function displayMenswearActiveFilters() {
-      const activeFilterDisplay = document.getElementById("menswearActiveFilterDisplay");
-      let html = "";
-      if (Object.keys(menswearActiveFilters).length > 0) {
-        html += '<div class="filter-tags">';
-        if (menswearActiveFilters.size) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeMenswearFilter('size')">Size: ${menswearActiveFilters.size} <i class="bi bi-x"></i></span>`;
-        if (menswearActiveFilters.color) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeMenswearFilter('color')">Color: ${menswearActiveFilters.color} <i class="bi bi-x"></i></span>`;
-        if (menswearActiveFilters.price) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeMenswearFilter('price')">Price: ${menswearActiveFilters.price} <i class="bi bi-x"></i></span>`;
-        html += '</div>';
-      }
-      activeFilterDisplay.innerHTML = html;
-    }
-
-    // Remove filter for Men's Wear section
-    function removeMenswearFilter(filterType) {
-      if (filterType === 'size') document.getElementById('menswearFilterSize').value = '';
-      else if (filterType === 'color') document.getElementById('menswearFilterColor').value = '';
-      else if (filterType === 'price') document.getElementById('menswearFilterPrice').value = '';
-      applyMenswearFilters();
-    }
-
-    // Clear filters for Men's Wear section
-    function clearMenswearFilters() {
-      document.getElementById("menswearFilterSize").value = "";
-      document.getElementById("menswearFilterColor").value = "";
-      document.getElementById("menswearFilterPrice").value = "";
-      menswearActiveFilters = {};
-      const menswearProducts = products.filter(p => p.category === "Men's Wear");
-      generateProducts("menswearContainer", menswearProducts);
-      displayMenswearActiveFilters();
-    }
-
-    // Apply filters for Accessories section
-    function applyAccessoriesFilters() {
-      const size = document.getElementById("accessoriesFilterSize").value;
-      const color = document.getElementById("accessoriesFilterColor").value;
-      const price = document.getElementById("accessoriesFilterPrice").value;
-      accessoriesActiveFilters = {};
-      if (size) accessoriesActiveFilters.size = size;
-      if (color) accessoriesActiveFilters.color = color;
-      if (price) accessoriesActiveFilters.price = price;
-      let filteredProducts = products.filter(p => p.category === "Accessories");
-      if (accessoriesActiveFilters.size) {
-        filteredProducts = filteredProducts.filter(p => p.size.split(",").map(s => s.trim().toLowerCase()).includes(accessoriesActiveFilters.size.toLowerCase()));
-      }
-      if (accessoriesActiveFilters.color) {
-        filteredProducts = filteredProducts.filter(p => p.color.split(",").map(c => c.trim().toLowerCase()).includes(accessoriesActiveFilters.color.toLowerCase()));
-      }
-      if (accessoriesActiveFilters.price) {
-        const [min, max] = accessoriesActiveFilters.price.split("-").map(Number);
-        filteredProducts = filteredProducts.filter(p => p.price >= min && p.price <= max);
-      }
-      generateProducts("accessoriesContainer", filteredProducts);
-      displayAccessoriesActiveFilters();
-    }
-
-    // Display active filters for Accessories section
-    function displayAccessoriesActiveFilters() {
-      const activeFilterDisplay = document.getElementById("accessoriesActiveFilterDisplay");
-      let html = "";
-      if (Object.keys(accessoriesActiveFilters).length > 0) {
-        html += '<div class="filter-tags">';
-        if (accessoriesActiveFilters.size) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeAccessoriesFilter('size')">Size: ${accessoriesActiveFilters.size} <i class="bi bi-x"></i></span>`;
-        if (accessoriesActiveFilters.color) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeAccessoriesFilter('color')">Color: ${accessoriesActiveFilters.color} <i class="bi bi-x"></i></span>`;
-        if (accessoriesActiveFilters.price) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeAccessoriesFilter('price')">Price: ${accessoriesActiveFilters.price} <i class="bi bi-x"></i></span>`;
-        html += '</div>';
-      }
-      activeFilterDisplay.innerHTML = html;
-    }
-
-    // Remove filter for Accessories section
-    function removeAccessoriesFilter(filterType) {
-      if (filterType === 'size') document.getElementById('accessoriesFilterSize').value = '';
-      else if (filterType === 'color') document.getElementById('accessoriesFilterColor').value = '';
-      else if (filterType === 'price') document.getElementById('accessoriesFilterPrice').value = '';
-      applyAccessoriesFilters();
-    }
-
-    // Clear filters for Accessories section
-    function clearAccessoriesFilters() {
-      document.getElementById("accessoriesFilterSize").value = "";
-      document.getElementById("accessoriesFilterColor").value = "";
-      document.getElementById("accessoriesFilterPrice").value = "";
-      accessoriesActiveFilters = {};
-      const accessoriesProducts = products.filter(p => p.category === "Accessories");
-      generateProducts("accessoriesContainer", accessoriesProducts);
-      displayAccessoriesActiveFilters();
-    }
-
-    // Notify owner
-    function notifyOwner(message) {
-      ownerNotifications.push({ message, date: new Date().toLocaleString() });
-      saveData();
-    }
-
-    // Update notifications
-    function updateNotifications() {
-      const notificationsContent = document.getElementById("notificationsContent");
-      if (notifications.length === 0) {
-        notificationsContent.innerHTML = "<p>No notifications yet.</p>";
+      html += "<h2 class='mt-4'>Orders</h2>";
+      if (orders.length === 0) {
+        html += "<p>No orders yet.</p>";
       } else {
-        let html = '<div class="list-group">';
-        notifications.slice().reverse().forEach(notif => {
+        orders.forEach((order, index) => {
+          const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
+          html += `
+            <div class="card mb-3 shadow-sm order-card">
+              <div class="card-header">
+                Order #${index + 1} - ${order.date}
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-12 col-md-4 mb-3 mb-md-0">
+                    <h6>Buyer Information</h6>
+                    <p><strong>Name:</strong> ${order.buyer.firstName} ${order.buyer.lastName}</p>
+                    <p><strong>Email:</strong> ${order.buyer.email}</p>
+                    <p><strong>Mobile:</strong> ${order.mobile}</p>
+                  </div>
+                  <div class="col-12 col-md-4 mb-3 mb-md-0">
+                    <h6>Product Information</h6>
+                    <img src="${productImage}" alt="${order.product.name}" class="img-fluid mb-2" style="max-width:100px; max-height:100px;" >
+                    <p><strong>Name:</strong> ${order.product.name}</p>
+                    <p><strong>Description:</strong> ${order.product.description}</p>
+                    <p><strong>Selected Size:</strong> ${order.product.selectedSize}</p>
+                    <p><strong>Selected Color:</strong> ${order.product.selectedColor}</p>
+                    <p><strong>Price:</strong> 
+                      ${order.product.originalPrice && order.product.originalPrice > order.product.price ? 
+                        `<s>₹${order.product.originalPrice.toFixed(2)}</s> ` : 
+                        ''}
+                      ₹${order.product.price.toFixed(2)}
+                    </p>
+                    <p><strong>Category:</strong> ${order.product.category}</p>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <h6>Shipping Information</h6>
+                    <p><strong>Address:</strong> ${order.address}</p>
+                    <p><strong>Payment Method:</strong> ${order.payment}</p>
+                    <p><strong>Status:</strong> ${order.cancelled ? 'Cancelled' : 'Active'}</p>
+                    ${order.cancelled ? `<p><strong>Cancellation Reason:</strong> ${order.cancellationReason}</p>` : ''}
+                  </div>
+                </div>
+                <div class="qr-code-container mt-3">
+                  <h6>Order QR Code</h6>
+                  <div id="qrcode-${index}"></div>
+                </div>
+              </div>
+              <div class="card-footer text-end">
+                <button class="btn btn-primary me-2" onclick="printOrder(${index})">Print</button>
+                <button class="btn btn-secondary" onclick="downloadOrder(${index})">Download</button>
+              </div>
+            </div>
+          `;
+        });
+      }
+      html += "<h2 class='mt-4'>Notifications</h2>";
+      if (ownerNotifications.length === 0) {
+        html += "<p>No notifications yet.</p>";
+      } else {
+        html += `<div class="d-flex justify-content-end mb-3">
+                   <button class="btn btn-danger btn-sm" onclick="clearOwnerNotifications()">Clear Notifications</button>
+                 </div>`;
+        html += '<div class="list-group">';
+        ownerNotifications.slice().reverse().forEach(notif => {
           html += `
             <div class="list-group-item">
               <i class="bi bi-bell-fill me-2"></i>
@@ -2067,164 +2177,69 @@
           `;
         });
         html += '</div>';
-        notificationsContent.innerHTML = html;
       }
-    }
-
-   // Update Seller Dashboard
-   function updateSellerDashboard() {
-    const sellerDashboardContent = document.getElementById("sellerDashboardContent");
-    let html = "<h2>Users</h2>";
-    if (users.length === 0) {
-      html += "<p>No users yet.</p>";
-    } else {
-      html += '<div class="list-group">';
-      users.forEach(user => {
-        html += `
-          <div class="list-group-item">
-            <strong>${user.firstName} ${user.lastName}</strong><br>
-            <small>${user.email}</small><br>
-            <small>Mobile: ${user.mobile || "Not provided"}</small>
-          </div>
-        `;
-      });
-      html += '</div>';
-    }
-    html += "<h2 class='mt-4'>Orders</h2>";
-    if (orders.length === 0) {
-      html += "<p>No orders yet.</p>";
-    } else {
+      sellerDashboardContent.innerHTML = html;
+  
+      // Generate QR codes for each order
       orders.forEach((order, index) => {
-        const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
-        html += `
-          <div class="card mb-3 shadow-sm order-card">
-            <div class="card-header">
-              Order #${index + 1} - ${order.date}
-            </div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-12 col-md-4 mb-3 mb-md-0">
-                  <h6>Buyer Information</h6>
-                  <p><strong>Name:</strong> ${order.buyer.firstName} ${order.buyer.lastName}</p>
-                  <p><strong>Email:</strong> ${order.buyer.email}</p>
-                  <p><strong>Mobile:</strong> ${order.mobile}</p>
-                </div>
-                <div class="col-12 col-md-4 mb-3 mb-md-0">
-                  <h6>Product Information</h6>
-                  <img src="${productImage}" alt="${order.product.name}" class="img-fluid mb-2" style="max-width:100px; max-height:100px;" >
-                  <p><strong>Name:</strong> ${order.product.name}</p>
-                  <p><strong>Description:</strong> ${order.product.description}</p>
-                  <p><strong>Selected Size:</strong> ${order.product.selectedSize}</p>
-                  <p><strong>Selected Color:</strong> ${order.product.selectedColor}</p>
-                  <p><strong>Price:</strong> 
-                    ${order.product.originalPrice && order.product.originalPrice > order.product.price ? 
-                      `<s>₹${order.product.originalPrice.toFixed(2)}</s> ` : 
-                      ''}
-                    ₹${order.product.price.toFixed(2)}
-                  </p>
-                  <p><strong>Category:</strong> ${order.product.category}</p>
-                </div>
-                <div class="col-12 col-md-4">
-                  <h6>Shipping Information</h6>
-                  <p><strong>Address:</strong> ${order.address}</p>
-                  <p><strong>Payment Method:</strong> ${order.payment}</p>
-                  <p><strong>Status:</strong> ${order.cancelled ? 'Cancelled' : 'Active'}</p>
-                  ${order.cancelled ? `<p><strong>Cancellation Reason:</strong> ${order.cancellationReason}</p>` : ''}
-                </div>
-              </div>
-              <div class="qr-code-container mt-3">
-                <h6>Order QR Code</h6>
-                <div id="qrcode-${index}"></div>
-              </div>
-            </div>
-            <div class="card-footer text-end">
-              <button class="btn btn-primary me-2" onclick="printOrder(${index})">Print</button>
-              <button class="btn btn-secondary" onclick="downloadOrder(${index})">Download</button>
-            </div>
-          </div>
-        `;
+        const qrDiv = document.getElementById(`qrcode-${index}`);
+        if (qrDiv) {
+          new QRCode(qrDiv, {
+            text: order.qrData,
+            width: 128,
+            height: 128
+          });
+        }
       });
     }
-    html += "<h2 class='mt-4'>Notifications</h2>";
-    if (ownerNotifications.length === 0) {
-      html += "<p>No notifications yet.</p>";
-    } else {
-      html += `<div class="d-flex justify-content-end mb-3">
-                 <button class="btn btn-danger btn-sm" onclick="clearOwnerNotifications()">Clear Notifications</button>
-               </div>`;
-      html += '<div class="list-group">';
-      ownerNotifications.slice().reverse().forEach(notif => {
-        html += `
-          <div class="list-group-item">
-            <i class="bi bi-bell-fill me-2"></i>
-            <strong>${notif.date}</strong>: ${notif.message}
-          </div>
-        `;
-      });
-      html += '</div>';
-    }
-    sellerDashboardContent.innerHTML = html;
-
-    // Generate QR codes for each order
-    orders.forEach((order, index) => {
-      const qrDiv = document.getElementById(`qrcode-${index}`);
-      if (qrDiv) {
-        new QRCode(qrDiv, {
-          text: order.qrData,
-          width: 128,
-          height: 128
-        });
+  
+    // Clear owner notifications
+    function clearOwnerNotifications() {
+      if (confirm("Are you sure you want to clear all notifications?")) {
+        ownerNotifications = [];
+        saveData();
+        updateSellerDashboard();
+        showNotification("All notifications cleared.", "info");
       }
-    });
-  }
-
-  // Clear owner notifications
-  function clearOwnerNotifications() {
-    if (confirm("Are you sure you want to clear all notifications?")) {
-      ownerNotifications = [];
-      saveData();
-      updateSellerDashboard();
-      showNotification("All notifications cleared.", "info");
     }
-  }
-
-  // Function to print order card with QR code
-  function printOrder(index) {
-    const orderCards = document.querySelectorAll('.order-card');
-    if (index < 0 || index >= orderCards.length) return;
-    const orderCard = orderCards[index];
-    
-    document.body.classList.add('print-mode');
-    orderCard.classList.add('print-selected');
-    
-    window.print();
-    
-    window.addEventListener('afterprint', function() {
-      document.body.classList.remove('print-mode');
-      orderCard.classList.remove('print-selected');
-    }, { once: true });
-  }
-
-  // Function to download order card as PNG with QR code
-  function downloadOrder(index) {
-    const orderCards = document.querySelectorAll('.order-card');
-    if (index < 0 || index >= orderCards.length) return;
-    const orderCard = orderCards[index];
-    
-    html2canvas(orderCard).then(canvas => {
-      const link = document.createElement('a');
-      link.href = canvas.toDataURL('image/png');
-      link.download = `order_${index + 1}.png`;
-      link.click();
-    }).catch(error => {
-      console.error('Error generating image:', error);
-      showNotification('Failed to generate image for download.', 'danger');
-    });
-  }
-  // Initialize
-  loadData();
-</script>
-<!-- Bootstrap JS Bundle -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+  
+    // Function to print order card with QR code
+    function printOrder(index) {
+      const orderCards = document.querySelectorAll('.order-card');
+      if (index < 0 || index >= orderCards.length) return;
+      const orderCard = orderCards[index];
+      
+      document.body.classList.add('print-mode');
+      orderCard.classList.add('print-selected');
+      
+      window.print();
+      
+      window.addEventListener('afterprint', function() {
+        document.body.classList.remove('print-mode');
+        orderCard.classList.remove('print-selected');
+      }, { once: true });
+    }
+  
+    // Function to download order card as PNG with QR code
+    function downloadOrder(index) {
+      const orderCards = document.querySelectorAll('.order-card');
+      if (index < 0 || index >= orderCards.length) return;
+      const orderCard = orderCards[index];
+      
+      html2canvas(orderCard).then(canvas => {
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL('image/png');
+        link.download = `order_${index + 1}.png`;
+        link.click();
+      }).catch(error => {
+        console.error('Error generating image:', error);
+        showNotification('Failed to generate image for download.', 'danger');
+      });
+    }
+    // Initialize
+    loadData();
+  </script>
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+  </html>
