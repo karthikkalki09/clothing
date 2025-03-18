@@ -80,10 +80,11 @@
     /* Toast Container */
     #toastContainer { position: fixed; top: 1rem; right: 1rem; z-index: 1100; }
 
-    /* Filter Section */
-    #filterSection { margin-top: 20px; border-top: 2px solid #2a5298; padding-top: 20px; background-color: #e9f0fa; }
-    .filter-tags { margin-top: 10px; }
-    .filter-tags .badge { cursor: pointer; }
+   
+  /* Filter Section */
+  #filterSection { margin-top: 20px; border-top: 2px solid #2a5298; padding-top: 20px; background-color: #e9f0fa; }
+  .filter-tags { margin-top: 10px; }
+  .filter-tags .badge { cursor: pointer; }
 
     /* Product Detail Styling */
     #productDetailPage .row { align-items: center; }
@@ -92,11 +93,11 @@
     /* Footer Navigation */
     .footer-nav { position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient(90deg, #1e3c72, #2a5298); border-top: 1px solid #ddd; z-index: 1200; padding: 10px 0; }
     .footer-nav .nav-item { text-align: center; flex: 1; position: relative; }
-    .footer-nav .nav-link { color: #fff; font-size: 1rem; transition: color 0.3s ease; }
+    .footer-nav .nav-link { color: #fff; font-size: 1rem; transition: color 0.3s ease; position: relative; }
     .footer-nav .nav-link i { font-size: 1.75rem; color: #fff; transition: color 0.3s ease; }
     .footer-nav .nav-text { font-size: 0.75rem; color: #fff; }
     .footer-nav .nav-link:hover, .footer-nav .nav-link:hover i, .footer-nav .nav-link:hover .nav-text { color: #ffdd57; }
-    .footer-bag-badge { position: absolute; top: 5px; right: 10px; background: #d9534f; color: #fff; border-radius: 50%; padding: 2px 6px; font-size: 0.75rem; }
+    .footer-nav .badge { position: absolute; top: -5px; right: -10px; background-color: #ffdd57; color: #000; font-size: 0.6rem; padding: 2px 5px; border-radius: 50%; }
 
     /* Wishlist Button Styling */
     .wishlist-btn { background: rgba(255, 255, 255, 0.8); border-radius: 50%; border: none; padding: 5px; }
@@ -1240,7 +1241,7 @@
       if (product) {
         const cartItem = { ...product, selectedSize, selectedColor };
         cart.push(cartItem);
-        showNotification(`${product.name} added to your bag with size ${selectedSize} and color ${selectedColor}.`, "info");
+        showNotification(`${product.name} added to your with size ${selectedSize} and color ${selectedColor}.`, "info");
         updateCartCountBadge();
         saveData();
       }
