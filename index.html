@@ -150,6 +150,15 @@
     .track-step.cancelled span {
       background-color: #dc3545;
     }
+    .color-thumbnail {
+      display: inline-block;
+      margin: 5px;
+      border: 2px solid transparent;
+      cursor: pointer;
+    }
+    .color-thumbnail.selected {
+      border-color: #000;
+    }
   </style>
 </head>
 <body>
@@ -979,41 +988,27 @@
     const colorMap = { "Blue": "#0000FF", "Red": "#FF0000", "Black": "#000000", "Brown": "#8B4513", "White": "#FFFFFF" };
 
     const products = [
-      {
-        id: 1,
-        name: "Men's T-Shirt",
-        description: "Comfortable and stylish men's t-shirt.",
-        category: "Men's Wear",
-        price: 19.99,
-        size: "S, M, L, XL",
-        color: "Blue, Red, Black",
-        clothType: "100% Cotton",
-        deliveryTime: "3-5 days",
-        returnPolicy: "10 days return policy",
-        additionalDetails: "Machine washable, soft and breathable fabric.",
-        images: [
-          "https://i.pinimg.com/474x/2d/94/0b/2d940bf9a87c975563445088889df80e.jpg",
-          "https://i.pinimg.com/474x/9b/e5/57/9be5570d3ed2ae5ccea0b5350259fe15.jpg"
-        ]
-      },
-      {
-        id: 2,
-        name: "Leather Watch",
-        description: "Premium quality leather watch.",
-        category: "Accessories",
-        price: 79.99,
-        size: "One Size",
-        color: "Brown, Black",
-        clothType: "Genuine Leather",
-        deliveryTime: "5-7 days",
-        returnPolicy: "10 days return policy",
-        additionalDetails: "Water resistant up to 50 meters.",
-        images: [
-          "https://i.pinimg.com/474x/1e/fb/f4/1efbf4d23939c2bc900e2dfba11c1430.jpg",
-          "https://i.pinimg.com/474x/37/77/5b/37775b5e850c855c64f9a18d0d66675a.jpg",
-          "https://i.pinimg.com/474x/f3/1b/ff/f31bff3a6dc240ec7d67156ee38300a9.jpg"
-        ]
-      },
+    {
+      id: 1,
+      name: "Casual Shirt",
+      description: "Comfortable and stylish men's t-shirt.",
+      category: "Men's Wear",
+      price: 19.99,
+      size: "S, M, L, XL",
+      color: "Blue, Red, Black",
+      clothType: "100% Cotton",
+      deliveryTime: "3-5 days",
+      returnPolicy: "10 days return policy",
+      additionalDetails: "Machine washable, soft and breathable fabric.",
+      images: [
+        "https://i.pinimg.com/474x/a2/46/9b/a2469b27a79d4853f1fa20114c5e9fe6.jpg"
+      ],
+      colorImages: {
+        "Blue": "https://i.pinimg.com/474x/2d/94/0b/2d940bf9a87c975563445088889db80e.jpg",
+        "Red": "https://i.pinimg.com/474x/9b/e5/57/9be5570d3ed2ae5ccea0b5350259fe15.jpg",
+        "Black": "https://i.pinimg.com/474x/12/36/ad/1236ad818c0561546a861e5a97dc37b1.jpg"
+      }
+    },
       {
         id: 3,
         name: "Denim Jeans",
@@ -1021,7 +1016,7 @@
         category: "Men's Wear",
         price: 39.99,
         size: "32, 34, 36",
-        color: "Blue",
+        color: "Blue,Black",
         clothType: "Denim",
         deliveryTime: "4-6 days",
         returnPolicy: "10 days return policy",
@@ -1029,7 +1024,11 @@
         images: [
           "https://i.pinimg.com/474x/93/d5/c4/93d5c498f9800930a8012a4a53bdbaec.jpg",
           "https://i.pinimg.com/474x/33/ec/71/33ec716cc1c75f58fc99fd5e7d221024.jpg"
-        ]
+        ],
+        colorImages: {
+          "Blue": "https://i.pinimg.com/474x/3e/21/6e/3e216e3c3ee793f79269c2ad441697c5.jpg",
+          "Black": "https://i.pinimg.com/474x/cd/5c/14/cd5c14c5a5daff62ee33d104ae4a381a.jpg"
+        }
       },
       {
         id: 4,
@@ -1044,8 +1043,12 @@
         returnPolicy: "10 days return policy",
         additionalDetails: "UV protection lenses.",
         images: [
-          "https://i.pinimg.com/474x/8e/5f/6e/8e5f6e8a8e5f6e8a8e5f6e8a8e5f6e8a.jpg"
-        ]
+          "https://i.pinimg.com/474x/84/17/a8/8417a8928ca921fd76cc441293133ffb.jpg"
+        ],
+        colorImages: {
+          
+          "Black": "https://i.pinimg.com/474x/04/79/52/047952b3abe30a9c4d2636ba986a5890.jpg"
+        }
       }
     ];
 
@@ -1133,17 +1136,23 @@
    function showProductDetails(productId) {
     const product = products.find(p => p.id === productId);
     if (!product) return;
-
+  
     const sizes = product.size.split(",").map(s => s.trim());
     const colors = product.color.split(",").map(c => c.trim());
-
+  
     let sizeButtons = sizes.map(size => `
       <button type="button" class="btn btn-outline-secondary size-btn" data-size="${size}" onclick="selectSize('${size}')">${size}</button>
     `).join("");
-    let colorButtons = colors.map(color => `
-      <button type="button" class="btn btn-outline-secondary color-btn" data-color="${color}" onclick="selectColor('${color}')" style="background-color: ${colorMap[color] || '#000'}; width: 30px; height: 30px;"></button>
-    `).join("");
-
+  
+    let colorThumbnails = colors.map(color => {
+      const imageUrl = product.colorImages[color];
+      return `
+        <div class="color-thumbnail" data-color="${color}" onclick="selectColor('${color}')">
+          <img src="${imageUrl}" alt="${color}" style="width: 50px; height: 50px;" />
+        </div>
+      `;
+    }).join("");
+  
     const detailContent = `
       <div class="row">
         <div class="col-md-6">
@@ -1164,7 +1173,7 @@
           </div>
           <div class="mb-3">
             <label><strong>Colors:</strong></label><br>
-            ${colorButtons}
+            ${colorThumbnails}
           </div>
           <button class="btn btn-success w-100 mb-2" onclick="buyProductWithSelection(${product.id})">
             <i class="fas fa-shopping-cart me-1"></i> Buy Now
@@ -1176,6 +1185,9 @@
       </div>
     `;
     document.getElementById("productDetailPage").innerHTML = detailContent;
+    document.getElementById("productDetailSection").dataset.productId = productId;
+    const firstColor = colors[0];
+    selectColor(firstColor);
     showSection("productDetailSection");
   }
     // Select size
@@ -1188,9 +1200,18 @@
 
     // Select color
     function selectColor(color) {
-      document.querySelectorAll(".color-btn").forEach(btn => btn.classList.remove("active"));
-      const button = document.querySelector(`.color-btn[data-color="${color}"]`);
-      button.classList.add("active");
+      // Remove selected class from all thumbnails
+      document.querySelectorAll(".color-thumbnail").forEach(thumb => thumb.classList.remove("selected"));
+      // Add selected class to the clicked thumbnail
+      const thumbnail = document.querySelector(`.color-thumbnail[data-color="${color}"]`);
+      if (thumbnail) thumbnail.classList.add("selected");
+      // Change main image
+      const productId = parseInt(document.getElementById("productDetailSection").dataset.productId);
+      const product = products.find(p => p.id === productId);
+      if (product && product.colorImages[color]) {
+        document.getElementById("mainProductImage").src = product.colorImages[color];
+      }
+      // Set selected color
       document.getElementById("productDetailSection").dataset.selectedColor = color;
     }
 
@@ -1436,32 +1457,9 @@
 
     // Generate product image HTML
     function generateProductImageHTML(product) {
-      if (product.images && product.images.length > 1) {
-        const carouselId = "carousel-product-" + product.id;
-        let indicators = "";
-        let inner = "";
-        product.images.forEach((img, index) => {
-          indicators += `<button type="button" data-bs-target="#${carouselId}" data-bs-slide-to="${index}" ${index === 0 ? 'class="active" aria-current="true"' : ''} aria-label="Slide ${index+1}"></button>`;
-          inner += `<div class="carousel-item ${index === 0 ? "active" : ""}">
-                      <img src="${img}" class="d-block w-100 product-detail-img" alt="${product.name} image ${index+1}">
-                    </div>`;
-        });
-        return `<div id="${carouselId}" class="carousel slide" data-bs-ride="carousel">
-                  <div class="carousel-indicators">${indicators}</div>
-                  <div class="carousel-inner">${inner}</div>
-                  <button class="carousel-control-prev" type="button" data-bs-target="#${carouselId}" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                  </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#${carouselId}" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                  </button>
-                </div>`;
-      } else {
-        const img = (product.images && product.images.length) ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name);
-        return `<img src="${img}" class="img-fluid product-detail-img" alt="${product.name}">`;
-      }
+      const defaultColor = product.color.split(",")[0].trim();
+      const defaultImage = product.colorImages[defaultColor];
+      return `<img id="mainProductImage" src="${defaultImage}" class="product-detail-img" alt="${product.name}">`;
     }
 
     // Buy form submission
