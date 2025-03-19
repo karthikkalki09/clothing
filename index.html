@@ -159,6 +159,15 @@
     .color-thumbnail.selected {
       border-color: #000;
     }
+      /* Product Image Modal Styling */
+      #productImageModal .modal-body {
+        overflow: auto;
+        max-height: 80vh;
+        text-align: center;
+      }
+      #modalProductImage {
+        transition: transform 0.3s ease;
+      }
   </style>
 </head>
 <body>
@@ -935,7 +944,26 @@
       </div>
     </div>
   </div>
-
+<!-- Product Image Zoom Modal -->
+<div class="modal fade" id="productImageModal" tabindex="-1" aria-labelledby="productImageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="productImageModalLabel">Product Image</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <img id="modalProductImage" src="" class="img-fluid" alt="Product Image">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="zoomImage(1.2)">Zoom In</button>
+        <button type="button" class="btn btn-secondary" onclick="zoomImage(0.8)">Zoom Out</button>
+        <button type="button" class="btn btn-secondary" onclick="resetZoom()">Reset Zoom</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
   <!-- Fixed Footer Navigation -->
   <footer class="footer-nav fixed-bottom">
     <div class="container d-flex justify-content-around">
@@ -1037,7 +1065,7 @@
         category: "Accessories",
         price: 29.99,
         size: "One Size",
-        color: "Black",
+        color: "Black, Brown",
         clothType: "Plastic",
         deliveryTime: "3-5 days",
         returnPolicy: "10 days return policy",
@@ -1046,8 +1074,8 @@
           "https://i.pinimg.com/474x/84/17/a8/8417a8928ca921fd76cc441293133ffb.jpg"
         ],
         colorImages: {
-          
-          "Black": "https://i.pinimg.com/474x/04/79/52/047952b3abe30a9c4d2636ba986a5890.jpg"
+          "Black": "https://i.pinimg.com/474x/04/79/52/047952b3abe30a9c4d2636ba986a5890.jpg",
+          "Brown": "https://i.pinimg.com/474x/84/17/a8/8417a8928ca921fd76cc441293133ffb.jpg"
         }
       }
     ];
@@ -1594,37 +1622,48 @@
         };
       }
 
-    // Update orders list
-    function updateOrdersList() {
-      const ordersList = document.getElementById("ordersList");
-      if (!currentUser || orders.length === 0) {
-        ordersList.innerHTML = "<p>You have not placed any orders yet.</p>";
-      } else {
-        let html = "";
-        const userOrders = orders.filter(order => order.buyer.email === currentUser.email);
-        userOrders.forEach((order) => {
-          const originalIndex = orders.indexOf(order);
-          const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
-          const originalPrice = (order.product.price * 1.2).toFixed(2);
-          const discount = ((originalPrice - order.product.price) / originalPrice * 100).toFixed(0);
-          html += `
-            <div class="card mb-3 shadow-sm" style="cursor:pointer;" onclick="showOrderDetailPage(${originalIndex})">
-              <div class="card-header"><span>Order #${originalIndex + 1} - ${order.date}</span></div>
-              <div class="card-body d-flex align-items-center">
-                <img src="${productImage}" style="max-height:50px; margin-right:10px;" alt="${order.product.name}">
-                <div>
-                  <span>${order.product.name} (Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor})</span><br>
-                 
-                  ${order.received ? '<span class="badge bg-success ms-2">Received</span>' : ''}
-                  ${order.cancelled ? '<span class="badge bg-danger ms-2">Cancelled</span>' : ''}
-                </div>
+   // Update orders list with delete button
+   function updateOrdersList() {
+    const ordersList = document.getElementById("ordersList");
+    if (!currentUser || orders.length === 0) {
+      ordersList.innerHTML = "<p>You have not placed any orders yet.</p>";
+    } else {
+      let html = "";
+      const userOrders = orders.filter(order => order.buyer.email === currentUser.email);
+      userOrders.forEach((order) => {
+        const originalIndex = orders.indexOf(order);
+        const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
+        html += `
+          <div class="card mb-3 shadow-sm">
+            <div class="card-header">
+              <span>Order #${originalIndex + 1} - ${order.date}</span>
+              <button class="btn btn-sm btn-danger float-end" onclick="deleteOrder(${originalIndex}); event.stopPropagation();">Delete</button>
+            </div>
+            <div class="card-body d-flex align-items-center" onclick="showOrderDetailPage(${originalIndex})" style="cursor:pointer;">
+              <img src="${productImage}" style="max-height:50px; margin-right:10px;" alt="${order.product.name}">
+              <div>
+                <span>${order.product.name} (Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor})</span><br>
+                <span class="badge bg-${order.cancelled ? 'danger' : (order.received ? 'success' : 'primary')} ms-2">${order.cancelled ? 'Cancelled' : (order.received ? 'Received' : 'Active')}</span>
               </div>
             </div>
-          `;
-        });
-        ordersList.innerHTML = html || "<p>You have not placed any orders yet.</p>";
-      }
+          </div>
+        `;
+      });
+      ordersList.innerHTML = html || "<p>You have not placed any orders yet.</p>";
     }
+  }
+
+  // Delete order
+  function deleteOrder(index) {
+    if (confirm("Are you sure you want to delete this order? This action cannot be undone.")) {
+      const deletedOrder = orders[index];
+      orders.splice(index, 1);
+      showNotification("Order deleted successfully.", "info");
+      notifyOwner(`Order deleted by: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email}) for product: ${deletedOrder.product.name} - Order #${index + 1}`);
+      saveData();
+      updateOrdersList();
+    }
+  }
 
     // Show order detail page with track bar, estimated delivery, and discount
     function showOrderDetailPage(orderIndex) {
@@ -1794,7 +1833,31 @@
       const trackModal = new bootstrap.Modal(document.getElementById("trackOrderModal"));
       trackModal.show();
     }
+     // Show product image modal
+     function showProductImageModal(imageSrc) {
+      document.getElementById("modalProductImage").src = imageSrc;
+      const productImageModal = new bootstrap.Modal(document.getElementById("productImageModal"));
+      productImageModal.show();
+    }
 
+    // Zoom image functions
+    let currentZoom = 1;
+    function zoomImage(factor) {
+      const img = document.getElementById("modalProductImage");
+      currentZoom *= factor;
+      if (currentZoom < 0.5) currentZoom = 0.5;
+      if (currentZoom > 3) currentZoom = 3;
+      img.style.transform = `scale(${currentZoom})`;
+    }
+
+    function resetZoom() {
+      currentZoom = 1;
+      document.getElementById("modalProductImage").style.transform = 'scale(1)';
+    }
+
+    document.getElementById("productImageModal").addEventListener('hidden.bs.modal', function () {
+      resetZoom();
+    });
      // Update menu account details
      function updateMenuAccountDetails() {
         const container = document.getElementById("menuAccountDetails");
