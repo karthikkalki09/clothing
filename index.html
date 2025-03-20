@@ -161,10 +161,11 @@
     }
       /* Product Images Modal Styling */
     #productImagesModal .modal-body { overflow: auto; max-height: 80vh; text-align: center; }
-</style>
+    #productCarousel img { max-height: 500px; object-fit: contain; }
+    .carousel-control-prev span, .carousel-control-next span { color: #000; font-size: 1rem; }
+  </style>
 </head>
 <body>
-      
  
   <!-- Toast Container -->
   <div id="toastContainer"></div>
@@ -919,6 +920,7 @@
               <span>Rotate Right</span>
             </button>
           </div>
+          <p class="text-center mt-2">Swipe left or right to see more angles</p>
         </div>
       </div>
     </div>
@@ -1136,7 +1138,7 @@
       container.innerHTML = html;
     }
 
-   // Show product details with size and color selection and icons
+   //  details with size and color selection and icons
    function showProductDetails(productId) {
     const product = products.find(p => p.id === productId);
     if (!product) return;
@@ -1459,64 +1461,67 @@
       }
     }
 
-    // Generate product image HTML
-    function generateProductImageHTML(product) {
-      const defaultColor = product.color.split(",")[0].trim();
-      const defaultImage = product.colorImages[defaultColor];
-      return `<img id="mainProductImage" src="${defaultImage}" class="product-detail-img" alt="${product.name}">`;
-    }
-
-    // Buy form submission
-    document.getElementById("buyForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      if (!currentUser) {
-        showNotification("Please log in or sign up before placing an order.", "warning");
-        showSection("loginSection");
-        return;
+     // Generate product image HTML
+     function generateProductImageHTML(product) {
+        const defaultColor = product.color.split(",")[0].trim();
+        const defaultImage = product.colorImages[defaultColor];
+        return `<img id="mainProductImage" src="${defaultImage}" class="product-detail-img" alt="${product.name}" style="cursor: pointer;" onclick="showProductImagesModal(${product.id})">`;
       }
-      const address = document.getElementById("shippingAddress").value;
-      const mobile = document.getElementById("mobileNumber").value;
-      const details = document.getElementById("additionalDetails").value;
-      const daysRange = currentProductForPurchase.deliveryTime.match(/\d+-\d+/)[0];
-      const maxDays = parseInt(daysRange.split("-")[1]);
-      const orderDate = new Date();
-      const estimatedDeliveryDate = new Date(orderDate);
-      estimatedDeliveryDate.setDate(orderDate.getDate() + maxDays);
-      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-      const formattedDate = estimatedDeliveryDate.toLocaleDateString('en-US', options);
-      const order = {
-        product: currentProductForPurchase,
-        address,
-        mobile,
-        details,
-        payment: "Cash on Delivery",
-        date: orderDate.toLocaleString(),
-        cancelled: false,
-        cancellationReason: "",
-        trackingStatus: "Order Confirmed",
-        buyer: currentUser,
-        qrData: `Order #${orders.length + 1}\nProduct: ${currentProductForPurchase.name}\nSize: ${currentProductForPurchase.selectedSize}\nColor: ${currentProductForPurchase.selectedColor}\nAddress: ${address}\nMobile: ${mobile}\nBuyer: ${currentUser.firstName} ${currentUser.lastName}\nDate: ${orderDate.toLocaleString()}`,
-        received: false,
-        receivedDate: null,
-        rating: null,
-        review: null
-      };
-      orders.push(order);
-      const orderIndex = orders.length - 1;
-      showPopupMessage(`
-        <h5>Thank You for Your Order!</h5>
-        <p><strong>Product:</strong> ${currentProductForPurchase.name}</p>
-        <p><strong>Size:</strong> ${currentProductForPurchase.selectedSize}</p>
-        <p><strong>Color:</strong> ${currentProductForPurchase.selectedColor}</p>
-        <p><strong>Estimated Delivery:</strong> ${formattedDate}</p>
-        <p><strong>Shipping Address:</strong> ${address}</p>
-        <p>Your order has been placed successfully. We will deliver it to you soon.</p>
-      `);
-      notifyOwner(`New order placed by: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email}) for product: ${order.product.name} (Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor}) at ₹${order.product.price.toFixed(2)} - Order #${orderIndex + 1}`);
-      saveData();
-      const buyModal = bootstrap.Modal.getInstance(document.getElementById("buyModal"));
-      buyModal.hide();
-    });
+
+    // Buy form submission with enhanced thank-you card
+    document.getElementById("buyForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+        if (!currentUser) {
+          showNotification("Please log in or sign up before placing an order.", "warning");
+          showSection("loginSection");
+          return;
+        }
+        const address = document.getElementById("shippingAddress").value;
+        const mobile = document.getElementById("mobileNumber").value;
+        const details = document.getElementById("additionalDetails").value;
+        const daysRange = currentProductForPurchase.deliveryTime.match(/\d+-\d+/)[0];
+        const maxDays = parseInt(daysRange.split("-")[1]);
+        const orderDate = new Date();
+        const estimatedDeliveryDate = new Date(orderDate);
+        estimatedDeliveryDate.setDate(orderDate.getDate() + maxDays);
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const formattedDate = estimatedDeliveryDate.toLocaleDateString('en-US', options);
+        const order = {
+          product: currentProductForPurchase,
+          address,
+          mobile,
+          details,
+          payment: "Cash on Delivery",
+          date: orderDate.toLocaleString(),
+          cancelled: false,
+          cancellationReason: "",
+          trackingStatus: "Order Confirmed",
+          buyer: currentUser,
+          qrData: `Order #${orders.length + 1}\nProduct: ${currentProductForPurchase.name}\nSize: ${currentProductForPurchase.selectedSize}\nColor: ${currentProductForPurchase.selectedColor}\nAddress: ${address}\nMobile: ${mobile}\nBuyer: ${currentUser.firstName} ${currentUser.lastName}\nDate: ${orderDate.toLocaleString()}`,
+          received: false,
+          receivedDate: null,
+          rating: null,
+          review: null
+        };
+        orders.push(order);
+        const orderIndex = orders.length - 1;
+        showPopupMessage(`
+          <h5>Thank You for Your Order!</h5>
+          <img src="${currentProductForPurchase.images[0]}" alt="${currentProductForPurchase.name}" style="max-width: 100px; margin-bottom: 10px;">
+          <p><strong>Product:</strong> ${currentProductForPurchase.name}</p>
+          <p><strong>Size:</strong> ${currentProductForPurchase.selectedSize}</p>
+          <p><strong>Color:</strong> ${currentProductForPurchase.selectedColor}</p>
+          <p><strong>Estimated Delivery:</strong> ${formattedDate}</p>
+          <p><strong>Shipping Address:</strong> ${address}</p>
+          <p>Your order has been placed successfully. We will deliver it to you soon.</p>
+          <button class="btn btn-primary mt-3" data-bs-dismiss="modal" onclick="showOrderDetailPage(${orderIndex})">View Order Details</button>
+        `);
+        notifyOwner(`New order placed by: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email}) for product: ${order.product.name} (Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor}) at ₹${order.product.price.toFixed(2)} - Order #${orderIndex + 1}`);
+        saveData();
+        const buyModal = bootstrap.Modal.getInstance(document.getElementById("buyModal"));
+        buyModal.hide();
+      });
+  
 
     // Update cart count badge
     function updateCartCountBadge() {
@@ -1817,26 +1822,45 @@
       const trackModal = new bootstrap.Modal(document.getElementById("trackOrderModal"));
       trackModal.show();
     }
-     // Show product images modal
-     function showProductImagesModal(productId) {
-        const product = products.find(p => p.id === productId);
-        const carouselInner = document.getElementById("carouselInner");
-        carouselInner.innerHTML = "";
-        if (product.images && product.images.length > 0) {
-          product.images.forEach((img, index) => {
-            const activeClass = index === 0 ? 'active' : '';
-            carouselInner.innerHTML += `
-              <div class="carousel-item ${activeClass}">
-                <img src="${img}" class="d-block w-100" alt="${product.name} image ${index + 1}">
-              </div>
-            `;
-          });
-        } else {
-          carouselInner.innerHTML = `<div class="carousel-item active"><img src="https://via.placeholder.com/400x300?text=${encodeURIComponent(product.name)}" class="d-block w-100" alt="${product.name}"></div>`;
-        }
-        const productImagesModal = new bootstrap.Modal(document.getElementById("productImagesModal"));
-        productImagesModal.show();
+   // Show product images modal with swipe functionality
+   function showProductImagesModal(productId) {
+    const product = products.find(p => p.id === productId);
+    const carouselInner = document.getElementById("carouselInner");
+    carouselInner.innerHTML = "";
+    if (product.images && product.images.length > 0) {
+      product.images.forEach((img, index) => {
+        const activeClass = index === 0 ? 'active' : '';
+        carouselInner.innerHTML += `
+          <div class="carousel-item ${activeClass}">
+            <img src="${img}" class="d-block w-100" alt="${product.name} image ${index + 1}">
+          </div>
+        `;
+      });
+    } else {
+      carouselInner.innerHTML = `<div class="carousel-item active"><img src="https://via.placeholder.com/400x300?text=${encodeURIComponent(product.name)}" class="d-block w-100" alt="${product.name}"></div>`;
+    }
+    const productImagesModal = new bootstrap.Modal(document.getElementById("productImagesModal"));
+    productImagesModal.show();
+
+    // Add swipe functionality for mobile
+    const carousel = document.getElementById('productCarousel');
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    carousel.addEventListener('touchstart', function(event) {
+      touchStartX = event.changedTouches[0].screenX;
+    }, false);
+
+    carousel.addEventListener('touchend', function(event) {
+      touchEndX = event.changedTouches[0].screenX;
+      if (touchEndX < touchStartX - 50) { // Swipe left
+        bootstrap.Carousel.getInstance(carousel).next();
       }
+      if (touchEndX > touchStartX + 50) { // Swipe right
+        bootstrap.Carousel.getInstance(carousel).prev();
+      }
+    }, false);
+  }
 
     
      // Update menu account details
