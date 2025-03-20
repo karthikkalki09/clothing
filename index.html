@@ -159,18 +159,13 @@
     .color-thumbnail.selected {
       border-color: #000;
     }
-      /* Product Image Modal Styling */
-      #productImageModal .modal-body {
-        overflow: auto;
-        max-height: 80vh;
-        text-align: center;
-      }
-      #modalProductImage {
-        transition: transform 0.3s ease;
-      }
-  </style>
+      /* Product Images Modal Styling */
+    #productImagesModal .modal-body { overflow: auto; max-height: 80vh; text-align: center; }
+</style>
 </head>
 <body>
+      
+ 
   <!-- Toast Container -->
   <div id="toastContainer"></div>
 
@@ -917,11 +912,11 @@
             <div class="carousel-inner" id="carouselInner"></div>
             <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
+              <span>Rotate Left</span>
             </button>
             <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
               <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
+              <span>Rotate Right</span>
             </button>
           </div>
         </div>
@@ -944,26 +939,7 @@
       </div>
     </div>
   </div>
-<!-- Product Image Zoom Modal -->
-<div class="modal fade" id="productImageModal" tabindex="-1" aria-labelledby="productImageModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="productImageModalLabel">Product Image</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <img id="modalProductImage" src="" class="img-fluid" alt="Product Image">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" onclick="zoomImage(1.2)">Zoom In</button>
-        <button type="button" class="btn btn-secondary" onclick="zoomImage(0.8)">Zoom Out</button>
-        <button type="button" class="btn btn-secondary" onclick="resetZoom()">Reset Zoom</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
+
   <!-- Fixed Footer Navigation -->
   <footer class="footer-nav fixed-bottom">
     <div class="container d-flex justify-content-around">
@@ -1622,8 +1598,8 @@
         };
       }
 
-   // Update orders list with delete button
-   function updateOrdersList() {
+  // Update orders list with three-dot menu
+  function updateOrdersList() {
     const ordersList = document.getElementById("ordersList");
     if (!currentUser || orders.length === 0) {
       ordersList.innerHTML = "<p>You have not placed any orders yet.</p>";
@@ -1635,9 +1611,17 @@
         const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
         html += `
           <div class="card mb-3 shadow-sm">
-            <div class="card-header">
+            <div class="card-header d-flex justify-content-between align-items-center">
               <span>Order #${originalIndex + 1} - ${order.date}</span>
-              <button class="btn btn-sm btn-danger float-end" onclick="deleteOrder(${originalIndex}); event.stopPropagation();">Delete</button>
+              <div class="dropdown">
+                <button class="btn btn-sm btn-light" type="button" id="dropdownMenuButton${originalIndex}" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="bi bi-three-dots-vertical"></i>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton${originalIndex}">
+                  <li><a class="dropdown-item" href="#" onclick="deleteOrder(${originalIndex}); event.stopPropagation();">Delete Order</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="showOrderDetailPage(${originalIndex}); event.stopPropagation();">View Details</a></li>
+                </ul>
+              </div>
             </div>
             <div class="card-body d-flex align-items-center" onclick="showOrderDetailPage(${originalIndex})" style="cursor:pointer;">
               <img src="${productImage}" style="max-height:50px; margin-right:10px;" alt="${order.product.name}">
@@ -1833,31 +1817,28 @@
       const trackModal = new bootstrap.Modal(document.getElementById("trackOrderModal"));
       trackModal.show();
     }
-     // Show product image modal
-     function showProductImageModal(imageSrc) {
-      document.getElementById("modalProductImage").src = imageSrc;
-      const productImageModal = new bootstrap.Modal(document.getElementById("productImageModal"));
-      productImageModal.show();
-    }
+     // Show product images modal
+     function showProductImagesModal(productId) {
+        const product = products.find(p => p.id === productId);
+        const carouselInner = document.getElementById("carouselInner");
+        carouselInner.innerHTML = "";
+        if (product.images && product.images.length > 0) {
+          product.images.forEach((img, index) => {
+            const activeClass = index === 0 ? 'active' : '';
+            carouselInner.innerHTML += `
+              <div class="carousel-item ${activeClass}">
+                <img src="${img}" class="d-block w-100" alt="${product.name} image ${index + 1}">
+              </div>
+            `;
+          });
+        } else {
+          carouselInner.innerHTML = `<div class="carousel-item active"><img src="https://via.placeholder.com/400x300?text=${encodeURIComponent(product.name)}" class="d-block w-100" alt="${product.name}"></div>`;
+        }
+        const productImagesModal = new bootstrap.Modal(document.getElementById("productImagesModal"));
+        productImagesModal.show();
+      }
 
-    // Zoom image functions
-    let currentZoom = 1;
-    function zoomImage(factor) {
-      const img = document.getElementById("modalProductImage");
-      currentZoom *= factor;
-      if (currentZoom < 0.5) currentZoom = 0.5;
-      if (currentZoom > 3) currentZoom = 3;
-      img.style.transform = `scale(${currentZoom})`;
-    }
-
-    function resetZoom() {
-      currentZoom = 1;
-      document.getElementById("modalProductImage").style.transform = 'scale(1)';
-    }
-
-    document.getElementById("productImageModal").addEventListener('hidden.bs.modal', function () {
-      resetZoom();
-    });
+    
      // Update menu account details
      function updateMenuAccountDetails() {
         const container = document.getElementById("menuAccountDetails");
