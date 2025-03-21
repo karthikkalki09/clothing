@@ -524,23 +524,24 @@
     </div>
   </div>
 
-  <!-- Search Section -->
-  <div id="searchSection" class="section fade-in">
-    <header class="py-3 border-bottom bg-light">
-      <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home"><i class="bi bi-arrow-left"></i> Home</button>
-        <h1 class="h5 mb-0">Search</h1>
-        <div></div>
-      </div>
-    </header>
-    <div class="container my-4">
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Search for Products" id="searchSectionInput" autocomplete="off" aria-label="Search for Products" />
-        <button class="btn btn-dark" type="button" id="searchSectionButton" aria-label="Search"><i class="bi bi-search"></i></button>
-      </div>
-      <div id="searchResultsContainer"></div>
+ <!-- Updated Search Section with Categories -->
+ <div id="searchSection" class="section fade-in">
+  <header class="py-3 border-bottom bg-light">
+    <div class="container d-flex justify-content-between align-items-center">
+      <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home"><i class="bi bi-arrow-left"></i> Home</button>
+      <h1 class="h5 mb-0">Search</h1>
+      <div></div>
     </div>
+  </header>
+  <div class="container my-4">
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="Search for shirts, pants, etc." id="searchSectionInput" autocomplete="off" aria-label="Search for Products" />
+      <button class="btn btn-dark" type="button" id="searchSectionButton" aria-label="Search"><i class="bi bi-search"></i></button>
+    </div>
+   
+    <div id="searchResultsContainer"></div>
   </div>
+</div>
 
   <!-- Login Section -->
   <div id="loginSection" class="section fade-in">
