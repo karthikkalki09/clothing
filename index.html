@@ -943,40 +943,37 @@
     </div>
   </div>
 
-  <!-- Footer Navigation -->
-  <nav class="footer-nav d-flex justify-content-around">
-    <div class="nav-item">
-      <a href="#" class="nav-link" onclick="showSection('homeSection')" aria-label="Home">
-        <i class="bi bi-house-door-fill"></i>
-        
-      </a>
-    </div>
-    <div class="nav-item">
-      <a href="#" class="nav-link" onclick="showSection('categoriesSection')" aria-label="Categories">
-        <i class="bi bi-grid-fill"></i>
-       
-      </a>
-    </div>
-    <div class="nav-item">
-      <a href="#" class="nav-link" onclick="showSection('searchSection')" aria-label="Search">
-        <i class="bi bi-search"></i>
-       
-      </a>
-    </div>
-    <div class="nav-item">
-        <a href="#" class="nav-link" onclick="showSection('cartSection')" aria-label="Bag">
-          <i class="bi bi-bag-fill"></i>
-          <span class="badge" id="footerBagBadge">0</span>
-        
-        </a>
+  <!-- Fixed Footer Navigation -->
+  <footer class="footer-nav fixed-bottom">
+    <div class="container d-flex justify-content-around">
+      <div class="nav-item">
+        <button class="btn btn-link nav-link" onclick="showSection('homeSection')" aria-label="Home">
+          <i class="fas fa-home fa-lg"></i><br><span class="nav-text">HOME</span>
+        </button>
       </div>
-    <div class="nav-item">
-      <a href="#" class="nav-link" onclick="showSection('wishlistSection')" aria-label="Wishlist">
-        <i class="bi bi-heart-fill"></i>
-    
-      </a>
+      <div class="nav-item">
+        <button class="btn btn-link nav-link" onclick="showSection('categoriesSection')" aria-label="Shop">
+          <i class="fas fa-th-large fa-lg"></i><br><span class="nav-text">SHOP</span>
+        </button>
+      </div>
+      <div class="nav-item">
+        <button class="btn btn-link nav-link" onclick="showSection('searchSection')" aria-label="Search">
+          <i class="fas fa-search fa-lg"></i><br><span class="nav-text">SEARCH</span>
+        </button>
+      </div>
+      <div class="nav-item">
+        <button class="btn btn-link nav-link" onclick="showSection('wishlistSection')" aria-label="Wishlist">
+          <i class="fas fa-heart fa-lg"></i><br><span class="nav-text">WISHLIST</span>
+        </button>
+      </div>
+      <div class="nav-item">
+        <button class="btn btn-link nav-link" onclick="showSection('cartSection')" aria-label="Your Bag">
+          <i class="fas fa-shopping-bag fa-lg"></i><br><span class="nav-text">BAG</span>
+          <span class="footer-bag-badge" id="footerBagBadge">0</span>
+        </button>
+      </div>
     </div>
-  </nav>
+  </footer>
 
   <!-- JavaScript -->
   <script>
@@ -1020,7 +1017,7 @@
       }
     },
       {
-        id: 2,
+        id: 3,
         name: "Denim Jeans",
         description: "Trendy and comfortable denim jeans.",
         category: "Men's Wear",
@@ -1041,7 +1038,7 @@
         }
       },
       {
-        id: 3,
+        id: 4,
         name: "Sunglasses",
         description: "Stylish sunglasses to match any outfit.",
         category: "Accessories",
