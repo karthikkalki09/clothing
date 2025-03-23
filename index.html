@@ -402,8 +402,8 @@
     <div class="container my-4" id="wishlistContainer"></div>
   </div>
 
-  <!-- Categories Section -->
-  <div id="categoriesSection" class="section fade-in">
+<!-- Categories Section -->
+<div id="categoriesSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
         <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home"><i class="bi bi-arrow-left"></i> Home</button>
@@ -426,6 +426,22 @@
             <img src="https://i.pinimg.com/474x/f4/96/20/f496209cab01d85a80a84b785068c007.jpg" class="card-img-top" alt="Accessories" />
             <div class="card-body text-center">
               <h5 class="card-title">ACCESSORIES</h5>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 mb-4">
+          <div class="card shadow-sm" onclick="showSection('accessoriesSection')" style="cursor:pointer;">
+            <img src="https://i.pinimg.com/474x/f4/96/20/f496209cab01d85a80a84b785068c007.jpg" class="card-img-top" alt="Accessories" />
+            <div class="card-body text-center">
+              <h5 class="card-title">SHIRTS</h5>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 mb-4">
+          <div class="card shadow-sm" onclick="showSection('accessoriesSection')" style="cursor:pointer;">
+            <img src="https://i.pinimg.com/474x/f4/96/20/f496209cab01d85a80a84b785068c007.jpg" class="card-img-top" alt="Accessories" />
+            <div class="card-body text-center">
+              <h5 class="card-title">JEANS</h5>
             </div>
           </div>
         </div>
@@ -524,8 +540,8 @@
     </div>
   </div>
 
- <!-- Updated Search Section with Categories and Sliding Results -->
-<div id="searchSection" class="section fade-in">
+ <!-- Updated Search Section with Categories -->
+ <div id="searchSection" class="section fade-in">
   <header class="py-3 border-bottom bg-light">
     <div class="container d-flex justify-content-between align-items-center">
       <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home"><i class="bi bi-arrow-left"></i> Home</button>
@@ -534,77 +550,12 @@
     </div>
   </header>
   <div class="container my-4">
-    <!-- Search Bar -->
     <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="Search for shirts, jeans, etc." id="searchSectionInput" autocomplete="off" aria-label="Search for Products" />
+      <input type="text" class="form-control" placeholder="Search for shirts, pants, etc." id="searchSectionInput" autocomplete="off" aria-label="Search for Products" />
       <button class="btn btn-dark" type="button" id="searchSectionButton" aria-label="Search"><i class="bi bi-search"></i></button>
     </div>
-    <!-- Filter Buttons -->
-    <div class="d-flex flex-wrap gap-2 mb-3">
-      <button class="btn btn-dark" onclick="filterSearchResults('ALL')">ALL</button>
-      <button class="btn btn-outline-dark" onclick="filterSearchResults('SALE')">SALE</button>
-      <button class="btn btn-outline-dark" onclick="filterSearchResults('TRENDING')">TRENDING</button>
-      <button class="btn btn-outline-dark" onclick="filterSearchResults('TOP')">TOP</button>
-      <button class="btn btn-outline-dark" onclick="filterSearchResults('BOTTOM')">BOTTOM</button>
-    </div>
-    <!-- Categories List -->
-    <div class="mb-4">
-      <h5>Categories</h5>
-      <div class="list-group">
-        <div class="list-group-item d-flex align-items-center" onclick="filterByCategory('NEW')">
-          <img src="https://i.pinimg.com/474x/1e/d0/ed/1ed0ede5c364f2c8959976120f65271f.jpg" class="img-fluid me-3" style="width: 50px; height: 50px; object-fit: cover;" alt="New">
-          <span>NEW</span>
-        </div>
-        <div class="list-group-item d-flex align-items-center" onclick="filterByCategory('BESTSELLERS')">
-          <img src="https://i.pinimg.com/474x/1e/d0/ed/1ed0ede5c364f2c8959976120f65271f.jpg" class="img-fluid me-3" style="width: 50px; height: 50px; object-fit: cover;" alt="Bestsellers">
-          <span>BESTSELLERS</span>
-        </div>
-        <div class="list-group-item d-flex align-items-center" onclick="filterByCategory('SHIRTS')">
-          <img src="https://i.pinimg.com/474x/a2/46/9b/a2469b27a79d4853f1fa20114c5e9fe6.jpg" class="img-fluid me-3" style="width: 50px; height: 50px; object-fit: cover;" alt="Shirts">
-          <span>SHIRTS</span>
-        </div>
-        <div class="list-group-item d-flex align-items-center" onclick="filterByCategory('JEANS')">
-          <img src="https://i.pinimg.com/474x/93/d5/c4/93d5c498f9800930a8012a4a53bdbaec.jpg" class="img-fluid me-3" style="width: 50px; height: 50px; object-fit: cover;" alt="Jeans">
-          <span>JEANS</span>
-        </div>
-        <div class="list-group-item d-flex align-items-center" onclick="filterByCategory('T-SHIRTS')">
-          <img src="https://i.pinimg.com/474x/2d/94/0b/2d940bf9a87c975563445088889db80e.jpg" class="img-fluid me-3" style="width: 50px; height: 50px; object-fit: cover;" alt="T-Shirts">
-          <span>T-SHIRTS</span>
-        </div>
-        <div class="list-group-item d-flex align-items-center" onclick="filterByCategory('TROUSERS')">
-          <img src="https://i.pinimg.com/474x/33/ec/71/33ec716cc1c75f58fc99fd5e7d221024.jpg" class="img-fluid me-3" style="width: 50px; height: 50px; object-fit: cover;" alt="Trousers">
-          <span>TROUSERS</span>
-        </div>
-        <div class="list-group-item d-flex align-items-center" onclick="filterByCategory('JACKETS')">
-          <img src="https://i.pinimg.com/474x/f4/96/20/f496209cab01d85a80a84b785068c007.jpg" class="img-fluid me-3" style="width: 50px; height: 50px; object-fit: cover;" alt="Jackets">
-          <span>JACKETS</span>
-        </div>
-        <div class="list-group-item d-flex align-items-center" onclick="filterByCategory('JOGGERS')">
-          <img src="https://i.pinimg.com/474x/33/ec/71/33ec716cc1c75f58fc99fd5e7d221024.jpg" class="img-fluid me-3" style="width: 50px; height: 50px; object-fit: cover;" alt="Joggers">
-          <span>JOGGERS</span>
-        </div>
-        <div class="list-group-item d-flex align-items-center" onclick="filterByCategory('OVERSHIRT')">
-          <img src="https://i.pinimg.com/474x/a2/46/9b/a2469b27a79d4853f1fa20114c5e9fe6.jpg" class="img-fluid me-3" style="width: 50px; height: 50px; object-fit: cover;" alt="Overshirt">
-          <span>OVERSHIRT</span>
-        </div>
-        <div class="list-group-item d-flex align-items-center" onclick="filterByCategory('CARGOS')">
-          <img src="https://i.pinimg.com/474x/33/ec/71/33ec716cc1c75f58fc99fd5e7d221024.jpg" class="img-fluid me-3" style="width: 50px; height: 50px; object-fit: cover;" alt="Cargos">
-          <span>CARGOS</span>
-        </div>
-      </div>
-    </div>
-    <!-- Search Results Carousel -->
-    <div id="searchResultsCarousel" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-inner" id="searchResultsContainer"></div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#searchResultsCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#searchResultsCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div>
+   
+    <div id="searchResultsContainer"></div>
   </div>
 </div>
 
@@ -1008,37 +959,40 @@
     </div>
   </div>
 
-  <!-- Fixed Footer Navigation -->
-  <footer class="footer-nav fixed-bottom">
-    <div class="container d-flex justify-content-around">
-      <div class="nav-item">
-        <button class="btn btn-link nav-link" onclick="showSection('homeSection')" aria-label="Home">
-          <i class="fas fa-home fa-lg"></i><br><span class="nav-text">HOME</span>
-        </button>
-      </div>
-      <div class="nav-item">
-        <button class="btn btn-link nav-link" onclick="showSection('categoriesSection')" aria-label="Shop">
-          <i class="fas fa-th-large fa-lg"></i><br><span class="nav-text">SHOP</span>
-        </button>
-      </div>
-      <div class="nav-item">
-        <button class="btn btn-link nav-link" onclick="showSection('searchSection')" aria-label="Search">
-          <i class="fas fa-search fa-lg"></i><br><span class="nav-text">SEARCH</span>
-        </button>
-      </div>
-      <div class="nav-item">
-        <button class="btn btn-link nav-link" onclick="showSection('wishlistSection')" aria-label="Wishlist">
-          <i class="fas fa-heart fa-lg"></i><br><span class="nav-text">WISHLIST</span>
-        </button>
-      </div>
-      <div class="nav-item">
-        <button class="btn btn-link nav-link" onclick="showSection('cartSection')" aria-label="Your Bag">
-          <i class="fas fa-shopping-bag fa-lg"></i><br><span class="nav-text">BAG</span>
-          <span class="footer-bag-badge" id="footerBagBadge">0</span>
-        </button>
-      </div>
+   <!-- Footer Navigation -->
+ <nav class="footer-nav d-flex justify-content-around">
+    <div class="nav-item">
+      <a href="#" class="nav-link" onclick="showSection('homeSection')" aria-label="Home">
+        <i class="bi bi-house-door-fill"></i>
+        <div class="nav-text">HOME</div>
+      </a>
     </div>
-  </footer>
+    <div class="nav-item">
+      <a href="#" class="nav-link" onclick="showSection('categoriesSection')" aria-label="Categories">
+        <i class="bi bi-grid-fill"></i>
+        <div class="nav-text">CATEGORIES</div>
+      </a>
+    </div>
+    <div class="nav-item">
+      <a href="#" class="nav-link" onclick="showSection('searchSection')" aria-label="Search">
+        <i class="bi bi-search"></i>
+        <div class="nav-text">SEARCH</div>
+      </a>
+    </div>
+    <div class="nav-item">
+        <a href="#" class="nav-link" onclick="showSection('cartSection')" aria-label="Bag">
+          <i class="bi bi-bag-fill"></i>
+          <span class="badge" id="footerBagBadge">0</span>
+          <div class="nav-text">BAG</div>
+        </a>
+      </div>
+    <div class="nav-item">
+      <a href="#" class="nav-link" onclick="showSection('wishlistSection')" aria-label="Wishlist">
+        <i class="bi bi-heart-fill"></i>
+        <div class="nav-text">WISHLIST</div>
+      </a>
+    </div>
+  </nav>
 
   <!-- JavaScript -->
   <script>
@@ -1081,50 +1035,8 @@
         "Black": "https://i.pinimg.com/474x/12/36/ad/1236ad818c0561546a861e5a97dc37b1.jpg"
       }
     },
-    {
-      id: 2,
-      name: "Casual Shirt",
-      description: "Comfortable and stylish men's t-shirt.",
-      category: "bestsellers",
-      price: 19.99,
-      size: "S, M, L, XL",
-      color: "Blue, Red, Black",
-      clothType: "100% Cotton",
-      deliveryTime: "3-5 days",
-      returnPolicy: "10 days return policy",
-      additionalDetails: "Machine washable, soft and breathable fabric.",
-      images: [
-        "https://i.pinimg.com/474x/a2/46/9b/a2469b27a79d4853f1fa20114c5e9fe6.jpg"
-      ],
-      colorImages: {
-        "Blue": "https://i.pinimg.com/474x/2d/94/0b/2d940bf9a87c975563445088889db80e.jpg",
-        "Red": "https://i.pinimg.com/474x/9b/e5/57/9be5570d3ed2ae5ccea0b5350259fe15.jpg",
-        "Black": "https://i.pinimg.com/474x/12/36/ad/1236ad818c0561546a861e5a97dc37b1.jpg"
-      }
-    },
-    {
-      id: 1,
-      name: "Casual Shirt",
-      description: "Comfortable and stylish men's t-shirt.",
-      category: "Men's Wear",
-      price: 19.99,
-      size: "S, M, L, XL",
-      color: "Blue, Red, Black",
-      clothType: "100% Cotton",
-      deliveryTime: "3-5 days",
-      returnPolicy: "10 days return policy",
-      additionalDetails: "Machine washable, soft and breathable fabric.",
-      images: [
-        "https://i.pinimg.com/474x/a2/46/9b/a2469b27a79d4853f1fa20114c5e9fe6.jpg"
-      ],
-      colorImages: {
-        "Blue": "https://i.pinimg.com/474x/2d/94/0b/2d940bf9a87c975563445088889db80e.jpg",
-        "Red": "https://i.pinimg.com/474x/9b/e5/57/9be5570d3ed2ae5ccea0b5350259fe15.jpg",
-        "Black": "https://i.pinimg.com/474x/12/36/ad/1236ad818c0561546a861e5a97dc37b1.jpg"
-      }
-    },
-    {
-        id: 3,
+      {
+        id: 2,
         name: "Denim Jeans",
         description: "Trendy and comfortable denim jeans.",
         category: "Men's Wear",
@@ -1145,7 +1057,7 @@
         }
       },
       {
-        id: 4,
+        id: 3,
         name: "Sunglasses",
         description: "Stylish sunglasses to match any outfit.",
         category: "Accessories",
@@ -1762,8 +1674,8 @@
     }
   }
 
-     // Show order detail page with track bar, estimated delivery, and discount
-     function showOrderDetailPage(orderIndex) {
+    // Show order detail page with track bar, estimated delivery, and discount
+    function showOrderDetailPage(orderIndex) {
       currentOrderIndex = orderIndex;
       const order = orders[orderIndex];
       const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(order.product.name);
@@ -2005,139 +1917,12 @@
       document.getElementById("accountButton").addEventListener("click", () => currentUser ? showSection("accountSection") : showSection("loginSection"));
       document.getElementById("notificationButton").addEventListener("click", () => showSection("notificationsSection"));
   
-      // Updated Search Functionality with Carousel
-document.getElementById("searchSectionButton").addEventListener("click", () => {
-  const query = document.getElementById("searchSectionInput").value.toLowerCase();
-  let filteredProducts = products;
-
-  // Define default search terms for carousel
-  const searchTerms = ["shirts", "jeans", "hoodies"];
-  const resultsByTerm = {};
-
-  // Filter products for each default search term
-  searchTerms.forEach(term => {
-    resultsByTerm[term] = products.filter(p => 
-      p.name.toLowerCase().includes(term) || 
-      p.description.toLowerCase().includes(term) ||
-      p.category.toLowerCase().includes(term)
-    );
-  });
-
-  // If a specific query is entered, filter based on that
-  if (query.trim() !== "") {
-    filteredProducts = products.filter(p => 
-      p.name.toLowerCase().includes(query) || 
-      p.description.toLowerCase().includes(query) ||
-      p.category.toLowerCase().includes(query)
-    );
-    // Display single set of results for the query
-    generateCarouselResults("searchResultsContainer", { [query]: filteredProducts });
-  } else {
-    // Display results for "shirts," "jeans," and "hoodies" in carousel
-    generateCarouselResults("searchResultsContainer", resultsByTerm);
-  }
-});
-
-// Filter by Category
-function filterByCategory(category) {
-  const query = category.toLowerCase();
-  const filteredProducts = products.filter(p => 
-    p.category.toLowerCase().includes(query) ||
-    p.name.toLowerCase().includes(query) ||
-    p.description.toLowerCase().includes(query)
-  );
-  generateCarouselResults("searchResultsContainer", { [category]: filteredProducts });
-}
-
-// Filter Search Results by Type (ALL, SALE, TRENDING, TOP, BOTTOM)
-function filterSearchResults(filterType) {
-  let filteredProducts = products;
-  const query = document.getElementById("searchSectionInput").value.toLowerCase();
-
-  if (query.trim() !== "") {
-    filteredProducts = products.filter(p => 
-      p.name.toLowerCase().includes(query) || 
-      p.description.toLowerCase().includes(query) ||
-      p.category.toLowerCase().includes(query)
-    );
-  }
-
-  if (filterType !== "ALL") {
-    if (filterType === "SALE") {
-      filteredProducts = filteredProducts.filter(p => p.price < 30); // Example condition
-    } else if (filterType === "TRENDING") {
-      filteredProducts = filteredProducts.filter(p => p.name.toLowerCase().includes("trendy")); // Example condition
-    } else if (filterType === "TOP") {
-      filteredProducts = filteredProducts.filter(p => 
-        p.category.toLowerCase().includes("shirt") || 
-        p.category.toLowerCase().includes("t-shirt") ||
-        p.category.toLowerCase().includes("jacket")
-      );
-    } else if (filterType === "BOTTOM") {
-      filteredProducts = filteredProducts.filter(p => 
-        p.category.toLowerCase().includes("jeans") || 
-        p.category.toLowerCase().includes("trousers") ||
-        p.category.toLowerCase().includes("joggers") ||
-        p.category.toLowerCase().includes("cargos")
-      );
-    }
-  }
-
-  generateCarouselResults("searchResultsContainer", { [filterType]: filteredProducts });
-}
-
-// Generate Carousel Results
-function generateCarouselResults(containerId, resultsByTerm) {
-  const container = document.getElementById(containerId);
-  let html = "";
-  let isFirst = true;
-
-  Object.keys(resultsByTerm).forEach((term, index) => {
-    const products = resultsByTerm[term];
-    if (products.length === 0) {
-      html += `
-        <div class="carousel-item ${isFirst ? 'active' : ''}">
-          <div class="text-center">
-            <p>No products found for "${term}".</p>
-          </div>
-        </div>
-      `;
-    } else {
-      let productHtml = '<div class="row">';
-      products.forEach(product => {
-        const originalPrice = (product.price * 1.2).toFixed(2);
-        const discount = ((originalPrice - product.price) / originalPrice * 100).toFixed(0);
-        productHtml += `
-          <div class="col-6 col-md-4 mb-4">
-            <div class="card shadow-sm">
-              <div class="position-relative">
-                <img src="${product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name)}" class="card-img-top" alt="${product.name}" style="cursor: pointer;" onclick="showProductDetails(${product.id})">
-                <button class="wishlist-btn position-absolute top-0 end-0 m-2" onclick="event.stopPropagation(); addToWishlist(${product.id})" aria-label="Add ${product.name} to Wishlist">
-                  <i class="bi bi-heart"></i>
-                </button>
-              </div>
-              <div class="card-body text-center">
-                <h5 class="card-title">${product.name}</h5>
-                <p class="card-text"><s>₹${originalPrice}</s> ₹${product.price.toFixed(2)} <span class="badge bg-success">${discount}% off</span></p>
-                <button class="btn btn-primary btn-sm" onclick="event.stopPropagation(); showProductDetails(${product.id})">View Details</button>
-              </div>
-            </div>
-          </div>
-        `;
+      // Search functionality
+      document.getElementById("searchSectionButton").addEventListener("click", () => {
+        const query = document.getElementById("searchSectionInput").value.toLowerCase();
+        const filteredProducts = query.trim() === "" ? products : products.filter(p => p.name.toLowerCase().includes(query) || p.description.toLowerCase().includes(query));
+        generateProducts("searchResultsContainer", filteredProducts);
       });
-      productHtml += '</div>';
-      html += `
-        <div class="carousel-item ${isFirst ? 'active' : ''}">
-          <h5 class="mb-3">${term.charAt(0).toUpperCase() + term.slice(1)}</h5>
-          ${productHtml}
-        </div>
-      `;
-    }
-    isFirst = false;
-  });
-
-  container.innerHTML = html || "<p>No products found.</p>";
-}
   
       // Login form submission
       document.getElementById("loginForm")?.addEventListener("submit", function(e) {
