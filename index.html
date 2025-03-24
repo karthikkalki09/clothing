@@ -54,6 +54,22 @@
     .header-nav { display: flex; gap: 0.5rem; align-items: center; }
     #notificationButton { font-size: 1.75rem; }
 
+    /* Improved Icon Appearance */
+    button[data-bs-target="#menuCanvas"] i {
+      font-size: 2rem;
+      color: #2a5298; /* Makes menu icon clearly visible */
+    }
+    .btn {
+      border-width: 1px; /* Smaller borders for all buttons */
+    }
+    nav .btn i, .footer-nav .nav-link i {
+      font-size: 1.75rem;
+      color: #2a5298; /* Consistent icon color */
+    }
+    nav .btn i:hover, .footer-nav .nav-link:hover i {
+      color: #ffdd57; /* Hover effect */
+    }
+
     /* Category Section */
     .category-item { text-align: center; cursor: pointer; }
     .category-item img { transition: transform 0.3s ease-in-out; }
@@ -86,16 +102,14 @@
     .filter-tags .badge { cursor: pointer; }
 
     /* Product Detail Styling */
-    #productDetailPage .row { align-items: center; }
-    .product-detail-img { max-height: 400px; object-fit: contain; }
+    .product-detail-img { max-height: 400px; object-fit: contain; margin-bottom: 20px; }
 
     /* Footer Navigation */
     .footer-nav { background: white; border-top: 1px solid #ddd; position: fixed; bottom: 0; left: 0; right: 0; z-index: 1200; padding: 10px 0; }
     .footer-nav .nav-item { text-align: center; flex: 1; position: relative; }
     .footer-nav .nav-link { color: black; font-size: 1rem; transition: color 0.3s ease; position: relative; }
-    .footer-nav .nav-link i { font-size: 1.75rem; color: black; transition: color 0.3s ease; }
     .footer-nav .nav-text { font-size: 0.75rem; color: black; }
-    .footer-nav .nav-link:hover, .footer-nav .nav-link:hover i, .footer-nav .nav-link:hover .nav-text { color: #ffdd57; }
+    .footer-nav .nav-link:hover, .footer-nav .nav-link:hover .nav-text { color: #ffdd57; }
     .footer-nav .badge { position: absolute; top: -5px; right: -10px; background-color: #ffdd57; color: #000; font-size: 0.6rem; padding: 2px 5px; border-radius: 50%; }
 
     /* Wishlist Button Styling */
@@ -127,12 +141,8 @@
       background-color: #ccc;
       z-index: -1;
     }
-    .track-bar.received .track-step:not(:last-child):after {
-      background-color: #28a745;
-    }
-    .track-bar.cancelled .track-step:not(:last-child):after {
-      background-color: #dc3545;
-    }
+    .track-bar.received .track-step:not(:last-child):after { background-color: #28a745; }
+    .track-bar.cancelled .track-step:not(:last-child):after { background-color: #dc3545; }
     .track-step span {
       display: block;
       width: 30px;
@@ -143,21 +153,11 @@
       color: #fff;
       margin: 0 auto 5px;
     }
-    .track-step.active span {
-      background-color: #28a745;
-    }
-    .track-step.cancelled span {
-      background-color: #dc3545;
-    }
-    .color-thumbnail {
-      display: inline-block;
-      margin: 5px;
-      border: 2px solid transparent;
-      cursor: pointer;
-    }
-    .color-thumbnail.selected {
-      border-color: #000;
-    }
+    .track-step.active span { background-color: #28a745; }
+    .track-step.cancelled span { background-color: #dc3545; }
+    .color-thumbnail { display: inline-block; margin: 5px; border: 2px solid transparent; cursor: pointer; }
+    .color-thumbnail.selected { border-color: #000; }
+
     /* Product Images Modal Styling */
     #productImagesModal .modal-body { overflow: auto; max-height: 80vh; text-align: center; }
     #productCarousel img { max-height: 500px; object-fit: contain; }
@@ -198,7 +198,7 @@
   </div>
 
    <!-- Offcanvas Menu -->
- <div class="offcanvas offcanvas-start" tabindex="-1" id="menuCanvas" aria-labelledby="menuCanvasLabel">
+   <div class="offcanvas offcanvas-start" tabindex="-1" id="menuCanvas" aria-labelledby="menuCanvasLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="menuCanvasLabel">Menu</h5>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -1609,8 +1609,8 @@
         };
       }
 
-  // Update orders list with three-dot menu
-  function updateOrdersList() {
+ // Update orders list
+ function updateOrdersList() {
     const ordersList = document.getElementById("ordersList");
     if (!currentUser || orders.length === 0) {
       ordersList.innerHTML = "<p>You have not placed any orders yet.</p>";
