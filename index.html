@@ -23,13 +23,13 @@
       margin-bottom: 70px;
     }
     header {
-      background: linear-gradient(90deg, #1e3c72, #2a5298);
-      color: #fff;
+      background: white;
+      color: black;
       position: sticky;
       top: 0;
       z-index: 1000;
     }
-    header h1, header .profile-name { color: #fff; }
+    header h1, header .profile-name { color: black; }
     .btn-primary { background-color: #2a5298; border-color: #2a5298; }
     .btn-danger { background-color: #d9534f; border-color: #d43f3a; }
     .btn-info { background-color: #5bc0de; border-color: #46b8da; }
@@ -47,8 +47,8 @@
     header .profile-name { font-size: 1rem; margin-left: 10px; }
 
     /* Header Navigation */
-    nav a, nav button { font-size: 0.9rem; padding: 5px 1px; color: #fff; text-decoration: none; background: none; border: none; }
-    nav a:hover, nav button:hover { color: #fff; }
+    nav a, nav button { font-size: 0.9rem; padding: 5px 1px; color: black; text-decoration: none; background: none; border: none; }
+    nav a:hover, nav button:hover { color: #333; }
     nav .btn i { font-size: 1.75rem; transition: color 0.3s ease; }
     nav .btn i:hover { color: #ffdd57; }
     .header-nav { display: flex; gap: 0.5rem; align-items: center; }
@@ -80,22 +80,21 @@
     /* Toast Container */
     #toastContainer { position: fixed; top: 1rem; right: 1rem; z-index: 1100; }
 
-   
-  /* Filter Section */
-  #filterSection { margin-top: 20px; border-top: 2px solid #2a5298; padding-top: 20px; background-color: #e9f0fa; }
-  .filter-tags { margin-top: 10px; }
-  .filter-tags .badge { cursor: pointer; }
+    /* Filter Section */
+    #filterSection { margin-top: 20px; border-top: 2px solid #2a5298; padding-top: 20px; background-color: #e9f0fa; }
+    .filter-tags { margin-top: 10px; }
+    .filter-tags .badge { cursor: pointer; }
 
     /* Product Detail Styling */
     #productDetailPage .row { align-items: center; }
     .product-detail-img { max-height: 400px; object-fit: contain; }
 
     /* Footer Navigation */
-    .footer-nav { position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient(90deg, #1e3c72, #2a5298); border-top: 1px solid #ddd; z-index: 1200; padding: 10px 0; }
+    .footer-nav { background: white; border-top: 1px solid #ddd; position: fixed; bottom: 0; left: 0; right: 0; z-index: 1200; padding: 10px 0; }
     .footer-nav .nav-item { text-align: center; flex: 1; position: relative; }
-    .footer-nav .nav-link { color: #fff; font-size: 1rem; transition: color 0.3s ease; position: relative; }
-    .footer-nav .nav-link i { font-size: 1.75rem; color: #fff; transition: color 0.3s ease; }
-    .footer-nav .nav-text { font-size: 0.75rem; color: #fff; }
+    .footer-nav .nav-link { color: black; font-size: 1rem; transition: color 0.3s ease; position: relative; }
+    .footer-nav .nav-link i { font-size: 1.75rem; color: black; transition: color 0.3s ease; }
+    .footer-nav .nav-text { font-size: 0.75rem; color: black; }
     .footer-nav .nav-link:hover, .footer-nav .nav-link:hover i, .footer-nav .nav-link:hover .nav-text { color: #ffdd57; }
     .footer-nav .badge { position: absolute; top: -5px; right: -10px; background-color: #ffdd57; color: #000; font-size: 0.6rem; padding: 2px 5px; border-radius: 50%; }
 
@@ -159,14 +158,14 @@
     .color-thumbnail.selected {
       border-color: #000;
     }
-      /* Product Images Modal Styling */
+    /* Product Images Modal Styling */
     #productImagesModal .modal-body { overflow: auto; max-height: 80vh; text-align: center; }
     #productCarousel img { max-height: 500px; object-fit: contain; }
     .carousel-control-prev span, .carousel-control-next span { color: #000; font-size: 1rem; }
   </style>
 </head>
 <body>
- 
+
   <!-- Toast Container -->
   <div id="toastContainer"></div>
 
@@ -190,7 +189,7 @@
   <div id="notificationsSection" class="section">
     <header class="bg-light py-3 border-bottom">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')"><i class="fas fa-arrow-left"></i> Home</button>
+        <button class="btn" onclick="showSection('homeSection')"><i class="far fa-arrow-left"></i> Home</button>
         <h1 class="h5 mb-0">Notifications</h1>
         <div></div>
       </div>
@@ -198,8 +197,8 @@
     <div class="container my-4" id="notificationsContent"></div>
   </div>
 
-  <!-- Offcanvas Menu -->
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="menuCanvas" aria-labelledby="menuCanvasLabel">
+   <!-- Offcanvas Menu -->
+ <div class="offcanvas offcanvas-start" tabindex="-1" id="menuCanvas" aria-labelledby="menuCanvasLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="menuCanvasLabel">Menu</h5>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -224,18 +223,25 @@
     </div>
   </div>
 
-  <!-- Home Section -->
-  <div id="homeSection" class="section active-section fade-in">
+ <!-- Home Section -->
+ <div id="homeSection" class="section active-section fade-in">
     <header class="py-3 border-bottom">
-      <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn text-white" data-bs-toggle="offcanvas" data-bs-target="#menuCanvas" aria-controls="menuCanvas" aria-label="Toggle Menu"><i class="fas fa-bars fa-lg"></i></button>
-        <h1 class="h5 mb-0 text-white">TEDPOLE <span id="headerProfile" class="profile-name"></span></h1>
-        <nav class="header-nav">
-          <button class="btn text-white" id="notificationButton" aria-label="Notifications"><i class="fas fa-bell fa-lg"></i></button>
-          <button class="btn text-white" id="accountButton" aria-label="Account"><i class="fas fa-user fa-lg"></i></button>
-        </nav>
-      </div>
-    </header>
+        <div class="container d-flex justify-content-between align-items-center">
+          <!-- Updated Menu Button with Bootstrap Icon -->
+          <button class="btn text-dark" data-bs-toggle="offcanvas" data-bs-target="#menuCanvas" aria-controls="menuCanvas" aria-label="Toggle Menu">
+            <i class="bi bi-list"></i> <!-- Bootstrap's hamburger icon -->
+          </button>
+          <h1 class="h5 mb-0 text-dark">TEDPOLE <span id="headerProfile" class="profile-name"></span></h1>
+          <nav class="header-nav">
+            <button class="btn text-dark" id="notificationButton" aria-label="Notifications">
+              <i class="far fa-bell fa-lg"></i>
+            </button>
+            <button class="btn text-dark" id="accountButton" aria-label="Account">
+              <i class="far fa-user fa-lg"></i>
+            </button>
+          </nav>
+        </div>
+      </header>
     <section class="hero text-center">
       <div class="container">
         <h2 class="mt-4">Welcome to TEDPOLE</h2>
@@ -524,24 +530,23 @@
     </div>
   </div>
 
- <!-- Updated Search Section with Categories -->
- <div id="searchSection" class="section fade-in">
-  <header class="py-3 border-bottom bg-light">
-    <div class="container d-flex justify-content-between align-items-center">
-      <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home"><i class="bi bi-arrow-left"></i> Home</button>
-      <h1 class="h5 mb-0">Search</h1>
-      <div></div>
+  <!-- Updated Search Section with Categories -->
+  <div id="searchSection" class="section fade-in">
+    <header class="py-3 border-bottom bg-light">
+      <div class="container d-flex justify-content-between align-items-center">
+        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home"><i class="bi bi-arrow-left"></i> Home</button>
+        <h1 class="h5 mb-0">Search</h1>
+        <div></div>
+      </div>
+    </header>
+    <div class="container my-4">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search for shirts, pants, etc." id="searchSectionInput" autocomplete="off" aria-label="Search for Products" />
+        <button class="btn btn-dark" type="button" id="searchSectionButton" aria-label="Search"><i class="bi bi-search"></i></button>
+      </div>
+      <div id="searchResultsContainer"></div>
     </div>
-  </header>
-  <div class="container my-4">
-    <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="Search for shirts, pants, etc." id="searchSectionInput" autocomplete="off" aria-label="Search for Products" />
-      <button class="btn btn-dark" type="button" id="searchSectionButton" aria-label="Search"><i class="bi bi-search"></i></button>
-    </div>
-   
-    <div id="searchResultsContainer"></div>
   </div>
-</div>
 
   <!-- Login Section -->
   <div id="loginSection" class="section fade-in">
