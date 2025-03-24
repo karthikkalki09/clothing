@@ -57,17 +57,17 @@
     /* Improved Icon Appearance */
     button[data-bs-target="#menuCanvas"] i {
       font-size: 2rem;
-      color: #2a5298; /* Makes menu icon clearly visible */
+      color: #2a5298;
     }
     .btn {
-      border-width: 1px; /* Smaller borders for all buttons */
+      border-width: 1px;
     }
     nav .btn i, .footer-nav .nav-link i {
       font-size: 1.75rem;
-      color: #2a5298; /* Consistent icon color */
+      color: #2a5298;
     }
     nav .btn i:hover, .footer-nav .nav-link:hover i {
-      color: #ffdd57; /* Hover effect */
+      color: #ffdd57;
     }
 
     /* Category Section */
@@ -162,12 +162,67 @@
     #productImagesModal .modal-body { overflow: auto; max-height: 80vh; text-align: center; }
     #productCarousel img { max-height: 500px; object-fit: contain; }
     .carousel-control-prev span, .carousel-control-next span { color: #000; font-size: 1rem; }
+
+    /* Splash Screen */
+    .splash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #f6f9fc;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      transition: opacity 0.5s ease;
+    }
+
+    .splash-screen img.logo {
+      max-width: 200px;
+      width: 50%;
+      height: auto;
+      margin-bottom: 20px;
+      animation: zoomIn 1s ease-in;
+    }
+
+    .splash-screen h1 {
+      font-size: 2.5rem;
+      color: #2a5298;
+      font-weight: bold;
+      animation: slideIn 1s ease-in;
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(0); }
+      to { transform: scale(1); }
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Product Card Hover Effect */
+    .product-card {
+      transition: transform 0.3s ease;
+    }
+
+    .product-card:hover {
+      transform: scale(1.05);
+    }
   </style>
 </head>
 <body>
-
   <!-- Toast Container -->
   <div id="toastContainer"></div>
+
+  <!-- Splash Screen (Button Removed) -->
+  <div id="splashScreen" class="splash-screen" role="dialog" aria-label="Welcome to TEDPOLE">
+    
+    <h1>TEDPOLE</h1>
+  </div>
 
   <!-- Popup Message Modal -->
   <div class="modal fade" id="popupMessageModal" tabindex="-1" aria-labelledby="popupMessageModalLabel" aria-hidden="true">
@@ -1063,7 +1118,15 @@
         }
       }
     ];
-
+ // Hide splash screen after 2 seconds
+ setTimeout(() => {
+  const splashScreen = document.getElementById('splashScreen');
+  splashScreen.style.opacity = '0';
+  setTimeout(() => {
+    splashScreen.style.display = 'none';
+    document.getElementById('shopNowButton').focus();
+  }, 500); // Matches the CSS transition duration of 0.5s
+}, 2000);
     // Load data from localStorage
     function loadData() {
       const storedUsers = localStorage.getItem("users");
