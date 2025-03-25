@@ -1177,34 +1177,37 @@
       if (menuCanvas) menuCanvas.hide();
     }
 
-  // Generate products with two-column layout
-  function generateProducts(containerId, productsList) {
-    const container = document.getElementById(containerId);
-    container.innerHTML = "";
-    if (productsList.length === 0) {
-      container.innerHTML = "<p>No products found.</p>";
-      return;
-    }
-    let html = '<div class="row">';
-    productsList.forEach(product => {
-      const productImage = product.images && product.images.length > 0 ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name);
-      html += `
-        <div class="col-6 mb-4">
-          <div class="card shadow-sm product-card" onclick="showProductDetails(${product.id})" style="cursor: pointer;">
-            <img src="${productImage}" class="card-img-top" alt="${product.name}">
-            <div class="card-body">
-              <h5 class="card-title">${product.name}</h5>
-              <p class="card-text">${product.description}</p>
-              <p class="card-text"><small class="text-muted">${product.category} | ₹${product.price.toFixed(2)}</small></p>
-            </div>
-          </div>
-        </div>
-      `;
-    });
-    html += '</div>';
-    container.innerHTML = html;
+ 
+// Generate products
+function generateProducts(containerId, productList) {
+  const container = document.getElementById(containerId);
+  if (!productList.length) {
+    container.innerHTML = "<p>No products available.</p>";
+    return;
   }
-
+  let html = "";
+  productList.forEach(product => {
+    const image = product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name);
+    const originalPrice = (product.price * 1.2).toFixed(2);
+    const discount = ((originalPrice - product.price) / originalPrice * 100).toFixed(0);
+    html += `
+      <div class="col-6 col-md-4 mb-4">
+        <div class="card shadow-sm" style="cursor: pointer;" onclick="showProductDetails(${product.id})">
+          <img src="${image}" class="card-img-top" alt="${product.name}">
+          <div class="card-body">
+            <h5 class="card-title">${product.name}</h5>
+            <p class="card-text">${product.description}</p>
+            <p class="card-text"><s>₹${originalPrice}</s> ₹${product.price.toFixed(2)} <span class="badge bg-success"><i class="bi bi-arrow-down"></i> ${discount}% off</span></p>
+           </div>
+            <button class="wishlist-btn position-absolute top-0 end-0 m-2" onclick="event.stopPropagation(); addToWishlist(${product.id})" aria-label="Add ${product.name} to Wishlist">
+            <i class="fas fa-heart"></i>
+          </button>
+        </div>
+      </div>
+    `;
+  });
+  container.innerHTML = html;
+}
      //  details with size and color selection and icons
      function showProductDetails(productId) {
         const product = products.find(p => p.id === productId);
