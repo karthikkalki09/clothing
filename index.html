@@ -1178,35 +1178,30 @@
     }
 
  
-// Generate products
-function generateProducts(containerId, productList) {
+ // Generate products
+ function generateProducts(containerId, productList) {
   const container = document.getElementById(containerId);
-  if (!productList.length) {
-    container.innerHTML = "<p>No products available.</p>";
-    return;
-  }
-  let html = "";
+  container.innerHTML = "";
   productList.forEach(product => {
-    const image = product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name);
     const originalPrice = (product.price * 1.2).toFixed(2);
     const discount = ((originalPrice - product.price) / originalPrice * 100).toFixed(0);
-    html += `
+    const card = `
       <div class="col-6 col-md-4 mb-4">
-        <div class="card shadow-sm" style="cursor: pointer;" onclick="showProductDetails(${product.id})">
-          <img src="${image}" class="card-img-top" alt="${product.name}">
+        <div class="card shadow-sm product-card" style="position: relative;" onclick="showProductDetails(${product.id})">
+          <img src="${product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name)}" class="card-img-top" alt="${product.name}">
+          <button class="wishlist-btn position-absolute top-0 end-0 m-2" onclick="event.stopPropagation(); addToWishlist(${product.id})" aria-label="Add ${product.name} to Wishlist">
+            <i class="bi bi-heart-fill" style="color: ${wishlist.some(p => p.id === product.id) ? 'red' : '#ccc'};"></i>
+          </button>
           <div class="card-body">
             <h5 class="card-title">${product.name}</h5>
             <p class="card-text">${product.description}</p>
-            <p class="card-text"><s>₹${originalPrice}</s> ₹${product.price.toFixed(2)} <span class="badge bg-success"><i class="bi bi-arrow-down"></i> ${discount}% off</span></p>
-           </div>
-            <button class="wishlist-btn position-absolute top-0 end-0 m-2" onclick="event.stopPropagation(); addToWishlist(${product.id})" aria-label="Add ${product.name} to Wishlist">
-            <i class="fas fa-heart"></i>
-          </button>
+            <p class="card-text"><s>₹${originalPrice}</s> ₹${product.price.toFixed(2)} <span class="badge bg-success">${discount}% off</span></p>
+          </div>
         </div>
       </div>
     `;
+    container.innerHTML += card;
   });
-  container.innerHTML = html;
 }
      //  details with size and color selection and icons
      function showProductDetails(productId) {
