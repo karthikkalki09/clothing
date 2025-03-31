@@ -1184,7 +1184,15 @@
       if (menuCanvas) menuCanvas.hide();
     }
 
- 
+    function getProductRating(productId) {
+      const productOrders = orders.filter(order => order.product.id === productId && order.rating !== null);
+      if (productOrders.length === 0) {
+        return null;
+      }
+      const totalRating = productOrders.reduce((sum, order) => sum + order.rating, 0);
+      const averageRating = totalRating / productOrders.length;
+      return { average: averageRating.toFixed(1), count: productOrders.length };
+    }
  // Generate products
  function generateProducts(containerId, productList) {
   const container = document.getElementById(containerId);
@@ -1210,88 +1218,105 @@
     container.innerHTML += card;
   });
 }
-     //  details with size and color selection and icons
-     function showProductDetails(productId) {
-        const product = products.find(p => p.id === productId);
-        if (!product) return;
-      
-        const sizes = product.size.split(",").map(s => s.trim());
-        const colors = product.color.split(",").map(c => c.trim());
-      
-        let sizeButtons = sizes.map(size => `
-          <button type="button" class="btn btn-outline-secondary size-btn" data-size="${size}" onclick="selectSize('${size}')">${size}</button>
-        `).join("");
-      
-        let colorThumbnails = colors.map(color => {
-          const imageUrl = product.colorImages[color];
-          return `
-            <div class="color-thumbnail" data-color="${color}" onclick="selectColor('${color}')">
-              <img src="${imageUrl}" alt="${color}" style="width: 50px; height: 50px;" />
-            </div>
-          `;
-        }).join("");
-      
-        const detailContent = `
-          <div class="row">
-            <div class="col-md-6">
-              ${generateProductImageHTML(product)}
-            </div>
-            <div class="col-md-6">
-              <h3>${product.name}</h3>
-              <p>${product.description}</p>
-              <p><i class="fas fa-tag"></i> <strong>Price:</strong> <s>₹${(product.price * 1.2).toFixed(2)}</s> ₹${product.price.toFixed(2)}</p>
-              <p><i class="fas fa-list-alt"></i> <strong>Category:</strong> ${product.category}</p>
-              <p><i class="fas fa-tshirt"></i> <strong>Cloth Type:</strong> ${product.clothType}</p>
-              <p><i class="fas fa-truck"></i> <strong>Delivery:</strong> ${product.deliveryTime}</p>
-              <p><i class="fas fa-undo"></i> <strong>Return:</strong> ${product.returnPolicy}</p>
-              <p><i class="fas fa-info-circle"></i> <strong>Details:</strong> ${product.additionalDetails}</p>
-              <div class="mb-3">
-                <label><strong>Sizes:</strong></label><br>
-                ${sizeButtons}
-              </div>
-              <div class="mb-3">
-                <label><strong>Colors:</strong></label><br>
-                ${colorThumbnails}
-              </div>
-              <button class="btn btn-success w-100 mb-2" onclick="buyProductWithSelection(${product.id})">
-                <i class="fas fa-shopping-cart me-1"></i> Buy Now
-              </button>
-              <button class="btn btn-primary w-100" onclick="addToCartWithSelection(${product.id})">
-                <i class="fas fa-cart-plus me-1"></i> Add to Bag
-              </button>
-            </div>
-          </div>
-        `;
-        document.getElementById("productDetailPage").innerHTML = detailContent;
-        document.getElementById("productDetailSection").dataset.productId = productId;
-        const firstColor = colors[0];
-        selectColor(firstColor);
-        showSection("productDetailSection");
-      }
-        // Select size
-        function selectSize(size) {
-          document.querySelectorAll(".size-btn").forEach(btn => btn.classList.remove("active"));
-          const button = document.querySelector(`.size-btn[data-size="${size}"]`);
-          button.classList.add("active");
-          document.getElementById("productDetailSection").dataset.selectedSize = size;
-        }
-    
-        // Select color
-        function selectColor(color) {
-          // Remove selected class from all thumbnails
-          document.querySelectorAll(".color-thumbnail").forEach(thumb => thumb.classList.remove("selected"));
-          // Add selected class to the clicked thumbnail
-          const thumbnail = document.querySelector(`.color-thumbnail[data-color="${color}"]`);
-          if (thumbnail) thumbnail.classList.add("selected");
-          // Change main image
-          const productId = parseInt(document.getElementById("productDetailSection").dataset.productId);
-          const product = products.find(p => p.id === productId);
-          if (product && product.colorImages[color]) {
-            document.getElementById("mainProductImage").src = product.colorImages[color];
-          }
-          // Set selected color
-          document.getElementById("productDetailSection").dataset.selectedColor = color;
-        }
+
+    // Function to calculate the average rating for a product
+function getProductRating(productId) {
+  const productOrders = orders.filter(order => order.product.id === productId && order.rating !== null && order.rating !== undefined);
+  if (productOrders.length === 0) {
+    return null;
+  }
+  const totalRating = productOrders.reduce((sum, order) => sum + order.rating, 0);
+  const averageRating = totalRating / productOrders.length;
+  return { average: averageRating.toFixed(1), count: productOrders.length };
+}
+
+// Updated showProductDetails function with rating display
+function showProductDetails(productId) {
+  const product = products.find(p => p.id === productId);
+  if (!product) return;
+
+  const sizes = product.size.split(",").map(s => s.trim());
+  const colors = product.color.split(",").map(c => c.trim());
+
+  let sizeButtons = sizes.map(size => `
+    <button type="button" class="btn btn-outline-secondary size-btn" data-size="${size}" onclick="selectSize('${size}')">${size}</button>
+  `).join("");
+
+  let colorThumbnails = colors.map(color => {
+    const imageUrl = product.colorImages[color];
+    return `
+      <div class="color-thumbnail" data-color="${color}" onclick="selectColor('${color}')">
+        <img src="${imageUrl}" alt="${color}" style="width: 50px; height: 50px;" />
+      </div>
+    `;
+  }).join("");
+
+  // Get rating information
+  const ratingInfo = getProductRating(productId);
+
+  const detailContent = `
+    <div class="row">
+      <div class="col-md-6">
+        ${generateProductImageHTML(product)}
+      </div>
+      <div class="col-md-6">
+        <h3>${product.name}</h3>
+        <p>${product.description}</p>
+        <p><i class="fas fa-tag"></i> <strong>Price:</strong> <s>₹${(product.price * 1.2).toFixed(2)}</s> ₹${product.price.toFixed(2)}</p>
+        ${ratingInfo ? `<p><i class="fas fa-star"></i> <strong>Rating:</strong> ${ratingInfo.average} (${ratingInfo.count} ratings)</p>` : ''}
+        <p><i class="fas fa-list-alt"></i> <strong>Category:</strong> ${product.category}</p>
+        <p><i class="fas fa-tshirt"></i> <strong>Cloth Type:</strong> ${product.clothType}</p>
+        <p><i class="fas fa-truck"></i> <strong>Delivery:</strong> ${product.deliveryTime}</p>
+        <p><i class="fas fa-undo"></i> <strong>Return:</strong> ${product.returnPolicy}</p>
+        <p><i class="fas fa-info-circle"></i> <strong>Details:</strong> ${product.additionalDetails}</p>
+        <div class="mb-3">
+          <label><strong>Sizes:</strong></label><br>
+          ${sizeButtons}
+        </div>
+        <div class="mb-3">
+          <label><strong>Colors:</strong></label><br>
+          ${colorThumbnails}
+        </div>
+        <button class="btn btn-success w-100 mb-2" onclick="buyProductWithSelection(${product.id})">
+          <i class="fas fa-shopping-cart me-1"></i> Buy Now
+        </button>
+        <button class="btn btn-primary w-100" onclick="addToCartWithSelection(${product.id})">
+          <i class="fas fa-cart-plus me-1"></i> Add to Bag
+        </button>
+      </div>
+    </div>
+  `;
+  document.getElementById("productDetailPage").innerHTML = detailContent;
+  document.getElementById("productDetailSection").dataset.productId = productId;
+  const firstColor = colors[0];
+  selectColor(firstColor);
+  showSection("productDetailSection");
+}
+
+// Select size
+function selectSize(size) {
+  document.querySelectorAll(".size-btn").forEach(btn => btn.classList.remove("active"));
+  const button = document.querySelector(`.size-btn[data-size="${size}"]`);
+  button.classList.add("active");
+  document.getElementById("productDetailSection").dataset.selectedSize = size;
+}
+
+// Select color
+function selectColor(color) {
+  // Remove selected class from all thumbnails
+  document.querySelectorAll(".color-thumbnail").forEach(thumb => thumb.classList.remove("selected"));
+  // Add selected class to the clicked thumbnail
+  const thumbnail = document.querySelector(`.color-thumbnail[data-color="${color}"]`);
+  if (thumbnail) thumbnail.classList.add("selected");
+  // Change main image
+  const productId = parseInt(document.getElementById("productDetailSection").dataset.productId);
+  const product = products.find(p => p.id === productId);
+  if (product && product.colorImages[color]) {
+    document.getElementById("mainProductImage").src = product.colorImages[color];
+  }
+  // Set selected color
+  document.getElementById("productDetailSection").dataset.selectedColor = color;
+}
     
     // Add to cart with selection
     function addToCartWithSelection(productId) {
