@@ -221,6 +221,48 @@
     .product-card:hover {
       transform: scale(1.05);
     }
+    
+    /* Recommendations Section */
+    .recommendations-section {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #eee;
+    }
+    
+    .recommendations-title {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      text-align: center;
+      color: #2a5298;
+    }
+    
+    .recommendation-card {
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 20px;
+    }
+    
+    .recommendation-card:hover {
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transform: translateY(-5px);
+    }
+    
+    .recommendation-img {
+      height: 200px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+    
+    .recommendation-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #ffdd57;
+      color: #000;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+    }
   </style>
 </head>
 <body>
@@ -308,7 +350,7 @@
       <div class="container">
         <h2 class="mt-4">Welcome to TEDPOLE</h2>
         <p>Your destination for premium clothes.</p>
-        <button class="btn btn-dark mt-2" onclick="showSection('shopSection')" aria-label="Shop Now"><i class="fas fa-cart-check"></i> Shop Now</button>
+        <button class="btn btn-dark mt-2" id="shopNowButton" onclick="showSection('shopSection')" aria-label="Shop Now"><i class="fas fa-cart-check"></i> Shop Now</button>
       </div>
     </section>
     <section class="product-highlight py-5">
@@ -1083,6 +1125,26 @@
         }
       },
       {
+        id: 2,
+        name: "Formal Shirt",
+        description: "Premium quality formal shirt for office wear.",
+        category: "Men's Wear",
+        price: 29.99,
+        size: "S, M, L, XL",
+        color: "White, Blue",
+        clothType: "Cotton Blend",
+        deliveryTime: "4-6 days",
+        returnPolicy: "14 days return policy",
+        additionalDetails: "Iron-free, wrinkle-resistant fabric.",
+        images: [
+          "https://i.pinimg.com/474x/d0/fd/28/d0fd28fc614775339300cf6f2ab043d2.jpg"
+        ],
+        colorImages: {
+          "White": "https://i.pinimg.com/474x/d0/fd/28/d0fd28fc614775339300cf6f2ab043d2.jpg",
+          "Blue": "https://i.pinimg.com/474x/1e/d0/ed/1ed0ede5c364f2c8959976120f65271f.jpg"
+        }
+      },
+      {
         id: 3,
         name: "Denim Jeans",
         description: "Trendy and comfortable denim jeans.",
@@ -1122,17 +1184,18 @@
           "Black": "https://i.pinimg.com/474x/8f/4f/6f/8f4f6f1f8c8e9b2e4f1b5c6d7e8f9a0b.jpg",
           "Brown": "https://i.pinimg.com/474x/5d/3e/2f/5d3e2f6e8c9b0a1c2d3e4f5a6b7c8d9.jpg"
         }
-      }
+      },
     ];
-     // Hide splash screen after 2 seconds
- setTimeout(() => {
-    const splashScreen = document.getElementById('splashScreen');
-    splashScreen.style.opacity = '0';
+
+    // Hide splash screen after 2 seconds
     setTimeout(() => {
-      splashScreen.style.display = 'none';
-      document.getElementById('shopNowButton').focus();
-    }, 500); // Matches the CSS transition duration of 0.5s
-  }, 2000);
+      const splashScreen = document.getElementById('splashScreen');
+      splashScreen.style.opacity = '0';
+      setTimeout(() => {
+        splashScreen.style.display = 'none';
+        document.getElementById('shopNowButton').focus();
+      }, 500); // Matches the CSS transition duration of 0.5s
+    }, 2000);
 
     // Save data to localStorage
     function saveData() {
@@ -1193,130 +1256,197 @@
       const averageRating = totalRating / productOrders.length;
       return { average: averageRating.toFixed(1), count: productOrders.length };
     }
- // Generate products
- function generateProducts(containerId, productList) {
-  const container = document.getElementById(containerId);
-  container.innerHTML = "";
-  productList.forEach(product => {
-    const originalPrice = (product.price * 1.2).toFixed(2);
-    const discount = ((originalPrice - product.price) / originalPrice * 100).toFixed(0);
-    const card = `
-      <div class="col-6 col-md-4 mb-4">
-        <div class="card shadow-sm product-card" style="position: relative;" onclick="showProductDetails(${product.id})">
-          <img src="${product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name)}" class="card-img-top" alt="${product.name}">
-          <button class="wishlist-btn position-absolute top-0 end-0 m-2" onclick="event.stopPropagation(); addToWishlist(${product.id})" aria-label="Add ${product.name} to Wishlist">
-            <i class="bi bi-heart-fill" style="color: ${wishlist.some(p => p.id === product.id) ? 'red' : '#ccc'};"></i>
-          </button>
-          <div class="card-body">
-            <h5 class="card-title">${product.name}</h5>
-            <p class="card-text">${product.description}</p>
-            <p class="card-text"><s>₹${originalPrice}</s> ₹${product.price.toFixed(2)} <span class="badge bg-success">${discount}% off</span></p>
+
+    // Generate products
+    function generateProducts(containerId, productList) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = "";
+      productList.forEach(product => {
+        const originalPrice = (product.price * 1.2).toFixed(2);
+        const discount = ((originalPrice - product.price) / originalPrice * 100).toFixed(0);
+        const card = `
+          <div class="col-6 col-md-4 mb-4">
+            <div class="card shadow-sm product-card" style="position: relative;" onclick="showProductDetails(${product.id})">
+              <img src="${product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name)}" class="card-img-top" alt="${product.name}">
+              <button class="wishlist-btn position-absolute top-0 end-0 m-2" onclick="event.stopPropagation(); addToWishlist(${product.id})" aria-label="Add ${product.name} to Wishlist">
+                <i class="bi bi-heart-fill" style="color: ${wishlist.some(p => p.id === product.id) ? 'red' : '#ccc'};"></i>
+              </button>
+              <div class="card-body">
+                <h5 class="card-title">${product.name}</h5>
+                <p class="card-text">${product.description}</p>
+                <p class="card-text"><s>₹${originalPrice}</s> ₹${product.price.toFixed(2)} <span class="badge bg-success">${discount}% off</span></p>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    `;
-    container.innerHTML += card;
-  });
-}
+        `;
+        container.innerHTML += card;
+      });
+    }
 
     // Function to calculate the average rating for a product
-function getProductRating(productId) {
-  const productOrders = orders.filter(order => order.product.id === productId && order.rating !== null && order.rating !== undefined);
-  if (productOrders.length === 0) {
-    return null;
-  }
-  const totalRating = productOrders.reduce((sum, order) => sum + order.rating, 0);
-  const averageRating = totalRating / productOrders.length;
-  return { average: averageRating.toFixed(1), count: productOrders.length };
-}
+    function getProductRating(productId) {
+      const productOrders = orders.filter(order => order.product.id === productId && order.rating !== null && order.rating !== undefined);
+      if (productOrders.length === 0) {
+        return null;
+      }
+      const totalRating = productOrders.reduce((sum, order) => sum + order.rating, 0);
+      const averageRating = totalRating / productOrders.length;
+      return { average: averageRating.toFixed(1), count: productOrders.length };
+    }
 
-// Updated showProductDetails function with rating display
-function showProductDetails(productId) {
-  const product = products.find(p => p.id === productId);
-  if (!product) return;
+    // Get recommended products based on current product
+    function getRecommendedProducts(currentProductId) {
+      const currentProduct = products.find(p => p.id === currentProductId);
+      if (!currentProduct) return [];
+      
+      // Find products in the same category, excluding the current product
+      let recommendations = products.filter(p => 
+        p.category === currentProduct.category && 
+        p.id !== currentProductId
+      );
+      
+      // If not enough recommendations, add some from other categories
+      if (recommendations.length < 4) {
+        const otherProducts = products.filter(p => 
+          p.category !== currentProduct.category && 
+          p.id !== currentProductId
+        );
+        recommendations = [...recommendations, ...otherProducts.slice(0, 4 - recommendations.length)];
+      }
+      
+      return recommendations.slice(0, 4); // Return max 4 recommendations
+    }
 
-  const sizes = product.size.split(",").map(s => s.trim());
-  const colors = product.color.split(",").map(c => c.trim());
-
-  let sizeButtons = sizes.map(size => `
-    <button type="button" class="btn btn-outline-secondary size-btn" data-size="${size}" onclick="selectSize('${size}')">${size}</button>
-  `).join("");
-
-  let colorThumbnails = colors.map(color => {
-    const imageUrl = product.colorImages[color];
-    return `
-      <div class="color-thumbnail" data-color="${color}" onclick="selectColor('${color}')">
-        <img src="${imageUrl}" alt="${color}" style="width: 50px; height: 50px;" />
-      </div>
-    `;
-  }).join("");
-
-  // Get rating information
-  const ratingInfo = getProductRating(productId);
-
-  const detailContent = `
-    <div class="row">
-      <div class="col-md-6">
-        ${generateProductImageHTML(product)}
-      </div>
-      <div class="col-md-6">
-        <h3>${product.name}</h3>
-        <p>${product.description}</p>
-        <p><i class="fas fa-tag"></i> <strong>Price:</strong> <s>₹${(product.price * 1.2).toFixed(2)}</s> ₹${product.price.toFixed(2)}</p>
-        ${ratingInfo ? `<p><i class="fas fa-star"></i> <strong>Rating:</strong> ${ratingInfo.average} (${ratingInfo.count} ratings)</p>` : ''}
-        <p><i class="fas fa-list-alt"></i> <strong>Category:</strong> ${product.category}</p>
-        <p><i class="fas fa-tshirt"></i> <strong>Cloth Type:</strong> ${product.clothType}</p>
-        <p><i class="fas fa-truck"></i> <strong>Delivery:</strong> ${product.deliveryTime}</p>
-        <p><i class="fas fa-undo"></i> <strong>Return:</strong> ${product.returnPolicy}</p>
-        <p><i class="fas fa-info-circle"></i> <strong>Details:</strong> ${product.additionalDetails}</p>
-        <div class="mb-3">
-          <label><strong>Sizes:</strong></label><br>
-          ${sizeButtons}
+    // Generate HTML for recommended products
+    function generateRecommendedProducts(recommendations) {
+      if (recommendations.length === 0) return '';
+      
+      let html = `
+        <div class="recommendations-section">
+          <h3 class="recommendations-title">You May Also Like</h3>
+          <div class="row">
+      `;
+      
+      recommendations.forEach(product => {
+        const originalPrice = (product.price * 1.2).toFixed(2);
+        const discount = ((originalPrice - product.price) / originalPrice * 100).toFixed(0);
+        
+        html += `
+          <div class="col-6 col-md-3">
+            <div class="card recommendation-card" onclick="showProductDetails(${product.id})">
+              <img src="${product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name)}" 
+                   class="card-img-top recommendation-img" alt="${product.name}">
+              <span class="recommendation-badge">${discount}% OFF</span>
+              <div class="card-body">
+                <h5 class="card-title">${product.name}</h5>
+                <p class="card-text"><s>₹${originalPrice}</s> ₹${product.price.toFixed(2)}</p>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      
+      html += `
+          </div>
         </div>
-        <div class="mb-3">
-          <label><strong>Colors:</strong></label><br>
-          ${colorThumbnails}
+      `;
+      
+      return html;
+    }
+
+    // Updated showProductDetails function with star rating display and recommendations
+    function showProductDetails(productId) {
+      const product = products.find(p => p.id === productId);
+      if (!product) return;
+
+      const sizes = product.size.split(",").map(s => s.trim());
+      const colors = product.color.split(",").map(c => c.trim());
+
+      let sizeButtons = sizes.map(size => `
+        <button type="button" class="btn btn-outline-secondary size-btn" data-size="${size}" onclick="selectSize('${size}')">${size}</button>
+      `).join("");
+
+      let colorThumbnails = colors.map(color => {
+        const imageUrl = product.colorImages[color];
+        return `
+          <div class="color-thumbnail" data-color="${color}" onclick="selectColor('${color}')">
+            <img src="${imageUrl}" alt="${color}" style="width: 50px; height: 50px;" />
+          </div>
+        `;
+      }).join("");
+
+      // Get rating information
+      const ratingInfo = getProductRating(productId);
+      
+      // Get recommended products
+      const recommendations = getRecommendedProducts(productId);
+      const recommendationsHTML = generateRecommendedProducts(recommendations);
+
+      const detailContent = `
+        <div class="row">
+          <div class="col-md-6">
+            ${generateProductImageHTML(product)}
+          </div>
+          <div class="col-md-6">
+            <h3>${product.name}</h3>
+            <p>${product.description}</p>
+            <p><i class="fas fa-tag"></i> <strong>Price:</strong> <s>₹${(product.price * 1.2).toFixed(2)}</s> ₹${product.price.toFixed(2)}</p>
+            ${ratingInfo ? `<p><i class="fas fa-star"></i> <strong>Rating:</strong> ${ratingInfo.average} (${ratingInfo.count} ratings)</p>` : ''}
+            <p><i class="fas fa-list-alt"></i> <strong>Category:</strong> ${product.category}</p>
+            <p><i class="fas fa-tshirt"></i> <strong>Cloth Type:</strong> ${product.clothType}</p>
+            <p><i class="fas fa-truck"></i> <strong>Delivery:</strong> ${product.deliveryTime}</p>
+            <p><i class="fas fa-undo"></i> <strong>Return:</strong> ${product.returnPolicy}</p>
+            <p><i class="fas fa-info-circle"></i> <strong>Details:</strong> ${product.additionalDetails}</p>
+            <div class="mb-3">
+              <label><strong>Sizes:</strong></label><br>
+              ${sizeButtons}
+            </div>
+            <div class="mb-3">
+              <label><strong>Colors:</strong></label><br>
+              ${colorThumbnails}
+            </div>
+            <button class="btn btn-success w-100 mb-2" onclick="buyProductWithSelection(${product.id})">
+              <i class="fas fa-shopping-cart me-1"></i> Buy Now
+            </button>
+            <button class="btn btn-primary w-100" onclick="addToCartWithSelection(${product.id})">
+              <i class="fas fa-cart-plus me-1"></i> Add to Bag
+            </button>
+          </div>
         </div>
-        <button class="btn btn-success w-100 mb-2" onclick="buyProductWithSelection(${product.id})">
-          <i class="fas fa-shopping-cart me-1"></i> Buy Now
-        </button>
-        <button class="btn btn-primary w-100" onclick="addToCartWithSelection(${product.id})">
-          <i class="fas fa-cart-plus me-1"></i> Add to Bag
-        </button>
-      </div>
-    </div>
-  `;
-  document.getElementById("productDetailPage").innerHTML = detailContent;
-  document.getElementById("productDetailSection").dataset.productId = productId;
-  const firstColor = colors[0];
-  selectColor(firstColor);
-  showSection("productDetailSection");
-}
+        ${recommendationsHTML}
+      `;
+      
+      document.getElementById("productDetailPage").innerHTML = detailContent;
+      document.getElementById("productDetailSection").dataset.productId = productId;
+      const firstColor = colors[0];
+      selectColor(firstColor);
+      showSection("productDetailSection");
+    }
 
-// Select size
-function selectSize(size) {
-  document.querySelectorAll(".size-btn").forEach(btn => btn.classList.remove("active"));
-  const button = document.querySelector(`.size-btn[data-size="${size}"]`);
-  button.classList.add("active");
-  document.getElementById("productDetailSection").dataset.selectedSize = size;
-}
+    // Select size
+    function selectSize(size) {
+      document.querySelectorAll(".size-btn").forEach(btn => btn.classList.remove("active"));
+      const button = document.querySelector(`.size-btn[data-size="${size}"]`);
+      button.classList.add("active");
+      document.getElementById("productDetailSection").dataset.selectedSize = size;
+    }
 
-// Select color
-function selectColor(color) {
-  // Remove selected class from all thumbnails
-  document.querySelectorAll(".color-thumbnail").forEach(thumb => thumb.classList.remove("selected"));
-  // Add selected class to the clicked thumbnail
-  const thumbnail = document.querySelector(`.color-thumbnail[data-color="${color}"]`);
-  if (thumbnail) thumbnail.classList.add("selected");
-  // Change main image
-  const productId = parseInt(document.getElementById("productDetailSection").dataset.productId);
-  const product = products.find(p => p.id === productId);
-  if (product && product.colorImages[color]) {
-    document.getElementById("mainProductImage").src = product.colorImages[color];
-  }
-  // Set selected color
-  document.getElementById("productDetailSection").dataset.selectedColor = color;
-}
+    // Select color
+    function selectColor(color) {
+      // Remove selected class from all thumbnails
+      document.querySelectorAll(".color-thumbnail").forEach(thumb => thumb.classList.remove("selected"));
+      // Add selected class to the clicked thumbnail
+      const thumbnail = document.querySelector(`.color-thumbnail[data-color="${color}"]`);
+      if (thumbnail) thumbnail.classList.add("selected");
+      // Change main image
+      const productId = parseInt(document.getElementById("productDetailSection").dataset.productId);
+      const product = products.find(p => p.id === productId);
+      if (product && product.colorImages[color]) {
+        document.getElementById("mainProductImage").src = product.colorImages[color];
+      }
+      // Set selected color
+      document.getElementById("productDetailSection").dataset.selectedColor = color;
+    }
     
     // Add to cart with selection
     function addToCartWithSelection(productId) {
@@ -1335,40 +1465,41 @@ function selectColor(color) {
           saveData();
         }
       }
- // Buy product with selection
- function buyProductWithSelection(productId) {
-    if (!currentUser) {
-      showNotification("Please log in or sign up before placing an order.", "warning");
-      showSection("loginSection");
-      return;
+
+    // Buy product with selection
+    function buyProductWithSelection(productId) {
+      if (!currentUser) {
+        showNotification("Please log in or sign up before placing an order.", "warning");
+        showSection("loginSection");
+        return;
+      }
+      const selectedSize = document.getElementById("sizeSelect")?.value || document.getElementById("productDetailSection").dataset.selectedSize;
+      const selectedColor = document.getElementById("productDetailSection").dataset.selectedColor;
+      if (!selectedSize || !selectedColor) {
+        showNotification("Please select size and color.", "warning");
+        return;
+      }
+      const product = products.find(p => p.id === productId);
+      if (product) {
+        currentProductForPurchase = { ...product, selectedSize, selectedColor };
+        const daysRange = product.deliveryTime.match(/\d+-\d+/)[0];
+        const maxDays = parseInt(daysRange.split("-")[1]);
+        const today = new Date();
+        const estimatedDeliveryDate = new Date(today);
+        estimatedDeliveryDate.setDate(today.getDate() + maxDays);
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const formattedDate = estimatedDeliveryDate.toLocaleDateString('en-US', options);
+        document.getElementById("modalProductName").textContent = product.name;
+        document.getElementById("modalProductSize").textContent = selectedSize;
+        document.getElementById("modalProductColor").textContent = selectedColor;
+        document.getElementById("modalProductPrice").textContent = product.price.toFixed(2);
+        document.getElementById("modalDeliveryTime").textContent = formattedDate;
+        document.getElementById("modalTotalAmount").textContent = (product.price + 5).toFixed(2); // Assuming +5 for shipping
+        document.getElementById("buyForm").reset();
+        const buyModal = new bootstrap.Modal(document.getElementById("buyModal"));
+        buyModal.show();
+      }
     }
-    const selectedSize = document.getElementById("sizeSelect")?.value || document.getElementById("productDetailSection").dataset.selectedSize;
-    const selectedColor = document.getElementById("productDetailSection").dataset.selectedColor;
-    if (!selectedSize || !selectedColor) {
-      showNotification("Please select size and color.", "warning");
-      return;
-    }
-    const product = products.find(p => p.id === productId);
-    if (product) {
-      currentProductForPurchase = { ...product, selectedSize, selectedColor };
-      const daysRange = product.deliveryTime.match(/\d+-\d+/)[0];
-      const maxDays = parseInt(daysRange.split("-")[1]);
-      const today = new Date();
-      const estimatedDeliveryDate = new Date(today);
-      estimatedDeliveryDate.setDate(today.getDate() + maxDays);
-      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-      const formattedDate = estimatedDeliveryDate.toLocaleDateString('en-US', options);
-      document.getElementById("modalProductName").textContent = product.name;
-      document.getElementById("modalProductSize").textContent = selectedSize;
-      document.getElementById("modalProductColor").textContent = selectedColor;
-      document.getElementById("modalProductPrice").textContent = product.price.toFixed(2);
-      document.getElementById("modalDeliveryTime").textContent = formattedDate;
-      document.getElementById("modalTotalAmount").textContent = (product.price + 5).toFixed(2); // Assuming +5 for shipping
-      document.getElementById("buyForm").reset();
-      const buyModal = new bootstrap.Modal(document.getElementById("buyModal"));
-      buyModal.show();
-    }
-  }
 
     // Show notification
     function showNotification(message, type = "success") {
