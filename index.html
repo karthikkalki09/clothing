@@ -264,145 +264,22 @@
       font-size: 0.8rem;
     }
 
-    /* Search Section Styling */
-    #searchResultsContainer {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      justify-content: flex-start;
-      padding: 10px 0;
+    /* Search Results Grid */
+    .search-results-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
     }
-
+    
     .search-result-card {
-      flex: 0 0 calc(50% - 15px);
-      max-width: calc(50% - 15px);
+      width: 100%;
       margin-bottom: 15px;
-      transition: all 0.3s ease;
     }
-
+    
     @media (min-width: 768px) {
-      .search-result-card {
-        flex: 0 0 calc(25% - 15px);
-        max-width: calc(25% - 15px);
+      .search-results-grid {
+        grid-template-columns: repeat(4, 1fr);
       }
-    }
-
-    .search-result-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    }
-
-    .search-result-img {
-      height: 180px;
-      object-fit: cover;
-      width: 100%;
-      border-radius: 8px 8px 0 0;
-    }
-
-    .search-result-body {
-      padding: 15px;
-      background: white;
-      border-radius: 0 0 8px 8px;
-    }
-
-    .search-result-title {
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 5px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .search-result-price {
-      font-weight: bold;
-      color: #2a5298;
-    }
-
-    .search-result-original-price {
-      text-decoration: line-through;
-      color: #999;
-      font-size: 0.9rem;
-    }
-
-    .search-result-discount {
-      color: #28a745;
-      font-size: 0.9rem;
-      font-weight: bold;
-    }
-
-    .search-no-results {
-      width: 100%;
-      text-align: center;
-      padding: 40px 0;
-      color: #666;
-    }
-
-    .search-no-results i {
-      font-size: 3rem;
-      margin-bottom: 15px;
-      color: #ddd;
-    }
-
-    /* Loading Animation */
-    .search-loading {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      width: 100%;
-    }
-
-    .search-loading .spinner {
-      width: 40px;
-      height: 40px;
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid #2a5298;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    /* Search Header Styling */
-    .search-header {
-      position: sticky;
-      top: 0;
-      background: white;
-      z-index: 100;
-      padding: 10px 0;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-
-    /* Search Suggestions */
-    .search-suggestions {
-      position: absolute;
-      width: calc(100% - 30px);
-      background: white;
-      border: 1px solid #ddd;
-      border-radius: 0 0 5px 5px;
-      z-index: 10;
-      max-height: 300px;
-      overflow-y: auto;
-      display: none;
-    }
-
-    .search-suggestion-item {
-      padding: 10px 15px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .search-suggestion-item:hover {
-      background: #f8f9fa;
-    }
-
-    .search-suggestion-item i {
-      margin-right: 10px;
-      color: #2a5298;
     }
   </style>
 </head>
@@ -775,23 +652,89 @@
     </div>
   </div>
 
-  <!-- Updated Search Section with Categories -->
-  <div id="searchSection" class="section fade-in">
+  <!-- Updated Search Section -->
+<div id="searchSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home"><i class="bi bi-arrow-left"></i> Home</button>
-        <h1 class="h5 mb-0">Search</h1>
+        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home">
+          <i class="bi bi-arrow-left"></i> Home
+        </button>
+        <h1 class="h5 mb-0">Search Products</h1>
         <div></div>
       </div>
     </header>
     <div class="container my-4">
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Search for shirts, pants, etc." id="searchSectionInput" autocomplete="off" aria-label="Search for Products" />
-        <button class="btn btn-dark" type="button" id="searchSectionButton" aria-label="Search"><i class="bi bi-search"></i></button>
+      <div class="search-container mb-4">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Search for shirts, pants, accessories..." 
+                 id="searchSectionInput" autocomplete="off" aria-label="Search for Products"
+                 onkeyup="showSearchSuggestions()">
+          <button class="btn btn-dark" type="button" id="searchSectionButton" aria-label="Search">
+            <i class="bi bi-search"></i> Search
+          </button>
+        </div>
+        <div id="searchSuggestions" class="list-group" style="display: none; position: absolute; z-index: 1000; width: 100%;"></div>
+        
+        <div class="row g-3">
+          <div class="col-md-3">
+            <label for="searchCategory" class="form-label">Category</label>
+            <select id="searchCategory" class="form-select">
+              <option value="">All Categories</option>
+              <option value="Men's Wear">Men's Wear</option>
+              <option value="Accessories">Accessories</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="searchPrice" class="form-label">Price Range</label>
+            <select id="searchPrice" class="form-select">
+              <option value="">All Prices</option>
+              <option value="0-100">Under ₹100</option>
+              <option value="100-200">₹100 - ₹200</option>
+              <option value="200-300">₹200 - ₹300</option>
+              <option value="300-500">₹300 - ₹500</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="searchRating" class="form-label">Minimum Rating</label>
+            <select id="searchRating" class="form-select">
+              <option value="">Any Rating</option>
+              <option value="4">4+ Stars</option>
+              <option value="3">3+ Stars</option>
+              <option value="2">2+ Stars</option>
+              <option value="1">1+ Star</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="searchSort" class="form-label">Sort By</label>
+            <select id="searchSort" class="form-select">
+              <option value="relevance">Relevance</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="rating">Highest Rated</option>
+              <option value="newest">Newest Arrivals</option>
+            </select>
+          </div>
+        </div>
+        <div class="mt-3 d-flex justify-content-between">
+          <button class="btn btn-outline-secondary" onclick="clearSearchFilters()">
+            <i class="bi bi-x-circle"></i> Clear Filters
+          </button>
+          <button class="btn btn-primary" onclick="performSearch()">
+            <i class="bi bi-funnel"></i> Apply Filters
+          </button>
+        </div>
       </div>
-      <div id="searchResultsContainer"></div>
+      
+      <div class="search-results-container">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 id="searchResultsCount">0 products found</h5>
+          <div id="searchActiveFilters"></div>
+        </div>
+        <div class="row" id="searchResultsContainer"></div>
+      </div>
     </div>
   </div>
+       
 
   <!-- Login Section -->
   <div id="loginSection" class="section fade-in">
@@ -1239,6 +1182,8 @@
     let activeFilters = {};
     let menswearActiveFilters = {};
     let accessoriesActiveFilters = {};
+    let recentSearches = [];
+    let searchTimeout = null;
 
     const locations = ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix"];
     const colorMap = { "Blue": "#0000FF", "Red": "#FF0000", "Black": "#000000",  "Brown": "#8B4513", "White": "#FFFFFF" };
@@ -1326,52 +1271,70 @@
           "Brown": "https://i.pinimg.com/474x/5d/3e/2f/5d3e2f6e8c9b0a1c2d3e4f5a6b7c8d9.jpg"
         }
       },
-     
-    {
-      id: 5,
-      name: "Casual T-Shirt",
-      description: "Comfortable cotton t-shirt for everyday wear.",
-      category: "Men's Wear",
-      price: 15.99,
-      size: "S, M, L, XL",
-      color: "White, Black, Blue",
-      clothType: "100% Cotton",
-      deliveryTime: "2-4 days",
-      returnPolicy: "7 days return policy",
-      additionalDetails: "Breathable fabric, machine washable.",
-      images: [
-        "https://i.pinimg.com/474x/9e/f0/1d/9ef01d9e8f9a0b1c2d3e4f5a6b7c8d9e.jpg"
-      ],
-      colorImages: {
-        "White": "https://i.pinimg.com/474x/9e/f0/1d/9ef01d9e8f9a0b1c2d3e4f5a6b7c8d9e.jpg",
-        "Black": "https://i.pinimg.com/474x/a0/b1/c2/a0b1c29e8f9a0b1c2d3e4f5a6b7c8d9e.jpg",
-        "Blue": "https://i.pinimg.com/474x/b1/c2/d3/b1c2d39e8f9a0b1c2d3e4f5a6b7c8d9e.jpg"
-      }
-    },
-    {
-      id: 6,
-      name: "Wrist Watch",
-      description: "Elegant wrist watch for men.",
-      category: "Accessories",
-      price: 49.99,
-      size: "One Size",
-      color: "Black, Silver",
-      clothType: "Stainless Steel",
-      deliveryTime: "3-5 days",
-      returnPolicy: "14 days return policy",
-      additionalDetails: "Water resistant, durable strap.",
-      images: [
-        "https://i.pinimg.com/474x/c2/d3/e4/c2d3e49e8f9a0b1c2d3e4f5a6b7c8d9e.jpg"
-      ],
-      colorImages: {
-        "Black": "https://i.pinimg.com/474x/c2/d3/e4/c2d3e49e8f9a0b1c2d3e4f5a6b7c8d9e.jpg",
-        "Silver": "https://i.pinimg.com/474x/d3/e4/f5/d3e4f59e8f9a0b1c2d3e4f5a6b7c8d9e.jpg"
-      }
-    }
+      {
+        id: 5,
+        name: "Leather Belt",
+        description: "Genuine leather belt for men.",
+        category: "Accessories",
+        price: 24.99,
+        size: "32, 34, 36, 38",
+        color: "Black, Brown",
+        clothType: "Genuine Leather",
+        deliveryTime: "3-5 days",
+        returnPolicy: "14 days return policy",
+        additionalDetails: "Adjustable buckle, durable material.",
+        images: [
+          "https://i.pinimg.com/474x/7a/8b/3d/7a8b3d9e8f9a0b1c2d3e4f5a6b7c8d9e.jpg"
+        ],
+        colorImages: {
+          "Black": "https://i.pinimg.com/474x/7a/8b/3d/7a8b3d9e8f9a0b1c2d3e4f5a6b7c8d9e.jpg",
+          "Brown": "https://i.pinimg.com/474x/8c/9d/0e/8c9d0e9f8a0b1c2d3e4f5a6b7c8d9e0.jpg"
+        }
+      },
+      {
+        id: 6,
+        name: "Casual T-Shirt",
+        description: "Comfortable cotton t-shirt for everyday wear.",
+        category: "Men's Wear",
+        price: 15.99,
+        size: "S, M, L, XL",
+        color: "White, Black, Blue",
+        clothType: "100% Cotton",
+        deliveryTime: "2-4 days",
+        returnPolicy: "7 days return policy",
+        additionalDetails: "Breathable fabric, machine washable.",
+        images: [
+          "https://i.pinimg.com/474x/9e/f0/1d/9ef01d9e8f9a0b1c2d3e4f5a6b7c8d9e.jpg"
+        ],
+        colorImages: {
+          "White": "https://i.pinimg.com/474x/9e/f0/1d/9ef01d9e8f9a0b1c2d3e4f5a6b7c8d9e.jpg",
+          "Black": "https://i.pinimg.com/474x/a0/b1/c2/a0b1c29e8f9a0b1c2d3e4f5a6b7c8d9e.jpg",
+          "Blue": "https://i.pinimg.com/474x/b1/c2/d3/b1c2d39e8f9a0b1c2d3e4f5a6b7c8d9e.jpg"
+        }
+      },
+      {
+        id: 7,
+        name: "Wrist Watch",
+        description: "Elegant wrist watch for men.",
+        category: "Accessories",
+        price: 49.99,
+        size: "One Size",
+        color: "Black, Silver",
+        clothType: "Stainless Steel",
+        deliveryTime: "3-5 days",
+        returnPolicy: "14 days return policy",
+        additionalDetails: "Water resistant, durable strap.",
+        images: [
+          "https://i.pinimg.com/474x/c2/d3/e4/c2d3e49e8f9a0b1c2d3e4f5a6b7c8d9e.jpg"
+        ],
+        colorImages: {
+          "Black": "https://i.pinimg.com/474x/c2/d3/e4/c2d3e49e8f9a0b1c2d3e4f5a6b7c8d9e.jpg",
+          "Silver": "https://i.pinimg.com/474x/d3/e4/f5/d3e4f59e8f9a0b1c2d3e4f5a6b7c8d9e.jpg"
+        }
+      },
     ];
-
-    // Hide splash screen after 2 seconds
-    setTimeout(() => {
+     // Hide splash screen after 2 seconds
+     setTimeout(() => {
       const splashScreen = document.getElementById('splashScreen');
       splashScreen.style.opacity = '0';
       setTimeout(() => {
@@ -1440,31 +1403,32 @@
       return { average: averageRating.toFixed(1), count: productOrders.length };
     }
 
-    // Generate products
-    function generateProducts(containerId, productList) {
-      const container = document.getElementById(containerId);
-      container.innerHTML = "";
-      productList.forEach(product => {
-        const originalPrice = (product.price * 1.2).toFixed(2);
-        const discount = ((originalPrice - product.price) / originalPrice * 100).toFixed(0);
-        const card = `
-          <div class="col-6 col-md-4 mb-4">
-            <div class="card shadow-sm product-card" style="position: relative;" onclick="showProductDetails(${product.id})">
-              <img src="${product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name)}" class="card-img-top" alt="${product.name}">
-              <button class="wishlist-btn position-absolute top-0 end-0 m-2" onclick="event.stopPropagation(); addToWishlist(${product.id})" aria-label="Add ${product.name} to Wishlist">
-                <i class="bi bi-heart-fill" style="color: ${wishlist.some(p => p.id === product.id) ? 'red' : '#ccc'};"></i>
-              </button>
-              <div class="card-body">
-                <h5 class="card-title">${product.name}</h5>
-                <p class="card-text">${product.description}</p>
-                <p class="card-text"><s>₹${originalPrice}</s> ₹${product.price.toFixed(2)} <span class="badge bg-success">${discount}% off</span></p>
-              </div>
-            </div>
+    
+   // In the generateProducts function, modify the column classes:
+function generateProducts(containerId, productList) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = "";
+  productList.forEach(product => {
+    const originalPrice = (product.price * 1.2).toFixed(2);
+    const discount = ((originalPrice - product.price) / originalPrice * 100).toFixed(0);
+    const card = `
+      <div class="col-6 mb-4"> <!-- Changed from col-6 col-md-4 to col-6 for consistent two-column layout on all devices -->
+        <div class="card shadow-sm product-card" style="position: relative;" onclick="showProductDetails(${product.id})">
+          <img src="${product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name)}" class="card-img-top" alt="${product.name}">
+          <button class="wishlist-btn position-absolute top-0 end-0 m-2" onclick="event.stopPropagation(); addToWishlist(${product.id})" aria-label="Add ${product.name} to Wishlist">
+            <i class="bi bi-heart-fill" style="color: ${wishlist.some(p => p.id === product.id) ? 'red' : '#ccc'};"></i>
+          </button>
+          <div class="card-body">
+            <h5 class="card-title">${product.name}</h5>
+            <p class="card-text">${product.description}</p>
+            <p class="card-text"><s>₹${originalPrice}</s> ₹${product.price.toFixed(2)} <span class="badge bg-success">${discount}% off</span></p>
           </div>
-        `;
-        container.innerHTML += card;
-      });
-    }
+        </div>
+      </div>
+    `;
+    container.innerHTML += card;
+  });
+}
 
     // Function to calculate the average rating for a product
     function getProductRating(productId) {
@@ -2051,6 +2015,7 @@
       }
     }
 
+
     // Delete order
     function deleteOrder(index) {
       if (confirm("Are you sure you want to delete this order? This action cannot be undone.")) {
@@ -2063,7 +2028,6 @@
       }
     }
 
-    // Show order detail page with track bar, estimated delivery, and discount
     function showOrderDetailPage(orderIndex) {
       currentOrderIndex = orderIndex;
       const order = orders[orderIndex];
@@ -2078,43 +2042,60 @@
       estimatedDeliveryDate.setDate(orderDate.getDate() + maxDays);
       const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
       const formattedDate = estimatedDeliveryDate.toLocaleDateString('en-US', options);
+    
       let detailContent = `
-        <h3>Order #${orderIndex + 1}</h3>
-        <p><strong>Date:</strong> ${order.date}</p>
-        <hr>
-        <h5>Product Details</h5>
-        <div class="row">
-          <div class="col-12 col-md-6">
-            <img src="${productImage}" class="img-fluid" alt="${order.product.name}">
-          </div>
-          <div class="col-12 col-md-6">
-            <p><strong>Name:</strong> ${order.product.name}</p>
-            <p><strong>Description:</strong> ${order.product.description}</p>
-            <p><strong>Selected Size:</strong> ${order.product.selectedSize}</p>
-            <p><strong>Selected Color:</strong> ${order.product.selectedColor}</p>
-            <p><strong>Price:</strong> <s>₹${originalPrice}</s> ₹${order.product.price.toFixed(2)} <span class="badge bg-success"><i class="bi bi-arrow-down"></i> ${discount}% off</span></p>
-          </div>
+      <h3>Order #${orderIndex + 1}</h3>
+      <p><strong>Date:</strong> ${order.date}</p>
+      <hr>
+      <h5>Product Details</h5>
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <img src="${productImage}" class="img-fluid" alt="${order.product.name}">
         </div>
-        <hr>
-        <h5>Shipping Details</h5>
-        <p><strong>Address:</strong> ${order.address}</p>
-        <p><strong>Mobile:</strong> ${order.mobile}</p>
-        <p><strong>Payment Method:</strong> ${order.payment}</p>
+        <div class="col-12 col-md-6">
+          <p><strong>Name:</strong> ${order.product.name}</p>
+          <p><strong>Description:</strong> ${order.product.description}</p>
+          <p><strong>Selected Size:</strong> ${order.product.selectedSize}</p>
+          <p><strong>Selected Color:</strong> ${order.product.selectedColor}</p>
+          <p><strong>Price:</strong> <s>₹${originalPrice}</s> ₹${order.product.price.toFixed(2)} <span class="badge bg-success"><i class="bi bi-arrow-down"></i> ${discount}% off</span></p>
+        </div>
+      </div>
+      <hr>
+      <h5>Shipping Details</h5>
+      <p><strong>Address:</strong> ${order.address}</p>
+      <p><strong>Mobile:</strong> ${order.mobile}</p>
+      <p><strong>Payment Method:</strong> ${order.payment}</p>
+      ${!order.cancelled && !order.received ? `
         <p><strong>Estimated Delivery:</strong> ${formattedDate}</p>
-        <hr>
-        <h5>Order Status</h5>
-        <div class="track-bar ${order.received ? 'received' : (order.cancelled ? 'cancelled' : '')}">
-          <div class="track-step active">
-            <span>1</span>
-            <small>Ordered</small>
-          </div>
-          <div class="track-step ${order.received ? 'active' : (order.cancelled ? 'cancelled' : '')}">
-            <span>2</span>
-            <small>${order.cancelled ? 'Cancelled' : 'Received'}</small>
-          </div>
+      ` : ''}
+      <hr>
+      <h5>Order Status</h5>
+      <div class="track-bar ${order.received ? 'received' : (order.cancelled ? 'cancelled' : '')}">
+        <div class="track-step active">
+          <span>1</span>
+          <small>Ordered</small>
         </div>
+        <div class="track-step ${order.received ? 'active' : (order.cancelled ? 'cancelled' : '')}">
+          <span>2</span>
+          <small>${order.cancelled ? 'Cancelled' : 'Received'}</small>
+        </div>
+      </div>
       `;
-
+    
+      // Add explicit status messages
+      if (order.cancelled) {
+        detailContent += `<p class="mt-3 text-danger"><strong>Status:</strong> Cancelled</p>`;
+        if (order.cancellationReason) {
+          detailContent += `<p><strong>Reason:</strong> ${order.cancellationReason}</p>`;
+        }
+      } else if (order.received) {
+        detailContent += `<p class="mt-3 text-success"><strong>Status:</strong> Delivered on ${order.receivedDate}</p>`;
+      } else {
+        detailContent += `<p class="mt-3 text-info"><strong>Status:</strong> In Progress</p>`;
+        detailContent += `<p>Estimated delivery by ${formattedDate}</p>`;
+      }
+    
+      // Action buttons and review section
       if (!order.cancelled && !order.received) {
         detailContent += `
           <button class="btn btn-success mt-3" onclick="markAsReceived(${orderIndex})">Mark as Received</button>
@@ -2147,18 +2128,17 @@
           <p><strong>Review:</strong> ${order.review || 'No review provided.'}</p>
         `;
       }
-
+    
       detailContent += `
         <div class="mt-3">
           <button class="btn btn-secondary" onclick="showSection('ordersSection')">Back to Orders</button>
           <button class="btn btn-primary ms-2" onclick="showProductDetails(${order.product.id})">View Product Details</button>
         </div>
       `;
-
+    
       document.getElementById("orderDetailPage").innerHTML = detailContent;
       showSection("orderDetailSection");
     }
-
     // Mark order as received
     function markAsReceived(orderIndex) {
       if (confirm("Are you sure you have received this order?")) {
@@ -2187,24 +2167,138 @@
     }
 
     // Cancel order
-    function cancelOrder() {
-      const order = orders[currentOrderIndex];
-      if (order.cancelled) {
-        showNotification("This order is already cancelled.", "warning");
-        return;
-      }
-      const reason = prompt("Why are you cancelling the order?");
-      if (reason && reason.trim() !== "") {
-        orders[currentOrderIndex].cancelled = true;
-        orders[currentOrderIndex].cancellationReason = reason;
-        showNotification("Your order has been cancelled.", "danger");
-        notifyOwner(`Order cancelled by: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email}) for product: ${order.product.name} - Order #${currentOrderIndex + 1}`);
-        saveData();
-        updateOrdersList();
-      } else {
-        showNotification("Cancellation reason is required.", "warning");
-      }
+function cancelOrder() {
+    const order = orders[currentOrderIndex];
+    if (order.cancelled) {
+      showNotification("This order is already cancelled.", "warning");
+      return;
     }
+  
+    // Create a modal/dialog with cancellation options
+    const modal = document.createElement('div');
+    modal.style.position = 'fixed';
+    modal.style.top = '0';
+    modal.style.left = '0';
+    modal.style.width = '100%';
+    modal.style.height = '100%';
+    modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
+    modal.style.display = 'flex';
+    modal.style.justifyContent = 'center';
+    modal.style.alignItems = 'center';
+    modal.style.zIndex = '1000';
+  
+    const modalContent = document.createElement('div');
+    modalContent.style.backgroundColor = 'white';
+    modalContent.style.padding = '20px';
+    modalContent.style.borderRadius = '8px';
+    modalContent.style.width = '400px';
+    modalContent.style.maxWidth = '90%';
+  
+    const title = document.createElement('h3');
+    title.textContent = 'Cancel Order';
+    modalContent.appendChild(title);
+  
+    const reasonLabel = document.createElement('label');
+    reasonLabel.textContent = 'Select a reason for cancellation:';
+    reasonLabel.style.display = 'block';
+    reasonLabel.style.marginBottom = '10px';
+    modalContent.appendChild(reasonLabel);
+  
+    const reasonSelect = document.createElement('select');
+    reasonSelect.style.width = '100%';
+    reasonSelect.style.padding = '8px';
+    reasonSelect.style.marginBottom = '15px';
+    reasonSelect.style.borderRadius = '4px';
+    
+    // Predefined cancellation reasons
+    const reasons = [
+      {value: 'changed-mind', text: 'Changed my mind'},
+      {value: 'found-better-price', text: 'Found a better price elsewhere'},
+      {value: 'shipping-delay', text: 'Shipping takes too long'},
+      {value: 'ordered-wrong-item', text: 'Ordered wrong item by mistake'},
+      {value: 'no-longer-needed', text: 'No longer needed'},
+      {value: 'payment-issue', text: 'Payment issue'},
+      {value: 'other', text: 'Other reason'}
+    ];
+  
+    reasons.forEach(reason => {
+      const option = document.createElement('option');
+      option.value = reason.value;
+      option.textContent = reason.text;
+      reasonSelect.appendChild(option);
+    });
+  
+    modalContent.appendChild(reasonSelect);
+  
+    const otherReasonContainer = document.createElement('div');
+    otherReasonContainer.style.display = 'none';
+    otherReasonContainer.style.marginBottom = '15px';
+    
+    const otherReasonLabel = document.createElement('label');
+    otherReasonLabel.textContent = 'Please specify:';
+    otherReasonLabel.style.display = 'block';
+    otherReasonLabel.style.marginBottom = '5px';
+    otherReasonContainer.appendChild(otherReasonLabel);
+    
+    const otherReasonInput = document.createElement('textarea');
+    otherReasonInput.style.width = '100%';
+    otherReasonInput.style.padding = '8px';
+    otherReasonInput.style.borderRadius = '4px';
+    otherReasonInput.style.minHeight = '60px';
+    otherReasonContainer.appendChild(otherReasonInput);
+    
+    modalContent.appendChild(otherReasonContainer);
+  
+    // Show/hide other reason field based on selection
+    reasonSelect.addEventListener('change', () => {
+      otherReasonContainer.style.display = reasonSelect.value === 'other' ? 'block' : 'none';
+    });
+  
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.display = 'flex';
+    buttonContainer.style.justifyContent = 'flex-end';
+    buttonContainer.style.gap = '10px';
+  
+    const cancelButton = document.createElement('button');
+    cancelButton.textContent = 'Go Back';
+    cancelButton.style.padding = '8px 16px';
+    cancelButton.addEventListener('click', () => {
+      document.body.removeChild(modal);
+    });
+    buttonContainer.appendChild(cancelButton);
+  
+    const confirmButton = document.createElement('button');
+    confirmButton.textContent = 'Confirm Cancellation';
+    confirmButton.style.padding = '8px 16px';
+    confirmButton.style.backgroundColor = '#dc3545';
+    confirmButton.style.color = 'white';
+    confirmButton.style.border = 'none';
+    confirmButton.style.borderRadius = '4px';
+    confirmButton.addEventListener('click', () => {
+      let reason = reasonSelect.options[reasonSelect.selectedIndex].text;
+      
+      if (reasonSelect.value === 'other') {
+        if (!otherReasonInput.value.trim()) {
+          showNotification("Please specify the cancellation reason.", "warning");
+          return;
+        }
+        reason = otherReasonInput.value.trim();
+      }
+  
+      orders[currentOrderIndex].cancelled = true;
+      orders[currentOrderIndex].cancellationReason = reason;
+      showNotification("Your order has been cancelled.", "danger");
+      notifyOwner(`Order cancelled by: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email}) for product: ${order.product.name} - Order #${currentOrderIndex + 1}`);
+      saveData();
+      updateOrdersList();
+      document.body.removeChild(modal);
+    });
+    buttonContainer.appendChild(confirmButton);
+  
+    modalContent.appendChild(buttonContainer);
+    modal.appendChild(modalContent);
+    document.body.appendChild(modal);
+  }
 
     // Track order 
     function trackOrder() {
@@ -2305,12 +2399,204 @@
     document.getElementById("accountButton").addEventListener("click", () => currentUser ? showSection("accountSection") : showSection("loginSection"));
     document.getElementById("notificationButton").addEventListener("click", () => showSection("notificationsSection"));
 
-    // Search functionality
-    document.getElementById("searchSectionButton").addEventListener("click", () => {
-      const query = document.getElementById("searchSectionInput").value.toLowerCase();
-      const filteredProducts = query.trim() === "" ? products : products.filter(p => p.name.toLowerCase().includes(query) || p.description.toLowerCase().includes(query));
-      generateProducts("searchResultsContainer", filteredProducts);
+    // Enhanced search functionality
+function showSearchSuggestions() {
+  const input = document.getElementById("searchSectionInput").value.toLowerCase();
+  const suggestionsContainer = document.getElementById("searchSuggestions");
+  
+  if (input.length < 2) {
+    suggestionsContainer.style.display = "none";
+    return;
+  }
+  
+  const suggestions = products.filter(product => 
+    product.name.toLowerCase().includes(input) || 
+    product.description.toLowerCase().includes(input) ||
+    product.category.toLowerCase().includes(input)
+  ).slice(0, 5);
+  
+  if (suggestions.length === 0) {
+    suggestionsContainer.style.display = "none";
+    return;
+  }
+  
+  let html = '';
+  suggestions.forEach(product => {
+    html += `
+      <a href="#" class="list-group-item list-group-item-action" 
+         onclick="event.preventDefault(); document.getElementById('searchSectionInput').value='${product.name}'; suggestionsContainer.style.display='none';">
+        <div class="d-flex align-items-center">
+          <img src="${product.images[0]}" alt="${product.name}" style="width: 40px; height: 40px; object-fit: cover; margin-right: 10px;">
+          <div>
+            <h6 class="mb-0">${product.name}</h6>
+            <small class="text-muted">${product.category}</small>
+          </div>
+        </div>
+      </a>
+    `;
+  });
+  
+  suggestionsContainer.innerHTML = html;
+  suggestionsContainer.style.display = "block";
+}
+
+function performSearch() {
+  const query = document.getElementById("searchSectionInput").value.toLowerCase();
+  const category = document.getElementById("searchCategory").value;
+  const priceRange = document.getElementById("searchPrice").value;
+  const minRating = document.getElementById("searchRating").value;
+  const sortBy = document.getElementById("searchSort").value;
+  
+  let filteredProducts = [...products];
+  
+  // Apply search query
+  if (query) {
+    filteredProducts = filteredProducts.filter(p => 
+      p.name.toLowerCase().includes(query) || 
+      p.description.toLowerCase().includes(query)
+  )}
+  
+  // Apply category filter
+  if (category) {
+    filteredProducts = filteredProducts.filter(p => p.category === category);
+  }
+  
+  // Apply price range filter
+  if (priceRange) {
+    const [min, max] = priceRange.split("-").map(Number);
+    filteredProducts = filteredProducts.filter(p => {
+      if (max) return p.price >= min && p.price <= max;
+      return p.price >= min;
     });
+  }
+  
+  // Apply rating filter
+  if (minRating) {
+    filteredProducts = filteredProducts.filter(p => {
+      const ratingInfo = getProductRating(p.id);
+      return ratingInfo && ratingInfo.average >= minRating;
+    });
+  }
+  
+  // Apply sorting
+  switch(sortBy) {
+    case "price-low":
+      filteredProducts.sort((a, b) => a.price - b.price);
+      break;
+    case "price-high":
+      filteredProducts.sort((a, b) => b.price - a.price);
+      break;
+    case "rating":
+      filteredProducts.sort((a, b) => {
+        const ratingA = getProductRating(a.id)?.average || 0;
+        const ratingB = getProductRating(b.id)?.average || 0;
+        return ratingB - ratingA;
+      });
+      break;
+    case "newest":
+      // Assuming newer products have higher IDs
+      filteredProducts.sort((a, b) => b.id - a.id);
+      break;
+    default:
+      // Relevance - products matching query come first
+      if (query) {
+        filteredProducts.sort((a, b) => {
+          const aMatches = a.name.toLowerCase().includes(query) ? 1 : 0;
+          const bMatches = b.name.toLowerCase().includes(query) ? 1 : 0;
+          return bMatches - aMatches;
+        });
+      }
+  }
+  
+  displaySearchResults(filteredProducts);
+  updateSearchActiveFilters(query, category, priceRange, minRating);
+}
+
+function displaySearchResults(results) {
+  const container = document.getElementById("searchResultsContainer");
+  const countElement = document.getElementById("searchResultsCount");
+  
+  countElement.textContent = `${results.length} ${results.length === 1 ? 'product' : 'products'} found`;
+  
+  if (results.length === 0) {
+    container.innerHTML = `
+      <div class="col-12 text-center py-5">
+        <i class="bi bi-search" style="font-size: 3rem; color: #ccc;"></i>
+        <h4 class="mt-3">No products found</h4>
+        <p>Try adjusting your search or filters</p>
+        <button class="btn btn-primary" onclick="clearSearchFilters()">Clear all filters</button>
+      </div>
+    `;
+    return;
+  }
+  
+  container.innerHTML = "";
+  results.forEach(product => {
+    const ratingInfo = getProductRating(product.id);
+    const originalPrice = (product.price * 1.2).toFixed(2);
+    const discount = ((originalPrice - product.price) / originalPrice * 100).toFixed(0);
+    
+    const card = `
+      <div class="col-6 col-md-4 col-lg-3 mb-4">
+        <div class="card h-100 product-card" onclick="showProductDetails(${product.id})">
+          <div style="position: relative;">
+            <img src="${product.images[0]}" class="card-img-top" alt="${product.name}" style="height: 200px; object-fit: cover;">
+            ${discount > 0 ? `<span class="badge bg-danger position-absolute top-0 start-0 m-2">${discount}% OFF</span>` : ''}
+            <button class="wishlist-btn position-absolute top-0 end-0 m-2" 
+                    onclick="event.stopPropagation(); addToWishlist(${product.id})">
+              <i class="bi bi-heart-fill" style="color: ${wishlist.some(p => p.id === product.id) ? 'red' : '#ccc'};"></i>
+            </button>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">${product.name}</h5>
+            <p class="card-text text-muted" style="font-size: 0.9rem;">${product.description}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <span class="fw-bold">₹${product.price.toFixed(2)}</span>
+                ${discount > 0 ? `<small class="text-decoration-line-through text-muted ms-1">₹${originalPrice}</small>` : ''}
+              </div>
+              ${ratingInfo ? `
+                <div class="d-flex align-items-center">
+                  <i class="bi bi-star-fill text-warning me-1"></i>
+                  <small>${ratingInfo.average}</small>
+                </div>
+              ` : ''}
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    container.innerHTML += card;
+  });
+}
+
+function updateSearchActiveFilters(query, category, priceRange, minRating) {
+  const container = document.getElementById("searchActiveFilters");
+  let html = '';
+  
+  if (query) html += `<span class="badge bg-secondary me-2">Search: ${query}</span>`;
+  if (category) html += `<span class="badge bg-primary me-2">Category: ${category}</span>`;
+  if (priceRange) {
+    const label = priceRange === "0-100" ? "Under ₹100" : 
+                 priceRange === "100-200" ? "₹100-₹200" :
+                 priceRange === "200-300" ? "₹200-₹300" : "₹300-₹500";
+    html += `<span class="badge bg-info me-2">Price: ${label}</span>`;
+  }
+  if (minRating) html += `<span class="badge bg-warning me-2">Rating: ${minRating}+</span>`;
+  
+  container.innerHTML = html;
+}
+
+function clearSearchFilters() {
+  document.getElementById("searchSectionInput").value = "";
+  document.getElementById("searchCategory").value = "";
+  document.getElementById("searchPrice").value = "";
+  document.getElementById("searchRating").value = "";
+  document.getElementById("searchSort").value = "relevance";
+  document.getElementById("searchActiveFilters").innerHTML = "";
+  displaySearchResults(products);
+  document.getElementById("searchResultsCount").textContent = `${products.length} products found`;
+}
 
     // Login form submission
     document.getElementById("loginForm")?.addEventListener("submit", function(e) {
