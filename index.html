@@ -264,193 +264,24 @@
       font-size: 0.8rem;
     }
 
-   /* Enhanced Search Section */
-   .search-container {
-    position: relative;
-  }
-  
-  .search-suggestions {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: white;
-    border: 1px solid #ddd;
-    border-top: none;
-    border-radius: 0 0 5px 5px;
-    z-index: 1000;
-    max-height: 300px;
-    overflow-y: auto;
-    display: none;
-  }
-  
-  .search-suggestion-item {
-    padding: 10px;
-    cursor: pointer;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .search-suggestion-item:hover {
-    background-color: #f8f9fa;
-  }
-  
-  .search-history {
-    margin-top: 15px;
-  }
-  
-  .search-history-item {
-    display: inline-block;
-    margin-right: 8px;
-    margin-bottom: 8px;
-    padding: 5px 10px;
-    background: #f1f1f1;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 0.9rem;
-  }
-  
-  /* Enhanced Orders Section */
-  .order-card {
-    transition: all 0.3s ease;
-    margin-bottom: 20px;
-  }
-  
-  .order-card:hover {
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  }
-  
-  .order-status-badge {
-    font-size: 0.8rem;
-    padding: 5px 10px;
-    border-radius: 20px;
-  }
-  
-  .order-status-confirmed {
-    background-color: #007bff;
-    color: white;
-  }
-  
-  .order-status-shipped {
-    background-color: #17a2b8;
-    color: white;
-  }
-  
-  .order-status-delivered {
-    background-color: #28a745;
-    color: white;
-  }
-  
-  .order-status-cancelled {
-    background-color: #dc3545;
-    color: white;
-  }
-  
-  .order-status-returned {
-    background-color: #6c757d;
-    color: white;
-  }
-  
-  .order-actions {
-    margin-top: 15px;
-  }
-  
-  .order-detail-section {
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 5px;
-    margin-bottom: 15px;
-  }
-  
-  .order-timeline {
-    position: relative;
-    padding-left: 30px;
-    margin-top: 20px;
-  }
-  
-  .order-timeline::before {
-    content: '';
-    position: absolute;
-    left: 10px;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: #dee2e6;
-  }
-  
-  .timeline-item {
-    position: relative;
-    padding-bottom: 20px;
-  }
-  
-  .timeline-item:last-child {
-    padding-bottom: 0;
-  }
-  
-  .timeline-item::before {
-    content: '';
-    position: absolute;
-    left: -30px;
-    top: 0;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: #6c757d;
-    border: 3px solid #fff;
-  }
-  
-  .timeline-item.active::before {
-    background: #28a745;
-  }
-  
-  .timeline-date {
-    font-size: 0.8rem;
-    color: #6c757d;
-  }
-  
-  /* Rating Stars */
-  .rating-stars {
-    unicode-bidi: bidi-override;
-    direction: rtl;
-    font-size: 1.5rem;
-  }
-  
-  .rating-stars > span {
-    display: inline-block;
-    position: relative;
-    width: 1.1em;
-    cursor: pointer;
-  }
-  
-  .rating-stars > span:hover:before,
-  .rating-stars > span:hover ~ span:before {
-    content: "★";
-    position: absolute;
-    color: gold;
-  }
-  
-  /* Filter Chips */
-  .filter-chip {
-    display: inline-block;
-    padding: 5px 10px;
-    margin-right: 8px;
-    margin-bottom: 8px;
-    background: #e9ecef;
-    border-radius: 20px;
-    font-size: 0.9rem;
-  }
-  
-  .filter-chip .remove-filter {
-    margin-left: 5px;
-    cursor: pointer;
-  }
-  
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .order-card .card-body > div {
+    /* Search Results Grid */
+    .search-results-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    
+    .search-result-card {
+      width: 100%;
       margin-bottom: 15px;
     }
-  }
-</style>
+    
+    @media (min-width: 768px) {
+      .search-results-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  </style>
 </head>
 <body>
   <!-- Toast Container -->
@@ -896,7 +727,7 @@
       
       <div class="search-results-container">
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <h5 id="searchResultsCount">0 </h5>
+          <h5 id="searchResultsCount">0 products found</h5>
           <div id="searchActiveFilters"></div>
         </div>
         <div class="row" id="searchResultsContainer"></div>
@@ -1183,44 +1014,16 @@
     </div>
   </div>
 
-   <!-- Enhanced Orders Section -->
-   <div id="ordersSection" class="section fade-in">
+  <!-- My Orders Section -->
+  <div id="ordersSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
         <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home"><i class="bi bi-arrow-left"></i> Home</button>
         <h1 class="h5 mb-0">My Orders</h1>
-        <div class="dropdown">
-          <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="ordersFilterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            Filter Orders
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="ordersFilterDropdown">
-            <li><a class="dropdown-item" href="#" onclick="filterOrders('all')">All Orders</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#" onclick="filterOrders('active')">Active Orders</a></li>
-            <li><a class="dropdown-item" href="#" onclick="filterOrders('completed')">Completed Orders</a></li>
-            <li><a class="dropdown-item" href="#" onclick="filterOrders('cancelled')">Cancelled Orders</a></li>
-            <li><a class="dropdown-item" href="#" onclick="filterOrders('returned')">Returned Orders</a></li>
-          </ul>
-        </div>
-      </div>
-    </header>
-    <div class="container my-4" id="ordersList">
-      <!-- Orders will be dynamically loaded here -->
-    </div>
-  </div>
-
-  <!-- Enhanced Order Detail Section -->
-  <div id="orderDetailSection" class="section fade-in">
-    <header class="py-3 border-bottom bg-light">
-      <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('ordersSection')" aria-label="Back to Orders"><i class="bi bi-arrow-left"></i> Back to Orders</button>
-        <h1 class="h5 mb-0">Order Details</h1>
         <div></div>
       </div>
     </header>
-    <div class="container my-4" id="orderDetailPage">
-      <!-- Order details will be dynamically loaded here -->
-    </div>
+    <div class="container my-4" id="ordersList"></div>
   </div>
 
   <!-- Order Detail Section -->
@@ -1363,147 +1166,6 @@
       </div>
     </div>
   </footer>
-   <!-- cancel order modal -->
-  <div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-labelledby="cancelOrderModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="cancelOrderModalLabel">Cancel Order</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p>Are you sure you want to cancel this order?</p>
-          <div class="mb-3">
-            <label for="cancelReason" class="form-label">Reason for cancellation</label>
-            <select class="form-select" id="cancelReason">
-              <option value="">Select a reason</option>
-              <option value="Found better price elsewhere">Found better price elsewhere</option>
-              <option value="No longer needed">No longer needed</option>
-              <option value="Shipping takes too long">Shipping takes too long</option>
-              <option value="Ordered by mistake">Ordered by mistake</option>
-              <option value="Other">Other (please specify)</option>
-            </select>
-          </div>
-          <div class="mb-3" id="otherReasonContainer" style="display: none;">
-            <label for="otherReason" class="form-label">Please specify</label>
-            <textarea class="form-control" id="otherReason" rows="2"></textarea>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-danger" onclick="confirmCancelOrder()">Confirm Cancellation</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- return order modal -->
-  <div class="modal fade" id="returnOrderModal" tabindex="-1" aria-labelledby="returnOrderModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="returnOrderModalLabel">Return Item</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p>Please tell us why you're returning this item:</p>
-          <div class="mb-3">
-            <label for="returnReason" class="form-label">Reason for return</label>
-            <select class="form-select" id="returnReason">
-              <option value="">Select a reason</option>
-              <option value="Wrong size or fit">Wrong size or fit</option>
-              <option value="Item damaged or defective">Item damaged or defective</option>
-              <option value="Not as described">Not as described</option>
-              <option value="Changed my mind">Changed my mind</option>
-              <option value="Other">Other (please specify)</option>
-            </select>
-          </div>
-          <div class="mb-3" id="returnOtherReasonContainer" style="display: none;">
-            <label for="returnOtherReason" class="form-label">Please specify</label>
-            <textarea class="form-control" id="returnOtherReason" rows="2"></textarea>
-          </div>
-          <div class="mb-3">
-            <label for="returnComments" class="form-label">Additional comments</label>
-            <textarea class="form-control" id="returnComments" rows="3"></textarea>
-          </div>
-          <div class="alert alert-info">
-            <p class="mb-0">Please note: Return requests must be made within ${orders[currentOrderIndex].product.returnPolicy} of delivery.</p>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" onclick="confirmReturnOrder()">Submit Return Request</button>
-        </div>
-      </div>
-    </div>
-  </div>
-    <!-- review order modal -->
-  <div class="modal fade" id="reviewOrderModal" tabindex="-1" aria-labelledby="reviewOrderModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="reviewOrderModalLabel">Rate & Review</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="text-center mb-4">
-            <h6>How would you rate this product?</h6>
-            <div class="rating-stars mb-2" id="ratingStars">
-              <span data-value="5">☆</span>
-              <span data-value="4">☆</span>
-              <span data-value="3">☆</span>
-              <span data-value="2">☆</span>
-              <span data-value="1">☆</span>
-            </div>
-            <small class="text-muted" id="ratingText">Tap to rate</small>
-          </div>
-          <div class="mb-3">
-            <label for="reviewTitle" class="form-label">Review Title</label>
-            <input type="text" class="form-control" id="reviewTitle" placeholder="Summarize your experience">
-          </div>
-          <div class="mb-3">
-            <label for="reviewText" class="form-label">Your Review</label>
-            <textarea class="form-control" id="reviewText" rows="4" placeholder="Share details about your experience with this product"></textarea>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" onclick="submitReview()">Submit Review</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-   <!-- view review modal -->
-
-  <div class="modal fade" id="viewReviewModal" tabindex="-1" aria-labelledby="viewReviewModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="viewReviewModalLabel">Your Review</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="text-center mb-4">
-            <div class="rating-stars mb-2">
-              ${'★'.repeat(orders[currentOrderIndex].rating)}${'☆'.repeat(5 - orders[currentOrderIndex].rating)}
-            </div>
-            <h5>${orders[currentOrderIndex].reviewTitle || 'Your Review'}</h5>
-          </div>
-          <div class="mb-3">
-            <p>${orders[currentOrderIndex].review || 'No review text provided.'}</p>
-          </div>
-          <div class="text-muted small">
-            Reviewed on ${orders[currentOrderIndex].reviewDate || 'Unknown date'}
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-
 
   <!-- JavaScript -->
   <script>
@@ -2314,631 +1976,394 @@ function generateProducts(containerId, productList) {
       };
     }
 
-  // Enhanced orders functionality
-  function updateOrdersList(filter = currentOrdersFilter) {
-    currentOrdersFilter = filter;
-    const ordersList = document.getElementById('ordersList');
-    
-    if (!currentUser) {
-      ordersList.innerHTML = `
-        <div class="text-center py-5">
-          <i class="bi bi-box-seam" style="font-size: 3rem; color: #ddd;"></i>
-          <h5 class="mt-3">No orders found</h5>
-          <p>Please log in to view your orders</p>
-          <button class="btn btn-primary mt-2" onclick="showSection('loginSection')">Log In</button>
-        </div>
-      `;
-      return;
-    }
-    
-    const userOrders = orders.filter(order => order.buyer.email === currentUser.email);
-    let filteredOrders = [];
-    
-    switch (filter) {
-      case 'active':
-        filteredOrders = userOrders.filter(order => !order.cancelled && !order.received);
-        break;
-      case 'completed':
-        filteredOrders = userOrders.filter(order => order.received);
-        break;
-      case 'cancelled':
-        filteredOrders = userOrders.filter(order => order.cancelled);
-        break;
-      case 'returned':
-        filteredOrders = userOrders.filter(order => order.returned);
-        break;
-      default:
-        filteredOrders = userOrders;
-    }
-    
-    if (filteredOrders.length === 0) {
-      let message = '';
-      switch (filter) {
-        case 'active':
-          message = 'You have no active orders';
-          break;
-        case 'completed':
-          message = 'You have no completed orders';
-          break;
-        case 'cancelled':
-          message = 'You have no cancelled orders';
-          break;
-        case 'returned':
-          message = 'You have no returned orders';
-          break;
-        default:
-          message = 'You have not placed any orders yet';
-      }
-      
-      ordersList.innerHTML = `
-        <div class="text-center py-5">
-          <i class="bi bi-box-seam" style="font-size: 3rem; color: #ddd;"></i>
-          <h5 class="mt-3">${message}</h5>
-          <button class="btn btn-primary mt-2" onclick="showSection('shopSection')">Start Shopping</button>
-        </div>
-      `;
-      return;
-    }
-    
-    let html = '';
-    filteredOrders.forEach((order, index) => {
-      const originalIndex = orders.findIndex(o => o === order);
-      const productImage = order.product.images && order.product.images.length > 0 ? 
-        order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
-      
-      let statusBadgeClass = '';
-      let statusText = '';
-      
-      if (order.cancelled) {
-        statusBadgeClass = 'order-status-cancelled';
-        statusText = 'Cancelled';
-      } else if (order.returned) {
-        statusBadgeClass = 'order-status-returned';
-        statusText = 'Returned';
-      } else if (order.received) {
-        statusBadgeClass = 'order-status-delivered';
-        statusText = 'Delivered';
-      } else if (order.shipped) {
-        statusBadgeClass = 'order-status-shipped';
-        statusText = 'Shipped';
+    // Update orders list
+    function updateOrdersList() {
+      const ordersList = document.getElementById("ordersList");
+      if (!currentUser || orders.length === 0) {
+        ordersList.innerHTML = "<p>You have not placed any orders yet.</p>";
       } else {
-        statusBadgeClass = 'order-status-confirmed';
-        statusText = 'Confirmed';
-      }
-      
-      html += `
-        <div class="card order-card mb-3" onclick="showOrderDetailPage(${originalIndex})">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <div>
-              <span class="fw-bold">Order #${originalIndex + 1}</span>
-              <span class="text-muted ms-2">${order.date}</span>
-            </div>
-            <span class="order-status-badge ${statusBadgeClass}">${statusText}</span>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-12 col-md-4 mb-3 mb-md-0">
-                <img src="${productImage}" class="img-fluid rounded" alt="${order.product.name}" style="max-height: 120px;">
+        let html = "";
+        const userOrders = orders.filter(order => order.buyer.email === currentUser.email);
+        userOrders.forEach((order) => {
+          const originalIndex = orders.indexOf(order);
+          const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
+          html += `
+            <div class="card mb-3 shadow-sm product-card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Order #${originalIndex + 1} - ${order.date}</span>
+                <div class="dropdown">
+                  <button class="btn btn-sm btn-light" type="button" id="dropdownMenuButton${originalIndex}" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-three-dots-vertical"></i>
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton${originalIndex}">
+                    <li><a class="dropdown-item" href="#" onclick="deleteOrder(${originalIndex}); event.stopPropagation();">Delete Order</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="showOrderDetailPage(${originalIndex}); event.stopPropagation();">View Details</a></li>
+                  </ul>
+                </div>
               </div>
-              <div class="col-12 col-md-5">
-                <h6>${order.product.name}</h6>
-                <p class="mb-1">Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor}</p>
-                <p class="mb-1">Qty: 1</p>
-                <p class="fw-bold">₹${order.product.price.toFixed(2)}</p>
-              </div>
-              <div class="col-12 col-md-3 text-md-end">
-                <button class="btn btn-sm btn-outline-primary" onclick="event.stopPropagation(); showOrderDetailPage(${originalIndex})">
-                  View Details
-                </button>
+              <div class="card-body d-flex align-items-center" onclick="showOrderDetailPage(${originalIndex})" style="cursor:pointer;">
+                <img src="${productImage}" style="max-height:50px; margin-right:10px;" alt="${order.product.name}">
+                <div>
+                  <span>${order.product.name} (Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor})</span><br>
+                  <span class="badge bg-${order.cancelled ? 'danger' : (order.received ? 'success' : 'primary')} ms-2">${order.cancelled ? 'Cancelled' : (order.received ? 'Received' : 'Active')}</span>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      `;
-    });
-    
-    ordersList.innerHTML = html;
-  }
-  
-  // Filter orders
-  function filterOrders(filter) {
-    currentOrdersFilter = filter;
-    updateOrdersList(filter);
-  }
-  
-  // Enhanced showOrderDetailPage function
-  function showOrderDetailPage(orderIndex) {
-    currentOrderIndex = orderIndex;
-    const order = orders[orderIndex];
-    const productImage = order.product.images && order.product.images.length > 0 ? 
-      order.product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(order.product.name);
-    
-    let statusBadgeClass = '';
-    let statusText = '';
-    
-    if (order.cancelled) {
-      statusBadgeClass = 'order-status-cancelled';
-      statusText = 'Cancelled';
-    } else if (order.returned) {
-      statusBadgeClass = 'order-status-returned';
-      statusText = 'Returned';
-    } else if (order.received) {
-      statusBadgeClass = 'order-status-delivered';
-      statusText = 'Delivered';
-    } else if (order.shipped) {
-      statusBadgeClass = 'order-status-shipped';
-      statusText = 'Shipped';
-    } else {
-      statusBadgeClass = 'order-status-confirmed';
-      statusText = 'Confirmed';
+          `;
+        });
+        ordersList.innerHTML = html || "<p>You have not placed any orders yet.</p>";
+      }
     }
-    
-    // Calculate delivery date range
-    const daysRange = order.product.deliveryTime.match(/\d+-\d+/)[0];
-    const [minDays, maxDays] = daysRange.split('-').map(Number);
-    const orderDate = new Date(order.date);
-    const minDeliveryDate = new Date(orderDate);
-    minDeliveryDate.setDate(orderDate.getDate() + minDays);
-    const maxDeliveryDate = new Date(orderDate);
-    maxDeliveryDate.setDate(orderDate.getDate() + maxDays);
-    
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const formattedMinDate = minDeliveryDate.toLocaleDateString('en-US', options);
-    const formattedMaxDate = maxDeliveryDate.toLocaleDateString('en-US', options);
-    
-    // Timeline items
-    let timelineItems = [
-      { 
-        date: order.date, 
-        title: 'Order Placed', 
-        description: 'Your order has been confirmed', 
-        active: true 
+
+
+    // Delete order
+    function deleteOrder(index) {
+      if (confirm("Are you sure you want to delete this order? This action cannot be undone.")) {
+        const deletedOrder = orders[index];
+        orders.splice(index, 1);
+        showNotification("Order deleted successfully.", "info");
+        notifyOwner(`Order deleted by: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email}) for product: ${deletedOrder.product.name} - Order #${index + 1}`);
+        saveData();
+        updateOrdersList();
       }
-    ];
-    
-    if (order.shipped) {
-      timelineItems.push({
-        date: order.shippedDate || order.date,
-        title: 'Shipped',
-        description: 'Your order has been shipped',
-        active: true
-      });
     }
+
+    function showOrderDetailPage(orderIndex) {
+      currentOrderIndex = orderIndex;
+      const order = orders[orderIndex];
+      const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(order.product.name);
+      const originalPrice = (order.product.price * 1.2).toFixed(2);
+      const discount = ((originalPrice - order.product.price) / originalPrice * 100).toFixed(0);
+      const deliveryTime = order.product.deliveryTime;
+      const daysRange = deliveryTime.match(/\d+-\d+/)[0];
+      const maxDays = parseInt(daysRange.split("-")[1]);
+      const orderDate = new Date(order.date);
+      const estimatedDeliveryDate = new Date(orderDate);
+      estimatedDeliveryDate.setDate(orderDate.getDate() + maxDays);
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const formattedDate = estimatedDeliveryDate.toLocaleDateString('en-US', options);
     
-    if (order.received) {
-      timelineItems.push({
-        date: order.receivedDate || order.date,
-        title: 'Delivered',
-        description: 'Your order has been delivered',
-        active: true
-      });
-    } else {
-      timelineItems.push({
-        date: '',
-        title: 'Estimated Delivery',
-        description: `Expected between ${formattedMinDate} and ${formattedMaxDate}`,
-        active: false
-      });
-    }
-    
-    let timelineHtml = '';
-    timelineItems.forEach((item, idx) => {
-      timelineHtml += `
-        <div class="timeline-item ${item.active ? 'active' : ''}">
-          <h6>${item.title}</h6>
-          <p class="mb-1">${item.description}</p>
-          ${item.date ? `<p class="timeline-date text-muted">${item.date}</p>` : ''}
-        </div>
-      `;
-    });
-    
-      // Action buttons
-      let actionButtons = '';
-      if (!order.cancelled && !order.received && !order.returned) {
-        actionButtons += `
-          <button class="btn btn-success me-2" onclick="markAsReceived(${orderIndex})">
-            <i class="bi bi-check-circle me-1"></i> Mark as Received
-          </button>
-          <button class="btn btn-outline-danger me-2" data-bs-toggle="modal" data-bs-target="#cancelOrderModal">
-            <i class="bi bi-x-circle me-1"></i> Cancel Order
-          </button>
-        `;
-      }
-      
-      if (order.received && !order.returned && !order.rating) {
-        actionButtons += `
-          <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#reviewOrderModal">
-            <i class="bi bi-star me-1"></i> Rate & Review
-          </button>
-          <button class="btn btn-outline-secondary me-2" data-bs-toggle="modal" data-bs-target="#returnOrderModal">
-            <i class="bi bi-arrow-return-left me-1"></i> Return Item
-          </button>
-        `;
-      }
-      
-      if (order.received && order.returned) {
-        actionButtons += `
-          <button class="btn btn-outline-secondary disabled me-2">
-            <i class="bi bi-arrow-return-left me-1"></i> Return Requested
-          </button>
-        `;
-      }
-      
-      if (order.received && order.rating) {
-        actionButtons += `
-          <button class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#viewReviewModal">
-            <i class="bi bi-star-fill me-1"></i> View Your Review
-          </button>
-        `;
-      }
-    
-    // Original price display if there was a discount
-    let originalPriceDisplay = '';
-    if (order.product.originalPrice && order.product.originalPrice > order.product.price) {
-      originalPriceDisplay = `<s>₹${order.product.originalPrice.toFixed(2)}</s> `;
-    }
-    
-    const detailContent = `
+      let detailContent = `
+      <h3>Order #${orderIndex + 1}</h3>
+      <p><strong>Date:</strong> ${order.date}</p>
+      <hr>
+      <h5>Product Details</h5>
       <div class="row">
-        <div class="col-md-8">
-          <div class="order-detail-section">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-              <h4>Order #${orderIndex + 1}</h4>
-              <span class="order-status-badge ${statusBadgeClass}">${statusText}</span>
-            </div>
-            
-            <div class="order-timeline">
-              ${timelineHtml}
-            </div>
-            
-            ${order.cancelled && order.cancellationReason ? `
-              <div class="alert alert-danger mt-3">
-                <h6>Cancellation Reason</h6>
-                <p>${order.cancellationReason}</p>
-              </div>
-            ` : ''}
-            
-            ${order.returned && order.returnReason ? `
-              <div class="alert alert-warning mt-3">
-                <h6>Return Reason</h6>
-                <p>${order.returnReason}</p>
-                ${order.returnStatus ? `<p class="mb-0"><strong>Status:</strong> ${order.returnStatus}</p>` : ''}
-              </div>
-            ` : ''}
-            
-            <div class="order-actions mt-4">
-              ${actionButtons}
-            
-              </button>
-            </div>
-          </div>
+        <div class="col-12 col-md-6">
+          <img src="${productImage}" class="img-fluid" alt="${order.product.name}">
         </div>
-        
-        <div class="col-md-4">
-          <div class="order-detail-section">
-            <h5 class="mb-3">Order Summary</h5>
-            
-            <div class="d-flex mb-3">
-              <img src="${productImage}" class="rounded me-3" style="width: 80px; height: 80px; object-fit: cover;" alt="${order.product.name}">
-              <div>
-                <h6>${order.product.name}</h6>
-                <p class="mb-1 small">Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor}</p>
-                <p class="mb-1 small">Qty: 1</p>
-                <p class="fw-bold">${originalPriceDisplay}₹${order.product.price.toFixed(2)}</p>
-              </div>
-            </div>
-            
-            <hr>
-            
-            <div class="mb-2 d-flex justify-content-between">
-              <span>Subtotal:</span>
-              <span>₹${order.product.price.toFixed(2)}</span>
-            </div>
-            <div class="mb-2 d-flex justify-content-between">
-              <span>Shipping:</span>
-              <span>FREE</span>
-            </div>
-            <div class="mb-3 d-flex justify-content-between">
-              <span>Tax:</span>
-              <span>₹0.00</span>
-            </div>
-            
-            <hr>
-            
-            <div class="d-flex justify-content-between fw-bold">
-              <span>Total:</span>
-              <span>₹${order.product.price.toFixed(2)}</span>
-            </div>
-            
-            <hr>
-            
-            <h6 class="mb-2">Payment Method</h6>
-            <p class="mb-3">${order.payment}</p>
-            
-            <h6 class="mb-2">Shipping Address</h6>
-            <p class="mb-1">${order.address}</p>
-            <p class="mb-3">Phone: ${order.mobile}</p>
-            
-            <button class="btn btn-outline-primary w-100" onclick="showProductDetails(${order.product.id})">
-              <i class="bi bi-cart me-1"></i> Buy Again
-            </button>
-          </div>
+        <div class="col-12 col-md-6">
+          <p><strong>Name:</strong> ${order.product.name}</p>
+          <p><strong>Description:</strong> ${order.product.description}</p>
+          <p><strong>Selected Size:</strong> ${order.product.selectedSize}</p>
+          <p><strong>Selected Color:</strong> ${order.product.selectedColor}</p>
+          <p><strong>Price:</strong> <s>₹${originalPrice}</s> ₹${order.product.price.toFixed(2)} <span class="badge bg-success"><i class="bi bi-arrow-down"></i> ${discount}% off</span></p>
         </div>
       </div>
-    `;
-    
-    document.getElementById("orderDetailPage").innerHTML = detailContent;
-    showSection("orderDetailSection");
-  }
-  
- 
-  
-  // Confirm order cancellation
-  function confirmCancelOrder() {
-    const reasonSelect = document.getElementById('cancelReason');
-    const otherReason = document.getElementById('otherReason');
-    let reason = reasonSelect.value;
-    
-    if (reason === '') {
-      showNotification('Please select a cancellation reason', 'warning');
-      return;
-    }
-    
-    if (reason === 'Other') {
-      reason = otherReason.value.trim();
-      if (reason === '') {
-        showNotification('Please specify the cancellation reason', 'warning');
-        return;
-      }
-    }
-    
-    orders[currentOrderIndex].cancelled = true;
-    orders[currentOrderIndex].cancellationReason = reason;
-    orders[currentOrderIndex].cancellationDate = new Date().toLocaleString();
-    
-    showNotification('Order has been cancelled', 'info');
-    saveData();
-    
-    const modal = bootstrap.Modal.getInstance(document.getElementById('cancelOrderModal'));
-    modal.hide();
-    
-    // Refresh order details view
-    setTimeout(() => {
-      showOrderDetailPage(currentOrderIndex);
-      updateOrdersList(currentOrdersFilter);
-    }, 500);
-  }
-  
-  // Return Order Modal (add this to your HTML)
-  /*
-  <div class="modal fade" id="returnOrderModal" tabindex="-1" aria-labelledby="returnOrderModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="returnOrderModalLabel">Return Item</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <hr>
+      <h5>Shipping Details</h5>
+      <p><strong>Address:</strong> ${order.address}</p>
+      <p><strong>Mobile:</strong> ${order.mobile}</p>
+      <p><strong>Payment Method:</strong> ${order.payment}</p>
+      ${!order.cancelled && !order.received ? `
+        <p><strong>Estimated Delivery:</strong> ${formattedDate}</p>
+      ` : ''}
+      <hr>
+      <h5>Order Status</h5>
+      <div class="track-bar ${order.received ? 'received' : (order.cancelled ? 'cancelled' : '')}">
+        <div class="track-step active">
+          <span>1</span>
+          <small>Ordered</small>
         </div>
-        <div class="modal-body">
-          <p>Please tell us why you're returning this item:</p>
+        <div class="track-step ${order.received ? 'active' : (order.cancelled ? 'cancelled' : '')}">
+          <span>2</span>
+          <small>${order.cancelled ? 'Cancelled' : 'Received'}</small>
+        </div>
+      </div>
+      `;
+    
+      // Add explicit status messages
+      if (order.cancelled) {
+        detailContent += `<p class="mt-3 text-danger"><strong>Status:</strong> Cancelled</p>`;
+        if (order.cancellationReason) {
+          detailContent += `<p><strong>Reason:</strong> ${order.cancellationReason}</p>`;
+        }
+      } else if (order.received) {
+        detailContent += `<p class="mt-3 text-success"><strong>Status:</strong> Delivered on ${order.receivedDate}</p>`;
+      } else {
+        detailContent += `<p class="mt-3 text-info"><strong>Status:</strong> In Progress</p>`;
+        detailContent += `<p>Estimated delivery by ${formattedDate}</p>`;
+      }
+    
+      // Action buttons and review section
+      if (!order.cancelled && !order.received) {
+        detailContent += `
+          <button class="btn btn-success mt-3" onclick="markAsReceived(${orderIndex})">Mark as Received</button>
+          <button class="btn btn-danger mt-3 ms-2" onclick="cancelOrder(); showOrderDetailPage(${orderIndex})">Cancel Order</button>
+        `;
+      } else if (order.received && !order.rating) {
+        detailContent += `
+          <h5 class="mt-3">Leave a Review</h5>
           <div class="mb-3">
-            <label for="returnReason" class="form-label">Reason for return</label>
-            <select class="form-select" id="returnReason">
-              <option value="">Select a reason</option>
-              <option value="Wrong size or fit">Wrong size or fit</option>
-              <option value="Item damaged or defective">Item damaged or defective</option>
-              <option value="Not as described">Not as described</option>
-              <option value="Changed my mind">Changed my mind</option>
-              <option value="Other">Other (please specify)</option>
+            <label for="rating-${orderIndex}" class="form-label">Rating</label>
+            <select id="rating-${orderIndex}" class="form-select">
+              <option value="">Select Rating</option>
+              <option value="1">1 Star</option>
+              <option value="2">2 Stars</option>
+              <option value="3">3 Stars</option>
+              <option value="4">4 Stars</option>
+              <option value="5">5 Stars</option>
             </select>
           </div>
-          <div class="mb-3" id="returnOtherReasonContainer" style="display: none;">
-            <label for="returnOtherReason" class="form-label">Please specify</label>
-            <textarea class="form-control" id="returnOtherReason" rows="2"></textarea>
-          </div>
           <div class="mb-3">
-            <label for="returnComments" class="form-label">Additional comments</label>
-            <textarea class="form-control" id="returnComments" rows="3"></textarea>
+            <label for="review-${orderIndex}" class="form-label">Review</label>
+            <textarea id="review-${orderIndex}" class="form-control" rows="3"></textarea>
           </div>
-          <div class="alert alert-info">
-            <p class="mb-0">Please note: Return requests must be made within ${orders[currentOrderIndex].product.returnPolicy} of delivery.</p>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" onclick="confirmReturnOrder()">Submit Return Request</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  */
-  
-  // Confirm return order
-  function confirmReturnOrder() {
-    const reasonSelect = document.getElementById('returnReason');
-    const otherReason = document.getElementById('returnOtherReason');
-    const comments = document.getElementById('returnComments');
-    let reason = reasonSelect.value;
+          <button class="btn btn-primary" onclick="submitReview(${orderIndex})">Submit Review</button>
+        `;
+      } else if (order.received && order.rating) {
+        detailContent += `
+          <h5 class="mt-3">Your Review</h5>
+          <p><strong>Rating:</strong> ${order.rating} Stars</p>
+          <p><strong>Review:</strong> ${order.review || 'No review provided.'}</p>
+        `;
+      }
     
-    if (reason === '') {
-      showNotification('Please select a return reason', 'warning');
-      return;
+      detailContent += `
+        <div class="mt-3">
+          <button class="btn btn-secondary" onclick="showSection('ordersSection')">Back to Orders</button>
+          <button class="btn btn-primary ms-2" onclick="showProductDetails(${order.product.id})">View Product Details</button>
+        </div>
+      `;
+    
+      document.getElementById("orderDetailPage").innerHTML = detailContent;
+      showSection("orderDetailSection");
     }
-    
-    if (reason === 'Other') {
-      reason = otherReason.value.trim();
-      if (reason === '') {
-        showNotification('Please specify the return reason', 'warning');
-        return;
+    // Mark order as received
+    function markAsReceived(orderIndex) {
+      if (confirm("Are you sure you have received this order?")) {
+        orders[orderIndex].received = true;
+        orders[orderIndex].receivedDate = new Date().toLocaleString();
+        showNotification("Order marked as received.", "success");
+        notifyOwner(`Order #${orderIndex + 1} has been marked as received by ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email}).`);
+        saveData();
+        showOrderDetailPage(orderIndex);
       }
     }
-    
-    orders[currentOrderIndex].returned = true;
-    orders[currentOrderIndex].returnReason = reason;
-    orders[currentOrderIndex].returnComments = comments.value.trim();
-    orders[currentOrderIndex].returnDate = new Date().toLocaleString();
-    orders[currentOrderIndex].returnStatus = 'Return requested - pending approval';
-    
-    showNotification('Return request has been submitted', 'success');
-    saveData();
-    
-    const modal = bootstrap.Modal.getInstance(document.getElementById('returnOrderModal'));
-    modal.hide();
-    
-    // Refresh order details view
-    setTimeout(() => {
-      showOrderDetailPage(currentOrderIndex);
-      updateOrdersList(currentOrdersFilter);
-    }, 500);
-  }
-  
-  // Review Order Modal (add this to your HTML)
-  /*
-  <div class="modal fade" id="reviewOrderModal" tabindex="-1" aria-labelledby="reviewOrderModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="reviewOrderModalLabel">Rate & Review</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="text-center mb-4">
-            <h6>How would you rate this product?</h6>
-            <div class="rating-stars mb-2" id="ratingStars">
-              <span data-value="5">☆</span>
-              <span data-value="4">☆</span>
-              <span data-value="3">☆</span>
-              <span data-value="2">☆</span>
-              <span data-value="1">☆</span>
-            </div>
-            <small class="text-muted" id="ratingText">Tap to rate</small>
-          </div>
-          <div class="mb-3">
-            <label for="reviewTitle" class="form-label">Review Title</label>
-            <input type="text" class="form-control" id="reviewTitle" placeholder="Summarize your experience">
-          </div>
-          <div class="mb-3">
-            <label for="reviewText" class="form-label">Your Review</label>
-            <textarea class="form-control" id="reviewText" rows="4" placeholder="Share details about your experience with this product"></textarea>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" onclick="submitReview()">Submit Review</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  */
-  
-  // View Review Modal (add this to your HTML)
-  /*
-  <div class="modal fade" id="viewReviewModal" tabindex="-1" aria-labelledby="viewReviewModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="viewReviewModalLabel">Your Review</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="text-center mb-4">
-            <div class="rating-stars mb-2">
-              ${'★'.repeat(orders[currentOrderIndex].rating)}${'☆'.repeat(5 - orders[currentOrderIndex].rating)}
-            </div>
-            <h5>${orders[currentOrderIndex].reviewTitle || 'Your Review'}</h5>
-          </div>
-          <div class="mb-3">
-            <p>${orders[currentOrderIndex].review || 'No review text provided.'}</p>
-          </div>
-          <div class="text-muted small">
-            Reviewed on ${orders[currentOrderIndex].reviewDate || 'Unknown date'}
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  */
-  
-  // Submit review
-  function submitReview() {
-    const rating = document.querySelector('#ratingStars span[data-value]:hover')?.getAttribute('data-value') || 
-                   document.querySelector('#ratingStars span:hover ~ span')?.getAttribute('data-value');
-    
-    if (!rating) {
-      showNotification('Please select a rating', 'warning');
+
+    // Submit review and rating
+    function submitReview(orderIndex) {
+      const rating = document.getElementById(`rating-${orderIndex}`).value;
+      const review = document.getElementById(`review-${orderIndex}`).value;
+      if (!rating) {
+        showNotification("Please select a rating.", "warning");
+        return;
+      }
+      orders[orderIndex].rating = parseInt(rating);
+      orders[orderIndex].review = review;
+      showNotification("Thank you for your review!", "success");
+      saveData();
+      showOrderDetailPage(orderIndex);
+    }
+
+    // Cancel order
+function cancelOrder() {
+    const order = orders[currentOrderIndex];
+    if (order.cancelled) {
+      showNotification("This order is already cancelled.", "warning");
       return;
     }
-    
-    const title = document.getElementById('reviewTitle').value.trim();
-    const text = document.getElementById('reviewText').value.trim();
-    
-    orders[currentOrderIndex].rating = parseInt(rating);
-    orders[currentOrderIndex].reviewTitle = title;
-    orders[currentOrderIndex].review = text;
-    orders[currentOrderIndex].reviewDate = new Date().toLocaleString();
-    
-    // Also update the product's rating
-    const product = products.find(p => p.id === orders[currentOrderIndex].product.id);
-    if (product) {
-      // This is a simplified approach - in a real app you'd want to store individual reviews
-      const newReviewCount = (product.reviewCount || 0) + 1;
-      const newRating = ((product.rating || 0) * (product.reviewCount || 0) + parseInt(rating)) / newReviewCount;
-      product.rating = newRating;
-      product.reviewCount = newReviewCount;
-    }
-    
-    showNotification('Thank you for your review!', 'success');
-    saveData();
-    
-    const modal = bootstrap.Modal.getInstance(document.getElementById('reviewOrderModal'));
-    modal.hide();
-    
-    // Refresh order details view
-    setTimeout(() => {
-      showOrderDetailPage(currentOrderIndex);
-      updateOrdersList(currentOrdersFilter);
-    }, 500);
-  }
   
-  // Initialize the application
-  function init() {
-    loadData();
-    initSearch();
+    // Create a modal/dialog with cancellation options
+    const modal = document.createElement('div');
+    modal.style.position = 'fixed';
+    modal.style.top = '0';
+    modal.style.left = '0';
+    modal.style.width = '100%';
+    modal.style.height = '100%';
+    modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
+    modal.style.display = 'flex';
+    modal.style.justifyContent = 'center';
+    modal.style.alignItems = 'center';
+    modal.style.zIndex = '1000';
+  
+    const modalContent = document.createElement('div');
+    modalContent.style.backgroundColor = 'white';
+    modalContent.style.padding = '20px';
+    modalContent.style.borderRadius = '8px';
+    modalContent.style.width = '400px';
+    modalContent.style.maxWidth = '90%';
+  
+    const title = document.createElement('h3');
+    title.textContent = 'Cancel Order';
+    modalContent.appendChild(title);
+  
+    const reasonLabel = document.createElement('label');
+    reasonLabel.textContent = 'Select a reason for cancellation:';
+    reasonLabel.style.display = 'block';
+    reasonLabel.style.marginBottom = '10px';
+    modalContent.appendChild(reasonLabel);
+  
+    const reasonSelect = document.createElement('select');
+    reasonSelect.style.width = '100%';
+    reasonSelect.style.padding = '8px';
+    reasonSelect.style.marginBottom = '15px';
+    reasonSelect.style.borderRadius = '4px';
     
-    // Event listener for cancel reason select
-    document.getElementById('cancelReason')?.addEventListener('change', function() {
-      document.getElementById('otherReasonContainer').style.display = 
-        this.value === 'Other' ? 'block' : 'none';
+    // Predefined cancellation reasons
+    const reasons = [
+      {value: 'changed-mind', text: 'Changed my mind'},
+      {value: 'found-better-price', text: 'Found a better price elsewhere'},
+      {value: 'shipping-delay', text: 'Shipping takes too long'},
+      {value: 'ordered-wrong-item', text: 'Ordered wrong item by mistake'},
+      {value: 'no-longer-needed', text: 'No longer needed'},
+      {value: 'payment-issue', text: 'Payment issue'},
+      {value: 'other', text: 'Other reason'}
+    ];
+  
+    reasons.forEach(reason => {
+      const option = document.createElement('option');
+      option.value = reason.value;
+      option.textContent = reason.text;
+      reasonSelect.appendChild(option);
     });
+  
+    modalContent.appendChild(reasonSelect);
+  
+    const otherReasonContainer = document.createElement('div');
+    otherReasonContainer.style.display = 'none';
+    otherReasonContainer.style.marginBottom = '15px';
     
-    // Event listener for return reason select
-    document.getElementById('returnReason')?.addEventListener('change', function() {
-      document.getElementById('returnOtherReasonContainer').style.display = 
-        this.value === 'Other' ? 'block' : 'none';
+    const otherReasonLabel = document.createElement('label');
+    otherReasonLabel.textContent = 'Please specify:';
+    otherReasonLabel.style.display = 'block';
+    otherReasonLabel.style.marginBottom = '5px';
+    otherReasonContainer.appendChild(otherReasonLabel);
+    
+    const otherReasonInput = document.createElement('textarea');
+    otherReasonInput.style.width = '100%';
+    otherReasonInput.style.padding = '8px';
+    otherReasonInput.style.borderRadius = '4px';
+    otherReasonInput.style.minHeight = '60px';
+    otherReasonContainer.appendChild(otherReasonInput);
+    
+    modalContent.appendChild(otherReasonContainer);
+  
+    // Show/hide other reason field based on selection
+    reasonSelect.addEventListener('change', () => {
+      otherReasonContainer.style.display = reasonSelect.value === 'other' ? 'block' : 'none';
     });
-    
-    // Event listener for rating stars
-    const ratingStars = document.getElementById('ratingStars');
-    if (ratingStars) {
-      ratingStars.addEventListener('mouseover', function(e) {
-        if (e.target.tagName === 'SPAN') {
-          const value = e.target.getAttribute('data-value');
-          document.getElementById('ratingText').textContent = 
-            ['Poor', 'Fair', 'Good', 'Very Good', 'Excellent'][value - 1];
-        }
-      });
+  
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.display = 'flex';
+    buttonContainer.style.justifyContent = 'flex-end';
+    buttonContainer.style.gap = '10px';
+  
+    const cancelButton = document.createElement('button');
+    cancelButton.textContent = 'Go Back';
+    cancelButton.style.padding = '8px 16px';
+    cancelButton.addEventListener('click', () => {
+      document.body.removeChild(modal);
+    });
+    buttonContainer.appendChild(cancelButton);
+  
+    const confirmButton = document.createElement('button');
+    confirmButton.textContent = 'Confirm Cancellation';
+    confirmButton.style.padding = '8px 16px';
+    confirmButton.style.backgroundColor = '#dc3545';
+    confirmButton.style.color = 'white';
+    confirmButton.style.border = 'none';
+    confirmButton.style.borderRadius = '4px';
+    confirmButton.addEventListener('click', () => {
+      let reason = reasonSelect.options[reasonSelect.selectedIndex].text;
       
-      ratingStars.addEventListener('mouseout', function() {
-        document.getElementById('ratingText').textContent = 'Tap to rate';
-      });
-    }
-  }
+      if (reasonSelect.value === 'other') {
+        if (!otherReasonInput.value.trim()) {
+          showNotification("Please specify the cancellation reason.", "warning");
+          return;
+        }
+        reason = otherReasonInput.value.trim();
+      }
   
-  // Call init when DOM is loaded
-  document.addEventListener('DOMContentLoaded', init);
+      orders[currentOrderIndex].cancelled = true;
+      orders[currentOrderIndex].cancellationReason = reason;
+      showNotification("Your order has been cancelled.", "danger");
+      notifyOwner(`Order cancelled by: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email}) for product: ${order.product.name} - Order #${currentOrderIndex + 1}`);
+      saveData();
+      updateOrdersList();
+      document.body.removeChild(modal);
+    });
+    buttonContainer.appendChild(confirmButton);
+  
+    modalContent.appendChild(buttonContainer);
+    modal.appendChild(modalContent);
+    document.body.appendChild(modal);
+  }
 
+    // Track order 
+    function trackOrder() {
+      const order = orders[currentOrderIndex];
+      if (order.cancelled) {
+        showNotification("Tracking not available for cancelled orders.", "warning");
+        return;
+      }
+      let progress = order.trackingStatus === "Shipped" ? 50 : order.trackingStatus === "Out for Delivery" ? 75 : order.trackingStatus === "Delivered" ? 100 : 25;
+      const mapSrc = order.address ? `https://www.google.com/maps?q=${encodeURIComponent(order.address)}&output=embed` : "https://www.google.com/maps?q=New+York&output=embed";
+      const trackingInfo = `
+        <div class="mb-3">
+          <h6>Order Progress: ${progress}%</h6>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: ${progress}%;" aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100">${progress}%</div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <h6>Track Your Order at Your Shipping Address</h6>
+          <iframe src="${mapSrc}" width="100%" height="300" style="border:0;" allowfullscreen=""></iframe>
+        </div>
+      `;
+      document.getElementById("trackOrderContent").innerHTML = trackingInfo;
+      const trackModal = new bootstrap.Modal(document.getElementById("trackOrderModal"));
+      trackModal.show();
+    }
+
+    // Show product images modal with swipe functionality
+    function showProductImagesModal(productId) {
+      const product = products.find(p => p.id === productId);
+      const carouselInner = document.getElementById("carouselInner");
+      carouselInner.innerHTML = "";
+      if (product.images && product.images.length > 0) {
+        product.images.forEach((img, index) => {
+          const activeClass = index === 0 ? 'active' : '';
+          carouselInner.innerHTML += `
+            <div class="carousel-item ${activeClass}">
+              <img src="${img}" class="d-block w-100" alt="${product.name} image ${index + 1}">
+            </div>
+          `;
+        });
+      } else {
+        carouselInner.innerHTML = `<div class="carousel-item active"><img src="https://via.placeholder.com/400x300?text=${encodeURIComponent(product.name)}" class="d-block w-100" alt="${product.name}"></div>`;
+      }
+      const productImagesModal = new bootstrap.Modal(document.getElementById("productImagesModal"));
+      productImagesModal.show();
+
+      const carousel = document.getElementById('productCarousel');
+      let touchStartX = 0;
+      let touchEndX = 0;
+
+      carousel.addEventListener('touchstart', function(event) {
+        touchStartX = event.changedTouches[0].screenX;
+      }, false);
+
+      carousel.addEventListener('touchend', function(event) {
+        touchEndX = event.changedTouches[0].screenX;
+        if (touchEndX < touchStartX - 50) {
+          bootstrap.Carousel.getInstance(carousel).next();
+        }
+        if (touchEndX > touchStartX + 50) {
+          bootstrap.Carousel.getInstance(carousel).prev();
+        }
+      }, false);
+    }
 
     // Update menu account details
     function updateMenuAccountDetails() {
@@ -3097,7 +2522,7 @@ function displaySearchResults(results) {
     container.innerHTML = `
       <div class="col-12 text-center py-5">
         <i class="bi bi-search" style="font-size: 3rem; color: #ccc;"></i>
-        <h4 class="mt-3">No </h4>
+        <h4 class="mt-3">No products found</h4>
         <p>Try adjusting your search or filters</p>
         <button class="btn btn-primary" onclick="clearSearchFilters()">Clear all filters</button>
       </div>
@@ -3170,7 +2595,7 @@ function clearSearchFilters() {
   document.getElementById("searchSort").value = "relevance";
   document.getElementById("searchActiveFilters").innerHTML = "";
   displaySearchResults(products);
-  document.getElementById("searchResultsCount").textContent = `${products.length} `;
+  document.getElementById("searchResultsCount").textContent = `${products.length} products found`;
 }
 
     // Login form submission
