@@ -2699,13 +2699,7 @@ function generateProducts(containerId, productList) {
           </button>
         </div>
       `;
-      if (isWithinDeliveryWindow) {
-        actionButtons += `
-          <button class="btn btn-outline-danger me-2" data-bs-toggle="modal" data-bs-target="#cancelOrderModal">
-            <i class="bi bi-x-circle me-1"></i> Cancel Order
-          </button>
-        `;
-      }
+     
     }
     if (order.received && !order.rating) {
       actionButtons += `
