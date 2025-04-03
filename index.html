@@ -323,28 +323,6 @@
       z-index: 1100; 
     }
     
-    /* Filter Section */
-    #filterSection { 
-      margin-top: 40px; /* Increased from 20px to 40px */
-      border-top: 2px solid var(--primary-color); 
-      padding-top: 40px; 
-      background-color: #e9f0fa; 
-      border-radius: 8px;
-      padding: 15px;
-    }
-    
-    .filter-tags { 
-      margin-top: 50px; 
-    }
-    
-    .filter-tags .badge { 
-      cursor: pointer; 
-      margin-right: 8px;
-      margin-bottom: 8px;
-      padding: 80px 12px;
-      font-weight: normal;
-    }
-    
     /* Product Detail Styling */
     .product-detail-img { 
       max-height: 400px; 
@@ -360,23 +338,22 @@
       transform: scale(1.03);
     }
     
-     /* Footer Navigation - Modified Padding */
-     .footer-nav {
-        background: white;
-        border-top: 1px solid #ddd;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 1200;
-        padding: 1px 0; 
-      }
-      .footer-nav .nav-item { text-align: center; flex: 1; position: relative; }
-      .footer-nav .nav-link { color: black; font-size: 1rem; transition: color 0.3s ease; position: relative; }
-      .footer-nav .nav-text { font-size: 0.75rem; color: black; }
-      .footer-nav .nav-link:hover, .footer-nav .nav-link:hover .nav-text { color: #ffdd57; }
-      .footer-nav .badge { position: absolute; top: -5px; right: -10px; background-color: #ffdd57; color: #000; font-size: 0.6rem; padding: 2px 5px; border-radius: 50%; }
-  
+    /* Footer Navigation - Modified Padding */
+    .footer-nav {
+      background: white;
+      border-top: 1px solid #ddd;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 1200;
+      padding: 1px 0; 
+    }
+    .footer-nav .nav-item { text-align: center; flex: 1; position: relative; }
+    .footer-nav .nav-link { color: black; font-size: 1rem; transition: color 0.3s ease; position: relative; }
+    .footer-nav .nav-text { font-size: 0.75rem; color: black; }
+    .footer-nav .nav-link:hover, .footer-nav .nav-link:hover .nav-text { color: #ffdd57; }
+    .footer-nav .badge { position: absolute; top: -5px; right: -10px; background-color: #ffdd57; color: #000; font-size: 0.6rem; padding: 2px 5px; border-radius: 50%; }
     
     /* Wishlist Button Styling */
     .wishlist-btn { 
@@ -397,22 +374,22 @@
       transform: scale(1.1);
     }
     
-   /* Dynamic Hover Effects */
-   .btn:hover { 
-    transform: translateY(-2px); 
-    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-  }
-  
-  .card:hover { 
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
-    transform: translateY(-5px);
-  }
-  
-  .card {
-    transition: all 0.3s ease;
-    border: none;
-    overflow: hidden;
-  }
+    /* Dynamic Hover Effects */
+    .btn:hover { 
+      transform: translateY(-2px); 
+      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    }
+    
+    .card:hover { 
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
+      transform: translateY(-5px);
+    }
+    
+    .card {
+      transition: all 0.3s ease;
+      border: none;
+      overflow: hidden;
+    }
     
     /* Updated Track Bar Styling */
     .track-bar {
@@ -541,7 +518,8 @@
     .splash-screen h1 {
       font-size: 2.5rem;
       color: var(--primary-color);
-      font-weight: bold;
+      font—Noah
+-weight: bold;
       animation: slideIn 1s ease-in;
     }
     
@@ -999,14 +977,10 @@
       background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
     }
     
-  
-      
-      @keyframes slideDown {
-        from { transform: translateY(-20px); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
-      }
-      
-     
+    @keyframes slideDown {
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
     
     /* Product Badges */
     .product-badge {
@@ -1078,7 +1052,6 @@
   <!-- Toast Container -->
   <div id="toastContainer"></div>
 
- 
   <!-- Dark Mode Toggle -->
   <div class="dark-mode-toggle" onclick="toggleDarkMode()">
     <i class="bi bi-moon"></i>
@@ -1118,8 +1091,8 @@
     <div class="container my-4" id="notificationsContent"></div>
   </div>
 
-<!-- Offcanvas Menu -->
-<div class="offcanvas offcanvas-start" tabindex="-1" id="menuCanvas" aria-labelledby="menuCanvasLabel">
+  <!-- Offcanvas Menu -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="menuCanvas" aria-labelledby="menuCanvasLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="menuCanvasLabel">Menu</h5>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -1144,8 +1117,8 @@
     </div>
   </div>
 
-   <!-- Home Section -->
-   <div id="homeSection" class="section active-section fade-in">
+  <!-- Home Section -->
+  <div id="homeSection" class="section active-section fade-in">
     <header class="py-3 border-bottom">
       <div class="container d-flex justify-content-between align-items-center">
         <button class="btn text-dark" data-bs-toggle="offcanvas" data-bs-target="#menuCanvas" aria-controls="menuCanvas" aria-label="Toggle Menu">
@@ -1451,7 +1424,7 @@
   </div>
 
   <!-- Updated Search Section -->
-<div id="searchSection" class="section fade-in">
+  <div id="searchSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
         <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home">
@@ -1461,78 +1434,115 @@
         <div></div>
       </div>
     </header>
-    <div class="container mt-5 my-4"> <!-- Changed from my-4 to mt-5 my-4 -->
+    <div class="container mt-5 my-4">
       <div class="search-container mb-4">
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="Search for shirts, pants, accessories..." 
                  id="searchSectionInput" autocomplete="off" aria-label="Search for Products"
                  onkeyup="showSearchSuggestions()">
-          <button class="btn btn-dark" type="button" id="searchSectionButton" aria-label="Search">
+          <button class="btn btn-dark" type="button" id="searchSectionButton" aria-label="Search" onclick="performSearch()">
             <i class="bi bi-search"></i> Search
+          </button>
+          <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#searchFilterModal" aria-label="Filter Search">
+            <i class="bi bi-funnel"></i>
           </button>
         </div>
         <div id="searchSuggestions" class="list-group" style="display: none; position: absolute; z-index: 1000; width: 100%;"></div>
-        
-        <div class="row g-3">
-          <div class="col-md-3">
-            <label for="searchCategory" class="form-label">Category</label>
-            <select id="searchCategory" class="form-select">
-              <option value="">All Categories</option>
-              <option value="Men's Wear">Men's Wear</option>
-              <option value="Accessories">Accessories</option>
-            </select>
-          </div>
-          <div class="col-md-3">
-            <label for="searchPrice" class="form-label">Price Range</label>
-            <select id="searchPrice" class="form-select">
-              <option value="">All Prices</option>
-              <option value="0-100">Under ₹100</option>
-              <option value="100-200">₹100 - ₹200</option>
-              <option value="200-300">₹200 - ₹300</option>
-              <option value="300-500">₹300 - ₹500</option>
-            </select>
-          </div>
-          <div class="col-md-3">
-            <label for="searchRating" class="form-label">Minimum Rating</label>
-            <select id="searchRating" class="form-select">
-              <option value="">Any Rating</option>
-              <option value="4">4+ Stars</option>
-              <option value="3">3+ Stars</option>
-              <option value="2">2+ Stars</option>
-              <option value="1">1+ Star</option>
-            </select>
-          </div>
-          <div class="col-md-3">
-            <label for="searchSort" class="form-label">Sort By</label>
-            <select id="searchSort" class="form-select">
-              <option value="relevance">Relevance</option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
-              <option value="rating">Highest Rated</option>
-              <option value="newest">Newest Arrivals</option>
-            </select>
-          </div>
-        </div>
-        <div class="mt-3 d-flex justify-content-between">
-          <button class="btn btn-outline-secondary" onclick="clearSearchFilters()">
-            <i class="bi bi-x-circle"></i> Clear Filters
-          </button>
-          <button class="btn btn-primary" onclick="performSearch()">
-            <i class="bi bi-funnel"></i> Apply Filters
-          </button>
-        </div>
       </div>
-      
       <div class="search-results-container">
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <h5 id="searchResultsCount">0 </h5>
+          <h5 id="searchResultsCount">0 products found</h5>
           <div id="searchActiveFilters"></div>
         </div>
         <div class="row" id="searchResultsContainer"></div>
       </div>
     </div>
   </div>
-       
+
+  <!-- Search Filter Modal -->
+  <div class="modal fade" id="searchFilterModal" tabindex="-1" aria-labelledby="searchFilterModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="searchFilterModalLabel">Filter Products</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="searchCategory" class="form-label">Category</label>
+              <select id="searchCategory" class="form-select">
+                <option value="">All Categories</option>
+                <option value="Men's Wear">Men's Wear</option>
+                <option value="Accessories">Accessories</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="searchPrice" class="form-label">Price Range</label>
+              <select id="searchPrice" class="form-select">
+                <option value="">All Prices</option>
+                <option value="0-100">Under ₹100</option>
+                <option value="100-200">₹100 - ₹200</option>
+                <option value="200-300">₹200 - ₹300</option>
+                <option value="300-500">₹300 - ₹500</option>
+                <option value="500">Above ₹500</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="searchRating" class="form-label">Minimum Rating</label>
+              <select id="searchRating" class="form-select">
+                <option value="">Any Rating</option>
+                <option value="4">4+ Stars</option>
+                <option value="3">3+ Stars</option>
+                <option value="2">2+ Stars</option>
+                <option value="1">1+ Star</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="searchSort" class="form-label">Sort By</label>
+              <select id="searchSort" class="form-select">
+                <option value="relevance">Relevance</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="rating">Highest Rated</option>
+                <option value="newest">Newest Arrivals</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="searchSize" class="form-label">Size</label>
+              <select id="searchSize" class="form-select">
+                <option value="">All Sizes</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+                <option value="32">32</option>
+                <option value="34">34</option>
+                <option value="36">36</option>
+                <option value="One Size">One Size</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="searchColor" class="form-label">Color</label>
+              <select id="searchColor" class="form-select">
+                <option value="">All Colors</option>
+                <option value="Blue">Blue</option>
+                <option value="Red">Red</option>
+                <option value="Black">Black</option>
+                <option value="Brown">Brown</option>
+                <option value="White">White</option>
+                <option value="Silver">Silver</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" onclick="clearSearchFilters()" data-bs-dismiss="modal">Clear Filters</button>
+          <button type="button" class="btn btn-primary" onclick="performSearch()" data-bs-dismiss="modal">Apply Filters</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Login Section -->
   <div id="loginSection" class="section fade-in">
@@ -1644,8 +1654,8 @@
     <div class="container my-4" id="cartContent"></div>
   </div>
 
- <!-- Shop Section -->
- <div id="shopSection" class="section fade-in">
+  <!-- Shop Section -->
+  <div id="shopSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
         <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home"><i class="bi bi-arrow-left"></i> Home</button>
@@ -1653,50 +1663,6 @@
         <div></div>
       </div>
     </header>
-    <div class="container my-4" id="shopFilterSection">
-      <div id="filterSection">
-        <h5>Filter Products</h5>
-        <div class="row g-2">
-          <div class="col-6 col-md-3">
-            <select id="filterSize" class="form-select" aria-label="Filter by Size">
-              <option value="">All Sizes</option>
-              <option value="S">S</option>
-              <option value="M">M</option>
-              <option value="L">L</option>
-              <option value="XL">XL</option>
-              <option value="32">32</option>
-              <option value="34">34</option>
-              <option value="36">36</option>
-            </select>
-          </div>
-          <div class="col-6 col-md-3">
-            <select id="filterColor" class="form-select" aria-label="Filter by Color">
-              <option value="">All Colors</option>
-              <option value="Blue">Blue</option>
-              <option value="Red">Red</option>
-              <option value="Black">Black</option>
-              <option value="Brown">Brown</option>
-              <option value="White">White</option>
-            </select>
-          </div>
-          <div class="col-6 col-md-3">
-            <select id="filterPrice" class="form-select" aria-label="Filter by Price">
-              <option value="">All Prices</option>
-              <option value="100-150">₹100 - ₹150</option>
-              <option value="150-200">₹150 - ₹200</option>
-              <option value="200-250">₹200 - ₹250</option>
-            </select>
-          </div>
-          <div class="col-6 col-md-3">
-            <button class="btn btn-primary w-100" onclick="applyFilters()" aria-label="Apply Filters">Apply Filters</button>
-          </div>
-        </div>
-        <div class="mt-2">
-          <button class="btn btn-outline-danger" onclick="clearAllFilters()">Clear All Filters</button>
-        </div>
-        <div class="mt-2" id="activeFilterDisplay"></div>
-      </div>
-    </div>
     <div class="container my-4">
       <div class="row" id="shopProductContainer"></div>
     </div>
@@ -1812,8 +1778,8 @@
     </div>
   </div>
 
-   <!-- Enhanced Orders Section -->
-   <div id="ordersSection" class="section fade-in">
+  <!-- Enhanced Orders Section -->
+  <div id="ordersSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
         <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home"><i class="bi bi-arrow-left"></i> Home</button>
@@ -1827,7 +1793,7 @@
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#" onclick="filterOrders('active')">Active Orders</a></li>
             <li><a class="dropdown-item" href="#" onclick="filterOrders('completed')">Completed Orders</a></li>
-        
+            <li><a class="dropdown-item" href="#" onclick="filterOrders('cancelled')">Cancelled Orders</a></li>
           </ul>
         </div>
       </div>
@@ -1849,18 +1815,6 @@
     <div class="container my-4" id="orderDetailPage">
       <!-- Order details will be dynamically loaded here -->
     </div>
-  </div>
-
-  <!-- Order Detail Section -->
-  <div id="orderDetailSection" class="section fade-in">
-    <header class="py-3 border-bottom bg-light">
-      <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('ordersSection')" aria-label="Back to Orders"><i class="bi bi-arrow-left"></i> Back to Orders</button>
-        <h1 class="h5 mb-0">Order Details</h1>
-        <div></div>
-      </div>
-    </header>
-    <div class="container my-4" id="orderDetailPage"></div>
   </div>
 
   <!-- Product Detail Section -->
@@ -1918,6 +1872,7 @@
     </div>
   </div>
 
+  <!-- Product Images Modal -->
   <div class="modal fade" id="productImagesModal" tabindex="-1" aria-labelledby="productImagesModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -1939,24 +1894,6 @@
       </div>
     </div>
   </div>
-  
-  <script>
-  function showProductImagesModal(productId) {
-    const product = products.find(p => p.id === productId);
-    const carouselInner = document.getElementById("carouselInner");
-    carouselInner.innerHTML = "";
-  
-    product.images.forEach((img, index) => {
-      carouselInner.innerHTML += `
-        <div class="carousel-item ${index === 0 ? 'active' : ''}">
-          <img src="${img}" class="d-block w-100" alt="${product.name}">
-        </div>
-      `;
-    });
-  
-    new bootstrap.Modal(document.getElementById('productImagesModal')).show();
-  }
-  </script>
 
   <!-- Track Order Modal -->
   <div class="modal fade" id="trackOrderModal" tabindex="-1" aria-labelledby="trackOrderModalLabel" aria-hidden="true">
@@ -1974,8 +1911,8 @@
     </div>
   </div>
 
-   <!-- Fixed Footer Navigation -->
-   <footer class="footer-nav fixed-bottom">
+  <!-- Fixed Footer Navigation -->
+  <footer class="footer-nav fixed-bottom">
     <div class="container d-flex justify-content-around">
       <div class="nav-item">
         <button class="btn btn-link nav-link" onclick="showSection('homeSection')" aria-label="Home">
@@ -2005,7 +1942,8 @@
       </div>
     </div>
   </footer>
-   <!-- cancel order modal -->
+
+  <!-- Cancel Order Modal -->
   <div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-labelledby="cancelOrderModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -2038,7 +1976,8 @@
       </div>
     </div>
   </div>
-  <!-- return order modal -->
+
+  <!-- Return Order Modal -->
   <div class="modal fade" id="returnOrderModal" tabindex="-1" aria-labelledby="returnOrderModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -2068,7 +2007,7 @@
             <textarea class="form-control" id="returnComments" rows="3"></textarea>
           </div>
           <div class="alert alert-info">
-            <p class="mb-0">Please note: Return requests must be made within ${orders[currentOrderIndex].product.returnPolicy} of delivery.</p>
+            <p class="mb-0">Please note: Return requests must be made within ${orders[currentOrderIndex]?.product.returnPolicy || 'N/A'} of delivery.</p>
           </div>
         </div>
         <div class="modal-footer">
@@ -2078,67 +2017,69 @@
       </div>
     </div>
   </div>
-   <!-- Review Order Modal -->
-<div class="modal fade" id="reviewOrderModal" tabindex="-1" aria-labelledby="reviewOrderModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="reviewOrderModalLabel">Rate & Review</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="text-center mb-4">
-          <h6>How would you rate this product?</h6>
-          <div class="rating-stars mb-2" id="ratingStars">
-            <span data-value="5">☆</span>
-            <span data-value="4">☆</span>
-            <span data-value="3">☆</span>
-            <span data-value="2">☆</span>
-            <span data-value="1">☆</span>
-          </div>
-          <small class="text-muted" id="ratingText">Tap to rate</small>
-        </div>
-        <div class="mb-3">
-          <label for="reviewTitle" class="form-label">Review Title</label>
-          <input type="text" class="form-control" id="reviewTitle" placeholder="Summarize your experience">
-        </div>
-        <div class="mb-3">
-          <label for="reviewText" class="form-label">Your Review</label>
-          <textarea class="form-control" id="reviewText" rows="4" placeholder="Share details about your experience with this product"></textarea>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="submitReview()">Submit Review</button>
-      </div>
-    </div>
-  </div>
-</div>
 
-<!-- View Review Modal -->
-<div class="modal fade" id="viewReviewModal" tabindex="-1" aria-labelledby="viewReviewModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="viewReviewModalLabel">Your Review</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="text-center mb-4">
-          <div class="rating-stars mb-2"></div>
-          <h5 id="reviewTitleDisplay"></h5>
+  <!-- Review Order Modal -->
+  <div class="modal fade" id="reviewOrderModal" tabindex="-1" aria-labelledby="reviewOrderModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="reviewOrderModalLabel">Rate & Review</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="mb-3">
-          <p id="reviewTextDisplay"></p>
+        <div class="modal-body">
+          <div class="text-center mb-4">
+            <h6>How would you rate this product?</h6>
+            <div class="rating-stars mb-2" id="ratingStars">
+              <span data-value="5">☆</span>
+              <span data-value="4">☆</span>
+              <span data-value="3">☆</span>
+              <span data-value="2">☆</span>
+              <span data-value="1">☆</span>
+            </div>
+            <small class="text-muted" id="ratingText">Tap to rate</small>
+          </div>
+          <div class="mb-3">
+            <label for="reviewTitle" class="form-label">Review Title</label>
+            <input type="text" class="form-control" id="reviewTitle" placeholder="Summarize your experience">
+          </div>
+          <div class="mb-3">
+            <label for="reviewText" class="form-label">Your Review</label>
+            <textarea class="form-control" id="reviewText" rows="4" placeholder="Share details about your experience with this product"></textarea>
+          </div>
         </div>
-        <div class="text-muted small" id="reviewDateDisplay"></div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="submitReview()">Submit Review</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
+
+  <!-- View Review Modal -->
+  <div class="modal fade" id="viewReviewModal" tabindex="-1" aria-labelledby="viewReviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="viewReviewModalLabel">Your Review</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="text-center mb-4">
+            <div class="rating-stars mb-2"></div>
+            <h5 id="reviewTitleDisplay"></h5>
+          </div>
+          <div class="mb-3">
+            <p id="reviewTextDisplay"></p>
+          </div>
+          <div class="text-muted small" id="reviewDateDisplay"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- JavaScript -->
   <script>
     // Global variables
@@ -2156,9 +2097,10 @@
     let accessoriesActiveFilters = {};
     let recentSearches = [];
     let searchTimeout = null;
+    let currentOrdersFilter = 'all';
 
     const locations = ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix"];
-    const colorMap = { "Blue": "#0000FF", "Red": "#FF0000", "Black": "#000000",  "Brown": "#8B4513", "White": "#FFFFFF" };
+    const colorMap = { "Blue": "#0000FF", "Red": "#FF0000", "Black": "#000000", "Brown": "#8B4513", "White": "#FFFFFF", "Silver": "#C0C0C0" };
 
     const products = [
       {
@@ -2209,7 +2151,7 @@
         category: "Men's Wear",
         price: 39.99,
         size: "32, 34, 36",
-        color: "Blue,Black",
+        color: "Blue, Black",
         clothType: "Denim",
         deliveryTime: "4-6 days",
         returnPolicy: "10 days return policy",
@@ -2303,18 +2245,18 @@
           "Black": "https://i.pinimg.com/474x/c2/d3/e4/c2d3e49e8f9a0b1c2d3e4f5a6b7c8d9e.jpg",
           "Silver": "https://i.pinimg.com/474x/d3/e4/f5/d3e4f59e8f9a0b1c2d3e4f5a6b7c8d9e.jpg"
         }
-      },
+      }
     ];
-     // Hide splash screen after 2 seconds
-     setTimeout(() => {
+
+    // Hide splash screen after 2 seconds
+    setTimeout(() => {
       const splashScreen = document.getElementById('splashScreen');
       splashScreen.style.opacity = '0';
       setTimeout(() => {
         splashScreen.style.display = 'none';
         document.getElementById('shopNowButton').focus();
-      }, 500); // Matches the CSS transition duration of 0.5s
+      }, 500);
     }, 2000);
-    
 
     // Save data to localStorage
     function saveData() {
@@ -2353,274 +2295,115 @@
       generateProducts("menswearContainer", products.filter(p => p.category === "Men's Wear"));
       generateProducts("accessoriesContainer", products.filter(p => p.category === "Accessories"));
     }
-    
 
-
-// Initialize rating when review modal is shown
-document.getElementById('reviewOrderModal')?.addEventListener('show.bs.modal', function() {
-  const order = orders[currentOrderIndex];
-  const ratingStars = document.getElementById('ratingStars');
-  
-  // Clear any previous selection
-  ratingStars.querySelectorAll('span').forEach(star => {
-    star.textContent = '☆';
-  });
-  
-  // If there's an existing rating, highlight the stars
-  if (order.rating) {
-    highlightStars(order.rating);
-  }
-  
-  // Reset the rating text
-  document.getElementById('ratingText').textContent = 'Tap to rate';
-  
-  // Clear review fields
-  document.getElementById('reviewTitle').value = '';
-  document.getElementById('reviewText').value = '';
-});
-
-// Handle star rating selection
-document.getElementById('ratingStars')?.addEventListener('click', function(e) {
-  if (e.target.tagName === 'SPAN') {
-    const value = parseInt(e.target.getAttribute('data-value'));
-    highlightStars(value);
-    
-    // Update rating text
-    const ratingText = document.getElementById('ratingText');
-    ratingText.textContent = `${value} star${value !== 1 ? 's' : ''}`;
-    ratingText.style.color = '#000';
-    
-    // Store the selected rating
-    document.getElementById('ratingStars').dataset.selectedRating = value;
-  }
-});
-
-// Function to highlight stars up to the selected value
-function highlightStars(value) {
-  const stars = document.getElementById('ratingStars').querySelectorAll('span');
-  stars.forEach((star, index) => {
-    const starValue = parseInt(star.getAttribute('data-value'));
-    star.textContent = starValue <= value ? '★' : '☆';
-    star.style.color = starValue <= value ? 'gold' : '#000';
-  });
-}
-
-// Submit review function
-function submitReview() {
-  const ratingStars = document.getElementById('ratingStars');
-  const selectedRating = ratingStars.dataset.selectedRating;
-  const reviewTitle = document.getElementById('reviewTitle').value.trim();
-  const reviewText = document.getElementById('reviewText').value.trim();
-  
-  if (!selectedRating) {
-    showNotification('Please select a rating by tapping the stars', 'warning');
-    return;
-  }
-  
-  if (!reviewTitle) {
-    showNotification('Please enter a title for your review', 'warning');
-    return;
-  }
-  
-  if (!reviewText) {
-    showNotification('Please write your review', 'warning');
-    return;
-  }
-  
-  // Update the order with review details
-  const order = orders[currentOrderIndex];
-  order.rating = parseInt(selectedRating);
-  order.reviewTitle = reviewTitle;
-  order.review = reviewText;
-  order.reviewDate = new Date().toLocaleString();
-  
-  // Save the data
-  saveData();
-  
-  // Close the modal
-  const modal = bootstrap.Modal.getInstance(document.getElementById('reviewOrderModal'));
-  modal.hide();
-  
-  // Show success message
-  showNotification('Thank you for your review!', 'success');
-  
-  // Update the order detail view
-  showOrderDetailPage(currentOrderIndex);
-}
-
-// Confirm return order function
-function confirmReturnOrder() {
-  const returnReason = document.getElementById('returnReason').value;
-  const returnOtherReason = document.getElementById('returnOtherReason').value.trim();
-  const returnComments = document.getElementById('returnComments').value.trim();
-  
-  let reason = returnReason;
-  if (returnReason === 'Other') {
-    if (!returnOtherReason) {
-      showNotification('Please specify the return reason', 'warning');
-      return;
+    // Update header profile
+    function updateHeaderProfile() {
+      const headerProfile = document.getElementById("headerProfile");
+      headerProfile.textContent = currentUser ? `${currentUser.firstName} ${currentUser.lastName}` : "";
     }
-    reason = returnOtherReason;
-  }
-  
- 
-  // Save the data
-  saveData();
-  
-  // Close the modal
-  const modal = bootstrap.Modal.getInstance(document.getElementById('returnOrderModal'));
-  modal.hide();
-  
-  // Show success message
-  showNotification('Your return request has been submitted', 'success');
-  
-  // Update the order detail view
-  showOrderDetailPage(currentOrderIndex);
-}
 
-// Update the view review modal when shown
-document.getElementById('viewReviewModal')?.addEventListener('show.bs.modal', function() {
-  const order = orders[currentOrderIndex];
-  const modal = document.getElementById('viewReviewModal');
-  
-  if (!order.rating) return;
-  
-  // Update the modal content with the review details
-  modal.querySelector('.modal-title').textContent = `Your Review of ${order.product.name}`;
-  
-  const starsContainer = modal.querySelector('.rating-stars');
-  starsContainer.innerHTML = '';
-  for (let i = 1; i <= 5; i++) {
-    starsContainer.innerHTML += i <= order.rating ? '★' : '☆';
-  }
-  
-  modal.querySelector('h5').textContent = order.reviewTitle || 'Your Review';
-  modal.querySelector('p').textContent = order.review || 'No review text provided.';
-  modal.querySelector('.small').textContent = `Reviewed on ${order.reviewDate || 'Unknown date'}`;
-});
-
-
-   // Update header profile
-   function updateHeaderProfile() {
-    const headerProfile = document.getElementById("headerProfile");
-    headerProfile.textContent = currentUser ? `${currentUser.firstName} ${currentUser.lastName}` : "";
-  }
-
-  // Hide menu
-  function hideMenu() {
-    const menuCanvas = bootstrap.Offcanvas.getInstance(document.getElementById("menuCanvas"));
-    if (menuCanvas) menuCanvas.hide();
-  }
-
-  function getProductRating(productId) {
-    const productOrders = orders.filter(order => order.product.id === productId && order.rating !== null);
-    if (productOrders.length === 0) {
-      return null;
+    // Hide menu
+    function hideMenu() {
+      const menuCanvas = bootstrap.Offcanvas.getInstance(document.getElementById("menuCanvas"));
+      if (menuCanvas) menuCanvas.hide();
     }
-    const totalRating = productOrders.reduce((sum, order) => sum + order.rating, 0);
-    const averageRating = totalRating / productOrders.length;
-    return { average: averageRating.toFixed(1), count: productOrders.length };
-  }
 
-  
- // In the generateProducts function, modify the column classes:
-function generateProducts(containerId, productList) {
-const container = document.getElementById(containerId);
-container.innerHTML = "";
-productList.forEach(product => {
-  const originalPrice = (product.price * 1.2).toFixed(2);
-  const discount = ((originalPrice - product.price) / originalPrice * 100).toFixed(0);
-  const card = `
-    <div class="col-6 mb-4"> <!-- Changed from col-6 col-md-4 to col-6 for consistent two-column layout on all devices -->
-      <div class="card shadow-sm product-card" style="position: relative;" onclick="showProductDetails(${product.id})">
-        <img src="${product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name)}" class="card-img-top" alt="${product.name}">
-        <button class="wishlist-btn position-absolute top-0 end-0 m-2" onclick="event.stopPropagation(); addToWishlist(${product.id})" aria-label="Add ${product.name} to Wishlist">
-          <i class="bi bi-heart-fill" style="color: ${wishlist.some(p => p.id === product.id) ? 'red' : '#ccc'};"></i>
-        </button>
-        <div class="card-body">
-          <h5 class="card-title">${product.name}</h5>
-          <p class="card-text">${product.description}</p>
-          <p class="card-text"><s>₹${originalPrice}</s> ₹${product.price.toFixed(2)} <span class="badge bg-success">${discount}% off</span></p>
-        </div>
-      </div>
-    </div>
-  `;
-  container.innerHTML += card;
-});
-}
-
-  // Function to calculate the average rating for a product
-  function getProductRating(productId) {
-    const productOrders = orders.filter(order => order.product.id === productId && order.rating !== null && order.rating !== undefined);
-    if (productOrders.length === 0) {
-      return null;
+    // Generate products
+    function generateProducts(containerId, productList) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = "";
+      productList.forEach(product => {
+        const originalPrice = (product.price * 1.2).toFixed(2);
+        const discount = ((originalPrice - product.price) / originalPrice * 100).toFixed(0);
+        const card = `
+          <div class="col-6 mb-4">
+            <div class="card shadow-sm product-card" style="position: relative;" onclick="showProductDetails(${product.id})">
+              <img src="${product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name)}" class="card-img-top" alt="${product.name}">
+              <button class="wishlist-btn position-absolute top-0 end-0 m-2" onclick="event.stopPropagation(); addToWishlist(${product.id})" aria-label="Add ${product.name} to Wishlist">
+                <i class="bi bi-heart-fill" style="color: ${wishlist.some(p => p.id === product.id) ? 'red' : '#ccc'};"></i>
+              </button>
+              <div class="card-body">
+                <h5 class="card-title">${product.name}</h5>
+                <p class="card-text">${product.description}</p>
+                <p class="card-text"><s>₹${originalPrice}</s> ₹${product.price.toFixed(2)} <span class="badge bg-success">${discount}% off</span></p>
+              </div>
+            </div>
+          </div>
+        `;
+        container.innerHTML += card;
+      });
     }
-    const totalRating = productOrders.reduce((sum, order) => sum + order.rating, 0);
-    const averageRating = totalRating / productOrders.length;
-    return { average: averageRating.toFixed(1), count: productOrders.length };
-  }
 
-  // Get recommended products based on current product
-  function getRecommendedProducts(currentProductId) {
-    const currentProduct = products.find(p => p.id === currentProductId);
-    if (!currentProduct) return [];
-    
-    // Find products in the same category, excluding the current product
-    let recommendations = products.filter(p => 
-      p.category === currentProduct.category && 
-      p.id !== currentProductId
-    );
-    
-    // If not enough recommendations, add some from other categories
-    if (recommendations.length < 4) {
-      const otherProducts = products.filter(p => 
-        p.category !== currentProduct.category && 
+    // Function to calculate the average rating for a product
+    function getProductRating(productId) {
+      const productOrders = orders.filter(order => order.product.id === productId && order.rating !== null && order.rating !== undefined);
+      if (productOrders.length === 0) {
+        return null;
+      }
+      const totalRating = productOrders.reduce((sum, order) => sum + order.rating, 0);
+      const averageRating = totalRating / productOrders.length;
+      return { average: averageRating.toFixed(1), count: productOrders.length };
+    }
+
+    // Get recommended products based on current product
+    function getRecommendedProducts(currentProductId) {
+      const currentProduct = products.find(p => p.id === currentProductId);
+      if (!currentProduct) return [];
+      
+      let recommendations = products.filter(p => 
+        p.category === currentProduct.category && 
         p.id !== currentProductId
       );
-      recommendations = [...recommendations, ...otherProducts.slice(0, 4 - recommendations.length)];
+      
+      if (recommendations.length < 4) {
+        const otherProducts = products.filter(p => 
+          p.category !== currentProduct.category && 
+          p.id !== currentProductId
+        );
+        recommendations = [...recommendations, ...otherProducts.slice(0, 4 - recommendations.length)];
+      }
+      
+      return recommendations.slice(0, 4);
     }
-    
-    return recommendations.slice(0, 4); // Return max 4 recommendations
-  }
 
-  // Generate HTML for recommended products
-  function generateRecommendedProducts(recommendations) {
-    if (recommendations.length === 0) return '';
-    
-    let html = `
-      <div class="recommendations-section">
-        <h3 class="recommendations-title">You May Also Like</h3>
-        <div class="row">
-    `;
-    
-    recommendations.forEach(product => {
-      const originalPrice = (product.price * 1.2).toFixed(2);
-      const discount = ((originalPrice - product.price) / originalPrice * 100).toFixed(0);
+    // Generate HTML for recommended products
+    function generateRecommendedProducts(recommendations) {
+      if (recommendations.length === 0) return '';
+      
+      let html = `
+        <div class="recommendations-section">
+          <h3 class="recommendations-title">You May Also Like</h3>
+          <div class="row">
+      `;
+      
+      recommendations.forEach(product => {
+        const originalPrice = (product.price * 1.2).toFixed(2);
+        const discount = ((originalPrice - product.price) / originalPrice * 100).toFixed(0);
+        
+        html += `
+          <div class="col-6 col-md-3">
+            <div class="card recommendation-card" onclick="showProductDetails(${product.id})">
+              <img src="${product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name)}" 
+                   class="card-img-top recommendation-img" alt="${product.name}">
+              <span class="recommendation-badge">${discount}% OFF</span>
+              <div class="card-body">
+                <h5 class="card-title">${product.name}</h5>
+                <p class="card-text"><s>₹${originalPrice}</s> ₹${product.price.toFixed(2)}</p>
+              </div>
+            </div>
+          </div>
+        `;
+      });
       
       html += `
-        <div class="col-6 col-md-3">
-          <div class="card recommendation-card" onclick="showProductDetails(${product.id})">
-            <img src="${product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name)}" 
-                 class="card-img-top recommendation-img" alt="${product.name}">
-            <span class="recommendation-badge">${discount}% OFF</span>
-            <div class="card-body">
-              <h5 class="card-title">${product.name}</h5>
-              <p class="card-text"><s>₹${originalPrice}</s> ₹${product.price.toFixed(2)}</p>
-            </div>
           </div>
         </div>
       `;
-    });
-    
-    html += `
-        </div>
-      </div>
-    `;
-    
-    return html;
-  }
+      
+      return html;
+    }
 
-  // Updated showProductDetails function with star rating display and recommendations
+    // Updated showProductDetails function with star rating display and recommendations
   function showProductDetails(productId) {
     const product = products.find(p => p.id === productId);
     if (!product) return;
