@@ -593,6 +593,9 @@
     /* Enhanced Search Section */
     .search-container {
       position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
     
     .search-suggestions {
@@ -641,7 +644,28 @@
     .search-history-item:hover {
       background: #e9ecef;
     }
+     /* Draggable Filter Button */
+     .draggable-filter {
+      position: fixed;
+      bottom: 140px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      cursor: move;
+      z-index: 1001;
+      background-color: var(--primary-color);
+      color: white;
+      border-radius: 50%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
     
+    .draggable-filter:hover {
+      background-color: #1a3a6b;
+    }
     /* Enhanced Orders Section */
     .order-card {
       transition: all 0.3s ease;
@@ -1451,125 +1475,127 @@
   </div>
 
  <!-- Updated Search Section -->
- <div id="searchSection" class="section fade-in">
-    <header class="py-3 border-bottom bg-light">
-      <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home">
-          <i class="bi bi-arrow-left"></i> Home
-        </button>
-        <h1 class="h5 mb-0">Search Products</h1>
-        <div></div>
-      </div>
-    </header>
-    <div class="container mt-5 my-4">
-      <div class="search-container mb-4">
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Search for shirts, pants, accessories..." 
-                 id="searchSectionInput" autocomplete="off" aria-label="Search for Products"
-                 onkeyup="showSearchSuggestions()">
-          <button class="btn btn-dark" type="button" id="searchSectionButton" aria-label="Search" onclick="performSearch()">
-            <i class="bi bi-search"></i> Search
-          </button>
-          <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#searchFilterModal" aria-label="Filter Search">
-            <i class="bi bi-funnel"></i>
-          </button>
-        </div>
-        <div id="searchSuggestions" class="list-group" style="display: none; position: absolute; z-index: 1000; width: 100%;"></div>
-      </div>
-      <div class="search-results-container">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h5 id="searchResultsCount">0 products found</h5>
-          <div id="searchActiveFilters"></div>
-        </div>
-        <div class="row" id="searchResultsContainer"></div>
-      </div>
+ <div id="searchSection" class="section fade-in" style="position: relative;">
+  <header class="py-3 border-bottom bg-light">
+    <div class="container d-flex justify-content-between align-items-center">
+      <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home">
+        <i class="bi bi-arrow-left"></i> Home
+      </button>
+      <h1 class="h5 mb-0">Search Products</h1>
+      <div></div>
     </div>
+  </header>
+  <div class="container mt-5 my-4">
+    <div class="search-container mb-4">
+      <button class="btn btn-dark" type="button" id="searchSectionButton" aria-label="Search" onclick="toggleSearchBar()">
+        <i class="bi bi-search"></i>
+      </button>
+      <div id="searchBarContainer" style="display: none; flex-grow: 1; margin-left: 10px;">
+        <input type="text" class="form-control" placeholder="Search for shirts, pants, accessories..." 
+               id="searchSectionInput" autocomplete="off" aria-label="Search for Products"
+               onkeyup="showSearchSuggestions()">
+      </div>
+      <button class="btn btn-outline-secondary" type="button" id="voiceSearchButton" aria-label="Search by Voice" onclick="startVoiceSearch()">
+        <i class="bi bi-mic"></i>
+      </button>
+      <div id="searchSuggestions" class="search-suggestions"></div>
+    </div>
+    <div class="search-results-container">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 id="searchResultsCount">0 products found</h5>
+        <div id="searchActiveFilters"></div>
+      </div>
+      <div class="row" id="searchResultsContainer"></div>
+    </div>
+    <button class="draggable-filter" data-bs-toggle="modal" data-bs-target="#searchFilterModal" aria-label="Filter Search">
+      <i class="bi bi-funnel"></i>
+    </button>
   </div>
-        <!-- Search Filter Modal -->
-  <div class="modal fade" id="searchFilterModal" tabindex="-1" aria-labelledby="searchFilterModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="searchFilterModalLabel">Filter Products</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label for="searchCategory" class="form-label">Category</label>
-              <select id="searchCategory" class="form-select">
-                <option value="">All Categories</option>
-                <option value="Men's Wear">Men's Wear</option>
-                <option value="Accessories">Accessories</option>
-              </select>
-            </div>
-            <div class="col-md-6">
-              <label for="searchPrice" class="form-label">Price Range</label>
-              <select id="searchPrice" class="form-select">
-                <option value="">All Prices</option>
-                <option value="0-100">Under ₹100</option>
-                <option value="100-200">₹100 - ₹200</option>
-                <option value="200-300">₹200 - ₹300</option>
-                <option value="300-500">₹300 - ₹500</option>
-                <option value="500">Above ₹500</option>
-              </select>
-            </div>
-            <div class="col-md-6">
-              <label for="searchRating" class="form-label">Minimum Rating</label>
-              <select id="searchRating" class="form-select">
-                <option value="">Any Rating</option>
-                <option value="4">4+ Stars</option>
-                <option value="3">3+ Stars</option>
-                <option value="2">2+ Stars</option>
-                <option value="1">1+ Star</option>
-              </select>
-            </div>
-            <div class="col-md-6">
-              <label for="searchSort" class="form-label">Sort By</label>
-              <select id="searchSort" class="form-select">
-                <option value="relevance">Relevance</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-                <option value="rating">Highest Rated</option>
-                <option value="newest">Newest Arrivals</option>
-              </select>
-            </div>
-            <div class="col-md-6">
-              <label for="searchSize" class="form-label">Size</label>
-              <select id="searchSize" class="form-select">
-                <option value="">All Sizes</option>
-                <option value="S">S</option>
-                <option value="M">M</option>
-                <option value="L">L</option>
-                <option value="XL">XL</option>
-                <option value="32">32</option>
-                <option value="34">34</option>
-                <option value="36">36</option>
-                <option value="One Size">One Size</option>
-              </select>
-            </div>
-            <div class="col-md-6">
-              <label for="searchColor" class="form-label">Color</label>
-              <select id="searchColor" class="form-select">
-                <option value="">All Colors</option>
-                <option value="Blue">Blue</option>
-                <option value="Red">Red</option>
-                <option value="Black">Black</option>
-                <option value="Brown">Brown</option>
-                <option value="White">White</option>
-                <option value="Silver">Silver</option>
-              </select>
-            </div>
+</div>
+ <!-- Search Filter Modal -->
+ <div class="modal fade" id="searchFilterModal" tabindex="-1" aria-labelledby="searchFilterModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="searchFilterModalLabel">Filter Products</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="searchCategory" class="form-label">Category</label>
+            <select id="searchCategory" class="form-select">
+              <option value="">All Categories</option>
+              <option value="Men's Wear">Men's Wear</option>
+              <option value="Accessories">Accessories</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="searchPrice" class="form-label">Price Range</label>
+            <select id="searchPrice" class="form-select">
+              <option value="">All Prices</option>
+              <option value="0-100">Under ₹100</option>
+              <option value="100-200">₹100 - ₹200</option>
+              <option value="200-300">₹200 - ₹300</option>
+              <option value="300-500">₹300 - ₹500</option>
+              <option value="500">Above ₹500</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="searchRating" class="form-label">Minimum Rating</label>
+            <select id="searchRating" class="form-select">
+              <option value="">Any Rating</option>
+              <option value="4">4+ Stars</option>
+              <option value="3">3+ Stars</option>
+              <option value="2">2+ Stars</option>
+              <option value="1">1+ Star</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="searchSort" class="form-label">Sort By</label>
+            <select id="searchSort" class="form-select">
+              <option value="relevance">Relevance</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="rating">Highest Rated</option>
+              <option value="newest">Newest Arrivals</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="searchSize" class="form-label">Size</label>
+            <select id="searchSize" class="form-select">
+              <option value="">All Sizes</option>
+              <option value="S">S</option>
+              <option value="M">M</option>
+              <option value="L">L</option>
+              <option value="XL">XL</option>
+              <option value="32">32</option>
+              <option value="34">34</option>
+              <option value="36">36</option>
+              <option value="One Size">One Size</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="searchColor" class="form-label">Color</label>
+            <select id="searchColor" class="form-select">
+              <option value="">All Colors</option>
+              <option value="Blue">Blue</option>
+              <option value="Red">Red</option>
+              <option value="Black">Black</option>
+              <option value="Brown">Brown</option>
+              <option value="White">White</option>
+              <option value="Silver">Silver</option>
+            </select>
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" onclick="clearSearchFilters()" data-bs-dismiss="modal">Clear Filters</button>
-          <button type="button" class="btn btn-primary" onclick="performSearch()" data-bs-dismiss="modal">Apply Filters</button>
-        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" onclick="clearSearchFilters()" data-bs-dismiss="modal">Clear Filters</button>
+        <button type="button" class="btn btn-primary" onclick="performSearch()" data-bs-dismiss="modal">Apply Filters</button>
       </div>
     </div>
   </div>
-
+</div>
 
   <!-- Login Section -->
   <div id="loginSection" class="section fade-in">
@@ -2557,8 +2583,102 @@ document.getElementById('viewReviewModal')?.addEventListener('show.bs.modal', fu
       const averageRating = totalRating / productOrders.length;
       return { average: averageRating.toFixed(1), count: productOrders.length };
     }
+   // Toggle search bar visibility
+   function toggleSearchBar() {
+    const searchBarContainer = document.getElementById("searchBarContainer");
+    if (searchBarContainer.style.display === "none" || searchBarContainer.style.display === "") {
+      searchBarContainer.style.display = "flex";
+      document.getElementById("searchSectionInput").focus();
+      performSearch();
+    } else {
+      searchBarContainer.style.display = "none";
+    }
+  }
 
-    
+  // Voice search functionality
+  function startVoiceSearch() {
+    if ('webkitSpeechRecognition' in window) {
+      const recognition = new webkitSpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = 'en-US';
+
+      recognition.onstart = function() {
+        showNotification("Voice search started. Please speak now.", "info");
+      };
+
+      recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById("searchSectionInput").value = transcript;
+        toggleSearchBar();
+        performSearch();
+        showNotification(`Searching for: "${transcript}"`, "success");
+      };
+
+      recognition.onerror = function(event) {
+        showNotification("Voice search error: " + event.error, "danger");
+      };
+
+      recognition.onend = function() {
+        showNotification("Voice search ended.", "info");
+      };
+
+      recognition.start();
+    } else {
+      showNotification("Voice search is not supported in your browser.", "warning");
+    }
+  }
+    // Enhanced voice search for mobile
+    function startVoiceSearch() {
+      const recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!recognition) {
+        showNotification("Voice search is not supported on this device.", "warning");
+        return;
+      }
+
+      const voiceSearchBtn = document.getElementById("voiceSearchButton");
+      const recognitionInstance = new recognition();
+      recognitionInstance.continuous = false;
+      recognitionInstance.interimResults = false;
+      recognitionInstance.lang = "en-US";
+
+      recognitionInstance.onstart = () => {
+        voiceSearchBtn.classList.add("active");
+        showNotification("Voice search started. Please speak now.", "info");
+      };
+
+      recognitionInstance.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById("searchSectionInput").value = transcript;
+        toggleSearchBar();
+        addToSearchHistory(transcript);
+        performSearch();
+        showNotification(`Searching for: "${transcript}"`, "success");
+      };
+
+      recognitionInstance.onerror = (event) => {
+        voiceSearchBtn.classList.remove("active");
+        if (event.error === "no-speech") {
+          showNotification("No speech detected. Please try again.", "warning");
+        } else if (event.error === "not-allowed" || event.error === "service-not-allowed") {
+          showNotification("Microphone access denied. Please enable it in your settings.", "danger");
+        } else {
+          showNotification(`Voice search error: ${event.error}`, "danger");
+        }
+      };
+
+      recognitionInstance.onend = () => {
+        voiceSearchBtn.classList.remove("active");
+        showNotification("Voice search ended.", "info");
+      };
+
+      try {
+        recognitionInstance.start();
+      } catch (e) {
+        showNotification("Error starting voice search. Please try again.", "danger");
+      }
+    }
+ 
    // In the generateProducts function, modify the column classes:
 function generateProducts(containerId, productList) {
   const container = document.getElementById(containerId);
