@@ -980,7 +980,37 @@
       from { transform: translateY(-20px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
-    
+     /* Dark Mode Toggle */
+     .dark-mode-toggle {
+        position: fixed;
+        bottom: 140px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        background-color: var(--dark-color);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      }
+      
+      /* Mobile Menu Toggle Animation */
+      .navbar-toggler {
+        transition: all 0.3s ease;
+      }
+      
+      .navbar-toggler:focus {
+        box-shadow: none;
+      }
+      
+      .navbar-toggler.collapsed .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+      }
+      
     /* Product Badges */
     .product-badge {
       position: absolute;
@@ -1050,7 +1080,10 @@
 <body>
   <!-- Toast Container -->
   <div id="toastContainer"></div>
-
+ <!-- Dark Mode Toggle -->
+ <div class="dark-mode-toggle" onclick="toggleDarkMode()">
+    <i class="bi bi-moon"></i>
+  </div>
   <!-- Splash Screen -->
   <div id="splashScreen" class="splash-screen" role="dialog" aria-label="Welcome to TEDPOLE">
     <img src="https://via.placeholder.com/200x200?text=TEDPOLE" alt="TEDPOLE Logo" class="logo">
