@@ -323,20 +323,20 @@
       z-index: 1100; 
     }
     
-    /* Product Detail Styling */
-    .product-detail-img { 
-      max-height: 400px; 
-      object-fit: contain; 
-      margin-bottom: 20px; 
-      cursor: pointer;
-      transition: transform 0.3s ease;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-    
-    .product-detail-img:hover {
-      transform: scale(1.03);
-    }
+   /* Product Detail Styling */
+   .product-detail-img { 
+    max-height: 400px; 
+    object-fit: contain; 
+    margin-bottom: 20px; 
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    cursor: zoom-in;
+    transition: all 0.3s ease;
+  }
+  
+  .product-detail-img:hover {
+    transform: scale(1.02);
+  }
     
     /* Footer Navigation - Modified Padding */
     .footer-nav {
@@ -523,10 +523,10 @@
     }
     
     @keyframes zoomIn {
-      from { transform: scale(0); }
-      to { transform: scale(1); }
+      from { transform: scale(0); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
-    
+
     @keyframes slideIn {
       from { transform: translateY(-50px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
@@ -549,47 +549,47 @@
       flex-grow: 1;
     }
     
-    /* Recommendations Section */
-    .recommendations-section {
-      margin-top: 40px;
-      padding-top: 20px;
-      border-top: 1px solid #eee;
-    }
-    
-    .recommendations-title {
-      font-size: 1.5rem;
-      margin-bottom: 20px;
-      text-align: center;
-      color: #2a5298;
-    }
-    
-    .recommendation-card {
-      cursor: pointer;
-      transition: all 0.3s ease;
-      margin-bottom: 20px;
-    }
-    
-    .recommendation-card:hover {
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      transform: translateY(-5px);
-    }
-    
-    .recommendation-img {
-      height: 200px;
-      object-fit: cover;
-      border-radius: 5px;
-    }
-    
-    .recommendation-badge {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: #ffdd57;
-      color: #000;
-      padding: 5px 10px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-    }
+     /* Recommendations Section */
+     .recommendations-section {
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+      }
+      
+      .recommendations-title {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        text-align: center;
+        color: #2a5298;
+      }
+      
+      .recommendation-card {
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-bottom: 20px;
+      }
+      
+      .recommendation-card:hover {
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transform: translateY(-5px);
+      }
+      
+      .recommendation-img {
+        height: 200px;
+        object-fit: cover;
+        border-radius: 5px;
+      }
+      
+      .recommendation-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: #ffdd57;
+        color: #000;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+      }
     /* Enhanced Search Section */
     .search-container {
       position: relative;
@@ -1051,11 +1051,6 @@
   <!-- Toast Container -->
   <div id="toastContainer"></div>
 
-  <!-- Dark Mode Toggle -->
-  <div class="dark-mode-toggle" onclick="toggleDarkMode()">
-    <i class="bi bi-moon"></i>
-  </div>
-
   <!-- Splash Screen -->
   <div id="splashScreen" class="splash-screen" role="dialog" aria-label="Welcome to TEDPOLE">
     <img src="https://via.placeholder.com/200x200?text=TEDPOLE" alt="TEDPOLE Logo" class="logo">
@@ -1084,14 +1079,14 @@
       <div class="container d-flex justify-content-between align-items-center">
         <button class="btn" onclick="showSection('homeSection')"><i class="far fa-arrow-left"></i> Home</button>
         <h1 class="h5 mb-0">Notifications</h1>
-        <button class="btn btn-sm btn-danger" onclick="clearNotifications()"></button>
+        <button class="btn btn-sm btn-danger" onclick="clearNotifications()">Clear All</button>
       </div>
     </header>
     <div class="container my-4" id="notificationsContent"></div>
   </div>
 
-  <!-- Offcanvas Menu -->
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="menuCanvas" aria-labelledby="menuCanvasLabel">
+<!-- Offcanvas Menu -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="menuCanvas" aria-labelledby="menuCanvasLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="menuCanvasLabel">Menu</h5>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -1116,8 +1111,8 @@
     </div>
   </div>
 
-  <!-- Home Section -->
-  <div id="homeSection" class="section active-section fade-in">
+   <!-- Home Section -->
+   <div id="homeSection" class="section active-section fade-in">
     <header class="py-3 border-bottom">
       <div class="container d-flex justify-content-between align-items-center">
         <button class="btn text-dark" data-bs-toggle="offcanvas" data-bs-target="#menuCanvas" aria-controls="menuCanvas" aria-label="Toggle Menu">
@@ -1422,8 +1417,8 @@
     </div>
   </div>
 
-  <!-- Updated Search Section -->
-  <div id="searchSection" class="section fade-in">
+ <!-- Updated Search Section -->
+ <div id="searchSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
         <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home">
@@ -1457,8 +1452,7 @@
       </div>
     </div>
   </div>
-
-  <!-- Search Filter Modal -->
+        <!-- Search Filter Modal -->
   <div class="modal fade" id="searchFilterModal" tabindex="-1" aria-labelledby="searchFilterModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -1542,6 +1536,7 @@
       </div>
     </div>
   </div>
+
 
   <!-- Login Section -->
   <div id="loginSection" class="section fade-in">
@@ -1662,13 +1657,57 @@
         <div></div>
       </div>
     </header>
+    <div class="container my-4" id="shopFilterSection">
+      <div id="filterSection">
+        <h5>Filter Products</h5>
+        <div class="row g-2">
+          <div class="col-6 col-md-3">
+            <select id="filterSize" class="form-select" aria-label="Filter by Size">
+              <option value="">All Sizes</option>
+              <option value="S">S</option>
+              <option value="M">M</option>
+              <option value="L">L</option>
+              <option value="XL">XL</option>
+              <option value="32">32</option>
+              <option value="34">34</option>
+              <option value="36">36</option>
+            </select>
+          </div>
+          <div class="col-6 col-md-3">
+            <select id="filterColor" class="form-select" aria-label="Filter by Color">
+              <option value="">All Colors</option>
+              <option value="Blue">Blue</option>
+              <option value="Red">Red</option>
+              <option value="Black">Black</option>
+              <option value="Brown">Brown</option>
+              <option value="White">White</option>
+            </select>
+          </div>
+          <div class="col-6 col-md-3">
+            <select id="filterPrice" class="form-select" aria-label="Filter by Price">
+              <option value="">All Prices</option>
+              <option value="100-150">₹100 - ₹150</option>
+              <option value="150-200">₹150 - ₹200</option>
+              <option value="200-250">₹200 - ₹250</option>
+            </select>
+          </div>
+          <div class="col-6 col-md-3">
+            <button class="btn btn-primary w-100" onclick="applyFilters()" aria-label="Apply Filters">Apply Filters</button>
+          </div>
+        </div>
+        <div class="mt-2">
+          <button class="btn btn-outline-danger" onclick="clearAllFilters()">Clear All Filters</button>
+        </div>
+        <div class="mt-2" id="activeFilterDisplay"></div>
+      </div>
+    </div>
     <div class="container my-4">
       <div class="row" id="shopProductContainer"></div>
     </div>
   </div>
 
-  <!-- Men's Wear Section -->
-  <div id="menswearSection" class="section fade-in">
+ <!-- Men's Wear Section -->
+ <div id="menswearSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
         <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home"><i class="bi bi-arrow-left"></i> Home</button>
@@ -1776,9 +1815,8 @@
       <button class="btn btn-success" onclick="showSection('cartSection')" aria-label="Proceed to Checkout">Checkout</button>
     </div>
   </div>
-
-  <!-- Enhanced Orders Section -->
-  <div id="ordersSection" class="section fade-in">
+ <!-- Enhanced Orders Section -->
+   <div id="ordersSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
         <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home"><i class="bi bi-arrow-left"></i> Home</button>
@@ -1792,7 +1830,7 @@
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#" onclick="filterOrders('active')">Active Orders</a></li>
             <li><a class="dropdown-item" href="#" onclick="filterOrders('completed')">Completed Orders</a></li>
-            <li><a class="dropdown-item" href="#" onclick="filterOrders('cancelled')">Cancelled Orders</a></li>
+        
           </ul>
         </div>
       </div>
@@ -1814,6 +1852,18 @@
     <div class="container my-4" id="orderDetailPage">
       <!-- Order details will be dynamically loaded here -->
     </div>
+  </div>
+
+  <!-- Order Detail Section -->
+  <div id="orderDetailSection" class="section fade-in">
+    <header class="py-3 border-bottom bg-light">
+      <div class="container d-flex justify-content-between align-items-center">
+        <button class="btn" onclick="showSection('ordersSection')" aria-label="Back to Orders"><i class="bi bi-arrow-left"></i> Back to Orders</button>
+        <h1 class="h5 mb-0">Order Details</h1>
+        <div></div>
+      </div>
+    </header>
+    <div class="container my-4" id="orderDetailPage"></div>
   </div>
 
   <!-- Product Detail Section -->
@@ -1871,7 +1921,6 @@
     </div>
   </div>
 
-  <!-- Product Images Modal -->
   <div class="modal fade" id="productImagesModal" tabindex="-1" aria-labelledby="productImagesModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -1893,6 +1942,24 @@
       </div>
     </div>
   </div>
+  
+  <script>
+  function showProductImagesModal(productId) {
+    const product = products.find(p => p.id === productId);
+    const carouselInner = document.getElementById("carouselInner");
+    carouselInner.innerHTML = "";
+  
+    product.images.forEach((img, index) => {
+      carouselInner.innerHTML += `
+        <div class="carousel-item ${index === 0 ? 'active' : ''}">
+          <img src="${img}" class="d-block w-100" alt="${product.name}">
+        </div>
+      `;
+    });
+  
+    new bootstrap.Modal(document.getElementById('productImagesModal')).show();
+  }
+  </script>
 
   <!-- Track Order Modal -->
   <div class="modal fade" id="trackOrderModal" tabindex="-1" aria-labelledby="trackOrderModalLabel" aria-hidden="true">
@@ -1910,8 +1977,8 @@
     </div>
   </div>
 
-  <!-- Fixed Footer Navigation -->
-  <footer class="footer-nav fixed-bottom">
+   <!-- Fixed Footer Navigation -->
+   <footer class="footer-nav fixed-bottom">
     <div class="container d-flex justify-content-around">
       <div class="nav-item">
         <button class="btn btn-link nav-link" onclick="showSection('homeSection')" aria-label="Home">
@@ -1941,8 +2008,7 @@
       </div>
     </div>
   </footer>
-
-  <!-- Cancel Order Modal -->
+   <!-- cancel order modal -->
   <div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-labelledby="cancelOrderModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -1975,8 +2041,7 @@
       </div>
     </div>
   </div>
-
-  <!-- Return Order Modal -->
+  <!-- return order modal -->
   <div class="modal fade" id="returnOrderModal" tabindex="-1" aria-labelledby="returnOrderModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -2006,7 +2071,7 @@
             <textarea class="form-control" id="returnComments" rows="3"></textarea>
           </div>
           <div class="alert alert-info">
-            <p class="mb-0">Please note: Return requests must be made within ${orders[currentOrderIndex]?.product.returnPolicy || 'N/A'} of delivery.</p>
+            <p class="mb-0">Please note: Return requests must be made within ${orders[currentOrderIndex].product.returnPolicy} of delivery.</p>
           </div>
         </div>
         <div class="modal-footer">
@@ -2016,69 +2081,67 @@
       </div>
     </div>
   </div>
-
-  <!-- Review Order Modal -->
-  <div class="modal fade" id="reviewOrderModal" tabindex="-1" aria-labelledby="reviewOrderModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="reviewOrderModalLabel">Rate & Review</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="text-center mb-4">
-            <h6>How would you rate this product?</h6>
-            <div class="rating-stars mb-2" id="ratingStars">
-              <span data-value="5">☆</span>
-              <span data-value="4">☆</span>
-              <span data-value="3">☆</span>
-              <span data-value="2">☆</span>
-              <span data-value="1">☆</span>
-            </div>
-            <small class="text-muted" id="ratingText">Tap to rate</small>
+   <!-- Review Order Modal -->
+<div class="modal fade" id="reviewOrderModal" tabindex="-1" aria-labelledby="reviewOrderModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reviewOrderModalLabel">Rate & Review</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center mb-4">
+          <h6>How would you rate this product?</h6>
+          <div class="rating-stars mb-2" id="ratingStars">
+            <span data-value="5">☆</span>
+            <span data-value="4">☆</span>
+            <span data-value="3">☆</span>
+            <span data-value="2">☆</span>
+            <span data-value="1">☆</span>
           </div>
-          <div class="mb-3">
-            <label for="reviewTitle" class="form-label">Review Title</label>
-            <input type="text" class="form-control" id="reviewTitle" placeholder="Summarize your experience">
-          </div>
-          <div class="mb-3">
-            <label for="reviewText" class="form-label">Your Review</label>
-            <textarea class="form-control" id="reviewText" rows="4" placeholder="Share details about your experience with this product"></textarea>
-          </div>
+          <small class="text-muted" id="ratingText">Tap to rate</small>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" onclick="submitReview()">Submit Review</button>
+        <div class="mb-3">
+          <label for="reviewTitle" class="form-label">Review Title</label>
+          <input type="text" class="form-control" id="reviewTitle" placeholder="Summarize your experience">
         </div>
+        <div class="mb-3">
+          <label for="reviewText" class="form-label">Your Review</label>
+          <textarea class="form-control" id="reviewText" rows="4" placeholder="Share details about your experience with this product"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="submitReview()">Submit Review</button>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- View Review Modal -->
-  <div class="modal fade" id="viewReviewModal" tabindex="-1" aria-labelledby="viewReviewModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="viewReviewModalLabel">Your Review</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<!-- View Review Modal -->
+<div class="modal fade" id="viewReviewModal" tabindex="-1" aria-labelledby="viewReviewModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="viewReviewModalLabel">Your Review</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center mb-4">
+          <div class="rating-stars mb-2"></div>
+          <h5 id="reviewTitleDisplay"></h5>
         </div>
-        <div class="modal-body">
-          <div class="text-center mb-4">
-            <div class="rating-stars mb-2"></div>
-            <h5 id="reviewTitleDisplay"></h5>
-          </div>
-          <div class="mb-3">
-            <p id="reviewTextDisplay"></p>
-          </div>
-          <div class="text-muted small" id="reviewDateDisplay"></div>
+        <div class="mb-3">
+          <p id="reviewTextDisplay"></p>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
+        <div class="text-muted small" id="reviewDateDisplay"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
-
+</div>
   <!-- JavaScript -->
   <script>
     // Global variables
@@ -2096,10 +2159,9 @@
     let accessoriesActiveFilters = {};
     let recentSearches = [];
     let searchTimeout = null;
-    let currentOrdersFilter = 'all';
 
     const locations = ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix"];
-    const colorMap = { "Blue": "#0000FF", "Red": "#FF0000", "Black": "#000000", "Brown": "#8B4513", "White": "#FFFFFF", "Silver": "#C0C0C0" };
+    const colorMap = { "Blue": "#0000FF", "Red": "#FF0000", "Black": "#000000",  "Brown": "#8B4513", "White": "#FFFFFF" };
 
     const products = [
       {
@@ -2150,7 +2212,7 @@
         category: "Men's Wear",
         price: 39.99,
         size: "32, 34, 36",
-        color: "Blue, Black",
+        color: "Blue,Black",
         clothType: "Denim",
         deliveryTime: "4-6 days",
         returnPolicy: "10 days return policy",
@@ -2244,18 +2306,18 @@
           "Black": "https://i.pinimg.com/474x/c2/d3/e4/c2d3e49e8f9a0b1c2d3e4f5a6b7c8d9e.jpg",
           "Silver": "https://i.pinimg.com/474x/d3/e4/f5/d3e4f59e8f9a0b1c2d3e4f5a6b7c8d9e.jpg"
         }
-      }
+      },
     ];
-
-    // Hide splash screen after 2 seconds
-    setTimeout(() => {
+     // Hide splash screen after 2 seconds
+     setTimeout(() => {
       const splashScreen = document.getElementById('splashScreen');
       splashScreen.style.opacity = '0';
       setTimeout(() => {
         splashScreen.style.display = 'none';
         document.getElementById('shopNowButton').focus();
-      }, 500);
+      }, 500); // Matches the CSS transition duration of 0.5s
     }, 2000);
+    
 
     // Save data to localStorage
     function saveData() {
@@ -2294,6 +2356,152 @@
       generateProducts("menswearContainer", products.filter(p => p.category === "Men's Wear"));
       generateProducts("accessoriesContainer", products.filter(p => p.category === "Accessories"));
     }
+    
+
+
+// Initialize rating when review modal is shown
+document.getElementById('reviewOrderModal')?.addEventListener('show.bs.modal', function() {
+  const order = orders[currentOrderIndex];
+  const ratingStars = document.getElementById('ratingStars');
+  
+  // Clear any previous selection
+  ratingStars.querySelectorAll('span').forEach(star => {
+    star.textContent = '☆';
+  });
+  
+  // If there's an existing rating, highlight the stars
+  if (order.rating) {
+    highlightStars(order.rating);
+  }
+  
+  // Reset the rating text
+  document.getElementById('ratingText').textContent = 'Tap to rate';
+  
+  // Clear review fields
+  document.getElementById('reviewTitle').value = '';
+  document.getElementById('reviewText').value = '';
+});
+
+// Handle star rating selection
+document.getElementById('ratingStars')?.addEventListener('click', function(e) {
+  if (e.target.tagName === 'SPAN') {
+    const value = parseInt(e.target.getAttribute('data-value'));
+    highlightStars(value);
+    
+    // Update rating text
+    const ratingText = document.getElementById('ratingText');
+    ratingText.textContent = `${value} star${value !== 1 ? 's' : ''}`;
+    ratingText.style.color = '#000';
+    
+    // Store the selected rating
+    document.getElementById('ratingStars').dataset.selectedRating = value;
+  }
+});
+
+// Function to highlight stars up to the selected value
+function highlightStars(value) {
+  const stars = document.getElementById('ratingStars').querySelectorAll('span');
+  stars.forEach((star, index) => {
+    const starValue = parseInt(star.getAttribute('data-value'));
+    star.textContent = starValue <= value ? '★' : '☆';
+    star.style.color = starValue <= value ? 'gold' : '#000';
+  });
+}
+
+// Submit review function
+function submitReview() {
+  const ratingStars = document.getElementById('ratingStars');
+  const selectedRating = ratingStars.dataset.selectedRating;
+  const reviewTitle = document.getElementById('reviewTitle').value.trim();
+  const reviewText = document.getElementById('reviewText').value.trim();
+  
+  if (!selectedRating) {
+    showNotification('Please select a rating by tapping the stars', 'warning');
+    return;
+  }
+  
+  if (!reviewTitle) {
+    showNotification('Please enter a title for your review', 'warning');
+    return;
+  }
+  
+  if (!reviewText) {
+    showNotification('Please write your review', 'warning');
+    return;
+  }
+  
+  // Update the order with review details
+  const order = orders[currentOrderIndex];
+  order.rating = parseInt(selectedRating);
+  order.reviewTitle = reviewTitle;
+  order.review = reviewText;
+  order.reviewDate = new Date().toLocaleString();
+  
+  // Save the data
+  saveData();
+  
+  // Close the modal
+  const modal = bootstrap.Modal.getInstance(document.getElementById('reviewOrderModal'));
+  modal.hide();
+  
+  // Show success message
+  showNotification('Thank you for your review!', 'success');
+  
+  // Update the order detail view
+  showOrderDetailPage(currentOrderIndex);
+}
+
+// Confirm return order function
+function confirmReturnOrder() {
+  const returnReason = document.getElementById('returnReason').value;
+  const returnOtherReason = document.getElementById('returnOtherReason').value.trim();
+  const returnComments = document.getElementById('returnComments').value.trim();
+  
+  let reason = returnReason;
+  if (returnReason === 'Other') {
+    if (!returnOtherReason) {
+      showNotification('Please specify the return reason', 'warning');
+      return;
+    }
+    reason = returnOtherReason;
+  }
+  
+ 
+  // Save the data
+  saveData();
+  
+  // Close the modal
+  const modal = bootstrap.Modal.getInstance(document.getElementById('returnOrderModal'));
+  modal.hide();
+  
+  // Show success message
+  showNotification('Your return request has been submitted', 'success');
+  
+  // Update the order detail view
+  showOrderDetailPage(currentOrderIndex);
+}
+
+// Update the view review modal when shown
+document.getElementById('viewReviewModal')?.addEventListener('show.bs.modal', function() {
+  const order = orders[currentOrderIndex];
+  const modal = document.getElementById('viewReviewModal');
+  
+  if (!order.rating) return;
+  
+  // Update the modal content with the review details
+  modal.querySelector('.modal-title').textContent = `Your Review of ${order.product.name}`;
+  
+  const starsContainer = modal.querySelector('.rating-stars');
+  starsContainer.innerHTML = '';
+  for (let i = 1; i <= 5; i++) {
+    starsContainer.innerHTML += i <= order.rating ? '★' : '☆';
+  }
+  
+  modal.querySelector('h5').textContent = order.reviewTitle || 'Your Review';
+  modal.querySelector('p').textContent = order.review || 'No review text provided.';
+  modal.querySelector('.small').textContent = `Reviewed on ${order.reviewDate || 'Unknown date'}`;
+});
+
 
     // Update header profile
     function updateHeaderProfile() {
@@ -2307,31 +2515,42 @@
       if (menuCanvas) menuCanvas.hide();
     }
 
-    // Generate products
-    function generateProducts(containerId, productList) {
-      const container = document.getElementById(containerId);
-      container.innerHTML = "";
-      productList.forEach(product => {
-        const originalPrice = (product.price * 1.2).toFixed(2);
-        const discount = ((originalPrice - product.price) / originalPrice * 100).toFixed(0);
-        const card = `
-          <div class="col-6 mb-4">
-            <div class="card shadow-sm product-card" style="position: relative;" onclick="showProductDetails(${product.id})">
-              <img src="${product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name)}" class="card-img-top" alt="${product.name}">
-              <button class="wishlist-btn position-absolute top-0 end-0 m-2" onclick="event.stopPropagation(); addToWishlist(${product.id})" aria-label="Add ${product.name} to Wishlist">
-                <i class="bi bi-heart-fill" style="color: ${wishlist.some(p => p.id === product.id) ? 'red' : '#ccc'};"></i>
-              </button>
-              <div class="card-body">
-                <h5 class="card-title">${product.name}</h5>
-                <p class="card-text">${product.description}</p>
-                <p class="card-text"><s>₹${originalPrice}</s> ₹${product.price.toFixed(2)} <span class="badge bg-success">${discount}% off</span></p>
-              </div>
-            </div>
-          </div>
-        `;
-        container.innerHTML += card;
-      });
+    function getProductRating(productId) {
+      const productOrders = orders.filter(order => order.product.id === productId && order.rating !== null);
+      if (productOrders.length === 0) {
+        return null;
+      }
+      const totalRating = productOrders.reduce((sum, order) => sum + order.rating, 0);
+      const averageRating = totalRating / productOrders.length;
+      return { average: averageRating.toFixed(1), count: productOrders.length };
     }
+
+    
+   // In the generateProducts function, modify the column classes:
+function generateProducts(containerId, productList) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = "";
+  productList.forEach(product => {
+    const originalPrice = (product.price * 1.2).toFixed(2);
+    const discount = ((originalPrice - product.price) / originalPrice * 100).toFixed(0);
+    const card = `
+      <div class="col-6 mb-4"> <!-- Changed from col-6 col-md-4 to col-6 for consistent two-column layout on all devices -->
+        <div class="card shadow-sm product-card" style="position: relative;" onclick="showProductDetails(${product.id})">
+          <img src="${product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name)}" class="card-img-top" alt="${product.name}">
+          <button class="wishlist-btn position-absolute top-0 end-0 m-2" onclick="event.stopPropagation(); addToWishlist(${product.id})" aria-label="Add ${product.name} to Wishlist">
+            <i class="bi bi-heart-fill" style="color: ${wishlist.some(p => p.id === product.id) ? 'red' : '#ccc'};"></i>
+          </button>
+          <div class="card-body">
+            <h5 class="card-title">${product.name}</h5>
+            <p class="card-text">${product.description}</p>
+            <p class="card-text"><s>₹${originalPrice}</s> ₹${product.price.toFixed(2)} <span class="badge bg-success">${discount}% off</span></p>
+          </div>
+        </div>
+      </div>
+    `;
+    container.innerHTML += card;
+  });
+}
 
     // Function to calculate the average rating for a product
     function getProductRating(productId) {
@@ -2349,11 +2568,13 @@
       const currentProduct = products.find(p => p.id === currentProductId);
       if (!currentProduct) return [];
       
+      // Find products in the same category, excluding the current product
       let recommendations = products.filter(p => 
         p.category === currentProduct.category && 
         p.id !== currentProductId
       );
       
+      // If not enough recommendations, add some from other categories
       if (recommendations.length < 4) {
         const otherProducts = products.filter(p => 
           p.category !== currentProduct.category && 
@@ -2362,7 +2583,7 @@
         recommendations = [...recommendations, ...otherProducts.slice(0, 4 - recommendations.length)];
       }
       
-      return recommendations.slice(0, 4);
+      return recommendations.slice(0, 4); // Return max 4 recommendations
     }
 
     // Generate HTML for recommended products
@@ -2403,101 +2624,124 @@
     }
 
     // Updated showProductDetails function with star rating display and recommendations
-  function showProductDetails(productId) {
-    const product = products.find(p => p.id === productId);
-    if (!product) return;
+    function showProductDetails(productId) {
+      const product = products.find(p => p.id === productId);
+      if (!product) return;
 
-    const sizes = product.size.split(",").map(s => s.trim());
-    const colors = product.color.split(",").map(c => c.trim());
+      const sizes = product.size.split(",").map(s => s.trim());
+      const colors = product.color.split(",").map(c => c.trim());
 
-    let sizeButtons = sizes.map(size => `
-      <button type="button" class="btn btn-outline-secondary size-btn" data-size="${size}" onclick="selectSize('${size}')">${size}</button>
-    `).join("");
+      let sizeButtons = sizes.map(size => `
+        <button type="button" class="btn btn-outline-secondary size-btn" data-size="${size}" onclick="selectSize('${size}')">${size}</button>
+      `).join("");
 
-    let colorThumbnails = colors.map(color => {
-      const imageUrl = product.colorImages[color];
-      return `
-        <div class="color-thumbnail" data-color="${color}" onclick="selectColor('${color}')">
-          <img src="${imageUrl}" alt="${color}" style="width: 50px; height: 50px;" />
+      let colorThumbnails = colors.map(color => {
+        const imageUrl = product.colorImages[color];
+        return `
+          <div class="color-thumbnail" data-color="${color}" onclick="selectColor('${color}')">
+            <img src="${imageUrl}" alt="${color}" style="width: 50px; height: 50px;" />
+          </div>
+        `;
+      }).join("");
+
+      // Get rating information
+      const ratingInfo = getProductRating(productId);
+      
+      // Get recommended products
+      const recommendations = getRecommendedProducts(productId);
+      const recommendationsHTML = generateRecommendedProducts(recommendations);
+
+      const detailContent = `
+        <div class="row">
+          <div class="col-md-6">
+            ${generateProductImageHTML(product)}
+          </div>
+          <div class="col-md-6">
+            <h3>${product.name}</h3>
+            <p>${product.description}</p>
+            <p><i class="fas fa-tag"></i> <strong>Price:</strong> <s>₹${(product.price * 1.2).toFixed(2)}</s> ₹${product.price.toFixed(2)}</p>
+            ${ratingInfo ? `<p><i class="fas fa-star"></i> <strong>Rating:</strong> ${ratingInfo.average} (${ratingInfo.count} ratings)</p>` : ''}
+            <p><i class="fas fa-list-alt"></i> <strong>Category:</strong> ${product.category}</p>
+            <p><i class="fas fa-tshirt"></i> <strong>Cloth Type:</strong> ${product.clothType}</p>
+            <p><i class="fas fa-truck"></i> <strong>Delivery:</strong> ${product.deliveryTime}</p>
+            <p><i class="fas fa-undo"></i> <strong>Return:</strong> ${product.returnPolicy}</p>
+            <p><i class="fas fa-info-circle"></i> <strong>Details:</strong> ${product.additionalDetails}</p>
+            <div class="mb-3">
+              <label><strong>Sizes:</strong></label><br>
+              ${sizeButtons}
+            </div>
+            <div class="mb-3">
+              <label><strong>Colors:</strong></label><br>
+              ${colorThumbnails}
+            </div>
+            <button class="btn btn-success w-100 mb-2" onclick="buyProductWithSelection(${product.id})">
+              <i class="fas fa-shopping-cart me-1"></i> Buy Now
+            </button>
+            <button class="btn btn-primary w-100" onclick="addToCartWithSelection(${product.id})">
+              <i class="fas fa-cart-plus me-1"></i> Add to Bag
+            </button>
+          </div>
         </div>
+        ${recommendationsHTML}
       `;
-    }).join("");
-
-    // Get rating information
-    const ratingInfo = getProductRating(productId);
-    
-    // Get recommended products
-    const recommendations = getRecommendedProducts(productId);
-    const recommendationsHTML = generateRecommendedProducts(recommendations);
-
-    const detailContent = `
-      <div class="row">
-        <div class="col-md-6">
-          ${generateProductImageHTML(product)}
-        </div>
-        <div class="col-md-6">
-          <h3>${product.name}</h3>
-          <p>${product.description}</p>
-          <p><i class="fas fa-tag"></i> <strong>Price:</strong> <s>₹${(product.price * 1.2).toFixed(2)}</s> ₹${product.price.toFixed(2)}</p>
-          ${ratingInfo ? `<p><i class="fas fa-star"></i> <strong>Rating:</strong> ${ratingInfo.average} (${ratingInfo.count} ratings)</p>` : ''}
-          <p><i class="fas fa-list-alt"></i> <strong>Category:</strong> ${product.category}</p>
-          <p><i class="fas fa-tshirt"></i> <strong>Cloth Type:</strong> ${product.clothType}</p>
-          <p><i class="fas fa-truck"></i> <strong>Delivery:</strong> ${product.deliveryTime}</p>
-          <p><i class="fas fa-undo"></i> <strong>Return:</strong> ${product.returnPolicy}</p>
-          <p><i class="fas fa-info-circle"></i> <strong>Details:</strong> ${product.additionalDetails}</p>
-          <div class="mb-3">
-            <label><strong>Sizes:</strong></label><br>
-            ${sizeButtons}
-          </div>
-          <div class="mb-3">
-            <label><strong>Colors:</strong></label><br>
-            ${colorThumbnails}
-          </div>
-          <button class="btn btn-success w-100 mb-2" onclick="buyProductWithSelection(${product.id})">
-            <i class="fas fa-shopping-cart me-1"></i> Buy Now
-          </button>
-          <button class="btn btn-primary w-100" onclick="addToCartWithSelection(${product.id})">
-            <i class="fas fa-cart-plus me-1"></i> Add to Bag
-          </button>
-        </div>
-      </div>
-      ${recommendationsHTML}
-    `;
-    
-    document.getElementById("productDetailPage").innerHTML = detailContent;
-    document.getElementById("productDetailSection").dataset.productId = productId;
-    const firstColor = colors[0];
-    selectColor(firstColor);
-    showSection("productDetailSection");
-  }
-
-  // Select size
-  function selectSize(size) {
-    document.querySelectorAll(".size-btn").forEach(btn => btn.classList.remove("active"));
-    const button = document.querySelector(`.size-btn[data-size="${size}"]`);
-    button.classList.add("active");
-    document.getElementById("productDetailSection").dataset.selectedSize = size;
-  }
-
-  // Select color
-  function selectColor(color) {
-    // Remove selected class from all thumbnails
-    document.querySelectorAll(".color-thumbnail").forEach(thumb => thumb.classList.remove("selected"));
-    // Add selected class to the clicked thumbnail
-    const thumbnail = document.querySelector(`.color-thumbnail[data-color="${color}"]`);
-    if (thumbnail) thumbnail.classList.add("selected");
-    // Change main image
-    const productId = parseInt(document.getElementById("productDetailSection").dataset.productId);
-    const product = products.find(p => p.id === productId);
-    if (product && product.colorImages[color]) {
-      document.getElementById("mainProductImage").src = product.colorImages[color];
+      
+      document.getElementById("productDetailPage").innerHTML = detailContent;
+      document.getElementById("productDetailSection").dataset.productId = productId;
+      const firstColor = colors[0];
+      selectColor(firstColor);
+      showSection("productDetailSection");
     }
-    // Set selected color
-    document.getElementById("productDetailSection").dataset.selectedColor = color;
-  }
-  
-  // Add to cart with selection
-  function addToCartWithSelection(productId) {
+
+    // Select size
+    function selectSize(size) {
+      document.querySelectorAll(".size-btn").forEach(btn => btn.classList.remove("active"));
+      const button = document.querySelector(`.size-btn[data-size="${size}"]`);
+      button.classList.add("active");
+      document.getElementById("productDetailSection").dataset.selectedSize = size;
+    }
+
+    // Select color
+    function selectColor(color) {
+      // Remove selected class from all thumbnails
+      document.querySelectorAll(".color-thumbnail").forEach(thumb => thumb.classList.remove("selected"));
+      // Add selected class to the clicked thumbnail
+      const thumbnail = document.querySelector(`.color-thumbnail[data-color="${color}"]`);
+      if (thumbnail) thumbnail.classList.add("selected");
+      // Change main image
+      const productId = parseInt(document.getElementById("productDetailSection").dataset.productId);
+      const product = products.find(p => p.id === productId);
+      if (product && product.colorImages[color]) {
+        document.getElementById("mainProductImage").src = product.colorImages[color];
+      }
+      // Set selected color
+      document.getElementById("productDetailSection").dataset.selectedColor = color;
+    }
+    
+    // Add to cart with selection
+    function addToCartWithSelection(productId) {
+        const selectedSize = document.getElementById("sizeSelect")?.value || document.getElementById("productDetailSection").dataset.selectedSize;
+        const selectedColor = document.getElementById("productDetailSection").dataset.selectedColor;
+        if (!selectedSize || !selectedColor) {
+          showNotification("Please select size and color.", "warning");
+          return;
+        }
+        const product = products.find(p => p.id === productId);
+        if (product) {
+          const cartItem = { ...product, selectedSize, selectedColor };
+          cart.push(cartItem);
+          showNotification(`${product.name} added to your with size ${selectedSize} and color ${selectedColor}.`, "info");
+          updateCartCountBadge();
+          saveData();
+        }
+      }
+
+    // Buy product with selection
+    function buyProductWithSelection(productId) {
+      if (!currentUser) {
+        showNotification("Please log in or sign up before placing an order.", "warning");
+        showSection("loginSection");
+        return;
+      }
       const selectedSize = document.getElementById("sizeSelect")?.value || document.getElementById("productDetailSection").dataset.selectedSize;
       const selectedColor = document.getElementById("productDetailSection").dataset.selectedColor;
       if (!selectedSize || !selectedColor) {
@@ -2506,1222 +2750,1199 @@
       }
       const product = products.find(p => p.id === productId);
       if (product) {
-        const cartItem = { ...product, selectedSize, selectedColor };
-        cart.push(cartItem);
-        showNotification(`${product.name} added to your with size ${selectedSize} and color ${selectedColor}.`, "info");
-        updateCartCountBadge();
+        currentProductForPurchase = { ...product, selectedSize, selectedColor };
+        const daysRange = product.deliveryTime.match(/\d+-\d+/)[0];
+        const maxDays = parseInt(daysRange.split("-")[1]);
+        const today = new Date();
+        const estimatedDeliveryDate = new Date(today);
+        estimatedDeliveryDate.setDate(today.getDate() + maxDays);
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const formattedDate = estimatedDeliveryDate.toLocaleDateString('en-US', options);
+        document.getElementById("modalProductName").textContent = product.name;
+        document.getElementById("modalProductSize").textContent = selectedSize;
+        document.getElementById("modalProductColor").textContent = selectedColor;
+        document.getElementById("modalProductPrice").textContent = product.price.toFixed(2);
+        document.getElementById("modalDeliveryTime").textContent = formattedDate;
+        document.getElementById("modalTotalAmount").textContent = (product.price + 5).toFixed(2); // Assuming +5 for shipping
+        document.getElementById("buyForm").reset();
+        const buyModal = new bootstrap.Modal(document.getElementById("buyModal"));
+        buyModal.show();
+      }
+    }
+
+    // Show notification
+    function showNotification(message, type = "success") {
+      const toastEl = document.createElement("div");
+      toastEl.className = `toast align-items-center text-white bg-${type} border-0`;
+      toastEl.setAttribute("role", "alert");
+      toastEl.setAttribute("aria-live", "assertive");
+      toastEl.setAttribute("aria-atomic", "true");
+      toastEl.innerHTML = `
+        <div class="d-flex">
+          <div class="toast-body">${message}</div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+      `;
+      document.getElementById("toastContainer").appendChild(toastEl);
+      const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
+      toast.show();
+      toastEl.addEventListener('hidden.bs.toast', () => toastEl.remove());
+      notifications.push({ message, date: new Date().toLocaleString(), type });
+      saveData();
+    }
+
+    // Show popup message
+    function showPopupMessage(message) {
+      document.getElementById("popupMessageContent").innerHTML = message;
+      const popupModal = new bootstrap.Modal(document.getElementById("popupMessageModal"));
+      popupModal.show();
+    }
+
+    // Add to wishlist
+    function addToWishlist(productId) {
+      const product = products.find(p => p.id === productId);
+      if (!product) return;
+      if (wishlist.some(p => p.id === productId)) {
+        showNotification(`${product.name} is already in your wishlist.`, "info");
+      } else {
+        wishlist.push(product);
+        showNotification(`${product.name} added to your wishlist.`, "success");
+        saveData();
+        updateWishlistSection();
+      }
+    }
+
+    // Update wishlist section
+    function updateWishlistSection() {
+      const wishlistContainer = document.getElementById("wishlistContainer");
+      if (wishlist.length === 0) {
+        wishlistContainer.innerHTML = "<p>Your wishlist is empty.</p>";
+        return;
+      }
+      let html = "";
+      wishlist.forEach((item, index) => {
+        html += `
+          <div class="card mb-3 shadow-sm product-card" onclick="showProductDetails(${item.id})" style="cursor: pointer;">
+            <div class="row g-0">
+              <div class="col-4">
+                <img src="${item.images && item.images.length ? item.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(item.name)}" class="img-fluid rounded-start" alt="${item.name}">
+              </div>
+              <div class="col-8">
+                <div class="card-body">
+                  <h5 class="card-title">${item.name}</h5>
+                  <p class="card-text">${item.description}</p>
+                  <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); removeFromWishlist(${index})" aria-label="Remove ${item.name} from Wishlist"><i class="bi bi-trash me-1"></i> Remove</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      wishlistContainer.innerHTML = html;
+    }
+
+    // Remove from wishlist
+    function removeFromWishlist(index) {
+      if (confirm("Are you sure you want to remove this item from your wishlist?")) {
+        wishlist.splice(index, 1);
+        updateWishlistSection();
+        showNotification("Item removed from wishlist.", "info");
         saveData();
       }
     }
 
-  // Buy product with selection
-  function buyProductWithSelection(productId) {
-    if (!currentUser) {
-      showNotification("Please log in or sign up before placing an order.", "warning");
-      showSection("loginSection");
-      return;
-    }
-    const selectedSize = document.getElementById("sizeSelect")?.value || document.getElementById("productDetailSection").dataset.selectedSize;
-    const selectedColor = document.getElementById("productDetailSection").dataset.selectedColor;
-    if (!selectedSize || !selectedColor) {
-      showNotification("Please select size and color.", "warning");
-      return;
-    }
-    const product = products.find(p => p.id === productId);
-    if (product) {
-      currentProductForPurchase = { ...product, selectedSize, selectedColor };
-      const daysRange = product.deliveryTime.match(/\d+-\d+/)[0];
-      const maxDays = parseInt(daysRange.split("-")[1]);
-      const today = new Date();
-      const estimatedDeliveryDate = new Date(today);
-      estimatedDeliveryDate.setDate(today.getDate() + maxDays);
-      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-      const formattedDate = estimatedDeliveryDate.toLocaleDateString('en-US', options);
-      document.getElementById("modalProductName").textContent = product.name;
-      document.getElementById("modalProductSize").textContent = selectedSize;
-      document.getElementById("modalProductColor").textContent = selectedColor;
-      document.getElementById("modalProductPrice").textContent = product.price.toFixed(2);
-      document.getElementById("modalDeliveryTime").textContent = formattedDate;
-      document.getElementById("modalTotalAmount").textContent = (product.price + 5).toFixed(2); // Assuming +5 for shipping
-      document.getElementById("buyForm").reset();
-      const buyModal = new bootstrap.Modal(document.getElementById("buyModal"));
-      buyModal.show();
-    }
-  }
-
-  // Show notification
-  function showNotification(message, type = "success") {
-    const toastEl = document.createElement("div");
-    toastEl.className = `toast align-items-center text-white bg-${type} border-0`;
-    toastEl.setAttribute("role", "alert");
-    toastEl.setAttribute("aria-live", "assertive");
-    toastEl.setAttribute("aria-atomic", "true");
-    toastEl.innerHTML = `
-      <div class="d-flex">
-        <div class="toast-body">${message}</div>
-        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-      </div>
-    `;
-    document.getElementById("toastContainer").appendChild(toastEl);
-    const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
-    toast.show();
-    toastEl.addEventListener('hidden.bs.toast', () => toastEl.remove());
-    notifications.push({ message, date: new Date().toLocaleString(), type });
-    saveData();
-  }
-
-  // Show popup message
-  function showPopupMessage(message) {
-    document.getElementById("popupMessageContent").innerHTML = message;
-    const popupModal = new bootstrap.Modal(document.getElementById("popupMessageModal"));
-    popupModal.show();
-  }
-
-  // Add to wishlist
-  function addToWishlist(productId) {
-    const product = products.find(p => p.id === productId);
-    if (!product) return;
-    if (wishlist.some(p => p.id === productId)) {
-      showNotification(`${product.name} is already in your wishlist.`, "info");
-    } else {
-      wishlist.push(product);
-      showNotification(`${product.name} added to your wishlist.`, "success");
-      saveData();
-      updateWishlistSection();
-    }
-  }
-
-  // Update wishlist section
-  function updateWishlistSection() {
-    const wishlistContainer = document.getElementById("wishlistContainer");
-    if (wishlist.length === 0) {
-      wishlistContainer.innerHTML = "<p>Your wishlist is empty.</p>";
-      return;
-    }
-    let html = "";
-    wishlist.forEach((item, index) => {
-      html += `
-        <div class="card mb-3 shadow-sm product-card" onclick="showProductDetails(${item.id})" style="cursor: pointer;">
-          <div class="row g-0">
-            <div class="col-4">
-              <img src="${item.images && item.images.length ? item.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(item.name)}" class="img-fluid rounded-start" alt="${item.name}">
-            </div>
-            <div class="col-8">
-              <div class="card-body">
-                <h5 class="card-title">${item.name}</h5>
-                <p class="card-text">${item.description}</p>
-                <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); removeFromWishlist(${index})" aria-label="Remove ${item.name} from Wishlist"><i class="bi bi-trash me-1"></i> Remove</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-    });
-    wishlistContainer.innerHTML = html;
-  }
-
-  // Remove from wishlist
-  function removeFromWishlist(index) {
-    if (confirm("Are you sure you want to remove this item from your wishlist?")) {
-      wishlist.splice(index, 1);
-      updateWishlistSection();
-      showNotification("Item removed from wishlist.", "info");
-      saveData();
-    }
-  }
-
-  // Update user activity
-  function updateUserActivity() {
-    if (currentUser) {
-      currentUser.lastActivity = new Date().toISOString();
-      const userIndex = users.findIndex(u => u.email === currentUser.email);
-      if (userIndex !== -1) users[userIndex].lastActivity = currentUser.lastActivity;
-      saveData();
-    }
-  }
-
-  // Get active users (last 5 minutes)
-  function getActiveUsers() {
-    const now = new Date();
-    const fiveMinutesAgo = new Date(now - 5 * 60 * 1000);
-    return users.filter(user => new Date(user.lastActivity) > fiveMinutesAgo).length;
-  }
-
-  // Get live users (last 1 minute)
-  function getLiveUsers() {
-    const now = new Date();
-    const oneMinuteAgo = new Date(now - 1 * 60 * 1000);
-    return users.filter(user => new Date(user.lastActivity) > oneMinuteAgo).length;
-  }
-
-  // Update owner dashboard
-  function updateOwnerDashboard() {
-    document.getElementById("totalMembers").textContent = users.length;
-    document.getElementById("activeUsers").textContent = getActiveUsers();
-    document.getElementById("liveUsers").textContent = getLiveUsers();
-
-    const totalOrders = orders.length;
-    const activeOrders = orders.filter(order => !order.cancelled && !order.received).length;
-    const cancelledOrders = orders.filter(order => order.cancelled).length;
-    const receivedOrders = orders.filter(order => order.received).length;
-
-    document.getElementById("totalOrders").textContent = totalOrders;
-    document.getElementById("activeOrders").textContent = activeOrders;
-    document.getElementById("cancelledOrders").textContent = cancelledOrders;
-    document.getElementById("receivedOrders").textContent = receivedOrders;
-
-    let orderHtml = "";
-    orders.forEach((order, index) => {
-      orderHtml += `
-        <div class="card mb-3">
-          <div class="card-header">Order #${index + 1}</div>
-          <div class="card-body">
-            <p><strong>Product:</strong> ${order.product.name}</p>
-            <p><strong>Buyer:</strong> ${order.buyer.firstName} ${order.buyer.lastName}</p>
-            <p><strong>Status:</strong> ${order.cancelled ? 'Cancelled' : (order.received ? 'Received' : 'Active')}</p>
-          </div>
-        </div>
-      `;
-    });
-    document.getElementById("orderDetailsContainer").innerHTML = orderHtml;
-
-    let locationsHtml = "";
-    users.forEach(user => {
-      locationsHtml += `
-        <div class="card mb-3">
-          <div class="card-body">
-            <p><strong>User:</strong> ${user.firstName} ${user.lastName}</p>
-            <p><strong>Location:</strong> ${user.location}</p>
-          </div>
-        </div>
-      `;
-    });
-    document.getElementById("userLocationsContainer").innerHTML = locationsHtml;
-  }
-
-  // Show section
-  function showSection(sectionId) {
-    document.querySelectorAll(".section").forEach(section => section.classList.remove("active-section", "fade-in"));
-    const targetSection = document.getElementById(sectionId);
-    targetSection.classList.add("active-section", "fade-in");
-    if (sectionId !== "productDetailSection") {
-      delete document.getElementById("productDetailSection").dataset.selectedSize;
-      delete document.getElementById("productDetailSection").dataset.selectedColor;
-    }
-    updateUserActivity();
-    if (sectionId === "shopSection") {
-      applyFilters();
-    } else if (sectionId === "menswearSection") {
-      applyMenswearFilters();
-    } else if (sectionId === "accessoriesSection") {
-      applyAccessoriesFilters();
-    } else if (sectionId === "wishlistSection") {
-      updateWishlistSection();
-    } else if (sectionId === "accountSection") {
-      updateAccountSection();
-    } else if (sectionId === "cartSection") {
-      updateCartSection();
-    } else if (sectionId === "notificationsSection") {
-      updateNotifications();
-    } else if (sectionId === "ordersSection") {
-      updateOrdersList();
-    } else if (sectionId === "sellerDashboard" || sectionId === "ownerDashboard") {
-      if (currentUser && currentUser.email === "tedpole.in@gmail.com") {
-        sectionId === "sellerDashboard" ? updateSellerDashboard() : updateOwnerDashboard();
-      } else {
-        showNotification("Access denied. Only the owner can view this dashboard.", "danger");
-        showSection("homeSection");
+    // Update user activity
+    function updateUserActivity() {
+      if (currentUser) {
+        currentUser.lastActivity = new Date().toISOString();
+        const userIndex = users.findIndex(u => u.email === currentUser.email);
+        if (userIndex !== -1) users[userIndex].lastActivity = currentUser.lastActivity;
+        saveData();
       }
     }
-  }
 
-  // Generate product image HTML
-  function generateProductImageHTML(product) {
-    const defaultColor = product.color.split(",")[0].trim();
-    const defaultImage = product.colorImages[defaultColor];
-    return `<img id="mainProductImage" src="${defaultImage}" class="product-detail-img" alt="${product.name}" style="cursor: pointer;" onclick="showProductImagesModal(${product.id})">`;
-  }
-
-  // Buy form submission with enhanced thank-you card
-  document.getElementById("buyForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-    if (!currentUser) {
-      showNotification("Please log in or sign up before placing an order.", "warning");
-      showSection("loginSection");
-      return;
+    // Get active users (last 5 minutes)
+    function getActiveUsers() {
+      const now = new Date();
+      const fiveMinutesAgo = new Date(now - 5 * 60 * 1000);
+      return users.filter(user => new Date(user.lastActivity) > fiveMinutesAgo).length;
     }
-    const address = document.getElementById("shippingAddress").value;
-    const mobile = document.getElementById("mobileNumber").value;
-    const details = document.getElementById("additionalDetails").value;
-    const daysRange = currentProductForPurchase.deliveryTime.match(/\d+-\d+/)[0];
-    const maxDays = parseInt(daysRange.split("-")[1]);
-    const orderDate = new Date();
-    const estimatedDeliveryDate = new Date(orderDate);
-    estimatedDeliveryDate.setDate(orderDate.getDate() + maxDays);
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const formattedDate = estimatedDeliveryDate.toLocaleDateString('en-US', options);
-    const order = {
-      product: currentProductForPurchase,
-      address,
-      mobile,
-      details,
-      payment: "Cash on Delivery",
-      date: orderDate.toLocaleString(),
-      cancelled: false,
-      cancellationReason: "",
-      trackingStatus: "Order Confirmed",
-      buyer: currentUser,
-      qrData: `Order #${orders.length + 1}\nProduct: ${currentProductForPurchase.name}\nSize: ${currentProductForPurchase.selectedSize}\nColor: ${currentProductForPurchase.selectedColor}\nAddress: ${address}\nMobile: ${mobile}\nBuyer: ${currentUser.firstName} ${currentUser.lastName}\nDate: ${orderDate.toLocaleString()}`,
-      received: false,
-      receivedDate: null,
-      rating: null,
-      review: null
-    };
-    orders.push(order);
-    const orderIndex = orders.length - 1;
-    showPopupMessage(`
-      <h5>Thank You for Your Order!</h5>
-      <img src="${currentProductForPurchase.images[0]}" alt="${currentProductForPurchase.name}" style="max-width: 100px; margin-bottom: 10px;">
-      <p><strong>Product:</strong> ${currentProductForPurchase.name}</p>
-      <p><strong>Size:</strong> ${currentProductForPurchase.selectedSize}</p>
-      <p><strong>Color:</strong> ${currentProductForPurchase.selectedColor}</p>
-      <p><strong>Estimated Delivery:</strong> ${formattedDate}</p>
-      <p><strong>Shipping Address:</strong> ${address}</p>
-      <p>Your order has been placed successfully. We will deliver it to you soon.</p>
-      <button class="btn btn-primary mt-3" data-bs-dismiss="modal" onclick="showOrderDetailPage(${orderIndex})">View Order Details</button>
-    `);
-    notifyOwner(`New order placed by: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email}) for product: ${order.product.name} (Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor}) at ₹${order.product.price.toFixed(2)} - Order #${orderIndex + 1}`);
-    saveData();
-    const buyModal = bootstrap.Modal.getInstance(document.getElementById("buyModal"));
-    buyModal.hide();
-  });
 
-  // Update cart count badge
-  function updateCartCountBadge() {
-    document.getElementById("footerBagBadge").textContent = cart.length;
-  }
-
-  // Update cart section
-  function updateCartSection() {
-    const cartContent = document.getElementById("cartContent");
-    if (cart.length === 0) {
-      cartContent.innerHTML = "<p>Your bag is empty.</p>";
-      return;
+    // Get live users (last 1 minute)
+    function getLiveUsers() {
+      const now = new Date();
+      const oneMinuteAgo = new Date(now - 1 * 60 * 1000);
+      return users.filter(user => new Date(user.lastActivity) > oneMinuteAgo).length;
     }
-    let html = "";
-    cart.forEach((item, index) => {
-      html += `
-        <div class="card mb-3 shadow-sm product-card" onclick="showProductDetails(${item.id})" style="cursor: pointer;">
-          <div class="row g-0">
-            <div class="col-4">
-              <img src="${item.images && item.images.length ? item.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(item.name)}" class="img-fluid rounded-start" alt="${item.name}">
+
+    // Update owner dashboard
+    function updateOwnerDashboard() {
+      document.getElementById("totalMembers").textContent = users.length;
+      document.getElementById("activeUsers").textContent = getActiveUsers();
+      document.getElementById("liveUsers").textContent = getLiveUsers();
+
+      const totalOrders = orders.length;
+      const activeOrders = orders.filter(order => !order.cancelled && !order.received).length;
+      const cancelledOrders = orders.filter(order => order.cancelled).length;
+      const receivedOrders = orders.filter(order => order.received).length;
+
+      document.getElementById("totalOrders").textContent = totalOrders;
+      document.getElementById("activeOrders").textContent = activeOrders;
+      document.getElementById("cancelledOrders").textContent = cancelledOrders;
+      document.getElementById("receivedOrders").textContent = receivedOrders;
+
+      let orderHtml = "";
+      orders.forEach((order, index) => {
+        orderHtml += `
+          <div class="card mb-3">
+            <div class="card-header">Order #${index + 1}</div>
+            <div class="card-body">
+              <p><strong>Product:</strong> ${order.product.name}</p>
+              <p><strong>Buyer:</strong> ${order.buyer.firstName} ${order.buyer.lastName}</p>
+              <p><strong>Status:</strong> ${order.cancelled ? 'Cancelled' : (order.received ? 'Received' : 'Active')}</p>
             </div>
-            <div class="col-8">
-              <div class="card-body">
-                <h5 class="card-title">${item.name}</h5>
-                <p class="card-text">${item.description}</p>
-                <p class="card-text">Size: ${item.selectedSize}, Color: ${item.selectedColor}</p>
-                <p class="card-text"><small class="text-muted">${item.category} | <s>₹${(item.price * 1.2).toFixed(2)}</s> ₹${item.price.toFixed(2)}</small></p>
-                <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); removeFromCart(${index})"><i class="bi bi-trash me-1"></i> Remove</button>
+          </div>
+        `;
+      });
+      document.getElementById("orderDetailsContainer").innerHTML = orderHtml;
+
+      let locationsHtml = "";
+      users.forEach(user => {
+        locationsHtml += `
+          <div class="card mb-3">
+            <div class="card-body">
+              <p><strong>User:</strong> ${user.firstName} ${user.lastName}</p>
+              <p><strong>Location:</strong> ${user.location}</p>
+            </div>
+          </div>
+        `;
+      });
+      document.getElementById("userLocationsContainer").innerHTML = locationsHtml;
+    }
+
+    // Show section
+    function showSection(sectionId) {
+      document.querySelectorAll(".section").forEach(section => section.classList.remove("active-section", "fade-in"));
+      const targetSection = document.getElementById(sectionId);
+      targetSection.classList.add("active-section", "fade-in");
+      if (sectionId !== "productDetailSection") {
+        delete document.getElementById("productDetailSection").dataset.selectedSize;
+        delete document.getElementById("productDetailSection").dataset.selectedColor;
+      }
+      updateUserActivity();
+      if (sectionId === "shopSection") {
+        applyFilters();
+      } else if (sectionId === "menswearSection") {
+        applyMenswearFilters();
+      } else if (sectionId === "accessoriesSection") {
+        applyAccessoriesFilters();
+      } else if (sectionId === "wishlistSection") {
+        updateWishlistSection();
+      } else if (sectionId === "accountSection") {
+        updateAccountSection();
+      } else if (sectionId === "cartSection") {
+        updateCartSection();
+      } else if (sectionId === "notificationsSection") {
+        updateNotifications();
+      } else if (sectionId === "ordersSection") {
+        updateOrdersList();
+      } else if (sectionId === "sellerDashboard" || sectionId === "ownerDashboard") {
+        if (currentUser && currentUser.email === "tedpole.in@gmail.com") {
+          sectionId === "sellerDashboard" ? updateSellerDashboard() : updateOwnerDashboard();
+        } else {
+          showNotification("Access denied. Only the owner can view this dashboard.", "danger");
+          showSection("homeSection");
+        }
+      }
+    }
+
+    // Generate product image HTML
+    function generateProductImageHTML(product) {
+      const defaultColor = product.color.split(",")[0].trim();
+      const defaultImage = product.colorImages[defaultColor];
+      return `<img id="mainProductImage" src="${defaultImage}" class="product-detail-img" alt="${product.name}" style="cursor: pointer;" onclick="showProductImagesModal(${product.id})">`;
+    }
+
+    // Buy form submission with enhanced thank-you card
+    document.getElementById("buyForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      if (!currentUser) {
+        showNotification("Please log in or sign up before placing an order.", "warning");
+        showSection("loginSection");
+        return;
+      }
+      const address = document.getElementById("shippingAddress").value;
+      const mobile = document.getElementById("mobileNumber").value;
+      const details = document.getElementById("additionalDetails").value;
+      const daysRange = currentProductForPurchase.deliveryTime.match(/\d+-\d+/)[0];
+      const maxDays = parseInt(daysRange.split("-")[1]);
+      const orderDate = new Date();
+      const estimatedDeliveryDate = new Date(orderDate);
+      estimatedDeliveryDate.setDate(orderDate.getDate() + maxDays);
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const formattedDate = estimatedDeliveryDate.toLocaleDateString('en-US', options);
+      const order = {
+        product: currentProductForPurchase,
+        address,
+        mobile,
+        details,
+        payment: "Cash on Delivery",
+        date: orderDate.toLocaleString(),
+        cancelled: false,
+        cancellationReason: "",
+        trackingStatus: "Order Confirmed",
+        buyer: currentUser,
+        qrData: `Order #${orders.length + 1}\nProduct: ${currentProductForPurchase.name}\nSize: ${currentProductForPurchase.selectedSize}\nColor: ${currentProductForPurchase.selectedColor}\nAddress: ${address}\nMobile: ${mobile}\nBuyer: ${currentUser.firstName} ${currentUser.lastName}\nDate: ${orderDate.toLocaleString()}`,
+        received: false,
+        receivedDate: null,
+        rating: null,
+        review: null
+      };
+      orders.push(order);
+      const orderIndex = orders.length - 1;
+      showPopupMessage(`
+        <h5>Thank You for Your Order!</h5>
+        <img src="${currentProductForPurchase.images[0]}" alt="${currentProductForPurchase.name}" style="max-width: 100px; margin-bottom: 10px;">
+        <p><strong>Product:</strong> ${currentProductForPurchase.name}</p>
+        <p><strong>Size:</strong> ${currentProductForPurchase.selectedSize}</p>
+        <p><strong>Color:</strong> ${currentProductForPurchase.selectedColor}</p>
+        <p><strong>Estimated Delivery:</strong> ${formattedDate}</p>
+        <p><strong>Shipping Address:</strong> ${address}</p>
+        <p>Your order has been placed successfully. We will deliver it to you soon.</p>
+        <button class="btn btn-primary mt-3" data-bs-dismiss="modal" onclick="showOrderDetailPage(${orderIndex})">View Order Details</button>
+      `);
+      notifyOwner(`New order placed by: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email}) for product: ${order.product.name} (Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor}) at ₹${order.product.price.toFixed(2)} - Order #${orderIndex + 1}`);
+      saveData();
+      const buyModal = bootstrap.Modal.getInstance(document.getElementById("buyModal"));
+      buyModal.hide();
+    });
+
+    // Update cart count badge
+    function updateCartCountBadge() {
+      document.getElementById("footerBagBadge").textContent = cart.length;
+    }
+
+    // Update cart section
+    function updateCartSection() {
+      const cartContent = document.getElementById("cartContent");
+      if (cart.length === 0) {
+        cartContent.innerHTML = "<p>Your bag is empty.</p>";
+        return;
+      }
+      let html = "";
+      cart.forEach((item, index) => {
+        html += `
+          <div class="card mb-3 shadow-sm product-card" onclick="showProductDetails(${item.id})" style="cursor: pointer;">
+            <div class="row g-0">
+              <div class="col-4">
+                <img src="${item.images && item.images.length ? item.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(item.name)}" class="img-fluid rounded-start" alt="${item.name}">
+              </div>
+              <div class="col-8">
+                <div class="card-body">
+                  <h5 class="card-title">${item.name}</h5>
+                  <p class="card-text">${item.description}</p>
+                  <p class="card-text">Size: ${item.selectedSize}, Color: ${item.selectedColor}</p>
+                  <p class="card-text"><small class="text-muted">${item.category} | <s>₹${(item.price * 1.2).toFixed(2)}</s> ₹${item.price.toFixed(2)}</small></p>
+                  <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); removeFromCart(${index})"><i class="bi bi-trash me-1"></i> Remove</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      `;
-    });
-    html += `<button class="btn btn-success">Checkout</button>`;
-    cartContent.innerHTML = html;
-  }
-
-  // Remove from cart
-  function removeFromCart(index) {
-    if (confirm("Are you sure you want to remove this item from your bag?")) {
-      cart.splice(index, 1);
-      updateCartSection();
-      updateCartCountBadge();
-      showNotification("Item removed from bag.", "info");
-      saveData();
+        `;
+      });
+      html += `<button class="btn btn-success">Checkout</button>`;
+      cartContent.innerHTML = html;
     }
-  }
 
-  // Update account section
-  function updateAccountSection() {
-    const accountContent = document.getElementById("accountContent");
-    if (currentUser) {
-      accountContent.innerHTML = `
-        <div class="card shadow-sm">
-          <div class="card-body">
-            <h3>Hello, ${currentUser.firstName} ${currentUser.lastName}</h3>
-            <p><strong>Email:</strong> ${currentUser.email}</p>
-            <p><strong>Mobile Number:</strong> ${currentUser.mobile || "Not provided"}</p>
-            <button class="btn btn-secondary" onclick="logout()">Logout</button>
+    // Remove from cart
+    function removeFromCart(index) {
+      if (confirm("Are you sure you want to remove this item from your bag?")) {
+        cart.splice(index, 1);
+        updateCartSection();
+        updateCartCountBadge();
+        showNotification("Item removed from bag.", "info");
+        saveData();
+      }
+    }
+
+    // Update account section
+    function updateAccountSection() {
+      const accountContent = document.getElementById("accountContent");
+      if (currentUser) {
+        accountContent.innerHTML = `
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h3>Hello, ${currentUser.firstName} ${currentUser.lastName}</h3>
+              <p><strong>Email:</strong> ${currentUser.email}</p>
+              <p><strong>Mobile Number:</strong> ${currentUser.mobile || "Not provided"}</p>
+              <button class="btn btn-secondary" onclick="logout()">Logout</button>
+            </div>
           </div>
-        </div>
-      `;
-    } else {
-      accountContent.innerHTML = "<p>No user details available. Please log in.</p>";
+        `;
+      } else {
+        accountContent.innerHTML = "<p>No user details available. Please log in.</p>";
+      }
     }
-  }
 
-  // Calculate estimated delivery dates
-  function calculateDeliveryDate(orderDate, deliveryTime) {
-    const [minDays, maxDays] = deliveryTime.split('-').map(s => parseInt(s.trim().replace(' days', '')));
-    const orderDateObj = new Date(orderDate);
-    const minDeliveryDate = new Date(orderDateObj);
-    minDeliveryDate.setDate(orderDateObj.getDate() + minDays);
-    const maxDeliveryDate = new Date(orderDateObj);
-    maxDeliveryDate.setDate(orderDateObj.getDate() + maxDays);
-    return {
-      min: minDeliveryDate.toLocaleDateString(),
-      max: maxDeliveryDate.toLocaleDateString()
-    };
-  }
+    // Calculate estimated delivery dates
+    function calculateDeliveryDate(orderDate, deliveryTime) {
+      const [minDays, maxDays] = deliveryTime.split('-').map(s => parseInt(s.trim().replace(' days', '')));
+      const orderDateObj = new Date(orderDate);
+      const minDeliveryDate = new Date(orderDateObj);
+      minDeliveryDate.setDate(orderDateObj.getDate() + minDays);
+      const maxDeliveryDate = new Date(orderDateObj);
+      maxDeliveryDate.setDate(orderDateObj.getDate() + maxDays);
+      return {
+        min: minDeliveryDate.toLocaleDateString(),
+        max: maxDeliveryDate.toLocaleDateString()
+      };
+    }
 
 
 // Update orders list
 function updateOrdersList(filter = currentOrdersFilter) {
-const ordersList = document.getElementById('ordersList');
-if (!currentUser) {
-  ordersList.innerHTML = `
-    <div class="text-center py-5">
-      <i class="bi bi-box-seam" style="font-size: 3rem; color: #ddd;"></i>
-      <h5 class="mt-3">No orders found</h5>
-      <p>Please log in to view your orders</p>
-      <button class="btn btn-primary mt-2" onclick="showSection('loginSection')">Log In</button>
-    </div>
-  `;
-  return;
-}
+  const ordersList = document.getElementById('ordersList');
+  if (!currentUser) {
+    ordersList.innerHTML = `
+      <div class="text-center py-5">
+        <i class="bi bi-box-seam" style="font-size: 3rem; color: #ddd;"></i>
+        <h5 class="mt-3">No orders found</h5>
+        <p>Please log in to view your orders</p>
+        <button class="btn btn-primary mt-2" onclick="showSection('loginSection')">Log In</button>
+      </div>
+    `;
+    return;
+  }
 
-const userOrders = orders.filter(order => order.buyer.email === currentUser.email);
-let filteredOrders = [];
+  const userOrders = orders.filter(order => order.buyer.email === currentUser.email);
+  let filteredOrders = [];
 
-switch (filter) {
-  case 'active':
-    filteredOrders = userOrders.filter(order => !order.cancelled && !order.received);
-    break;
-  case 'completed':
-    filteredOrders = userOrders.filter(order => order.received);
-    break;
-  case 'cancelled':
-    filteredOrders = userOrders.filter(order => order.cancelled);
-    break;
-  default:
-    filteredOrders = userOrders;
-}
-
-if (filteredOrders.length === 0) {
-  let message = '';
   switch (filter) {
-    case 'active': message = 'You have no active orders'; break;
-    case 'completed': message = 'You have no completed orders'; break;
-    case 'cancelled': message = 'You have no cancelled orders'; break;
-    default: message = 'You have not placed any orders yet';
-  }
-  ordersList.innerHTML = `
-    <div class="text-center py-5">
-      <i class="bi bi-box-seam" style="font-size: 3rem; color: #ddd;"></i>
-      <h5 class="mt-3">${message}</h5>
-      <button class="btn btn-primary mt-2" onclick="showSection('shopSection')">Start Shopping</button>
-    </div>
-  `;
-  return;
-}
-
-let html = '';
-filteredOrders.forEach((order, index) => {
-  const originalIndex = orders.findIndex(o => o === order);
-  const productImage = order.product.images && order.product.images.length > 0 ? 
-    order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
-  
-  let statusBadgeClass = '';
-  let statusText = '';
-  
-  if (order.cancelled) {
-    statusBadgeClass = 'order-status-cancelled';
-    statusText = 'Cancelled';
-  } else if (order.received) {
-    statusBadgeClass = 'order-status-delivered';
-    statusText = 'Delivered';
-  } else if (order.shipped) {
-    statusBadgeClass = 'order-status-shipped';
-    statusText = 'Shipped';
-  } else {
-    statusBadgeClass = 'order-status-confirmed';
-    statusText = 'Confirmed';
+    case 'active':
+      filteredOrders = userOrders.filter(order => !order.cancelled && !order.received);
+      break;
+    case 'completed':
+      filteredOrders = userOrders.filter(order => order.received);
+      break;
+    case 'cancelled':
+      filteredOrders = userOrders.filter(order => order.cancelled);
+      break;
+    default:
+      filteredOrders = userOrders;
   }
 
-  html += `
-    <div class="card order-card mb-3 ${order.cancelled ? 'cancelled-order' : ''}" 
-         onclick="showOrderDetailPage(${originalIndex})">
-      <div class="card-header d-flex justify-content-between align-items-center">
-        <div>
-          <span class="fw-bold">Order #${originalIndex + 1}</span>
-          <span class="text-muted ms-2">${order.date}</span>
-        </div>
-        <span class="order-status-badge ${statusBadgeClass}">${statusText}</span>
+  if (filteredOrders.length === 0) {
+    let message = '';
+    switch (filter) {
+      case 'active': message = 'You have no active orders'; break;
+      case 'completed': message = 'You have no completed orders'; break;
+      case 'cancelled': message = 'You have no cancelled orders'; break;
+      default: message = 'You have not placed any orders yet';
+    }
+    ordersList.innerHTML = `
+      <div class="text-center py-5">
+        <i class="bi bi-box-seam" style="font-size: 3rem; color: #ddd;"></i>
+        <h5 class="mt-3">${message}</h5>
+        <button class="btn btn-primary mt-2" onclick="showSection('shopSection')">Start Shopping</button>
       </div>
-      <div class="card-body">
-        <div class="row align-items-center">
-          <div class="col-4 col-md-2">
-            <img src="${productImage}" 
-                 class="order-card-image" 
-                 alt="${order.product.name}"
-                 onclick="event.stopPropagation(); showProductImagesModal(${order.product.id})">
+    `;
+    return;
+  }
+
+  let html = '';
+  filteredOrders.forEach((order, index) => {
+    const originalIndex = orders.findIndex(o => o === order);
+    const productImage = order.product.images && order.product.images.length > 0 ? 
+      order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
+    
+    let statusBadgeClass = '';
+    let statusText = '';
+    
+    if (order.cancelled) {
+      statusBadgeClass = 'order-status-cancelled';
+      statusText = 'Cancelled';
+    } else if (order.received) {
+      statusBadgeClass = 'order-status-delivered';
+      statusText = 'Delivered';
+    } else if (order.shipped) {
+      statusBadgeClass = 'order-status-shipped';
+      statusText = 'Shipped';
+    } else {
+      statusBadgeClass = 'order-status-confirmed';
+      statusText = 'Confirmed';
+    }
+
+    html += `
+      <div class="card order-card mb-3 ${order.cancelled ? 'cancelled-order' : ''}" 
+           onclick="showOrderDetailPage(${originalIndex})">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <span class="fw-bold">Order #${originalIndex + 1}</span>
+            <span class="text-muted ms-2">${order.date}</span>
           </div>
-          <div class="col-8 col-md-10">
-            <h6>${order.product.name}</h6>
-            <p class="mb-1">Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor}</p>
-            <p class="mb-1">Qty: 1</p>
-            <p class="fw-bold">₹${order.product.price.toFixed(2)}</p>
+          <span class="order-status-badge ${statusBadgeClass}">${statusText}</span>
+        </div>
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col-4 col-md-2">
+              <img src="${productImage}" 
+                   class="order-card-image" 
+                   alt="${order.product.name}"
+                   onclick="event.stopPropagation(); showProductImagesModal(${order.product.id})">
+            </div>
+            <div class="col-8 col-md-10">
+              <h6>${order.product.name}</h6>
+              <p class="mb-1">Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor}</p>
+              <p class="mb-1">Qty: 1</p>
+              <p class="fw-bold">₹${order.product.price.toFixed(2)}</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  `;
-});
-ordersList.innerHTML = html;
+    `;
+  });
+  ordersList.innerHTML = html;
 }
 
 // Filter orders
-function filterOrders(filter) {
-currentOrdersFilter = filter;
-updateOrdersList(filter);
-}
-
-// Show order detail page
-function showOrderDetailPage(orderIndex) {
-currentOrderIndex = orderIndex;
-const order = orders[orderIndex];
-const productImage = order.product.images && order.product.images.length > 0 
-  ? order.product.images[0] 
-  : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(order.product.name);
-  let deleteButton = '';
-  if (order.cancelled) {
-    deleteButton = `
-      <button class="btn btn-danger mt-3" onclick="deleteOrder(${orderIndex})">
-        <i class="bi bi-trash me-1"></i> Delete Order
-      </button>
-    `;
-  }
-
-  let statusBadgeClass = order.cancelled ? 'order-status-cancelled' :
-                        order.received ? 'order-status-delivered' :
-                        order.shipped ? 'order-status-shipped' : 'order-status-confirmed';
-  let statusText = order.cancelled ? 'Cancelled' :
-                  order.received ? 'Delivered' :
-                  order.shipped ? 'Shipped' : 'Confirmed';
-
-  const daysRange = order.product.deliveryTime.match(/\d+-\d+/)[0];
-  const [minDays, maxDays] = daysRange.split('-').map(Number);
-  const orderDate = new Date(order.date);
-  const minDeliveryDate = new Date(orderDate);
-  minDeliveryDate.setDate(orderDate.getDate() + minDays);
-  const maxDeliveryDate = new Date(orderDate);
-  maxDeliveryDate.setDate(orderDate.getDate() + maxDays);
-  const currentDate = new Date();
-  const isWithinDeliveryWindow = currentDate <= maxDeliveryDate;
-  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  const formattedMinDate = minDeliveryDate.toLocaleDateString('en-US', options);
-  const formattedMaxDate = maxDeliveryDate.toLocaleDateString('en-US', options);
-
-  let timelineItems = [];
-  if (order.cancelled) {
-    timelineItems = [
-      { date: order.date, title: 'Order Placed', description: 'Your order was placed', active: true },
-      { date: order.cancellationDate || order.date, title: 'Order Cancelled', description: 'Your order was cancelled', active: true }
-    ];
-  } else {
-    timelineItems = [
-      { date: order.date, title: 'Order Placed', description: 'Your order has been confirmed', active: true }
-    ];
-    if (order.shipped) {
-      timelineItems.push({
-        date: order.shippedDate || order.date,
-        title: 'Shipped',
-        description: 'Your order has been shipped',
-        active: true
-      });
-    }
-    if (order.received) {
-      timelineItems.push({
-        date: order.receivedDate || order.date,
-        title: 'Delivered',
-        description: 'Your order has been delivered',
-        active: true
-      });
-    } else {
-      timelineItems.push({
-        date: '',
-        title: 'Estimated Delivery',
-        description: `Expected between ${formattedMinDate} and ${formattedMaxDate}`,
-        active: false
-      });
-    }
-  }
-
-  let timelineHtml = '';
-  timelineItems.forEach((item) => {
-    timelineHtml += `
-      <div class="timeline-item ${item.active ? 'active' : ''}">
-        <h6>${item.title}</h6>
-        <p class="mb-1">${item.description}</p>
-        ${item.date ? `<p class="timeline-date text-muted">${item.date}</p>` : ''}
-      </div>
-    `;
-  });
-
-  let actionButtons = '';
-  if (!order.cancelled && !order.received) {
-    actionButtons += `
-      <div class="d-flex gap-2">
-        <button class="btn btn-success flex-grow-1" onclick="markAsReceived(${orderIndex})">
-          <i class="bi bi-check-circle me-1"></i> Mark as Received
-        </button>
-        <button class="btn btn-outline-danger flex-grow-1" 
-                data-bs-toggle="modal" 
-                data-bs-target="#cancelOrderModal">
-          <i class="bi bi-x-circle me-1"></i> Cancel Order
-        </button>
-         <button class="btn btn-danger w-(-1)" onclick="deleteOrder(${orderIndex})">
-              <i class="bi bi-trash me-1"></i> Delete Order
-            </button>
-      </div>
-    `;
-   
-  }
-  if (order.received && !order.rating) {
-    actionButtons += `
-      <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#reviewOrderModal">
-        <i class="bi bi-star me-1"></i> Rate & Review
-      </button>
-    `;
-  }
-  if (order.received && order.rating) {
-    actionButtons += `
-      <button class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#viewReviewModal">
-        <i class="bi bi-star-fill me-1"></i> View Your Review
-      </button>
-    `;
-  }
-
-  const originalPriceDisplay = order.product.originalPrice && order.product.originalPrice > order.product.price 
-    ? `<s>₹${order.product.originalPrice.toFixed(2)}</s> ` 
-    : '';
-
-  const detailContent = `
-    <div class="row">
-      <div class="col-md-8">
-        <div class="order-detail-section">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4>Order #${orderIndex + 1}</h4>
-            <span class="order-status-badge ${statusBadgeClass}">${statusText}</span>
-          </div>
-          <div class="order-timeline">
-            ${timelineHtml}
-          </div>
-          ${order.cancelled && order.cancellationReason ? `
-            <div class="alert alert-danger mt-3">
-              <h6>Cancellation Reason</h6>
-              <p>${order.cancellationReason}</p>
-            </div>
-          ` : ''}
-        </div>
-        <div class="order-actions mt-4">
-          ${actionButtons}
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="order-detail-section">
-          <h5 class="mb-3">Order Summary</h5>
-          <div class="d-flex mb-3">
-            <img src="${productImage}" class="rounded me-3" style="width: 150px; height: 150px; object-fit: cover; cursor: pointer;" 
-                 alt="${order.product.name}" onclick="showProductImages('${order.product.images.join('|')}', '${order.product.name}')">
-            <div>
-              <h6>${order.product.name}</h6>
-              <p class="mb-1 small">Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor}</p>
-              <p class="mb-1 small">Qty: 1</p>
-              <p class="fw-bold">${originalPriceDisplay}₹${order.product.price.toFixed(2)}</p>
-            </div>
-          </div>
-          <hr>
-          <div class="mb-2 d-flex justify-content-between">
-            <span>Subtotal:</span>
-            <span>₹${order.product.price.toFixed(2)}</span>
-          </div>
-          <div class="mb-2 d-flex justify-content-between">
-            <span>Shipping:</span>
-            <span>FREE</span>
-          </div>
-          <div class="mb-3 d-flex justify-content-between">
-            <span>Tax:</span>
-            <span>₹0.00</span>
-          </div>
-          <hr>
-          <div class="d-flex justify-content-between fw-bold">
-            <span>Total:</span>
-            <span>₹${order.product.price.toFixed(2)}</span>
-          </div>
-          <hr>
-          <h6 class="mb-2">Payment Method</h6>
-          <p class="mb-3">${order.payment}</p>
-          <h6 class="mb-2">Shipping Address</h6>
-          <p class="mb-1">${order.address}</p>
-          <p class="mb-3">Phone: ${order.mobile}</p>
-          <button class="btn btn-outline-primary w-100" onclick="showProductDetails(${order.product.id})">
-            <i class="bi bi-cart me-1"></i> Buy Again
-          </button>
-           
-        </div>
-      </div>
-    </div>
-  `;
-
-  document.getElementById("orderDetailPage").innerHTML = detailContent;
-  showSection("orderDetailSection");
-}
-
-// Delete order
-function deleteOrder(orderIndex) {
-if (confirm("Are you sure you want to delete this order? This action cannot be undone.")) {
-  orders.splice(orderIndex, 1);
-  saveData();
-  showNotification("Order deleted successfully.", "success");
-  showSection("ordersSection");
-  updateOrdersList();
-}
-}
-
-function markAsReceived(orderIndex) {
-  orders[orderIndex].received = true;
-  orders[orderIndex].receivedDate = new Date().toLocaleString();
-  showNotification('Order marked as received', 'success');
-  saveData();
-  showOrderDetailPage(orderIndex);
-  updateOrdersList(currentOrdersFilter);
-}
-
-function confirmCancelOrder() {
-  const reasonSelect = document.getElementById('cancelReason');
-  const otherReason = document.getElementById('otherReason');
-  let reason = reasonSelect.value;
-  if (reason === '') {
-    showNotification('Please select a cancellation reason', 'warning');
-    return;
-  }
-  if (reason === 'Other') {
-    reason = otherReason.value.trim();
-    if (reason === '') {
-      showNotification('Please specify the cancellation reason', 'warning');
-      return;
-    }
-  }
-  orders[currentOrderIndex].cancelled = true;
-  orders[currentOrderIndex].cancellationReason = reason;
-  orders[currentOrderIndex].cancellationDate = new Date().toLocaleString();
-  showNotification('Order has been cancelled', 'info');
-  saveData();
-  const modal = bootstrap.Modal.getInstance(document.getElementById('cancelOrderModal'));
-  modal.hide();
-  setTimeout(() => {
-    showOrderDetailPage(currentOrderIndex);
-    updateOrdersList(currentOrdersFilter);
-  }, 500);
-}
-
-function updateOrdersList(filter) {
-  const ordersList = document.getElementById("ordersList");
-  let filteredOrders = orders;
-  if (filter === 'active') {
-    filteredOrders = orders.filter(o => !o.cancelled && !o.received && !o.returned);
-  }
-  let html = '';
-  filteredOrders.forEach((order, index) => {
-    const status = order.cancelled ? 'Cancelled' : order.received ? 'Delivered' : order.shipped ? 'Shipped' : 'Confirmed';
-    html += `
-      <div class="card mb-3 order-card" onclick="showOrderDetailPage(${index})">
-        <div class="card-body">
-          <h5 class="card-title">Order #${index + 1}</h5>
-          <p class="card-text">${order.product.name} - ₹${order.product.price.toFixed(2)}</p>
-          <p class="card-text"><small class="text-muted">${order.date}</small></p>
-          <span class="order-status-badge order-status-${status.toLowerCase()}">${status}</span>
-        </div>
-      </div>
-    `;
-  });
-  ordersList.innerHTML = html || '<p>No orders found.</p>';
-}
-
 function filterOrders(filter) {
   currentOrdersFilter = filter;
   updateOrdersList(filter);
 }
 
-function init() {
-  loadData();
-  document.getElementById('cancelReason')?.addEventListener('change', function() {
-    document.getElementById('otherReasonContainer').style.display = this.value === 'Other' ? 'block' : 'none';
-  });
+// Show order detail page
+function showOrderDetailPage(orderIndex) {
+  currentOrderIndex = orderIndex;
+  const order = orders[orderIndex];
+  const productImage = order.product.images && order.product.images.length > 0 
+    ? order.product.images[0] 
+    : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(order.product.name);
+    let deleteButton = '';
+    if (order.cancelled) {
+      deleteButton = `
+        <button class="btn btn-danger mt-3" onclick="deleteOrder(${orderIndex})">
+          <i class="bi bi-trash me-1"></i> Delete Order
+        </button>
+      `;
+    }
+
+    let statusBadgeClass = order.cancelled ? 'order-status-cancelled' :
+                          order.received ? 'order-status-delivered' :
+                          order.shipped ? 'order-status-shipped' : 'order-status-confirmed';
+    let statusText = order.cancelled ? 'Cancelled' :
+                    order.received ? 'Delivered' :
+                    order.shipped ? 'Shipped' : 'Confirmed';
+  
+    const daysRange = order.product.deliveryTime.match(/\d+-\d+/)[0];
+    const [minDays, maxDays] = daysRange.split('-').map(Number);
+    const orderDate = new Date(order.date);
+    const minDeliveryDate = new Date(orderDate);
+    minDeliveryDate.setDate(orderDate.getDate() + minDays);
+    const maxDeliveryDate = new Date(orderDate);
+    maxDeliveryDate.setDate(orderDate.getDate() + maxDays);
+    const currentDate = new Date();
+    const isWithinDeliveryWindow = currentDate <= maxDeliveryDate;
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const formattedMinDate = minDeliveryDate.toLocaleDateString('en-US', options);
+    const formattedMaxDate = maxDeliveryDate.toLocaleDateString('en-US', options);
+  
+    let timelineItems = [];
+    if (order.cancelled) {
+      timelineItems = [
+        { date: order.date, title: 'Order Placed', description: 'Your order was placed', active: true },
+        { date: order.cancellationDate || order.date, title: 'Order Cancelled', description: 'Your order was cancelled', active: true }
+      ];
+    } else {
+      timelineItems = [
+        { date: order.date, title: 'Order Placed', description: 'Your order has been confirmed', active: true }
+      ];
+      if (order.shipped) {
+        timelineItems.push({
+          date: order.shippedDate || order.date,
+          title: 'Shipped',
+          description: 'Your order has been shipped',
+          active: true
+        });
+      }
+      if (order.received) {
+        timelineItems.push({
+          date: order.receivedDate || order.date,
+          title: 'Delivered',
+          description: 'Your order has been delivered',
+          active: true
+        });
+      } else {
+        timelineItems.push({
+          date: '',
+          title: 'Estimated Delivery',
+          description: `Expected between ${formattedMinDate} and ${formattedMaxDate}`,
+          active: false
+        });
+      }
+    }
+  
+    let timelineHtml = '';
+    timelineItems.forEach((item) => {
+      timelineHtml += `
+        <div class="timeline-item ${item.active ? 'active' : ''}">
+          <h6>${item.title}</h6>
+          <p class="mb-1">${item.description}</p>
+          ${item.date ? `<p class="timeline-date text-muted">${item.date}</p>` : ''}
+        </div>
+      `;
+    });
+  
+    let actionButtons = '';
+    if (!order.cancelled && !order.received) {
+      actionButtons += `
+        <div class="d-flex gap-2">
+          <button class="btn btn-success flex-grow-1" onclick="markAsReceived(${orderIndex})">
+            <i class="bi bi-check-circle me-1"></i> Mark as Received
+          </button>
+          <button class="btn btn-outline-danger flex-grow-1" 
+                  data-bs-toggle="modal" 
+                  data-bs-target="#cancelOrderModal">
+            <i class="bi bi-x-circle me-1"></i> Cancel Order
+          </button>
+           <button class="btn btn-danger w-(-1)" onclick="deleteOrder(${orderIndex})">
+                <i class="bi bi-trash me-1"></i> Delete Order
+              </button>
+        </div>
+      `;
+     
+    }
+    if (order.received && !order.rating) {
+      actionButtons += `
+        <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#reviewOrderModal">
+          <i class="bi bi-star me-1"></i> Rate & Review
+        </button>
+      `;
+    }
+    if (order.received && order.rating) {
+      actionButtons += `
+        <button class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#viewReviewModal">
+          <i class="bi bi-star-fill me-1"></i> View Your Review
+        </button>
+      `;
+    }
+  
+    const originalPriceDisplay = order.product.originalPrice && order.product.originalPrice > order.product.price 
+      ? `<s>₹${order.product.originalPrice.toFixed(2)}</s> ` 
+      : '';
+  
+    const detailContent = `
+      <div class="row">
+        <div class="col-md-8">
+          <div class="order-detail-section">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h4>Order #${orderIndex + 1}</h4>
+              <span class="order-status-badge ${statusBadgeClass}">${statusText}</span>
+            </div>
+            <div class="order-timeline">
+              ${timelineHtml}
+            </div>
+            ${order.cancelled && order.cancellationReason ? `
+              <div class="alert alert-danger mt-3">
+                <h6>Cancellation Reason</h6>
+                <p>${order.cancellationReason}</p>
+              </div>
+            ` : ''}
+          </div>
+          <div class="order-actions mt-4">
+            ${actionButtons}
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="order-detail-section">
+            <h5 class="mb-3">Order Summary</h5>
+            <div class="d-flex mb-3">
+              <img src="${productImage}" class="rounded me-3" style="width: 150px; height: 150px; object-fit: cover; cursor: pointer;" 
+                   alt="${order.product.name}" onclick="showProductImages('${order.product.images.join('|')}', '${order.product.name}')">
+              <div>
+                <h6>${order.product.name}</h6>
+                <p class="mb-1 small">Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor}</p>
+                <p class="mb-1 small">Qty: 1</p>
+                <p class="fw-bold">${originalPriceDisplay}₹${order.product.price.toFixed(2)}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="mb-2 d-flex justify-content-between">
+              <span>Subtotal:</span>
+              <span>₹${order.product.price.toFixed(2)}</span>
+            </div>
+            <div class="mb-2 d-flex justify-content-between">
+              <span>Shipping:</span>
+              <span>FREE</span>
+            </div>
+            <div class="mb-3 d-flex justify-content-between">
+              <span>Tax:</span>
+              <span>₹0.00</span>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between fw-bold">
+              <span>Total:</span>
+              <span>₹${order.product.price.toFixed(2)}</span>
+            </div>
+            <hr>
+            <h6 class="mb-2">Payment Method</h6>
+            <p class="mb-3">${order.payment}</p>
+            <h6 class="mb-2">Shipping Address</h6>
+            <p class="mb-1">${order.address}</p>
+            <p class="mb-3">Phone: ${order.mobile}</p>
+            <button class="btn btn-outline-primary w-100" onclick="showProductDetails(${order.product.id})">
+              <i class="bi bi-cart me-1"></i> Buy Again
+            </button>
+             
+          </div>
+        </div>
+      </div>
+    `;
+  
+    document.getElementById("orderDetailPage").innerHTML = detailContent;
+    showSection("orderDetailSection");
+  }
+
+// Delete order
+function deleteOrder(orderIndex) {
+  if (confirm("Are you sure you want to delete this order? This action cannot be undone.")) {
+    orders.splice(orderIndex, 1);
+    saveData();
+    showNotification("Order deleted successfully.", "success");
+    showSection("ordersSection");
+    updateOrdersList();
+  }
 }
 
-document.addEventListener('DOMContentLoaded', init);
+  function markAsReceived(orderIndex) {
+    orders[orderIndex].received = true;
+    orders[orderIndex].receivedDate = new Date().toLocaleString();
+    showNotification('Order marked as received', 'success');
+    saveData();
+    showOrderDetailPage(orderIndex);
+    updateOrdersList(currentOrdersFilter);
+  }
 
+  function confirmCancelOrder() {
+    const reasonSelect = document.getElementById('cancelReason');
+    const otherReason = document.getElementById('otherReason');
+    let reason = reasonSelect.value;
+    if (reason === '') {
+      showNotification('Please select a cancellation reason', 'warning');
+      return;
+    }
+    if (reason === 'Other') {
+      reason = otherReason.value.trim();
+      if (reason === '') {
+        showNotification('Please specify the cancellation reason', 'warning');
+        return;
+      }
+    }
+    orders[currentOrderIndex].cancelled = true;
+    orders[currentOrderIndex].cancellationReason = reason;
+    orders[currentOrderIndex].cancellationDate = new Date().toLocaleString();
+    showNotification('Order has been cancelled', 'info');
+    saveData();
+    const modal = bootstrap.Modal.getInstance(document.getElementById('cancelOrderModal'));
+    modal.hide();
+    setTimeout(() => {
+      showOrderDetailPage(currentOrderIndex);
+      updateOrdersList(currentOrdersFilter);
+    }, 500);
+  }
+
+  function updateOrdersList(filter) {
+    const ordersList = document.getElementById("ordersList");
+    let filteredOrders = orders;
+    if (filter === 'active') {
+      filteredOrders = orders.filter(o => !o.cancelled && !o.received && !o.returned);
+    }
+    let html = '';
+    filteredOrders.forEach((order, index) => {
+      const status = order.cancelled ? 'Cancelled' : order.received ? 'Delivered' : order.shipped ? 'Shipped' : 'Confirmed';
+      html += `
+        <div class="card mb-3 order-card" onclick="showOrderDetailPage(${index})">
+          <div class="card-body">
+            <h5 class="card-title">Order #${index + 1}</h5>
+            <p class="card-text">${order.product.name} - ₹${order.product.price.toFixed(2)}</p>
+            <p class="card-text"><small class="text-muted">${order.date}</small></p>
+            <span class="order-status-badge order-status-${status.toLowerCase()}">${status}</span>
+          </div>
+        </div>
+      `;
+    });
+    ordersList.innerHTML = html || '<p>No orders found.</p>';
+  }
+
+  function filterOrders(filter) {
+    currentOrdersFilter = filter;
+    updateOrdersList(filter);
+  }
+
+  function init() {
+    loadData();
+    document.getElementById('cancelReason')?.addEventListener('change', function() {
+      document.getElementById('otherReasonContainer').style.display = this.value === 'Other' ? 'block' : 'none';
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+  
 
 // Initialize rating when review modal is shown
 document.getElementById('reviewOrderModal')?.addEventListener('show.bs.modal', function() {
-const order = orders[currentOrderIndex];
-const ratingStars = document.getElementById('ratingStars');
-
-// Clear any previous selection
-ratingStars.querySelectorAll('span').forEach(star => {
-  star.textContent = '☆';
-});
-
-// If there's an existing rating, highlight the stars
-if (order.rating) {
-  highlightStars(order.rating);
-}
-
-// Reset the rating text
-document.getElementById('ratingText').textContent = 'Tap to rate';
-
-// Clear review fields
-document.getElementById('reviewTitle').value = '';
-document.getElementById('reviewText').value = '';
+  const order = orders[currentOrderIndex];
+  const ratingStars = document.getElementById('ratingStars');
+  
+  // Clear any previous selection
+  ratingStars.querySelectorAll('span').forEach(star => {
+    star.textContent = '☆';
+  });
+  
+  // If there's an existing rating, highlight the stars
+  if (order.rating) {
+    highlightStars(order.rating);
+  }
+  
+  // Reset the rating text
+  document.getElementById('ratingText').textContent = 'Tap to rate';
+  
+  // Clear review fields
+  document.getElementById('reviewTitle').value = '';
+  document.getElementById('reviewText').value = '';
 });
 
 // Handle star rating selection
 document.getElementById('ratingStars')?.addEventListener('click', function(e) {
-if (e.target.tagName === 'SPAN') {
-  const value = parseInt(e.target.getAttribute('data-value'));
-  highlightStars(value);
-  
-  // Update rating text
-  const ratingText = document.getElementById('ratingText');
-  ratingText.textContent = `${value} star${value !== 1 ? 's' : ''}`;
-  ratingText.style.color = '#000';
-  
-  // Store the selected rating
-  document.getElementById('ratingStars').dataset.selectedRating = value;
-}
+  if (e.target.tagName === 'SPAN') {
+    const value = parseInt(e.target.getAttribute('data-value'));
+    highlightStars(value);
+    
+    // Update rating text
+    const ratingText = document.getElementById('ratingText');
+    ratingText.textContent = `${value} star${value !== 1 ? 's' : ''}`;
+    ratingText.style.color = '#000';
+    
+    // Store the selected rating
+    document.getElementById('ratingStars').dataset.selectedRating = value;
+  }
 });
 
 // Function to highlight stars up to the selected value
 function highlightStars(value) {
-const stars = document.getElementById('ratingStars').querySelectorAll('span');
-stars.forEach((star, index) => {
-  const starValue = parseInt(star.getAttribute('data-value'));
-  star.textContent = starValue <= value ? '★' : '☆';
-  star.style.color = starValue <= value ? 'gold' : '#000';
-});
+  const stars = document.getElementById('ratingStars').querySelectorAll('span');
+  stars.forEach((star, index) => {
+    const starValue = parseInt(star.getAttribute('data-value'));
+    star.textContent = starValue <= value ? '★' : '☆';
+    star.style.color = starValue <= value ? 'gold' : '#000';
+  });
 }
 
 // Submit review function
 function submitReview() {
-const ratingStars = document.getElementById('ratingStars');
-const selectedRating = ratingStars.dataset.selectedRating;
-const reviewTitle = document.getElementById('reviewTitle').value.trim();
-const reviewText = document.getElementById('reviewText').value.trim();
-
-if (!selectedRating) {
-  showNotification('Please select a rating by tapping the stars', 'warning');
-  return;
-}
-
-if (!reviewTitle) {
-  showNotification('Please enter a title for your review', 'warning');
-  return;
-}
-
-if (!reviewText) {
-  showNotification('Please write your review', 'warning');
-  return;
-}
-
-// Update the order with review details
-const order = orders[currentOrderIndex];
-order.rating = parseInt(selectedRating);
-order.reviewTitle = reviewTitle;
-order.review = reviewText;
-order.reviewDate = new Date().toLocaleString();
-
-// Save the data
-saveData();
-
-// Close the modal
-const modal = bootstrap.Modal.getInstance(document.getElementById('reviewOrderModal'));
-modal.hide();
-
-// Show success message
-showNotification('Thank you for your review!', 'success');
-
-// Update the order detail view
-showOrderDetailPage(currentOrderIndex);
+  const ratingStars = document.getElementById('ratingStars');
+  const selectedRating = ratingStars.dataset.selectedRating;
+  const reviewTitle = document.getElementById('reviewTitle').value.trim();
+  const reviewText = document.getElementById('reviewText').value.trim();
+  
+  if (!selectedRating) {
+    showNotification('Please select a rating by tapping the stars', 'warning');
+    return;
+  }
+  
+  if (!reviewTitle) {
+    showNotification('Please enter a title for your review', 'warning');
+    return;
+  }
+  
+  if (!reviewText) {
+    showNotification('Please write your review', 'warning');
+    return;
+  }
+  
+  // Update the order with review details
+  const order = orders[currentOrderIndex];
+  order.rating = parseInt(selectedRating);
+  order.reviewTitle = reviewTitle;
+  order.review = reviewText;
+  order.reviewDate = new Date().toLocaleString();
+  
+  // Save the data
+  saveData();
+  
+  // Close the modal
+  const modal = bootstrap.Modal.getInstance(document.getElementById('reviewOrderModal'));
+  modal.hide();
+  
+  // Show success message
+  showNotification('Thank you for your review!', 'success');
+  
+  // Update the order detail view
+  showOrderDetailPage(currentOrderIndex);
 }
 
 // Confirm return order function
 function confirmReturnOrder() {
-const returnReason = document.getElementById('returnReason').value;
-const returnOtherReason = document.getElementById('returnOtherReason').value.trim();
-const returnComments = document.getElementById('returnComments').value.trim();
-
-let reason = returnReason;
-if (returnReason === 'Other') {
-  if (!returnOtherReason) {
-    showNotification('Please specify the return reason', 'warning');
-    return;
+  const returnReason = document.getElementById('returnReason').value;
+  const returnOtherReason = document.getElementById('returnOtherReason').value.trim();
+  const returnComments = document.getElementById('returnComments').value.trim();
+  
+  let reason = returnReason;
+  if (returnReason === 'Other') {
+    if (!returnOtherReason) {
+      showNotification('Please specify the return reason', 'warning');
+      return;
+    }
+    reason = returnOtherReason;
   }
-  reason = returnOtherReason;
-}
-
-
-
-// Save the data
-saveData();
-
-// Close the modal
-const modal = bootstrap.Modal.getInstance(document.getElementById('returnOrderModal'));
-modal.hide();
-
-// Show success message
-showNotification('Your return request has been submitted', 'success');
-
-// Update the order detail view
-showOrderDetailPage(currentOrderIndex);
+  
+  
+  
+  // Save the data
+  saveData();
+  
+  // Close the modal
+  const modal = bootstrap.Modal.getInstance(document.getElementById('returnOrderModal'));
+  modal.hide();
+  
+  // Show success message
+  showNotification('Your return request has been submitted', 'success');
+  
+  // Update the order detail view
+  showOrderDetailPage(currentOrderIndex);
 }
 
 // Update the view review modal when shown
 document.getElementById('viewReviewModal')?.addEventListener('show.bs.modal', function() {
-const order = orders[currentOrderIndex];
-const modal = document.getElementById('viewReviewModal');
-
-if (!order.rating) return;
-
-// Update the modal content with the review details
-modal.querySelector('.modal-title').textContent = `Your Review of ${order.product.name}`;
-
-const starsContainer = modal.querySelector('.rating-stars');
-starsContainer.innerHTML = '';
-for (let i = 1; i <= 5; i++) {
-  starsContainer.innerHTML += i <= order.rating ? '★' : '☆';
-}
-
-modal.querySelector('h5').textContent = order.reviewTitle || 'Your Review';
-modal.querySelector('p').textContent = order.review || 'No review text provided.';
-modal.querySelector('.small').textContent = `Reviewed on ${order.reviewDate || 'Unknown date'}`;
+  const order = orders[currentOrderIndex];
+  const modal = document.getElementById('viewReviewModal');
+  
+  if (!order.rating) return;
+  
+  // Update the modal content with the review details
+  modal.querySelector('.modal-title').textContent = `Your Review of ${order.product.name}`;
+  
+  const starsContainer = modal.querySelector('.rating-stars');
+  starsContainer.innerHTML = '';
+  for (let i = 1; i <= 5; i++) {
+    starsContainer.innerHTML += i <= order.rating ? '★' : '☆';
+  }
+  
+  modal.querySelector('h5').textContent = order.reviewTitle || 'Your Review';
+  modal.querySelector('p').textContent = order.review || 'No review text provided.';
+  modal.querySelector('.small').textContent = `Reviewed on ${order.reviewDate || 'Unknown date'}`;
 });
 
 // Add this to your existing showOrderDetailPage function where you generate the action buttons
 // (This is already in your code, just showing where it fits)
 /*
 if (order.received && !order.returned && !order.rating) {
-actionButtons += `
-  <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#reviewOrderModal">
-    <i class="bi bi-star me-1"></i> Rate & Review
-  </button>
-  <button class="btn btn-outline-secondary me-2" data-bs-toggle="modal" data-bs-target="#returnOrderModal">
-    <i class="bi bi-arrow-return-left me-1"></i> Return Item
-  </button>
-`;
+  actionButtons += `
+    <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#reviewOrderModal">
+      <i class="bi bi-star me-1"></i> Rate & Review
+    </button>
+    <button class="btn btn-outline-secondary me-2" data-bs-toggle="modal" data-bs-target="#returnOrderModal">
+      <i class="bi bi-arrow-return-left me-1"></i> Return Item
+    </button>
+  `;
 }
 if (order.received && order.rating) {
-actionButtons += `
-  <button class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#viewReviewModal">
-    <i class="bi bi-star-fill me-1"></i> View Your Review
-  </button>
-`;
+  actionButtons += `
+    <button class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#viewReviewModal">
+      <i class="bi bi-star-fill me-1"></i> View Your Review
+    </button>
+  `;
 }
 */
 
-  // Update menu account details
-  function updateMenuAccountDetails() {
-    const container = document.getElementById("menuAccountDetails");
-    if (currentUser) {
-      container.innerHTML = `<i class="bi bi-person-circle me-2"></i><h4 class="d-inline">${currentUser.firstName} ${currentUser.lastName}</h4><br><small>${currentUser.email}</small>`;
-      if (currentUser.email === "tedpole.in@gmail.com") {
-        document.getElementById("sellerDashboardMenuItem").style.display = "block";
-        document.getElementById("ownerDashboardMenuItem").style.display = "block";
+    // Update menu account details
+    function updateMenuAccountDetails() {
+      const container = document.getElementById("menuAccountDetails");
+      if (currentUser) {
+        container.innerHTML = `<i class="bi bi-person-circle me-2"></i><h4 class="d-inline">${currentUser.firstName} ${currentUser.lastName}</h4><br><small>${currentUser.email}</small>`;
+        if (currentUser.email === "tedpole.in@gmail.com") {
+          document.getElementById("sellerDashboardMenuItem").style.display = "block";
+          document.getElementById("ownerDashboardMenuItem").style.display = "block";
+        }
+      } else {
+        container.innerHTML = `<h4>Welcome Guest</h4>`;
+        document.getElementById("sellerDashboardMenuItem").style.display = "none";
+        document.getElementById("ownerDashboardMenuItem").style.display = "none";
       }
-    } else {
-      container.innerHTML = `<h4>Welcome Guest</h4>`;
-      document.getElementById("sellerDashboardMenuItem").style.display = "none";
-      document.getElementById("ownerDashboardMenuItem").style.display = "none";
     }
-  }
 
-  // Logout
-  function logout() {
-    if (currentUser) {
-      currentUser.isLoggedIn = false;
-      currentUser.lastActivity = new Date().toISOString();
-    }
-    currentUser = null;
-    showNotification("You have been logged out.", "info");
-    saveData();
-    updateHeaderProfile();
-    updateMenuAccountDetails();
-    showSection("homeSection");
-  }
-
-  // Header button actions
-  document.getElementById("accountButton").addEventListener("click", () => currentUser ? showSection("accountSection") : showSection("loginSection"));
-  document.getElementById("notificationButton").addEventListener("click", () => showSection("notificationsSection"));
-
-  // Enhanced search functionality
-function showSearchSuggestions() {
-const input = document.getElementById("searchSectionInput").value.toLowerCase();
-const suggestionsContainer = document.getElementById("searchSuggestions");
-
-if (input.length < 2) {
-  suggestionsContainer.style.display = "none";
-  return;
-}
-
-const suggestions = products.filter(product => 
-  product.name.toLowerCase().includes(input) || 
-  product.description.toLowerCase().includes(input) ||
-  product.category.toLowerCase().includes(input)
-).slice(0, 5);
-
-if (suggestions.length === 0) {
-  suggestionsContainer.style.display = "none";
-  return;
-}
-
-let html = '';
-suggestions.forEach(product => {
-  html += `
-    <a href="#" class="list-group-item list-group-item-action" 
-       onclick="event.preventDefault(); document.getElementById('searchSectionInput').value='${product.name}'; suggestionsContainer.style.display='none';">
-      <div class="d-flex align-items-center">
-        <img src="${product.images[0]}" alt="${product.name}" style="width: 40px; height: 40px; object-fit: cover; margin-right: 10px;">
-        <div>
-          <h6 class="mb-0">${product.name}</h6>
-          <small class="text-muted">${product.category}</small>
-        </div>
-      </div>
-    </a>
-  `;
-});
-
-suggestionsContainer.innerHTML = html;
-suggestionsContainer.style.display = "block";
-}
-
-function performSearch() {
-const query = document.getElementById("searchSectionInput").value.toLowerCase();
-const category = document.getElementById("searchCategory").value;
-const priceRange = document.getElementById("searchPrice").value;
-const minRating = document.getElementById("searchRating").value;
-const sortBy = document.getElementById("searchSort").value;
-
-let filteredProducts = [...products];
-
-// Apply search query
-if (query) {
-  filteredProducts = filteredProducts.filter(p => 
-    p.name.toLowerCase().includes(query) || 
-    p.description.toLowerCase().includes(query)
-)}
-
-// Apply category filter
-if (category) {
-  filteredProducts = filteredProducts.filter(p => p.category === category);
-}
-
-// Apply price range filter
-if (priceRange) {
-  const [min, max] = priceRange.split("-").map(Number);
-  filteredProducts = filteredProducts.filter(p => {
-    if (max) return p.price >= min && p.price <= max;
-    return p.price >= min;
-  });
-}
-
-// Apply rating filter
-if (minRating) {
-  filteredProducts = filteredProducts.filter(p => {
-    const ratingInfo = getProductRating(p.id);
-    return ratingInfo && ratingInfo.average >= minRating;
-  });
-}
-
-// Apply sorting
-switch(sortBy) {
-  case "price-low":
-    filteredProducts.sort((a, b) => a.price - b.price);
-    break;
-  case "price-high":
-    filteredProducts.sort((a, b) => b.price - a.price);
-    break;
-  case "rating":
-    filteredProducts.sort((a, b) => {
-      const ratingA = getProductRating(a.id)?.average || 0;
-      const ratingB = getProductRating(b.id)?.average || 0;
-      return ratingB - ratingA;
-    });
-    break;
-  case "newest":
-    // Assuming newer products have higher IDs
-    filteredProducts.sort((a, b) => b.id - a.id);
-    break;
-  default:
-    // Relevance - products matching query come first
-    if (query) {
-      filteredProducts.sort((a, b) => {
-        const aMatches = a.name.toLowerCase().includes(query) ? 1 : 0;
-        const bMatches = b.name.toLowerCase().includes(query) ? 1 : 0;
-        return bMatches - aMatches;
-      });
-    }
-}
-
-displaySearchResults(filteredProducts);
-updateSearchActiveFilters(query, category, priceRange, minRating);
-}
-
-function displaySearchResults(results) {
-const container = document.getElementById("searchResultsContainer");
-const countElement = document.getElementById("searchResultsCount");
-
-countElement.textContent = `${results.length} ${results.length === 1 ? 'product' : 'products'} found`;
-
-if (results.length === 0) {
-  container.innerHTML = `
-    <div class="col-12 text-center py-5">
-      <i class="bi bi-search" style="font-size: 3rem; color: #ccc;"></i>
-      <h4 class="mt-3">No </h4>
-      <p>Try adjusting your search or filters</p>
-      <button class="btn btn-primary" onclick="clearSearchFilters()">Clear all filters</button>
-    </div>
-  `;
-  return;
-}
-
-container.innerHTML = "";
-results.forEach(product => {
-  const ratingInfo = getProductRating(product.id);
-  const originalPrice = (product.price * 1.2).toFixed(2);
-  const discount = ((originalPrice - product.price) / originalPrice * 100).toFixed(0);
-  
-  const card = `
-    <div class="col-6 col-md-4 col-lg-3 mb-4">
-      <div class="card h-100 product-card" onclick="showProductDetails(${product.id})">
-        <div style="position: relative;">
-          <img src="${product.images[0]}" class="card-img-top" alt="${product.name}" style="height: 200px; object-fit: cover;">
-          ${discount > 0 ? `<span class="badge bg-danger position-absolute top-0 start-0 m-2">${discount}% OFF</span>` : ''}
-          <button class="wishlist-btn position-absolute top-0 end-0 m-2" 
-                  onclick="event.stopPropagation(); addToWishlist(${product.id})">
-            <i class="bi bi-heart-fill" style="color: ${wishlist.some(p => p.id === product.id) ? 'red' : '#ccc'};"></i>
-          </button>
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">${product.name}</h5>
-          <p class="card-text text-muted" style="font-size: 0.9rem;">${product.description}</p>
-          <div class="d-flex justify-content-between align-items-center">
-            <div>
-              <span class="fw-bold">₹${product.price.toFixed(2)}</span>
-              ${discount > 0 ? `<small class="text-decoration-line-through text-muted ms-1">₹${originalPrice}</small>` : ''}
-            </div>
-            ${ratingInfo ? `
-              <div class="d-flex align-items-center">
-                <i class="bi bi-star-fill text-warning me-1"></i>
-                <small>${ratingInfo.average}</small>
-              </div>
-            ` : ''}
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
-  container.innerHTML += card;
-});
-}
-
-function updateSearchActiveFilters(query, category, priceRange, minRating) {
-const container = document.getElementById("searchActiveFilters");
-let html = '';
-
-if (query) html += `<span class="badge bg-secondary me-2">Search: ${query}</span>`;
-if (category) html += `<span class="badge bg-primary me-2">Category: ${category}</span>`;
-if (priceRange) {
-  const label = priceRange === "0-100" ? "Under ₹100" : 
-               priceRange === "100-200" ? "₹100-₹200" :
-               priceRange === "200-300" ? "₹200-₹300" : "₹300-₹500";
-  html += `<span class="badge bg-info me-2">Price: ${label}</span>`;
-}
-if (minRating) html += `<span class="badge bg-warning me-2">Rating: ${minRating}+</span>`;
-
-container.innerHTML = html;
-}
-
-function clearSearchFilters() {
-document.getElementById("searchSectionInput").value = "";
-document.getElementById("searchCategory").value = "";
-document.getElementById("searchPrice").value = "";
-document.getElementById("searchRating").value = "";
-document.getElementById("searchSort").value = "relevance";
-document.getElementById("searchActiveFilters").innerHTML = "";
-displaySearchResults(products);
-document.getElementById("searchResultsCount").textContent = `${products.length} `;
-}
-
-  // Login form submission
-  document.getElementById("loginForm")?.addEventListener("submit", function(e) {
-    e.preventDefault();
-    const email = document.getElementById("loginEmail").value;
-    const password = document.getElementById("loginPassword").value;
-    const user = users.find(u => u.email === email && u.password === password);
-    if (user) {
-      currentUser = user;
-      currentUser.isLoggedIn = true;
-      currentUser.lastActivity = new Date().toISOString();
-      showNotification("Login successful!", "success");
-      notifyOwner(`User logged in: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email})`);
+    // Logout
+    function logout() {
+      if (currentUser) {
+        currentUser.isLoggedIn = false;
+        currentUser.lastActivity = new Date().toISOString();
+      }
+      currentUser = null;
+      showNotification("You have been logged out.", "info");
       saveData();
       updateHeaderProfile();
       updateMenuAccountDetails();
       showSection("homeSection");
-    } else {
-      showNotification("Invalid email or password. Please sign up if you don't have an account.", "warning");
     }
-  });
 
-  // Sign up form submission
-  document.getElementById("signupForm")?.addEventListener("submit", function(e) {
-    e.preventDefault();
-    const firstName = document.getElementById("firstName").value;
-    const lastName = document.getElementById("lastName").value;
-    const mobile = document.getElementById("mobileNumberSignUp").value;
-    const email = document.getElementById("signupEmail").value;
-    const password = document.getElementById("signupPassword").value;
-    const confirmPassword = document.getElementById("confirmPassword").value;
-    if (password !== confirmPassword) {
-      showNotification("Passwords do not match!", "warning");
-      return;
-    }
-    if (users.some(u => u.email === email)) {
-      showNotification("User with this email already exists. Please log in.", "warning");
-      return;
-    }
-    currentUser = { firstName, lastName, email, mobile, password, isLoggedIn: true, lastActivity: new Date().toISOString(), location: locations[Math.floor(Math.random() * locations.length)] };
-    users.push(currentUser);
-    showNotification("Sign Up successful!", "success");
-    notifyOwner(`New user signed up: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email})`);
-    saveData();
-    updateHeaderProfile();
-    updateMenuAccountDetails();
-    showSection("homeSection");
-  });
+    // Header button actions
+    document.getElementById("accountButton").addEventListener("click", () => currentUser ? showSection("accountSection") : showSection("loginSection"));
+    document.getElementById("notificationButton").addEventListener("click", () => showSection("notificationsSection"));
 
-  // Contact form submission
-  document.getElementById("contactForm")?.addEventListener("submit", function(e) {
-    e.preventDefault();
-    showNotification("Message was sent", "success");
-    this.reset();
+    // Enhanced search functionality
+function showSearchSuggestions() {
+  const input = document.getElementById("searchSectionInput").value.toLowerCase();
+  const suggestionsContainer = document.getElementById("searchSuggestions");
+  
+  if (input.length < 2) {
+    suggestionsContainer.style.display = "none";
+    return;
+  }
+  
+  const suggestions = products.filter(product => 
+    product.name.toLowerCase().includes(input) || 
+    product.description.toLowerCase().includes(input) ||
+    product.category.toLowerCase().includes(input)
+  ).slice(0, 5);
+  
+  if (suggestions.length === 0) {
+    suggestionsContainer.style.display = "none";
+    return;
+  }
+  
+  let html = '';
+  suggestions.forEach(product => {
+    html += `
+      <a href="#" class="list-group-item list-group-item-action" 
+         onclick="event.preventDefault(); document.getElementById('searchSectionInput').value='${product.name}'; suggestionsContainer.style.display='none';">
+        <div class="d-flex align-items-center">
+          <img src="${product.images[0]}" alt="${product.name}" style="width: 40px; height: 40px; object-fit: cover; margin-right: 10px;">
+          <div>
+            <h6 class="mb-0">${product.name}</h6>
+            <small class="text-muted">${product.category}</small>
+          </div>
+        </div>
+      </a>
+    `;
   });
+  
+  suggestionsContainer.innerHTML = html;
+  suggestionsContainer.style.display = "block";
+}
 
-  // Apply filters for Shop section
+function performSearch() {
+  const query = document.getElementById("searchSectionInput").value.toLowerCase();
+  const category = document.getElementById("searchCategory").value;
+  const priceRange = document.getElementById("searchPrice").value;
+  const minRating = document.getElementById("searchRating").value;
+  const sortBy = document.getElementById("searchSort").value;
+  
+  let filteredProducts = [...products];
+  
+  // Apply search query
+  if (query) {
+    filteredProducts = filteredProducts.filter(p => 
+      p.name.toLowerCase().includes(query) || 
+      p.description.toLowerCase().includes(query)
+  )}
+  
+  // Apply category filter
+  if (category) {
+    filteredProducts = filteredProducts.filter(p => p.category === category);
+  }
+  
+  // Apply price range filter
+  if (priceRange) {
+    const [min, max] = priceRange.split("-").map(Number);
+    filteredProducts = filteredProducts.filter(p => {
+      if (max) return p.price >= min && p.price <= max;
+      return p.price >= min;
+    });
+  }
+  
+  // Apply rating filter
+  if (minRating) {
+    filteredProducts = filteredProducts.filter(p => {
+      const ratingInfo = getProductRating(p.id);
+      return ratingInfo && ratingInfo.average >= minRating;
+    });
+  }
+  
+  // Apply sorting
+  switch(sortBy) {
+    case "price-low":
+      filteredProducts.sort((a, b) => a.price - b.price);
+      break;
+    case "price-high":
+      filteredProducts.sort((a, b) => b.price - a.price);
+      break;
+    case "rating":
+      filteredProducts.sort((a, b) => {
+        const ratingA = getProductRating(a.id)?.average || 0;
+        const ratingB = getProductRating(b.id)?.average || 0;
+        return ratingB - ratingA;
+      });
+      break;
+    case "newest":
+      // Assuming newer products have higher IDs
+      filteredProducts.sort((a, b) => b.id - a.id);
+      break;
+    default:
+      // Relevance - products matching query come first
+      if (query) {
+        filteredProducts.sort((a, b) => {
+          const aMatches = a.name.toLowerCase().includes(query) ? 1 : 0;
+          const bMatches = b.name.toLowerCase().includes(query) ? 1 : 0;
+          return bMatches - aMatches;
+        });
+      }
+  }
+  
+  displaySearchResults(filteredProducts);
+  updateSearchActiveFilters(query, category, priceRange, minRating);
+}
+
+function displaySearchResults(results) {
+  const container = document.getElementById("searchResultsContainer");
+  const countElement = document.getElementById("searchResultsCount");
+  
+  countElement.textContent = `${results.length} ${results.length === 1 ? 'product' : 'products'} found`;
+  
+  if (results.length === 0) {
+    container.innerHTML = `
+      <div class="col-12 text-center py-5">
+        <i class="bi bi-search" style="font-size: 3rem; color: #ccc;"></i>
+        <h4 class="mt-3">No </h4>
+        <p>Try adjusting your search or filters</p>
+        <button class="btn btn-primary" onclick="clearSearchFilters()">Clear all filters</button>
+      </div>
+    `;
+    return;
+  }
+  
+  container.innerHTML = "";
+  results.forEach(product => {
+    const ratingInfo = getProductRating(product.id);
+    const originalPrice = (product.price * 1.2).toFixed(2);
+    const discount = ((originalPrice - product.price) / originalPrice * 100).toFixed(0);
+    
+    const card = `
+      <div class="col-6 col-md-4 col-lg-3 mb-4">
+        <div class="card h-100 product-card" onclick="showProductDetails(${product.id})">
+          <div style="position: relative;">
+            <img src="${product.images[0]}" class="card-img-top" alt="${product.name}" style="height: 200px; object-fit: cover;">
+            ${discount > 0 ? `<span class="badge bg-danger position-absolute top-0 start-0 m-2">${discount}% OFF</span>` : ''}
+            <button class="wishlist-btn position-absolute top-0 end-0 m-2" 
+                    onclick="event.stopPropagation(); addToWishlist(${product.id})">
+              <i class="bi bi-heart-fill" style="color: ${wishlist.some(p => p.id === product.id) ? 'red' : '#ccc'};"></i>
+            </button>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">${product.name}</h5>
+            <p class="card-text text-muted" style="font-size: 0.9rem;">${product.description}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <span class="fw-bold">₹${product.price.toFixed(2)}</span>
+                ${discount > 0 ? `<small class="text-decoration-line-through text-muted ms-1">₹${originalPrice}</small>` : ''}
+              </div>
+              ${ratingInfo ? `
+                <div class="d-flex align-items-center">
+                  <i class="bi bi-star-fill text-warning me-1"></i>
+                  <small>${ratingInfo.average}</small>
+                </div>
+              ` : ''}
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    container.innerHTML += card;
+  });
+}
+
+function updateSearchActiveFilters(query, category, priceRange, minRating) {
+  const container = document.getElementById("searchActiveFilters");
+  let html = '';
+  
+  if (query) html += `<span class="badge bg-secondary me-2">Search: ${query}</span>`;
+  if (category) html += `<span class="badge bg-primary me-2">Category: ${category}</span>`;
+  if (priceRange) {
+    const label = priceRange === "0-100" ? "Under ₹100" : 
+                 priceRange === "100-200" ? "₹100-₹200" :
+                 priceRange === "200-300" ? "₹200-₹300" : "₹300-₹500";
+    html += `<span class="badge bg-info me-2">Price: ${label}</span>`;
+  }
+  if (minRating) html += `<span class="badge bg-warning me-2">Rating: ${minRating}+</span>`;
+  
+  container.innerHTML = html;
+}
+
+function clearSearchFilters() {
+  document.getElementById("searchSectionInput").value = "";
+  document.getElementById("searchCategory").value = "";
+  document.getElementById("searchPrice").value = "";
+  document.getElementById("searchRating").value = "";
+  document.getElementById("searchSort").value = "relevance";
+  document.getElementById("searchActiveFilters").innerHTML = "";
+  displaySearchResults(products);
+  document.getElementById("searchResultsCount").textContent = `${products.length} `;
+}
+
+    // Login form submission
+    document.getElementById("loginForm")?.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
+      const user = users.find(u => u.email === email && u.password === password);
+      if (user) {
+        currentUser = user;
+        currentUser.isLoggedIn = true;
+        currentUser.lastActivity = new Date().toISOString();
+        showNotification("Login successful!", "success");
+        notifyOwner(`User logged in: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email})`);
+        saveData();
+        updateHeaderProfile();
+        updateMenuAccountDetails();
+        showSection("homeSection");
+      } else {
+        showNotification("Invalid email or password. Please sign up if you don't have an account.", "warning");
+      }
+    });
+
+    // Sign up form submission
+    document.getElementById("signupForm")?.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const firstName = document.getElementById("firstName").value;
+      const lastName = document.getElementById("lastName").value;
+      const mobile = document.getElementById("mobileNumberSignUp").value;
+      const email = document.getElementById("signupEmail").value;
+      const password = document.getElementById("signupPassword").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+      if (password !== confirmPassword) {
+        showNotification("Passwords do not match!", "warning");
+        return;
+      }
+      if (users.some(u => u.email === email)) {
+        showNotification("User with this email already exists. Please log in.", "warning");
+        return;
+      }
+      currentUser = { firstName, lastName, email, mobile, password, isLoggedIn: true, lastActivity: new Date().toISOString(), location: locations[Math.floor(Math.random() * locations.length)] };
+      users.push(currentUser);
+      showNotification("Sign Up successful!", "success");
+      notifyOwner(`New user signed up: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email})`);
+      saveData();
+      updateHeaderProfile();
+      updateMenuAccountDetails();
+      showSection("homeSection");
+    });
+
+    // Contact form submission
+    document.getElementById("contactForm")?.addEventListener("submit", function(e) {
+      e.preventDefault();
+      showNotification("Message was sent", "success");
+      this.reset();
+    });
+
+     // Apply filters for Shop section
   function applyFilters() {
     const size = document.getElementById("filterSize").value;
     const color = document.getElementById("filterColor").value;
@@ -3890,21 +4111,115 @@ document.getElementById("searchResultsCount").textContent = `${products.length} 
       generateProducts("accessoriesContainer", accessoriesProducts);
       displayAccessoriesActiveFilters();
     }
-
-    // Notify owner
-    function notifyOwner(message) {
-      ownerNotifications.push({ message, date: new Date().toLocaleString() });
-      saveData();
-    }
-
-    // Update notifications
-    function updateNotifications() {
-      const notificationsContent = document.getElementById("notificationsContent");
-      if (notifications.length === 0) {
-        notificationsContent.innerHTML = "<p>No notifications yet.</p>";
+      // Notify owner
+      function notifyOwner(message) {
+        ownerNotifications.push({ message, date: new Date().toLocaleString() });
+        saveData();
+      }
+  
+      // Update notifications
+      function updateNotifications() {
+        const notificationsContent = document.getElementById("notificationsContent");
+        if (notifications.length === 0) {
+          notificationsContent.innerHTML = "<p>No notifications yet.</p>";
+        } else {
+          let html = '<div class="list-group">';
+          notifications.slice().reverse().forEach(notif => {
+            html += `
+              <div class="list-group-item">
+                <i class="bi bi-bell-fill me-2"></i>
+                <strong>${notif.date}</strong>: ${notif.message}
+              </div>
+            `;
+          });
+          html += '</div>';
+          notificationsContent.innerHTML = html;
+        }
+      }
+  
+     // Update Seller Dashboard
+     function updateSellerDashboard() {
+      const sellerDashboardContent = document.getElementById("sellerDashboardContent");
+      let html = "<h2>Users</h2>";
+      if (users.length === 0) {
+        html += "<p>No users yet.</p>";
       } else {
-        let html = '<div class="list-group">';
-        notifications.slice().reverse().forEach(notif => {
+        html += '<div class="list-group">';
+        users.forEach(user => {
+          html += `
+            <div class="list-group-item">
+              <strong>${user.firstName} ${user.lastName}</strong><br>
+              <small>${user.email}</small><br>
+              <small>Mobile: ${user.mobile || "Not provided"}</small>
+            </div>
+          `;
+        });
+        html += '</div>';
+      }
+      html += "<h2 class='mt-4'>Orders</h2>";
+      if (orders.length === 0) {
+        html += "<p>No orders yet.</p>";
+      } else {
+        orders.forEach((order, index) => {
+          const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
+          html += `
+            <div class="card mb-3 shadow-sm order-card">
+              <div class="card-header">
+                Order #${index + 1} - ${order.date}
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-12 col-md-4 mb-3 mb-md-0">
+                    <h6>Buyer Information</h6>
+                    <p><strong>Name:</strong> ${order.buyer.firstName} ${order.buyer.lastName}</p>
+                    <p><strong>Email:</strong> ${order.buyer.email}</p>
+                    <p><strong>Mobile:</strong> ${order.mobile}</p>
+                  </div>
+                  <div class="col-12 col-md-4 mb-3 mb-md-0">
+                    <h6>Product Information</h6>
+                    <img src="${productImage}" alt="${order.product.name}" class="img-fluid mb-2" style="max-width:100px; max-height:100px;" >
+                    <p><strong>Name:</strong> ${order.product.name}</p>
+                    <p><strong>Description:</strong> ${order.product.description}</p>
+                    <p><strong>Selected Size:</strong> ${order.product.selectedSize}</p>
+                    <p><strong>Selected Color:</strong> ${order.product.selectedColor}</p>
+                    <p><strong>Price:</strong> 
+                      ${order.product.originalPrice && order.product.originalPrice > order.product.price ? 
+                        `<s>₹${order.product.originalPrice.toFixed(2)}</s> ` : 
+                        ''}
+                      ₹${order.product.price.toFixed(2)}
+                    </p>
+                    <p><strong>Category:</strong> ${order.product.category}</p>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <h6>Shipping Information</h6>
+                    <p><strong>Address:</strong> ${order.address}</p>
+                    <p><strong>Payment Method:</strong> ${order.payment}</p>
+                    <p><strong>Status:</strong> ${order.cancelled ? 'Cancelled' : 'Active'}</p>
+                    ${order.cancelled ? `<p><strong>Cancellation Reason:</strong> ${order.cancellationReason}</p>` : ''}
+                  </div>
+                </div>
+                <div class="qr-code-container mt-3">
+                  <h6>Order QR Code</h6>
+                  <div id="qrcode-${index}"></div>
+                </div>
+              </div>
+              <div class="card-footer text-end">
+                <button class="btn btn-primary me-2" onclick="printOrder(${index})">Print</button>
+                <button class="btn btn-secondary" onclick="downloadOrder(${index})">Download</button>
+              </div>
+            </div>
+          `;
+        });
+      }
+      html += "<h2 class='mt-4'>Notifications</h2>";
+      if (ownerNotifications.length === 0) {
+        html += "<p>No notifications yet.</p>";
+      } else {
+        html += `<div class="d-flex justify-content-end mb-3">
+                   <button class="btn btn-danger btn-sm" onclick="clearOwnerNotifications()">Clear Notifications</button>
+                 </div>`;
+        html += '<div class="list-group">';
+        ownerNotifications.slice().reverse().forEach(notif => {
           html += `
             <div class="list-group-item">
               <i class="bi bi-bell-fill me-2"></i>
@@ -3913,164 +4228,69 @@ document.getElementById("searchResultsCount").textContent = `${products.length} 
           `;
         });
         html += '</div>';
-        notificationsContent.innerHTML = html;
       }
-    }
-
-   // Update Seller Dashboard
-   function updateSellerDashboard() {
-    const sellerDashboardContent = document.getElementById("sellerDashboardContent");
-    let html = "<h2>Users</h2>";
-    if (users.length === 0) {
-      html += "<p>No users yet.</p>";
-    } else {
-      html += '<div class="list-group">';
-      users.forEach(user => {
-        html += `
-          <div class="list-group-item">
-            <strong>${user.firstName} ${user.lastName}</strong><br>
-            <small>${user.email}</small><br>
-            <small>Mobile: ${user.mobile || "Not provided"}</small>
-          </div>
-        `;
-      });
-      html += '</div>';
-    }
-    html += "<h2 class='mt-4'>Orders</h2>";
-    if (orders.length === 0) {
-      html += "<p>No orders yet.</p>";
-    } else {
+      sellerDashboardContent.innerHTML = html;
+  
+      // Generate QR codes for each order
       orders.forEach((order, index) => {
-        const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
-        html += `
-          <div class="card mb-3 shadow-sm order-card">
-            <div class="card-header">
-              Order #${index + 1} - ${order.date}
-            </div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-12 col-md-4 mb-3 mb-md-0">
-                  <h6>Buyer Information</h6>
-                  <p><strong>Name:</strong> ${order.buyer.firstName} ${order.buyer.lastName}</p>
-                  <p><strong>Email:</strong> ${order.buyer.email}</p>
-                  <p><strong>Mobile:</strong> ${order.mobile}</p>
-                </div>
-                <div class="col-12 col-md-4 mb-3 mb-md-0">
-                  <h6>Product Information</h6>
-                  <img src="${productImage}" alt="${order.product.name}" class="img-fluid mb-2" style="max-width:100px; max-height:100px;" >
-                  <p><strong>Name:</strong> ${order.product.name}</p>
-                  <p><strong>Description:</strong> ${order.product.description}</p>
-                  <p><strong>Selected Size:</strong> ${order.product.selectedSize}</p>
-                  <p><strong>Selected Color:</strong> ${order.product.selectedColor}</p>
-                  <p><strong>Price:</strong> 
-                    ${order.product.originalPrice && order.product.originalPrice > order.product.price ? 
-                      `<s>₹${order.product.originalPrice.toFixed(2)}</s> ` : 
-                      ''}
-                    ₹${order.product.price.toFixed(2)}
-                  </p>
-                  <p><strong>Category:</strong> ${order.product.category}</p>
-                </div>
-                <div class="col-12 col-md-4">
-                  <h6>Shipping Information</h6>
-                  <p><strong>Address:</strong> ${order.address}</p>
-                  <p><strong>Payment Method:</strong> ${order.payment}</p>
-                  <p><strong>Status:</strong> ${order.cancelled ? 'Cancelled' : 'Active'}</p>
-                  ${order.cancelled ? `<p><strong>Cancellation Reason:</strong> ${order.cancellationReason}</p>` : ''}
-                </div>
-              </div>
-              <div class="qr-code-container mt-3">
-                <h6>Order QR Code</h6>
-                <div id="qrcode-${index}"></div>
-              </div>
-            </div>
-            <div class="card-footer text-end">
-              <button class="btn btn-primary me-2" onclick="printOrder(${index})">Print</button>
-              <button class="btn btn-secondary" onclick="downloadOrder(${index})">Download</button>
-            </div>
-          </div>
-        `;
+        const qrDiv = document.getElementById(`qrcode-${index}`);
+        if (qrDiv) {
+          new QRCode(qrDiv, {
+            text: order.qrData,
+            width: 128,
+            height: 128
+          });
+        }
       });
     }
-    html += "<h2 class='mt-4'>Notifications</h2>";
-    if (ownerNotifications.length === 0) {
-      html += "<p>No notifications yet.</p>";
-    } else {
-      html += `<div class="d-flex justify-content-end mb-3">
-                 <button class="btn btn-danger btn-sm" onclick="clearOwnerNotifications()">Clear Notifications</button>
-               </div>`;
-      html += '<div class="list-group">';
-      ownerNotifications.slice().reverse().forEach(notif => {
-        html += `
-          <div class="list-group-item">
-            <i class="bi bi-bell-fill me-2"></i>
-            <strong>${notif.date}</strong>: ${notif.message}
-          </div>
-        `;
-      });
-      html += '</div>';
-    }
-    sellerDashboardContent.innerHTML = html;
-
-    // Generate QR codes for each order
-    orders.forEach((order, index) => {
-      const qrDiv = document.getElementById(`qrcode-${index}`);
-      if (qrDiv) {
-        new QRCode(qrDiv, {
-          text: order.qrData,
-          width: 128,
-          height: 128
-        });
+  
+    // Clear owner notifications
+    function clearOwnerNotifications() {
+      if (confirm("Are you sure you want to clear all notifications?")) {
+        ownerNotifications = [];
+        saveData();
+        updateSellerDashboard();
+        showNotification("All notifications cleared.", "info");
       }
-    });
-  }
-
-  // Clear owner notifications
-  function clearOwnerNotifications() {
-    if (confirm("Are you sure you want to clear all notifications?")) {
-      ownerNotifications = [];
-      saveData();
-      updateSellerDashboard();
-      showNotification("All notifications cleared.", "info");
     }
-  }
-
-  // Function to print order card with QR code
-  function printOrder(index) {
-    const orderCards = document.querySelectorAll('.order-card');
-    if (index < 0 || index >= orderCards.length) return;
-    const orderCard = orderCards[index];
-    
-    document.body.classList.add('print-mode');
-    orderCard.classList.add('print-selected');
-    
-    window.print();
-    
-    window.addEventListener('afterprint', function() {
-      document.body.classList.remove('print-mode');
-      orderCard.classList.remove('print-selected');
-    }, { once: true });
-  }
-
-  // Function to download order card as PNG with QR code
-  function downloadOrder(index) {
-    const orderCards = document.querySelectorAll('.order-card');
-    if (index < 0 || index >= orderCards.length) return;
-    const orderCard = orderCards[index];
-    
-    html2canvas(orderCard).then(canvas => {
-      const link = document.createElement('a');
-      link.href = canvas.toDataURL('image/png');
-      link.download = `order_${index + 1}.png`;
-      link.click();
-    }).catch(error => {
-      console.error('Error generating image:', error);
-      showNotification('Failed to generate image for download.', 'danger');
-    });
-  }
-  // Initialize
-  loadData();
-</script>
-<!-- Bootstrap JS Bundle -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+  
+    // Function to print order card with QR code
+    function printOrder(index) {
+      const orderCards = document.querySelectorAll('.order-card');
+      if (index < 0 || index >= orderCards.length) return;
+      const orderCard = orderCards[index];
+      
+      document.body.classList.add('print-mode');
+      orderCard.classList.add('print-selected');
+      
+      window.print();
+      
+      window.addEventListener('afterprint', function() {
+        document.body.classList.remove('print-mode');
+        orderCard.classList.remove('print-selected');
+      }, { once: true });
+    }
+  
+    // Function to download order card as PNG with QR code
+    function downloadOrder(index) {
+      const orderCards = document.querySelectorAll('.order-card');
+      if (index < 0 || index >= orderCards.length) return;
+      const orderCard = orderCards[index];
+      
+      html2canvas(orderCard).then(canvas => {
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL('image/png');
+        link.download = `order_${index + 1}.png`;
+        link.click();
+      }).catch(error => {
+        console.error('Error generating image:', error);
+        showNotification('Failed to generate image for download.', 'danger');
+      });
+    }
+    // Initialize
+    loadData();
+  </script>
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+  </html>
