@@ -2827,37 +2827,114 @@ document.getElementById('viewReviewModal')?.addEventListener('show.bs.modal', fu
   }
 
   // Voice search functionality
-  function startVoiceSearch() {
-    if ('webkitSpeechRecognition' in window) {
-      const recognition = new webkitSpeechRecognition();
-      recognition.continuous = false;
-      recognition.interimResults = false;
-      recognition.lang = 'en-US';
-
-      recognition.onstart = function() {
-        showNotification("Voice search started. Please speak now.", "info");
-      };
-
-      recognition.onresult = function(event) {
-        const transcript = event.results[0][0].transcript;
-        document.getElementById("searchSectionInput").value = transcript;
-        toggleSearchBar();
-        performSearch();
-        showNotification(`Searching for: "${transcript}"`, "success");
-      };
-
-      recognition.onerror = function(event) {
-        showNotification("Voice search error: " + event.error, "danger");
-      };
-
-      recognition.onend = function() {
-        showNotification("Voice search ended.", "info");
-      };
-
-      recognition.start();
-    } else {
+ // Voice search functionality
+function startVoiceSearch() {
+    // Check if the browser supports the Web Speech API
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
       showNotification("Voice search is not supported in your browser.", "warning");
+      return;
     }
+  
+    const recognition = new SpeechRecognition();
+    const voiceSearchBtn = document.getElementById("voiceSearchButton");
+  
+    // Configure recognition settings for better accuracy
+    recognition.continuous = false; // Single utterance for better control
+    recognition.interimResults = false; // Wait for final results to avoid partial matches
+    recognition.lang = "en-US"; // Default to English, can be made configurable
+    recognition.maxAlternatives = 3; // Get multiple alternatives for better matching
+  
+    // Visual feedback when voice search starts
+    recognition.onstart = function () {
+      voiceSearchBtn.classList.add("active"); // Add a visual cue (e.g., highlight button)
+      voiceSearchBtn.innerHTML = '<i class="bi bi-mic-fill"></i>'; // Change icon to indicate recording
+      showNotification("Listening... Please speak clearly.", "info", { duration: 2000 });
+    };
+  
+    // Handle the speech recognition result
+    recognition.onresult = function (event) {
+      const results = event.results[0];
+      let transcript = results[0].transcript.trim().toLowerCase();
+  
+      // Post-process the transcript to improve accuracy for e-commerce terms
+      transcript = cleanTranscript(transcript);
+  
+      // Add to search history and perform the search
+      document.getElementById("searchSectionInput").value = transcript;
+      toggleSearchBar(); // Show the search bar with the result
+      addToSearchHistory(transcript); // Assuming this function exists
+      performSearch(); // Trigger the search
+      showNotification(`Searching for: "${transcript}"`, "success");
+  
+      // Reset button state
+      resetVoiceSearchButton();
+    };
+  
+    // Handle errors gracefully
+    recognition.onerror = function (event) {
+      resetVoiceSearchButton();
+      let errorMessage = "An error occurred during voice search.";
+      switch (event.error) {
+        case "no-speech":
+          errorMessage = "No speech detected. Please try again.";
+          break;
+        case "not-allowed":
+        case "service-not-allowed":
+          errorMessage = "Microphone access denied. Please enable it in your browser settings.";
+          break;
+        case "audio-capture":
+          errorMessage = "No microphone detected. Please ensure one is connected.";
+          break;
+        default:
+          errorMessage = `Voice search error: ${event.error}`;
+      }
+      showNotification(errorMessage, "danger");
+    };
+  
+    // Reset state when recognition ends
+    recognition.onend = function () {
+      resetVoiceSearchButton();
+      showNotification("Voice search completed.", "info", { duration: 1500 });
+    };
+  
+    // Start recognition
+    try {
+      recognition.start();
+    } catch (e) {
+      resetVoiceSearchButton();
+      showNotification("Failed to start voice search. Please try again.", "danger");
+    }
+  }
+  
+  // Helper function to clean up the transcript
+  function cleanTranscript(transcript) {
+    // Remove common filler words and improve product name matching
+    const fillers = ["um", "uh", "like", "you know"];
+    let cleaned = transcript.split(" ").filter(word => !fillers.includes(word)).join(" ");
+  
+    // Map common misrecognitions or shorthand to actual product terms
+    const corrections = {
+      "t shirt": "t-shirt",
+      "jeans": "denim jeans",
+      "sun glasses": "sunglasses",
+      "watch": "wrist watch",
+      "accessory": "accessories",
+    };
+    Object.keys(corrections).forEach(mistake => {
+      if (cleaned.includes(mistake)) {
+        cleaned = cleaned.replace(mistake, corrections[mistake]);
+      }
+    });
+  
+    return cleaned;
+  }
+  
+  // Helper function to reset the voice search button
+  function resetVoiceSearchButton() {
+    const voiceSearchBtn = document.getElementById("voiceSearchButton");
+    voiceSearchBtn.classList.remove("active");
+    voiceSearchBtn.innerHTML = '<i class="bi bi-mic"></i>'; // Restore original icon
   }
     // Enhanced voice search for mobile
     function startVoiceSearch() {
