@@ -590,60 +590,92 @@
         border-radius: 20px;
         font-size: 0.8rem;
       }
-    /* Enhanced Search Section */
-    .search-container {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    
-    .search-suggestions {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: white;
-      border: 1px solid #ddd;
-      border-top: none;
-      border-radius: 0 0 5px 5px;
-      z-index: 1000;
-      max-height: 300px;
-      overflow-y: auto;
-      display: none;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-    
-    .search-suggestion-item {
-      padding: 10px;
-      cursor: pointer;
-      border-bottom: 1px solid #eee;
-      transition: background-color 0.2s;
-    }
-    
-    .search-suggestion-item:hover {
-      background-color: #f8f9fa;
-    }
-    
-    .search-history {
-      margin-top: 15px;
-    }
-    
-    .search-history-item {
-      display: inline-block;
-      margin-right: 8px;
-      margin-bottom: 8px;
-      padding: 5px 10px;
-      background: #f1f1f1;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 0.9rem;
-      transition: all 0.2s;
-    }
-    
-    .search-history-item:hover {
-      background: #e9ecef;
-    }
+     /* Enhanced Search Section */
+     .search-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 10px;
+        background: white;
+        border-radius: 25px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      }
+      
+      #searchBarContainer {
+        flex-grow: 1;
+        margin-left: 10px; /* Existing spacing from search icon */
+        margin-right: 20px; /* New: Increased spacing before voice search button */
+      }
+      
+      .search-container input {
+        border: none;
+        outline: none;
+        flex-grow: 1;
+        padding: 5px; /* Reduced from 10px to match container padding */
+        font-size: 0.9rem; /* Slightly smaller font size, down from 1rem */
+      }
+      
+      .search-suggestions {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        border: 1px solid #ddd;
+        border-top: none;
+        border-radius: 0 0 25px 25px;
+        z-index: 1000;
+        max-height: 300px;
+        overflow-y: auto;
+        display: none;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      }
+      
+      .search-suggestion-item {
+        padding: 10px 15px;
+        cursor: pointer;
+        border-bottom: 1px solid #eee;
+        transition: background-color 0.2s;
+        display: flex;
+        align-items: center;
+      }
+      
+      .search-suggestion-item:hover {
+        background-color: #f8f9fa;
+      }
+      
+      .search-suggestion-item img {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        margin-right: 10px;
+        border-radius: 5px;
+      }
+      
+      .search-history {
+        margin-top: 15px;
+        padding: 10px;
+      }
+      
+      .search-history-item {
+        display: inline-block;
+        margin-right: 8px;
+        margin-bottom: 8px;
+        padding: 5px 10px;
+        background: #f1f1f1;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: all 0.2s;
+      }
+      
+      .search-history-item:hover {
+        background: #e9ecef;
+      }
+      
      /* Draggable Filter Button */
      .draggable-filter {
       position: fixed;
@@ -1529,42 +1561,42 @@
 
  <!-- Updated Search Section -->
  <div id="searchSection" class="section fade-in" style="position: relative;">
-  <header class="py-3 border-bottom bg-light">
-    <div class="container d-flex justify-content-between align-items-center">
-      <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home">
-        <i class="bi bi-arrow-left"></i> Home
-      </button>
-      <h1 class="h5 mb-0">Search Products</h1>
-      <div></div>
-    </div>
-  </header>
-  <div class="container mt-5 my-4">
-    <div class="search-container mb-4">
-      <button class="btn btn-dark" type="button" id="searchSectionButton" aria-label="Search" onclick="toggleSearchBar()">
-        <i class="bi bi-search"></i>
-      </button>
-      <div id="searchBarContainer" style="display: none; flex-grow: 1; margin-left: 10px;">
-        <input type="text" class="form-control" placeholder="Search for shirts, pants, accessories..." 
-               id="searchSectionInput" autocomplete="off" aria-label="Search for Products"
-               onkeyup="showSearchSuggestions()">
+    <header class="py-3 border-bottom bg-light">
+      <div class="container d-flex justify-content-between align-items-center">
+        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home">
+          <i class="bi bi-arrow-left"></i> Home
+        </button>
+        <h1 class="h5 mb-0">Search Products</h1>
+        <div></div>
       </div>
-      <button class="btn btn-outline-secondary" type="button" id="voiceSearchButton" aria-label="Search by Voice" onclick="startVoiceSearch()">
-        <i class="bi bi-mic"></i>
-      </button>
-      <div id="searchSuggestions" class="search-suggestions"></div>
-    </div>
-    <div class="search-results-container">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 id="searchResultsCount">0 products found</h5>
-        <div id="searchActiveFilters"></div>
+    </header>
+    <div class="container mt-5 my-4">
+        <div class="search-container mb-4">
+            <button class="btn btn-dark" type="button" id="searchSectionButton" aria-label="Search" onclick="toggleSearchBar()">
+              <i class="bi bi-search"></i>
+            </button>
+            <div id="searchBarContainer" style="display: none; flex-grow: 1; margin-left: 10px;">
+              <input type="text" class="form-control" placeholder="Search for shirts, pants, accessories..." 
+                     id="searchSectionInput" autocomplete="off" aria-label="Search for Products"
+                     onkeyup="handleSearchInput()">
+            </div>
+            <button class="btn btn-outline-secondary" type="button" id="voiceSearchButton" aria-label="Search by Voice" onclick="startVoiceSearch()">
+              <i class="bi bi-mic"></i>
+            </button>
+            <div id="searchSuggestions" class="search-suggestions"></div>
+          </div>
+      <div class="search-results-container">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 id="searchResultsCount">0 products found</h5>
+          <div id="searchActiveFilters"></div>
+        </div>
+        <div class="row" id="searchResultsContainer"></div>
       </div>
-      <div class="row" id="searchResultsContainer"></div>
+      <button class="draggable-filter" data-bs-toggle="modal" data-bs-target="#searchFilterModal" aria-label="Filter Search">
+        <i class="bi bi-funnel"></i>
+      </button>
     </div>
-    <button class="draggable-filter" data-bs-toggle="modal" data-bs-target="#searchFilterModal" aria-label="Filter Search">
-      <i class="bi bi-funnel"></i>
-    </button>
   </div>
-</div>
  <!-- Search Filter Modal -->
  <div class="modal fade" id="searchFilterModal" tabindex="-1" aria-labelledby="searchFilterModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
@@ -2646,6 +2678,152 @@ document.getElementById('viewReviewModal')?.addEventListener('show.bs.modal', fu
     } else {
       searchBarContainer.style.display = "none";
     }
+  }
+
+  // Handle search input with debounce
+  function handleSearchInput() {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+      performSearch();
+      showSearchSuggestions();
+    }, 300); // 300ms debounce delay
+  }
+
+  // Show search suggestions
+  function showSearchSuggestions() {
+    const input = document.getElementById("searchSectionInput").value.toLowerCase();
+    const suggestionsContainer = document.getElementById("searchSuggestions");
+
+    if (input.length < 2) {
+      suggestionsContainer.style.display = "none";
+      return;
+    }
+
+    const suggestions = products.filter(product =>
+      product.name.toLowerCase().includes(input) ||
+      product.description.toLowerCase().includes(input) ||
+      product.category.toLowerCase().includes(input)
+    ).slice(0, 5);
+
+    if (suggestions.length === 0) {
+      suggestionsContainer.style.display = "none";
+      return;
+    }
+
+    let html = '';
+    suggestions.forEach(product => {
+      html += `
+        <div class="search-suggestion-item" onclick="document.getElementById('searchSectionInput').value='${product.name}'; performSearch(); document.getElementById('searchSuggestions').style.display='none';">
+          ${product.name} - ${product.category}
+        </div>
+      `;
+    });
+
+    suggestionsContainer.innerHTML = html;
+    suggestionsContainer.style.display = "block";
+  }
+
+  // Perform search
+  function performSearch() {
+    const query = document.getElementById("searchSectionInput").value.toLowerCase();
+    const category = document.getElementById("searchCategory").value;
+    const priceRange = document.getElementById("searchPrice").value;
+    const minRating = document.getElementById("searchRating").value;
+    const sortBy = document.getElementById("searchSort").value;
+
+    let filteredProducts = [...products];
+
+    if (query) {
+      filteredProducts = filteredProducts.filter(p =>
+        p.name.toLowerCase().includes(query) ||
+        p.description.toLowerCase().includes(query) ||
+        p.category.toLowerCase().includes(query)
+      );
+    }
+
+    if (category) {
+      filteredProducts = filteredProducts.filter(p => p.category === category);
+    }
+
+    if (priceRange) {
+      const [min, max] = priceRange.split("-").map(Number);
+      filteredProducts = filteredProducts.filter(p => {
+        if (max) return p.price >= min && p.price <= max;
+        return p.price >= min;
+      });
+    }
+
+    if (minRating) {
+      filteredProducts = filteredProducts.filter(p => {
+        const ratingInfo = getProductRating(p.id);
+        return ratingInfo && ratingInfo.average >= parseInt(minRating);
+      });
+    }
+
+    switch (sortBy) {
+      case "price-low":
+        filteredProducts.sort((a, b) => a.price - b.price);
+        break;
+      case "price-high":
+        filteredProducts.sort((a, b) => b.price - a.price);
+        break;
+      case "rating":
+        filteredProducts.sort((a, b) => {
+          const ratingA = getProductRating(a.id)?.average || 0;
+          const ratingB = getProductRating(b.id)?.average || 0;
+          return ratingB - ratingA;
+        });
+        break;
+      case "newest":
+        filteredProducts.sort((a, b) => b.id - a.id);
+        break;
+      default:
+        if (query) {
+          filteredProducts.sort((a, b) => {
+            const aMatches = a.name.toLowerCase().includes(query) ? 1 : 0;
+            const bMatches = b.name.toLowerCase().includes(query) ? 1 : 0;
+            return bMatches - aMatches;
+          });
+        }
+    }
+
+    displaySearchResults(filteredProducts);
+    updateSearchActiveFilters(query, category, priceRange, minRating);
+  }
+
+  // Display search results
+  function displaySearchResults(results) {
+    const container = document.getElementById("searchResultsContainer");
+    const countElement = document.getElementById("searchResultsCount");
+
+    countElement.textContent = `${results.length} products found`;
+
+    if (results.length === 0) {
+      container.innerHTML = "<p>No products found.</p>";
+      return;
+    }
+
+    container.innerHTML = "";
+    results.forEach(product => {
+      const originalPrice = (product.price * 1.2).toFixed(2);
+      const discount = ((originalPrice - product.price) / originalPrice * 100).toFixed(0);
+      const card = `
+        <div class="col-6 mb-4">
+          <div class="card shadow-sm product-card" style="position: relative;" onclick="showProductDetails(${product.id})">
+            <img src="${product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name)}" class="card-img-top" alt="${product.name}">
+            <button class="wishlist-btn position-absolute top-0 end-0 m-2" onclick="event.stopPropagation(); addToWishlist(${product.id})" aria-label="Add ${product.name} to Wishlist">
+              <i class="bi bi-heart-fill" style="color: ${wishlist.some(p => p.id === product.id) ? 'red' : '#ccc'};"></i>
+            </button>
+            <div class="card-body">
+              <h5 class="card-title">${product.name}</h5>
+              <p class="card-text">${product.description}</p>
+              <p class="card-text"><s>₹${originalPrice}</s> ₹${product.price.toFixed(2)} <span class="badge bg-success">${discount}% off</span></p>
+            </div>
+          </div>
+        </div>
+      `;
+      container.innerHTML += card;
+    });
   }
 
   // Voice search functionality
