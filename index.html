@@ -488,47 +488,99 @@
     .carousel-control-next {
       right: 15px;
     }
-    
-    /* Splash Screen */
-    .splash-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-color: #f6f9fc;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-      transition: opacity 0.5s ease;
-    }
-    
-    .splash-screen img.logo {
-      max-width: 200px;
-      width: 50%;
-      height: auto;
-      margin-bottom: 20px;
-      animation: zoomIn 1s ease-in;
-    }
-    
-    .splash-screen h1 {
-      font-size: 2.5rem;
-      color: var(--primary-color);
-      font-weight: bold;
-      animation: slideIn 1s ease-in;
-    }
-    
-    @keyframes zoomIn {
-      from { transform: scale(0); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
+  /* Splash Screen */
+.splash-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  transition: opacity 0.5s ease;
+}
 
-    @keyframes slideIn {
-      from { transform: translateY(-50px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
+.tedpole-logo {
+  position: relative;
+  display: flex;
+  font-size: 8rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #e50914; /* Netflix red color */
+  text-shadow: 0 0 10px rgba(229, 9, 20, 0.7);
+  letter-spacing: -0.2rem;
+}
+
+.tedpole-logo .letter {
+  position: relative;
+  display: inline-block;
+  transform: scale(1);
+  animation: letterPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  opacity: 0;
+}
+
+.tedpole-logo .t { animation-delay: 0.1s; }
+.tedpole-logo .e { animation-delay: 0.2s; }
+.tedpole-logo .d { animation-delay: 0.3s; }
+.tedpole-logo .p { animation-delay: 0.4s; }
+.tedpole-logo .o { animation-delay: 0.5s; }
+.tedpole-logo .l { animation-delay: 0.6s; }
+.tedpole-logo .e2 { animation-delay: 0.7s; }
+
+.glow {
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: #e50914;
+  border-radius: 50%;
+  filter: blur(10px);
+  opacity: 0;
+  animation: glowAppear 0.5s ease-out 1s forwards;
+}
+
+@keyframes letterPop {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes glowAppear {
+  0% {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .tedpole-logo {
+    font-size: 4rem;
+    letter-spacing: -0.1rem;
+  }
+  
+  .glow {
+    height: 3px;
+    bottom: -5px;
+  }
+}
+  .splash-subtitle {
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+  }
     
     /* Product Card Hover Effect */
     .product-card {
@@ -1159,11 +1211,19 @@
   <div class="dark-mode-toggle" onclick="toggleDarkMode()">
     <i class="bi bi-moon"></i>
   </div>
-  <!-- Splash Screen -->
-  <div id="splashScreen" class="splash-screen" role="dialog" aria-label="Welcome to TEDPOLE">
-    <img src="https://via.placeholder.com/200x200?text=TEDPOLE" alt="TEDPOLE Logo" class="logo">
-    <h1>TEDPOLE</h1>
+<!-- Splash Screen -->
+<div id="splashScreen" class="splash-screen" role="dialog" aria-label="Welcome to TEDPOLE">
+  <div class="tedpole-logo">
+    <span class="letter t">T</span>
+    <span class="letter e">E</span>
+    <span class="letter d">D</span>
+    <span class="letter p">P</span>
+    <span class="letter o">O</span>
+    <span class="letter l">L</span>
+    <span class="letter e2">E</span>
+    <div class="glow"></div>
   </div>
+</div>
 
   <!-- Popup Message Modal -->
   <div class="modal fade" id="popupMessageModal" tabindex="-1" aria-labelledby="popupMessageModalLabel" aria-hidden="true">
