@@ -581,24 +581,34 @@
     font-size: 0.9rem;
     letter-spacing: 2px;
   }
-    
-    /* Product Card Hover Effect */
-    .product-card {
+     /* Product Card Styling */
+     .product-card {
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       height: 100%;
       display: flex;
       flex-direction: column;
+      background: white;
     }
     
     .product-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
     }
     
     .product-card .card-body {
       flex-grow: 1;
+      padding: 15px;
     }
     
+    .product-card .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+    
+    .product-card .card-text {
+      font-size: 0.9rem;
+    } 
     /* Recommendations Section */
     .recommendations-section {
       margin-top: 40px;
@@ -998,39 +1008,7 @@
     
     @keyframes spin {
       to { transform: rotate(360deg); }
-    }
-    
-    /* Back to Top Button */
-    .back-to-top {
-      position: fixed;
-      bottom: 80px;
-      right: 20px;
-      width: 50px;
-      height: 50px;
-      background-color: var(--primary-color);
-      color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s;
-      z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    }
-    
-    .back-to-top.visible {
-      opacity: 1;
-      visibility: visible;
-    }
-    
-    .back-to-top:hover {
-      background-color: #1a3a6b;
-      transform: translateY(-3px);
-    }
-    
+    }  
     /* Print Styles */
     @media print {
       body * {
@@ -1348,18 +1326,18 @@
     </section>
     <section class="categories py-5 bg-light">
       <div class="container text-center">
-        <h2><i class="fas fa-columns-gap"></i> Shop by Categories</h2>
+        <h2><i class="fas fa-columns"></i> Shop by Categories</h2>
         <div class="row mt-4">
-          <div class="col-md-6">
+          <div class="col-6 col-md-6 mb-4">
             <div class="category-item" onclick="showSection('menswearSection')">
               <img src="https://i.pinimg.com/474x/1e/d0/ed/1ed0ede5c364f2c8959976120f65271f.jpg" class="img-fluid" alt="Men's Wear" />
-              <h4 class="mt-3"><i class="fas fa-people-group"></i> MEN'S WEAR</h4>
+              <h4 class="mt-3"><i class="fas fa-users"></i> MEN'S WEAR</h4>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-6 col-md-6 mb-4">
             <div class="category-item" onclick="showSection('accessoriesSection')">
               <img src="https://i.pinimg.com/474x/f4/96/20/f496209cab01d85a80a84b785068c007.jpg" class="img-fluid" alt="Accessories" />
-              <h4 class="mt-3"><i class="fas fa-watch"></i> ACCESSORIES</h4>
+              <h4 class="mt-3"><i class="fas fa-clock"></i> ACCESSORIES</h4>
             </div>
           </div>
         </div>
