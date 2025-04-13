@@ -1189,6 +1189,12 @@
   <div class="dark-mode-toggle" onclick="toggleDarkMode()">
     <i class="bi bi-moon"></i>
   </div>
+   <!-- Cookie Consent Popup -->
+   <div id="cookieConsent" class="cookie-consent" style="display: none;">
+    <p>We use cookies to enhance your experience. <a href="/privacy-policy" target="_blank">Learn more</a></p>
+    <button class="btn btn-primary btn-sm me-2" onclick="acceptCookies()">Accept</button>
+    <button class="btn btn-secondary btn-sm" onclick="declineCookies()">Decline</button>
+  </div>
 <!-- Splash Screen -->
 <div id="splashScreen" class="splash-screen" role="dialog" aria-label="Welcome to TEDPOLE">
   <div class="tedpole-logo">
@@ -2098,7 +2104,7 @@
     </div>
   </div>
 
- <!-- Fixed Footer Navigation -->
+  <!-- Fixed Footer Navigation -->
   <footer class="footer-nav fixed-bottom">
     <div class="container d-flex justify-content-around">
       <div class="nav-item">
@@ -2130,6 +2136,7 @@
       </div>
     </div>
   </footer>
+
   <!-- Cancel Order Modal -->
   <div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-labelledby="cancelOrderModalLabel" aria-hidden="true">
     <div class="modal-dialog">
