@@ -216,26 +216,42 @@
       color: var(--secondary-color);
     }
     
-    /* Category Section */
-    .category-item { 
-      text-align: center; 
-      cursor: pointer; 
-      transition: all 0.3s ease;
-      padding: 15px;
-      background: white;
+    /* Updated Category Section Styling */
+    .categories {
+      padding: 50px 0;
+      background-color: var(--light-color);
+    }
+    
+    .category-item {
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
       border-radius: 10px;
+      transition: transform 0.3s ease;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
     
     .category-item:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+      transform: scale(1.02);
     }
     
-    .category-item h4 { 
-      margin-top: 10px; 
-      font-size: 1.2rem; 
-      color: var(--primary-color);
+    .category-item img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+    
+    .category-label {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      padding: 10px 20px;
+     
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-align: right;
     }
     
     /* Section Visibility */
@@ -488,99 +504,99 @@
     .carousel-control-next {
       right: 15px;
     }
-  /* Splash Screen */
-.splash-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: #000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2000;
-  transition: opacity 0.5s ease;
-}
+    /* Splash Screen */
+    .splash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      transition: opacity 0.5s ease;
+    }
 
-.tedpole-logo {
-  position: relative;
-  display: flex;
-  font-size: 8rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  color: #e50914; /* Netflix red color */
-  text-shadow: 0 0 10px rgba(229, 9, 20, 0.7);
-  letter-spacing: -0.2rem;
-}
+    .tedpole-logo {
+      position: relative;
+      display: flex;
+      font-size: 8rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #e50914; /* Netflix red color */
+      text-shadow: 0 0 10px rgba(229, 9, 20, 0.7);
+      letter-spacing: -0.2rem;
+    }
 
-.tedpole-logo .letter {
-  position: relative;
-  display: inline-block;
-  transform: scale(1);
-  animation: letterPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-  opacity: 0;
-}
+    .tedpole-logo .letter {
+      position: relative;
+      display: inline-block;
+      transform: scale(1);
+      animation: letterPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      opacity: 0;
+    }
 
-.tedpole-logo .t { animation-delay: 0.1s; }
-.tedpole-logo .e { animation-delay: 0.2s; }
-.tedpole-logo .d { animation-delay: 0.3s; }
-.tedpole-logo .p { animation-delay: 0.4s; }
-.tedpole-logo .o { animation-delay: 0.5s; }
-.tedpole-logo .l { animation-delay: 0.6s; }
-.tedpole-logo .e2 { animation-delay: 0.7s; }
+    .tedpole-logo .t { animation-delay: 0.1s; }
+    .tedpole-logo .e { animation-delay: 0.2s; }
+    .tedpole-logo .d { animation-delay: 0.3s; }
+    .tedpole-logo .p { animation-delay: 0.4s; }
+    .tedpole-logo .o { animation-delay: 0.5s; }
+    .tedpole-logo .l { animation-delay: 0.6s; }
+    .tedpole-logo .e2 { animation-delay: 0.7s; }
 
-.glow {
-  position: absolute;
-  bottom: -10px;
-  left: 0;
-  width: 100%;
-  height: 5px;
-  background: #e50914;
-  border-radius: 50%;
-  filter: blur(10px);
-  opacity: 0;
-  animation: glowAppear 0.5s ease-out 1s forwards;
-}
+    .glow {
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: #e50914;
+      border-radius: 50%;
+      filter: blur(10px);
+      opacity: 0;
+      animation: glowAppear 0.5s ease-out 1s forwards;
+    }
 
-@keyframes letterPop {
-  0% {
-    transform: scale(0.5);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
+    @keyframes letterPop {
+      0% {
+        transform: scale(0.5);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
 
-@keyframes glowAppear {
-  0% {
-    opacity: 0;
-    transform: scaleX(0);
-  }
-  100% {
-    opacity: 1;
-    transform: scaleX(1);
-  }
-}
+    @keyframes glowAppear {
+      0% {
+        opacity: 0;
+        transform: scaleX(0);
+      }
+      100% {
+        opacity: 1;
+        transform: scaleX(1);
+      }
+    }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .tedpole-logo {
-    font-size: 4rem;
-    letter-spacing: -0.1rem;
-  }
-  
-  .glow {
-    height: 3px;
-    bottom: -5px;
-  }
-}
-  .splash-subtitle {
-    font-size: 0.9rem;
-    letter-spacing: 2px;
-  }
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .tedpole-logo {
+        font-size: 4rem;
+        letter-spacing: -0.1rem;
+      }
+      
+      .glow {
+        height: 3px;
+        bottom: -5px;
+      }
+    }
+    .splash-subtitle {
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+    }
      /* Product Card Styling */
      .product-card {
       transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -892,12 +908,11 @@
       cursor: pointer;
     }
     
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-      .order-card .card-body > div {
-        margin-bottom: 15px;
-      }
-      
+   /* Responsive adjustments */
+   @media (max-width: 768px) {
+    .order-card .card-body > div {
+      margin-bottom: 15px;
+    }
       .footer-nav .nav-link {
         font-size: 0.8rem;
       }
@@ -906,8 +921,13 @@
         font-size: 0.65rem;
       }
       
-      .category-item h4 {
-        font-size: 1rem;
+      .category-item img {
+        height: 200px;
+      }
+      
+      .category-label {
+        font-size: 1.2rem;
+        padding: 8px 15px;
       }
     }
     
@@ -1189,25 +1209,19 @@
   <div class="dark-mode-toggle" onclick="toggleDarkMode()">
     <i class="bi bi-moon"></i>
   </div>
-   <!-- Cookie Consent Popup -->
-   <div id="cookieConsent" class="cookie-consent" style="display: none;">
-    <p>We use cookies to enhance your experience. <a href="/privacy-policy" target="_blank">Learn more</a></p>
-    <button class="btn btn-primary btn-sm me-2" onclick="acceptCookies()">Accept</button>
-    <button class="btn btn-secondary btn-sm" onclick="declineCookies()">Decline</button>
+  <!-- Splash Screen -->
+  <div id="splashScreen" class="splash-screen" role="dialog" aria-label="Welcome to TEDPOLE">
+    <div class="tedpole-logo">
+      <span class="letter t">T</span>
+      <span class="letter e">E</span>
+      <span class="letter d">D</span>
+      <span class="letter p">P</span>
+      <span class="letter o">O</span>
+      <span class="letter l">L</span>
+      <span class="letter e2">E</span>
+      <div class="glow"></div>
+    </div>
   </div>
-<!-- Splash Screen -->
-<div id="splashScreen" class="splash-screen" role="dialog" aria-label="Welcome to TEDPOLE">
-  <div class="tedpole-logo">
-    <span class="letter t">T</span>
-    <span class="letter e">E</span>
-    <span class="letter d">D</span>
-    <span class="letter p">P</span>
-    <span class="letter o">O</span>
-    <span class="letter l">L</span>
-    <span class="letter e2">E</span>
-    <div class="glow"></div>
-  </div>
-</div>
 
   <!-- Popup Message Modal -->
   <div class="modal fade" id="popupMessageModal" tabindex="-1" aria-labelledby="popupMessageModalLabel" aria-hidden="true">
@@ -1330,6 +1344,7 @@
         </div>
       </div>
     </section>
+    <!-- Updated Categories Section -->
     <section class="categories py-5 bg-light">
       <div class="container text-center">
         <h2><i class="fas fa-columns"></i> Shop by Categories</h2>
@@ -1337,13 +1352,13 @@
           <div class="col-6 col-md-6 mb-4">
             <div class="category-item" onclick="showSection('menswearSection')">
               <img src="https://i.pinimg.com/474x/1e/d0/ed/1ed0ede5c364f2c8959976120f65271f.jpg" class="img-fluid" alt="Men's Wear" />
-              <h4 class="mt-3"><i class="fas fa-users"></i> MEN'S WEAR</h4>
+              <div class="category-label">MEN'S WEAR</div>
             </div>
           </div>
           <div class="col-6 col-md-6 mb-4">
             <div class="category-item" onclick="showSection('accessoriesSection')">
               <img src="https://i.pinimg.com/474x/f4/96/20/f496209cab01d85a80a84b785068c007.jpg" class="img-fluid" alt="Accessories" />
-              <h4 class="mt-3"><i class="fas fa-clock"></i> ACCESSORIES</h4>
+              <div class="category-label">ACCESSORIES</div>
             </div>
           </div>
         </div>
@@ -2109,30 +2124,29 @@
     <div class="container d-flex justify-content-around">
       <div class="nav-item">
         <button class="btn btn-link nav-link" onclick="showSection('homeSection')" aria-label="Home">
-          <i class="bi bi-house"></i><br><span class="nav-text">HOME</span>
+          <i class="bi bi-house"></i><br><span class="nav-text"></span>
         </button>
       </div>
       <div class="nav-item">
         <button class="btn btn-link nav-link" onclick="showSection('categoriesSection')" aria-label="Shop">
-          <i class="bi bi-grid"></i><br><span class="nav-text">SHOP</span>
+          <i class="bi bi-grid"></i><br><span class="nav-text"></span>
         </button>
       </div>
       <div class="nav-item">
         <button class="btn btn-link nav-link" onclick="showSection('searchSection')" aria-label="Search">
-          <i class="bi bi-search"></i><br><span class="nav-text">SEARCH</span>
+          <i class="bi bi-search"></i><br><span class="nav-text"></span>
         </button>
       </div>
       <div class="nav-item">
         <button class="btn btn-link nav-link" onclick="showSection('wishlistSection')" aria-label="Wishlist">
-          <i class="bi bi-heart"></i><br><span class="nav-text">WISHLIST</span>
+          <i class="bi bi-heart"></i><br><span class="nav-text"></span>
         </button>
       </div>
       <div class="nav-item">
         <button class="btn btn-link nav-link" onclick="showSection('cartSection')" aria-label="Your Bag">
-          <i class="bi bi-bag"></i><br><span class="nav-text">BAG</span>
+          <i class="bi bi-cart"></i><br><span class="nav-text"></span>
           <span class="footer-bag-badge" id="footerBagBadge">0</span>
         </button>
-      </div>
       </div>
     </div>
   </footer>
@@ -2507,8 +2521,8 @@
       localStorage.setItem("currentUser", JSON.stringify(currentUser));
     }
 
-    // Load data from localStorage
-    function loadData() {
+     // Load data from localStorage
+     function loadData() {
       users = JSON.parse(localStorage.getItem("users")) || [];
       cart = JSON.parse(localStorage.getItem("cart")) || [];
       orders = JSON.parse(localStorage.getItem("orders")) || [];
@@ -3677,9 +3691,7 @@ function highlightStars(value) {
             min: minDeliveryDate.toLocaleDateString(),
             max: maxDeliveryDate.toLocaleDateString()
           };
-        }
-    
-    
+        } 
     // Update orders list
     function updateOrdersList(filter = currentOrdersFilter) {
       const ordersList = document.getElementById('ordersList');
@@ -4920,5 +4932,7 @@ function highlightStars(value) {
     </script>
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     </body>
     </html>
