@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=0.8" />
+  <meta name="viewport" content="width=device-width, initial-scale=0.7" />
   <title>TEDPOLE - Premium Clothing & Accessories</title>
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -2120,6 +2120,97 @@
   
     new bootstrap.Modal(document.getElementById('productImagesModal')).show();
   }
+  // Mock function to simulate real-time order status (replace with API call later)
+function getOrderStatus(orderId) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const order = orders[parseInt(orderId) - 1];
+      if (!order) {
+        resolve(null);
+        return;
+      }
+      // Simulate status progression based on current state
+      const statuses = [
+        { status: 'Processing', icon: 'bi-box' },
+        { status: 'Shipped', icon: 'bi-truck' },
+        { status: 'Out for Delivery', icon: 'bi-geo-alt' },
+        { status: 'Delivered', icon: 'bi-check-circle' }
+      ];
+      let currentIndex = statuses.findIndex(s => s.status === order.trackingStatus);
+      if (currentIndex === -1) currentIndex = 0;
+      if (order.received) currentIndex = 3; // Delivered
+      else if (order.shipped && currentIndex < 2) currentIndex = 1; // Shipped
+      const timeline = statuses.slice(0, currentIndex + 1).map((s, i) => ({
+        status: s.status,
+        icon: s.icon,
+        timestamp: i === currentIndex ? new Date().toLocaleString() : order.date
+      }));
+      resolve({ status: statuses[currentIndex].status, timeline });
+    }, 1000); // Simulate network delay
+  });
+}
+
+// Function to update the UI with order status
+function updateOrderStatus(statusData) {
+  const statusContainer = document.getElementById('orderStatus');
+  const timelineContainer = document.getElementById('orderTimeline');
+  if (!statusData) {
+    statusContainer.textContent = 'Order not found';
+    timelineContainer.innerHTML = '';
+    return;
+  }
+  statusContainer.textContent = statusData.status;
+  let timelineHtml = '';
+  statusData.timeline.forEach(event => {
+    timelineHtml += `
+      <div class="d-flex align-items-center mb-2">
+        <i class="bi ${event.icon} me-2" style="color: var(--success-color);"></i>
+        <div>
+          <strong>${event.status}</strong>
+          <p class="mb-0 text-muted">${event.timestamp}</p>
+        </div>
+      </div>
+    `;
+  });
+  timelineContainer.innerHTML = timelineHtml;
+}
+
+// Start periodic tracking updates
+function startOrderTracking(orderId) {
+  setInterval(async () => {
+    try {
+      const statusData = await getOrderStatus(orderId);
+      updateOrderStatus(statusData);
+    } catch (error) {
+      console.error('Error updating order status:', error);
+    }
+  }, 30000); // Update every 30 seconds
+}
+
+// Event listener for track order button
+document.getElementById('trackOrderButton').addEventListener('click', async () => {
+  const orderId = document.getElementById('orderIdInput').value.trim();
+  if (!orderId || isNaN(orderId) || orderId <= 0) {
+    showNotification('Please enter a valid order ID', 'warning');
+    return;
+  }
+  document.getElementById('orderStatusContainer').style.display = 'block';
+  document.getElementById('orderStatus').textContent = 'Loading...';
+  try {
+    const statusData = await getOrderStatus(orderId);
+    if (statusData) {
+      updateOrderStatus(statusData);
+      startOrderTracking(orderId);
+      showNotification(`Tracking started for Order #${orderId}`, 'success');
+    } else {
+      updateOrderStatus(null);
+      showNotification(`Order #${orderId} not found`, 'danger');
+    }
+  } catch (error) {
+    showNotification('Error fetching order status', 'danger');
+    document.getElementById('orderStatus').textContent = 'Error';
+  }
+});
   </script>
 
   <!-- Track Order Modal -->
