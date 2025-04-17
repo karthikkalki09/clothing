@@ -446,6 +446,11 @@
     .track-step.active span { background-color: var(--success-color); }
     .track-step.cancelled span { background-color: var(--danger-color); }
     
+:read-only:focus {
+      outline: none;
+      border-color: #ced4da;
+    }
+    
     .color-thumbnail { 
       display: inline-block; 
       margin: 5px; 
@@ -524,7 +529,7 @@
       font-size: 8rem;
       font-weight: 900;
       text-transform: uppercase;
-      color: #e50914; /* Netflix red color */
+      color: #e50914; 
       text-shadow: 0 0 10px rgba(229, 9, 20, 0.7);
       letter-spacing: -0.2rem;
     }
@@ -1305,11 +1310,11 @@
             <i class="bi bi-list"></i>
           </button>
           <svg width="30" height="30" viewBox="0 0 100 100" style="vertical-align: middle; margin-left: 10px;">
-            <path d="M 50 10 L 90 50 L 50 90 L 10 50 Z" fill="none" stroke="red" stroke-width="5"/>
-            <line x1="50" y1="0" x2="50" y2="100" stroke="red" stroke-width="5"/>
-            <line x1="0" y1="50" x2="100" y2="50" stroke="red" stroke-width="5"/>
-            <line x1="20" y1="20" x2="80" y2="80" stroke="red" stroke-width="5"/>
-            <line x1="20" y1="80" x2="80" y2="20" stroke="red" stroke-width="5"/>
+            <path d="M 50 10 L 90 50 L 50 90 L 10 50 Z" fill="none" stroke="#C19A6B" stroke-width="5"/>
+            <line x1="50" y1="0" x2="50" y2="100" stroke="#C19A6B" stroke-width="5"/>
+            <line x1="0" y1="50" x2="100" y2="50" stroke="#C19A6B" stroke-width="5"/>
+            <line x1="20" y1="20" x2="80" y2="80" stroke="#C19A6B" stroke-width="5"/>
+            <line x1="20" y1="80" x2="80" y2="20" stroke="#C19A6B" stroke-width="5"/>
           </svg>
         </div>
         <h1 class="h5 mb-0 text-dark">
@@ -1609,6 +1614,8 @@
       </div>
       <h2 class="mt-5">Order Details</h2>
       <div id="orderDetailsContainer" class="mt-4"></div>
+        <h2 class="mt-5">User Details</h2>
+        <div id="userDetailsContainer" class="mt-4"></div>
       <h2 class="mt-5">User Locations</h2>
       <div id="userLocationsContainer" class="mt-4"></div>
     </div>
@@ -2320,6 +2327,16 @@
 
   <!-- JavaScript -->
   <script>
+    // Simple hash function for password hashing (for demonstration purposes)
+    function simpleHash(password) {
+      let hash = 0;
+      for (let i = 0; i < password.length; i++) {
+        hash = (hash << 5) - hash + password.charCodeAt(i);
+        hash |= 0; // Convert to 32-bit integer
+      }
+      return hash;
+    }
+
     // Global variables
     let users = [];
     let cart = [];
@@ -2354,6 +2371,7 @@
         generateProducts("shopProductContainer", filteredProducts);
       }, 300); // 300ms debounce delay
     });
+
     function setCurrentOrderIndex(index) {
       currentOrderIndexForMessage = index;
     }
