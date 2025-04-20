@@ -446,7 +446,7 @@
     .track-step.active span { background-color: var(--success-color); }
     .track-step.cancelled span { background-color: var(--danger-color); }
     
-:read-only:focus {
+    :read-only:focus {
       outline: none;
       border-color: #ced4da;
     }
@@ -673,61 +673,96 @@
     
     /* Enhanced Search Section */
     .search-container {
-      position: relative;
+      max-width: 100%;
+      margin: 0 auto;
+      box-shadow: 0 2px 4px rgb(255, 255, 255);
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 10px;
-      background: white;
+      padding: 5px 10px;
+      background-color: #ffffff;
       border-radius: 25px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
-    
-    #searchBarContainer {
-      flex-grow: 1;
-      margin-left: 10px;
-      margin-right: 20px;
-    }
-    
-    .search-container input {
+
+    .search-input {
+      background-color: #000000;
       border: none;
-      outline: none;
+      color: #ffffff;
+      border-radius: 20px 0 0 20px;
+      padding: 8px 12px;
       flex-grow: 1;
-      padding: 5px;
-      font-size: 0.9rem;
+      font-size: 1rem;
     }
-    
+
+    .search-input::placeholder {
+      color: #ffffff;
+      opacity: 1;
+    }
+    .search-input:focus {
+        outline: none;
+        box-shadow: none;
+        background-color: #000000;
+        color: #ffffff; 
+      }
+
+    .voice-search-btn {
+      background-color: #000000;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      margin-left: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s ease;
+    }
+
+    .voice-search-btn:hover {
+      background-color: #000000;
+    }
+
+    .voice-search-btn i {
+      color: #FFFFFF;
+      font-size: 1.25rem;
+    }
+
+    .voice-search-btn.active {
+      background-color: #dc3545;
+    }
+
+    /* Ensure suggestions match the dark theme */
     .search-suggestions {
       position: absolute;
       top: 100%;
       left: 0;
       right: 0;
-      background: white;
-      border: 1px solid #ddd;
+      background-color: #212121;
+      border: 1px solid #303030;
       border-top: none;
       border-radius: 0 0 25px 25px;
+      color: #FFFFFF;
       z-index: 1000;
       max-height: 300px;
       overflow-y: auto;
       display: none;
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
-    
+
     .search-suggestion-item {
       padding: 10px 15px;
       cursor: pointer;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid #424242;
+      background-color: #303030;
       transition: background-color 0.2s;
       display: flex;
       align-items: center;
+      color: #FFFFFF;
     }
-    
+
     .search-suggestion-item:hover {
-      background-color: #f8f9fa;
+      background-color: #404040;
     }
-    
+
     .search-suggestion-item img {
       width: 40px;
       height: 40px;
@@ -1634,19 +1669,18 @@
     </header>
     <div class="container mt-5 my-4">
       <div class="search-container mb-4">
-        <button class="btn btn-dark" type="button" id="searchSectionButton" aria-label="Search" onclick="toggleSearchBar()">
-          <i class="bi bi-search"></i>
-        </button>
-        <div id="searchBarContainer" style="display: none; flex-grow: 1; margin-left: 10px;">
-          <input type="text" class="form-control" placeholder="Search for shirts, pants, accessories..." 
-                 id="searchSectionInput" autocomplete="off" aria-label="Search for Products"
-                 onkeyup="handleSearchInput()">
-        </div>
-        <button class="btn btn-outline-secondary" type="button" id="voiceSearchButton" aria-label="Search by Voice" onclick="startVoiceSearch()">
+        <input type="text" class="form-control search-input" id="searchSectionInput" placeholder="Search for products..." 
+               autocomplete="off" aria-label="Search for Products" onkeyup="handleSearchInput()">
+        <button class="btn btn-outline-secondary voice-search-btn" type="button" id="voiceSearchButton" 
+                aria-label="Search by Voice" onclick="startVoiceSearch()">
           <i class="bi bi-mic"></i>
         </button>
-        <div id="searchSuggestions" class="search-suggestions"></div>
+        <button class="btn btn-outline-secondary" type="button" id="clearSearchButton" 
+                aria-label="Clear Search" onclick="clearSearchInput()" style="display: none; margin-left: 5px;">
+          <i class="bi bi-x" style="color: #FFFFFF;"></i>
+        </button>
       </div>
+      <div id="searchSuggestions" class="search-suggestions"></div>
       <div class="search-results-container">
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h5 id="searchResultsCount">0 products found</h5>
@@ -2188,7 +2222,7 @@ function startOrderTracking(orderId) {
 }
 
 // Event listener for track order button
-document.getElementById('trackOrderButton').addEventListener('click', async () => {
+document.getElementById('trackOrderButton')?.addEventListener('click', async () => {
   const orderId = document.getElementById('orderIdInput').value.trim();
   if (!orderId || isNaN(orderId) || orderId <= 0) {
     showNotification('Please enter a valid order ID', 'warning');
