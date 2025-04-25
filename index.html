@@ -1338,32 +1338,31 @@
     <div class="container my-4" id="notificationsContent"></div>
   </div>
 
- <!-- Offcanvas Menu -->
- <div class="offcanvas offcanvas-start" tabindex="-1" id="menuCanvas" aria-labelledby="menuCanvasLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="menuCanvasLabel">Menu</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  <!-- Offcanvas Menu -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="menuCanvas" aria-labelledby="menuCanvasLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="menuCanvasLabel">Menu</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div id="menuAccountDetails">
+      <i class="bi bi-person-circle me-2"></i><span id="menuAccountText">Welcome Guest</span>
+    </div>
+    <ul class="list-unstyled">
+      <li class="custom-menu-item" onclick="hideMenu(); showSection('ordersSection');"><i class="bi bi-receipt me-2"></i> My Orders</li>
+      <li id="sellerDashboardMenuItem" class="custom-menu-item" onclick="hideMenu(); showSection('sellerDashboard');" style="display: none;"><i class="bi bi-speedometer me-2"></i> Seller Dashboard</li>
+      <li id="ownerDashboardMenuItem" class="custom-menu-item" onclick="hideMenu(); showSection('ownerDashboard');" style="display: none;"><i class="bi bi-graph-up me-2"></i> Owner Dashboard</li>
+      <li class="custom-menu-item" onclick="hideMenu(); showSection('aboutSection');"><i class="bi bi-info-circle me-2"></i> About Us</li>
+      <li class="custom-menu-item" onclick="hideMenu(); showSection('contactSection');"><i class="bi bi-envelope me-2"></i> Contact Us</li>
+      <li class="custom-menu-item" onclick="hideMenu(); showSection('couponsSection');"><i class="bi bi-tag me-2"></i> Coupons</li>
+      <li class="custom-menu-item" onclick="hideMenu(); showSection('offerZoneSection');"><i class="bi bi-star me-2"></i> Offer Zone</li>
+      <li class="custom-menu-item" onclick="hideMenu(); showSection('helpSection');"><i class="bi bi-question-circle me-2"></i> Help Line</li>
+    </ul>
+    <div id="menuSocialSection" class="mt-3 text-center">
+      <a href="https://www.instagram.com/tedpole.in" target="_blank" class="mx-2"><i class="bi bi-instagram" style="color:#E1306C;"></i></a>
+      <a href="https://x.com/TedpoleIn" target="_blank" class="mx-2"><i class="bi bi-twitter" style="color:#1DA1F2;"></i></a>
+      <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="mx-2"><i class="bi bi-linkedin" style="color:#0077B5;"></i></a>
+    </div>
   </div>
-  <div id="menuAccountDetails">
-    <i class="bi bi-person-circle me-2"></i><span id="menuAccountText">Welcome Guest</span>
-  </div>
-  <ul class="list-unstyled">
-    <li class="custom-menu-item" onclick="hideMenu(); showSection('ordersSection');"><i class="bi bi-receipt me-2"></i> My Orders</li>
-    <li id="sellerDashboardMenuItem" class="custom-menu-item" onclick="hideMenu(); showSection('sellerDashboard');" style="display: none;"><i class="bi bi-speedometer me-2"></i> Seller Dashboard</li>
-    <li id="ownerDashboardMenuItem" class="custom-menu-item" onclick="hideMenu(); showSection('ownerDashboard');" style="display: none;"><i class="bi bi-graph-up me-2"></i> Owner Dashboard</li>
-    <li class="custom-menu-item" onclick="hideMenu(); showSection('aboutSection');"><i class="bi bi-info-circle me-2"></i> About Us</li>
-    <li class="custom-menu-item" onclick="hideMenu(); showSection('contactSection');"><i class="bi bi-envelope me-2"></i> Contact Us</li>
-    <li class="custom-menu-item" onclick="hideMenu(); showSection('couponsSection');"><i class="bi bi-tag me-2"></i> Coupons</li>
-    <li class="custom-menu-item" onclick="hideMenu(); showSection('offerZoneSection');"><i class="bi bi-star me-2"></i> Offer Zone</li>
-    <li class="custom-menu-item" onclick="hideMenu(); showSection('helpSection');"><i class="bi bi-question-circle me-2"></i> Help Line</li>
-    <li class="custom-menu-item" onclick="hideMenu(); showSection('requestProductSection');"><i class="bi bi-chat-dots me-2"></i> Request Product</li>
-  </ul>
-  <div id="menuSocialSection" class="mt-3 text-center">
-    <a href="https://www.instagram.com/tedpole.in" target="_blank" class="mx-2"><i class="bi bi-instagram" style="color:#E1306C;"></i></a>
-    <a href="https://x.com/TedpoleIn" target="_blank" class="mx-2"><i class="bi bi-twitter" style="color:#1DA1F2;"></i></a>
-    <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="mx-2"><i class="bi bi-linkedin" style="color:#0077B5;"></i></a>
-  </div>
-</div>
 
   <!-- Home Section -->
   <div id="homeSection" class="section active-section fade-in">
@@ -2102,47 +2101,7 @@
     </header>
     <div class="container my-4" id="productDetailPage"></div>
   </div>
-  <!-- Request Product Section -->
-  <div id="requestProductSection" class="section fade-in">
-    <header class="py-3 border-bottom bg-light">
-      <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home">
-          <i class="bi bi-arrow-left"></i> Home
-        </button>
-        <h1 class="h5 mb-0">Request Product</h1>
-        <div></div>
-      </div>
-    </header>
-    <div class="container my-4">
-      <form id="requestProductForm">
-        <div class="mb-3">
-          <label for="requestCategory" class="form-label">Category</label>
-          <select class="form-select" id="requestCategory" required>
-            <option value="">Select Category</option>
-            <option value="Men's Wear">Men's Wear</option>
-            <option value="Accessories">Accessories</option>
-          </select>
-        </div>
-        <div class="mb-3">
-          <label for="requestClothType" class="form-label">Cloth Type</label>
-          <input type="text" class="form-control" id="requestClothType" placeholder="e.g., Cotton, Denim" required>
-        </div>
-        <div class="mb-3">
-          <label for="requestSize" class="form-label">Size</label>
-          <input type="text" class="form-control" id="requestSize" placeholder="e.g., M, 32, One Size" required>
-        </div>
-        <div class="mb-3">
-          <label for="requestColor" class="form-label">Color</label>
-          <input type="text" class="form-control" id="requestColor" placeholder="e.g., Blue, Black" required>
-        </div>
-        <div class="mb-3">
-          <label for="requestMessage" class="form-label">Additional Message</label>
-          <textarea class="form-control" id="requestMessage" rows="3" placeholder="Any additional details or requests"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Send Request</button>
-      </form>
-    </div>
-  </div>
+
   <!-- Buy Now Modal -->
   <div class="modal fade" id="buyModal" tabindex="-1" aria-labelledby="buyModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -5220,49 +5179,13 @@ document.getElementById('trackOrderButton')?.addEventListener('click', async () 
          headerProfile.innerHTML = `<i class="bi bi-person-circle"></i> Guest`;
        }
       }
-    
-      
-        // Request Product form submission
-        document.getElementById("requestProductForm")?.addEventListener("submit", function(e) {
-          e.preventDefault();
-      
-          // Retrieve form values
-          const category = document.getElementById("requestCategory").value;
-          const clothType = document.getElementById("requestClothType").value;
-          const size = document.getElementById("requestSize").value;
-          const color = document.getElementById("requestColor").value;
-          const message = document.getElementById("requestMessage").value;
-      
-          // Create a request object
-          const request = {
-            category,
-            clothType,
-            size,
-            color,
-            message,
-            user: currentUser ? `${currentUser.firstName} ${currentUser.lastName} (${currentUser.email})` : "Guest",
-            date: new Date().toLocaleString()
-          };
-      
-          // Notify the owner
-          notifyOwner(`New product request: Category - ${category}, Cloth Type - ${clothType}, Size - ${size}, Color - ${color}, Message - ${message || 'None'}, From - ${request.user}`);
-      
-          // Show notification to the user
-          showNotification("Your product request has been sent to the owner.", "success");
-      
-          // Reset the form
-          this.reset();
-      
-          // Return to home section
-          showSection("homeSection");
-        });
+      document.getElementById("sendMessageModal").addEventListener("hidden.bs.modal", function () {
+        document.getElementById("messageText").value = "";
+      });
       </script>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.js"></script>
-      
       <!-- Bootstrap JS Bundle -->
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
       </body>
       </html>
