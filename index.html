@@ -1502,33 +1502,33 @@
     </div>
   </div>
 
-  <!-- Contact Us Section -->
-  <div id="contactSection" class="section fade-in">
-    <header class="py-3 border-bottom bg-light">
-      <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home"><i class="bi bi-arrow-left"></i> Home</button>
-        <h1 class="h5 mb-0">Contact Us</h1>
-        <div></div>
-      </div>
-    </header>
-    <div class="container my-4">
-      <form id="contactForm">
-        <div class="mb-3">
-          <label for="contactName" class="form-label">Name</label>
-          <input type="text" class="form-control" id="contactName" placeholder="Your Name" required aria-label="Your Name" />
-        </div>
-        <div class="mb-3">
-          <label for="contactEmail" class="form-label">Email Address</label>
-          <input type="email" class="form-control" id="contactEmail" placeholder="Your Email" required aria-label="Your Email" />
-        </div>
-        <div class="mb-3">
-          <label for="contactQuestion" class="form-label">Question</label>
-          <textarea class="form-control" id="contactQuestion" placeholder="Your Question" required aria-label="Your Question"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary" aria-label="Send Message">Send</button>
-      </form>
+<!-- Contact Us Section -->
+<div id="contactSection" class="section fade-in">
+  <header class="py-3 border-bottom bg-light">
+    <div class="container d-flex justify-content-between align-items-center">
+      <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home"><i class="bi bi-arrow-left"></i> Home</button>
+      <h1 class="h5 mb-0">Contact Us</h1>
+      <div></div>
     </div>
+  </header>
+  <div class="container my-4">
+    <form id="contactForm">
+      <div class="mb-3">
+        <label for="contactName" class="form-label">Name</label>
+        <input type="text" class="form-control" id="contactName" placeholder="Your Name" required aria-label="Your Name" />
+      </div>
+      <div class="mb-3">
+        <label for="contactEmail" class="form-label">Email Address</label>
+        <input type="email" class="form-control" id="contactEmail" placeholder="Your Email" required aria-label="Your Email" />
+      </div>
+      <div class="mb-3">
+        <label for="contactQuestion" class="form-label">Question</label>
+        <textarea class="form-control" id="contactQuestion" placeholder="Your Question" required aria-label="Your Question"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary" aria-label="Send Message">Send</button>
+    </form>
   </div>
+</div>
 
   <!-- Coupons Section -->
   <div id="couponsSection" class="section fade-in">
@@ -3621,12 +3621,119 @@ document.getElementById('trackOrderButton')?.addEventListener('click', async () 
              }
          
              // Show popup message
-             function showPopupMessage(message) {
-               document.getElementById("popupMessageContent").innerHTML = message;
-               const popupModal = new bootstrap.Modal(document.getElementById("popupMessageModal"));
-               popupModal.show();
-             }
-         
+      
+function showPopupMessage(title, message, onCloseCallback) {
+  document.getElementById("popupMessageModalLabel").textContent = title;
+  document.getElementById("popupMessageContent").innerHTML = message;
+  const popupModal = new bootstrap.Modal(document.getElementById("popupMessageModal"));
+  popupModal.show();
+
+  document.getElementById("popupMessageModal").addEventListener(
+      "hidden.bs.modal",
+      function () {
+          if (onCloseCallback) onCloseCallback();
+      },
+      { once: true }
+  );
+}
+
+document.getElementById("requestProductForm")?.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  if (!this.checkValidity()) {
+      this.classList.add("was-validated");
+      return;
+  }
+
+  const category = document.getElementById("requestCategory").value;
+  const clothType = document.getElementById("requestClothType").value;
+  const size = document.getElementById("requestSize").value;
+  const color = document.getElementById("requestColor").value;
+  const message = document.getElementById("requestMessage").value;
+
+  const request = {
+      category,
+      clothType,
+      size,
+      color,
+      message,
+      user: currentUser ? `${currentUser.firstName} ${currentUser.lastName} (${currentUser.email})` : "Guest",
+      date: new Date().toLocaleString(),
+  };
+
+  notifyOwner(
+      `New product request: Category - ${category}, Cloth Type - ${clothType}, Size - ${size}, Color - ${color}, Message - ${message || "None"}, From - ${request.user}`
+  );
+
+  showPopupMessage(
+      "Request Submitted",
+      `
+      <h5>Thank You for Your Request!</h5>
+      <p><strong>Category:</strong> ${category}</p>
+      <p><strong>Cloth Type:</strong> ${clothType}</p>
+      <p><strong>Size:</strong> ${size}</p>
+      <p><strong>Color:</strong> ${color}</p>
+      <p><strong>Additional Message:</strong> ${message || "None"}</p>
+      <p>Your request has been sent to the owner. We will get back to you soon.</p>
+      `,
+      function () {
+          document.getElementById("requestProductForm").reset();
+          document.getElementById("requestProductForm").classList.remove("was-validated");
+          showSection("homeSection");
+      }
+  );
+});
+function showPopupMessage(title, message, onCloseCallback) {
+  document.getElementById("popupMessageModalLabel").textContent = title;
+  document.getElementById("popupMessageContent").innerHTML = message;
+  const popupModal = new bootstrap.Modal(document.getElementById("popupMessageModal"));
+  popupModal.show();
+
+  document.getElementById("popupMessageModal").addEventListener(
+      "hidden.bs.modal",
+      function () {
+          if (onCloseCallback) onCloseCallback();
+      },
+      { once: true }
+  );
+}
+
+document.getElementById("contactForm")?.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  if (!this.checkValidity()) {
+      this.classList.add("was-validated");
+      return;
+  }
+
+  const name = document.getElementById("contactName").value;
+  const email = document.getElementById("contactEmail").value;
+  const question = document.getElementById("contactQuestion").value;
+
+  const contact = {
+      name,
+      email,
+      question,
+      date: new Date().toLocaleString()
+  };
+
+  notifyOwner(`New contact message from: ${name} (${email}) - Question: ${question}`);
+
+  showPopupMessage(
+      "Message Sent",
+      `
+      <h5>Thank You for Contacting Us!</h5>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Question:</strong> ${question}</p>
+      <p>We have received your message and will get back to you soon.</p>
+      `,
+      function () {
+          document.getElementById("contactForm").reset();
+          document.getElementById("contactForm").classList.remove("was-validated");
+      }
+  );
+});
              // Add to wishlist
              function addToWishlist(productId) {
                const product = products.find(p => p.id === productId);
