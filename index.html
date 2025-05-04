@@ -352,121 +352,123 @@
     }
     
     /* Enhanced Footer Navigation */
+   /* Updated Footer Styles */
+   .footer-nav {
+    background: white;
+    border-top: 2px solid #e9ecef;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1200;
+    padding: 5px 0;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    height: 70px; /* Increased height */
+  }
+  
+  .footer-nav .nav-list {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    height: 100%;
+  }
+  
+  .footer-nav .nav-item {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    transition: transform 0.2s ease;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .footer-nav .nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    padding: 5px;
+    height: 100%;
+    width: 100%;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  
+  .footer-nav .nav-link i {
+    font-size: 1.8rem; /* Larger icons */
+    color: var(--primary-color);
+    transition: all 0.3s ease;
+    margin-bottom: 3px;
+  }
+  
+  .footer-nav .nav-text {
+    font-size: 0.75rem;
+    color: var(--dark-color);
+    transition: color 0.2s ease;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  
+  .footer-nav .nav-link:hover i,
+  .footer-nav .nav-link.active i {
+    color: var(--secondary-color);
+    transform: scale(1.1);
+  }
+  
+  .footer-nav .nav-link:hover .nav-text,
+  .footer-nav .nav-link.active .nav-text {
+    color: var(--secondary-color);
+  }
+  
+  .footer-nav .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    height: 3px;
+    background-color: var(--secondary-color);
+    border-radius: 3px 3px 0 0;
+  }
+  
+  .footer-nav .badge {
+    position: absolute;
+    top: 5px;
+    right: 25%;
+    background-color: var(--secondary-color);
+    color: black;
+    font-size: 0.7rem;
+    padding: 2px 5px;
+    border-radius: 50%;
+    font-weight: bold;
+    transform: translateX(50%);
+  }
+  
+  @media (max-width: 768px) {
     .footer-nav {
-      background: white;
-      border-top: 2px solid #e9ecef;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: 1200;
-      padding: 5px 0;
-      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-      height: 60px;
-      display: flex;
-      align-items: center;
+      height: 65px;
     }
-    
-    .footer-nav .container {
-      max-width: 100%;
-      padding: 0;
-    }
-    
-    .footer-nav .nav-list {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      width: 100%;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-    
-    .footer-nav .nav-item {
-      flex: 1;
-      text-align: center;
-      position: relative;
-      transition: transform 0.2s ease;
-    }
-    
-    .footer-nav .nav-link {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      padding: 5px;
-      height: 100%;
-      transition: all 0.3s ease;
-      position: relative;
-    }
-    
     .footer-nav .nav-link i {
-      font-size: 1.5rem;
-      color: var(--primary-color);
-      transition: transform 0.2s ease, color 0.2s ease;
+      font-size: 1.6rem;
     }
-    
     .footer-nav .nav-text {
       font-size: 0.7rem;
-      color: var(--dark-color);
-      margin-top: 2px;
-      transition: color 0.2s ease;
-      text-transform: uppercase;
-      font-weight: 500;
     }
-    
-    .footer-nav .nav-link:hover i,
-    .footer-nav .nav-link.active i {
-      color: var(--secondary-color);
-      transform: scale(1.1);
-    }
-    
-    .footer-nav .nav-link:hover .nav-text,
-    .footer-nav .nav-link.active .nav-text {
-      color: var(--secondary-color);
-    }
-    
-    .footer-nav .nav-link.active::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 50%;
-      height: 2px;
-      background-color: var(--secondary-color);
-      transition: width 0.2s ease;
-    }
-    
     .footer-nav .badge {
-      position: absolute;
-      top: 2px;
-      right: 25%;
-      background-color: var(--secondary-color);
-      color:black;
+      top: 3px;
+      right: 35%;
       font-size: 0.6rem;
-      padding: 2px 5px;
-      border-radius: 50%;
-      font-weight: bold;
-      transform: translateX(50%);
+      padding: 1px 4px;
     }
-    
-    @media (max-width: 768px) {
-      .footer-nav {
-        height: 55px;
-      }
-      .footer-nav .nav-link i {
-        font-size: 1.3rem;
-      }
-      .footer-nav .nav-text {
-        font-size: 0.65rem;
-      }
-      .footer-nav .badge {
-        top: 0;
-        right: 40%;
-      }
-    }
+  }
     
     /* Wishlist Button Styling */
     .wishlist-btn { 
@@ -1581,7 +1583,27 @@
       </div>
     </header>
     <div class="container my-4">
-      <p>No coupons available at the moment. Check back later!</p>
+      <h2>Available Coupons</h2>
+      <div class="row">
+        <div class="col-md-6 mb-4">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title"><i class="bi bi-tag-fill me-2"></i>SUMMER20</h5>
+              <p class="card-text">20% off on total purchase</p>
+              
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-4">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title"><i class="bi bi-tag-fill me-2"></i>WELCOME10</h5>
+              <p class="card-text">10% off for new customers</p>
+          
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1595,7 +1617,25 @@
       </div>
     </header>
     <div class="container my-4">
-      <p>Explore our exclusive offers and deals. Stay tuned for upcoming discounts!</p>
+      <h2>Current Offers</h2>
+      <div class="row">
+        <div class="col-md-6 mb-4">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title"><i class="bi bi-percent me-2"></i>10% off on all Men's Wear</h5>
+              <p class="card-text">Get 10% discount on all men's clothing items. No coupon required.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-4">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title"><i class="bi bi-percent me-2"></i>20% off on Accessories</h5>
+              <p class="card-text">Enjoy 20% off on all accessories. Limited time offer.</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -2231,6 +2271,7 @@
         <div class="modal-body">
           <form id="buyForm">
             <input type="hidden" name="csrf_token" value="some-token-value" />
+            <input type="hidden" id="finalPrice" name="finalPrice">
             <div class="mb-3">
               <label for="shippingAddress" class="form-label">Address</label>
               <textarea class="form-control" id="shippingAddress" required aria-label="Shipping Address"></textarea>
@@ -2247,11 +2288,19 @@
               <label class="form-label">Payment Method</label>
               <input type="text" class="form-control" value="Cash on Delivery" disabled aria-label="Payment Method" />
             </div>
+            <div id="offerInfo" class="mb-3"></div>
+            <div class="mb-3">
+              <label for="couponCode" class="form-label">Coupon Code</label>
+              <input type="text" class="form-control" id="couponCode" placeholder="Enter coupon code">
+              <button type="button" class="btn btn-secondary mt-2" onclick="applyCoupon()">Apply Coupon</button>
+            </div>
+            <p id="couponMessage" class="mb-3"></p>
             <div class="mb-3">
               <p><strong>Product:</strong> <span id="modalProductName"></span></p>
               <p><strong>Size:</strong> <span id="modalProductSize"></span></p>
               <p><strong>Color:</strong> <span id="modalProductColor"></span></p>
               <p><strong>Price:</strong> ₹<span id="modalProductPrice"></span></p>
+              <p><strong>Shipping:</strong> FREE</p>
               <p><strong>Estimated Delivery:</strong> <span id="modalDeliveryTime"></span></p>
               <p><strong>Total Amount:</strong> ₹<span id="modalTotalAmount"></span></p>
             </div>
@@ -2435,31 +2484,31 @@ document.getElementById('trackOrderButton')?.addEventListener('click', async () 
         <li class="nav-item">
           <a href="#" class="nav-link" data-section="homeSection" onclick="showSection('homeSection'); return false;" aria-label="Home">
             <i class="bi bi-house"></i>
-            <span class="nav-text">Home</span>
+            <span class="nav-text"></span>
           </a>
         </li>
         <li class="nav-item">
           <a href="#" class="nav-link" data-section="categoriesSection" onclick="showSection('categoriesSection'); return false;" aria-label="Shop">
             <i class="bi bi-grid"></i>
-            <span class="nav-text">Shop</span>
+            <span class="nav-text"></span>
           </a>
         </li>
         <li class="nav-item">
           <a href="#" class="nav-link" data-section="searchSection" onclick="showSection('searchSection'); return false;" aria-label="Search">
             <i class="bi bi-search"></i>
-            <span class="nav-text">Search</span>
+            <span class="nav-text"></span>
           </a>
         </li>
         <li class="nav-item">
           <a href="#" class="nav-link" data-section="wishlistSection" onclick="showSection('wishlistSection'); return false;" aria-label="Wishlist">
             <i class="bi bi-heart"></i>
-            <span class="nav-text">Wishlist</span>
+            <span class="nav-text"></span>
           </a>
         </li>
         <li class="nav-item">
           <a href="#" class="nav-link" data-section="cartSection" onclick="showSection('cartSection'); return false;" aria-label="Your Bag">
             <i class="bi bi-bag"></i>
-            <span class="nav-text">Bag</span>
+            <span class="nav-text"></span>
             <span class="badge" id="footerBagBadge">0</span>
           </a>
         </li>
@@ -4574,30 +4623,7 @@ document.getElementById('trackOrderButton')?.addEventListener('click', async () 
            modal.querySelector('p').textContent = order.review || 'No review text provided.';
            modal.querySelector('.small').textContent = `Reviewed on ${order.reviewDate || 'Unknown date'}`;
          });
-         
-         // Add this to your existing showOrderDetailPage function where you generate the action buttons
-         // (This is already in your code, just showing where it fits)
-         /*
-         if (order.received && !order.returned && !order.rating) {
-           actionButtons += `
-             <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#reviewOrderModal">
-               <i class="bi bi-star me-1"></i> Rate & Review
-             </button>
-             <button class="btn btn-outline-secondary me-2" data-bs-toggle="modal" data-bs-target="#returnOrderModal">
-               <i class="bi bi-arrow-return-left me-1"></i> Return Item
-             </button>
-           `;
-         }
-         if (order.received && order.rating) {
-           actionButtons += `
-             <button class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#viewReviewModal">
-               <i class="bi bi-star-fill me-1"></i> View Your Review
-             </button>
-           `;
-         }
-         */
-         
-             // Update menu account details
+               // Update menu account details
              function updateMenuAccountDetails() {
                const container = document.getElementById("menuAccountDetails");
                if (currentUser) {
