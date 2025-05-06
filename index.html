@@ -350,123 +350,124 @@
     .product-detail-img:hover {
       transform: scale(1.02);
     }
-   /* Updated Footer Styles */
-   .footer-nav {
-    background: white;
-    border-top: 2px solid #e9ecef;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 1200;
-    padding: 5px 0;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-    height: 70px; /* Increased height */
-  }
-  
-  .footer-nav .nav-list {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    height: 100%;
-  }
-  
-  .footer-nav .nav-item {
-    flex: 1;
-    text-align: center;
-    position: relative;
-    transition: transform 0.2s ease;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .footer-nav .nav-link {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    padding: 5px;
-    height: 100%;
-    width: 100%;
-    transition: all 0.3s ease;
-    position: relative;
-  }
-  
-  .footer-nav .nav-link i {
-    font-size: 1.8rem; /* Larger icons */
-    color: var(--primary-color);
-    transition: all 0.3s ease;
-    margin-bottom: 3px;
-  }
-  
-  .footer-nav .nav-text {
-    font-size: 0.75rem;
-    color: var(--dark-color);
-    transition: color 0.2s ease;
-    text-transform: uppercase;
-    font-weight: 500;
-  }
-  
-  .footer-nav .nav-link:hover i,
-  .footer-nav .nav-link.active i {
-    color: var(--secondary-color);
-    transform: scale(1.1);
-  }
-  
-  .footer-nav .nav-link:hover .nav-text,
-  .footer-nav .nav-link.active .nav-text {
-    color: var(--secondary-color);
-  }
-  
-  .footer-nav .nav-link.active::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 50%;
-    height: 3px;
-    background-color: var(--secondary-color);
-    border-radius: 3px 3px 0 0;
-  }
-  
-  .footer-nav .badge {
-    position: absolute;
-    top: 5px;
-    right: 25%;
-    background-color: var(--secondary-color);
-    color: black;
-    font-size: 0.7rem;
-    padding: 2px 5px;
-    border-radius: 50%;
-    font-weight: bold;
-    transform: translateX(50%);
-  }
-  
-  @media (max-width: 768px) {
+    
+    /* Updated Footer Styles */
     .footer-nav {
-      height: 65px;
+      background: white;
+      border-top: 2px solid #e9ecef;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 1200;
+      padding: 5px 0;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+      height: 70px;
     }
+    
+    .footer-nav .nav-list {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      height: 100%;
+    }
+    
+    .footer-nav .nav-item {
+      flex: 1;
+      text-align: center;
+      position: relative;
+      transition: transform 0.2s ease;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .footer-nav .nav-link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      padding: 5px;
+      height: 100%;
+      width: 100%;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
     .footer-nav .nav-link i {
-      font-size: 1.6rem;
+      font-size: 1.8rem;
+      color: var(--primary-color);
+      transition: all 0.3s ease;
+      margin-bottom: 3px;
     }
+    
     .footer-nav .nav-text {
-      font-size: 0.7rem;
+      font-size: 0.75rem;
+      color: var(--dark-color);
+      transition: color 0.2s ease;
+      text-transform: uppercase;
+      font-weight: 500;
     }
+    
+    .footer-nav .nav-link:hover i,
+    .footer-nav .nav-link.active i {
+      color: var(--secondary-color);
+      transform: scale(1.1);
+    }
+    
+    .footer-nav .nav-link:hover .nav-text,
+    .footer-nav .nav-link.active .nav-text {
+      color: var(--secondary-color);
+    }
+    
+    .footer-nav .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50%;
+      height: 3px;
+      background-color: var(--secondary-color);
+      border-radius: 3px 3px 0 0;
+    }
+    
     .footer-nav .badge {
-      top: 3px;
-      right: 35%;
-      font-size: 0.6rem;
-      padding: 1px 4px;
+      position: absolute;
+      top: 5px;
+      right: 25%;
+      background-color: var(--secondary-color);
+      color: black;
+      font-size: 0.7rem;
+      padding: 2px 5px;
+      border-radius: 50%;
+      font-weight: bold;
+      transform: translateX(50%);
     }
-  }
+    
+    @media (max-width: 768px) {
+      .footer-nav {
+        height: 65px;
+      }
+      .footer-nav .nav-link i {
+        font-size: 1.6rem;
+      }
+      .footer-nav .nav-text {
+        font-size: 0.7rem;
+      }
+      .footer-nav .badge {
+        top: 3px;
+        right: 35%;
+        font-size: 0.6rem;
+        padding: 1px 4px;
+      }
+    }
     
     /* Wishlist Button Styling */
     .wishlist-btn { 
@@ -614,19 +615,39 @@
     .carousel-control-next {
       right: 15px;
     }
-    /* Splash Screen */
+    
+    /* Enhanced Splash Screen */
     .splash-screen {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      background-color: #000;
+      background: linear-gradient(135deg, #000, #1a1a1a);
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       z-index: 2000;
-      transition: opacity 0.5s ease;
+      transition: opacity 0.8s ease-out;
+      overflow: hidden;
+    }
+
+    .splash-screen::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255, 0, 0, 0.1), transparent);
+      animation: pulse 3s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.8); opacity: 0.5; }
+      50% { transform: scale(1.2); opacity: 0.2; }
+      100% { transform: scale(0.8); opacity: 0.5; }
     }
 
     .tedpole-logo {
@@ -635,9 +656,15 @@
       font-size: 8rem;
       font-weight: 900;
       text-transform: uppercase;
-      color: #e50914; 
-      text-shadow: 0 0 10px rgba(229, 9, 20, 0.7);
+      color: #e50914;
+      text-shadow: 0 0 15px rgba(229, 9, 20, 0.8), 0 0 30px rgba(229, 9, 20, 0.5);
       letter-spacing: -0.2rem;
+      animation: logoFadeIn 1.5s ease-in-out;
+    }
+
+    @keyframes logoFadeIn {
+      0% { opacity: 0; transform: scale(0.5); }
+      100% { opacity: 1; transform: scale(1); }
     }
 
     .tedpole-logo .letter {
@@ -658,40 +685,43 @@
 
     .glow {
       position: absolute;
-      bottom: -10px;
+      bottom: -20px;
       left: 0;
       width: 100%;
-      height: 5px;
+      height: 10px;
       background: #e50914;
       border-radius: 50%;
-      filter: blur(10px);
+      filter: blur(15px);
       opacity: 0;
-      animation: glowAppear 0.5s ease-out 1s forwards;
+      animation: glowAppear 0.8s ease-out 1.2s forwards;
     }
 
     @keyframes letterPop {
-      0% {
-        transform: scale(0.5);
-        opacity: 0;
-      }
-      100% {
-        transform: scale(1);
-        opacity: 1;
-      }
+      0% { transform: scale(0.5) translateY(20px); opacity: 0; }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
     }
 
     @keyframes glowAppear {
-      0% {
-        opacity: 0;
-        transform: scaleX(0);
-      }
-      100% {
-        opacity: 1;
-        transform: scaleX(1);
-      }
+      0% { opacity: 0; transform: scaleX(0.5); }
+      100% { opacity: 0.8; transform: scaleX(1); }
     }
 
-    /* Responsive adjustments */
+    .splash-subtitle {
+      color: #fff;
+      font-size: 1.2rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-top: 20px;
+      opacity: 0;
+      animation: subtitleFadeIn 1s ease-in-out 1.5s forwards;
+    }
+
+    @keyframes subtitleFadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive adjustments for splash screen */
     @media (max-width: 768px) {
       .tedpole-logo {
         font-size: 4rem;
@@ -699,16 +729,18 @@
       }
       
       .glow {
-        height: 3px;
-        bottom: -5px;
+        height: 6px;
+        bottom: -10px;
+      }
+      
+      .splash-subtitle {
+        font-size: 0.9rem;
+        letter-spacing: 2px;
       }
     }
-    .splash-subtitle {
-      font-size: 0.9rem;
-      letter-spacing: 2px;
-    }
-     /* Product Card Styling */
-     .product-card {
+    
+    /* Product Card Styling */
+    .product-card {
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       height: 100%;
       display: flex;
@@ -734,7 +766,8 @@
     
     .product-card .card-text {
       font-size: 0.9rem;
-    } 
+    }
+    
     /* Recommendations Section */
     .recommendations-section {
       margin-top: 40px;
@@ -804,12 +837,14 @@
       padding: 5px;
       font-size: 0.9rem;
     }
+    
     /* Voice Search Button Active State */
     .search-container .btn-outline-secondary.active {
       background-color: var(--danger-color);
       color: white;
       border-color: var(--danger-color);
     }
+    
     .search-suggestions {
       position: absolute;
       top: 100%;
@@ -1023,11 +1058,11 @@
       cursor: pointer;
     }
     
-   /* Responsive adjustments */
-   @media (max-width: 768px) {
-    .order-card .card-body > div {
-      margin-bottom: 15px;
-    }
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .order-card .card-body > div {
+        margin-bottom: 15px;
+      }
       .category-item img {
         height: 200px;
       }
@@ -1135,7 +1170,8 @@
     
     @keyframes spin {
       to { transform: rotate(360deg); }
-    }  
+    }
+    
     /* Print Styles */
     @media print {
       body * {
@@ -1366,7 +1402,7 @@
   <div class="dark-mode-toggle" onclick="toggleDarkMode()">
     <i class="bi bi-moon"></i>
   </div>
-  <!-- Splash Screen -->
+  <!-- Enhanced Splash Screen -->
   <div id="splashScreen" class="splash-screen" role="dialog" aria-label="Welcome to TEDPOLE">
     <div class="tedpole-logo">
       <span class="letter t">T</span>
@@ -1378,6 +1414,7 @@
       <span class="letter e2">E</span>
       <div class="glow"></div>
     </div>
+    <div class="splash-subtitle">Premium Clothing & Accessories</div>
   </div>
 
   <!-- Popup Message Modal -->
