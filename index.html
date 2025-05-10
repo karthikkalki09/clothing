@@ -1832,7 +1832,7 @@
       <div id="userLocationsContainer" class="mt-4"></div>
     </div>
   </div>
-  <!-- Updated Search Section -->
+    <!-- Updated Search Section -->
   <div id="searchSection" class="section fade-in" style="position: relative;">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
@@ -1870,8 +1870,7 @@
       </button>
     </div>
   </div>
-
-  <!-- Search Filter Modal -->
+   <!-- Search Filter Modal -->
   <div class="modal fade" id="searchFilterModal" tabindex="-1" aria-labelledby="searchFilterModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -1948,15 +1947,14 @@
             </div>
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" onclick="clearSearchFilters()" data-bs-dismiss="modal">Clear Filters</button>
-          <button type="button" class="btn btn-primary" onclick="performSearch()" data-bs-dismiss="modal">Apply Filters</button>
-        </div>
+       <div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" onclick="clearSearchFilters()" data-bs-dismiss="modal">Clear Filters</button>
+  <button type="button" class="btn btn-primary" onclick="performSearch()" data-bs-dismiss="modal">Apply Filters</button>
+</div>
       </div>
     </div>
   </div>
-
-  <!-- Login Section -->
+<!-- Login Section -->
   <div id="loginSection" class="section fade-in">
     <header class="bg-light py-3 border-bottom">
       <div class="container d-flex justify-content-between align-items-center">
@@ -2107,8 +2105,7 @@
       <div class="row" id="shopProductContainer"></div>
     </div>
   </div>
-
-  <!-- Men's Wear Section -->
+    <!-- Men's Wear Section -->
   <div id="menswearSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
       <div class="container d-flex justify-content-between align-items-center">
@@ -2217,7 +2214,6 @@
       <button class="btn btn-success" onclick="showSection('cartSection')" aria-label="Proceed to Checkout">Checkout</button>
     </div>
   </div>
-
   <!-- Enhanced Orders Section -->
   <div id="ordersSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
@@ -3172,13 +3168,15 @@ function showSearchSuggestions() {
   suggestionsContainer.style.display = "block";
 }
 
-// Perform search
+// Perform search with all filters activated
 function performSearch() {
   const query = document.getElementById("searchSectionInput").value.toLowerCase();
   const category = document.getElementById("searchCategory").value;
   const priceRange = document.getElementById("searchPrice").value;
   const minRating = document.getElementById("searchRating").value;
   const sortBy = document.getElementById("searchSort").value;
+  const size = document.getElementById("searchSize").value;
+  const color = document.getElementById("searchColor").value;
 
   let filteredProducts = [...products];
 
@@ -3209,6 +3207,18 @@ function performSearch() {
     });
   }
 
+  if (size) {
+    filteredProducts = filteredProducts.filter(p =>
+      p.size.split(",").map(s => s.trim().toLowerCase()).includes(size.toLowerCase())
+    );
+  }
+
+  if (color) {
+    filteredProducts = filteredProducts.filter(p =>
+      p.color.split(",").map(c => c.trim().toLowerCase()).includes(color.toLowerCase())
+    );
+  }
+
   switch (sortBy) {
     case "price-low":
       filteredProducts.sort((a, b) => a.price - b.price);
@@ -3237,8 +3247,9 @@ function performSearch() {
   }
 
   displaySearchResults(filteredProducts);
-  updateSearchActiveFilters(query, category, priceRange, minRating);
+  updateSearchActiveFilters(query, category, priceRange, minRating, size, color, sortBy);
 }
+
 
 // Display search results
 function displaySearchResults(results) {
@@ -4368,342 +4379,553 @@ function generateProductImageHTML(product) {
   return `<img id="mainProductImage" src="${defaultImage}" class="product-detail-img" alt="${product.name}" style="cursor: pointer;" onclick="showProductImagesModal(${product.id})">`;
 }
 
-// Update menu account details
-function updateMenuAccountDetails() {
-  const container = document.getElementById("menuAccountDetails");
-  if (currentUser) {
-    container.innerHTML = `<i class="bi bi-person-circle me-2"></i><h4 class="d-inline">${currentUser.firstName} ${currentUser.lastName}</h4><br><small>${currentUser.email}</small>`;
-    if (currentUser.email === "tedpole.in@gmail.com") {
-      document.getElementById("sellerDashboardMenuItem").style.display = "block";
-      document.getElementById("ownerDashboardMenuItem").style.display = "block";
-    }
-  } else {
-    container.innerHTML = `<h4>Welcome Guest</h4>`;
-    document.getElementById("sellerDashboardMenuItem").style.display = "none";
-    document.getElementById("ownerDashboardMenuItem").style.display = "none";
-  }
-}
-
-// Logout
-function logout() {
-  if (currentUser) {
-    currentUser.isLoggedIn = false;
-    currentUser.lastActivity = new Date().toISOString();
-  }
-  currentUser = null;
-  showNotification("You have been logged out.", "info");
-  saveData();
-  updateHeaderProfile();
-  updateMenuAccountDetails();
-  showSection("homeSection");
-}
-
-// Header button actions
-document.getElementById("accountButton").addEventListener("click", () => currentUser ? showSection("accountSection") : showSection("loginSection"));
-document.getElementById("notificationButton").addEventListener("click", () => showSection("notificationsSection"));
-
-// Login form submission
-document.getElementById("loginForm")?.addEventListener("submit", function(e) {
-  e.preventDefault();
-
-  const email = document.getElementById("loginEmail").value;
-  const password = document.getElementById("loginPassword").value;
-
-  const user = users.find(u => u.email === email && u.password === password);
-
-  if (user) {
-    currentUser = user;
-    currentUser.isLoggedIn = true;
-    currentUser.lastActivity = new Date().toISOString();
-
-    showNotification("Login successful!", "success");
-
-    notifyOwner(`User logged in: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email})`);
-
-    saveData();
-    updateHeaderProfile();
-    updateMenuAccountDetails();
-    showSection("homeSection");
-  } else {
-    showNotification("Invalid email or password. Please sign up if you don't have an account.", "warning");
-  }
-});
-
-// Sign up form submission
-document.getElementById("signupForm")?.addEventListener("submit", function(e) {
-  e.preventDefault();
-
-  const firstName = document.getElementById("firstName").value;
-  const lastName = document.getElementById("lastName").value;
-  const mobile = document.getElementById("mobileNumberSignUp").value;
-  const email = document.getElementById("signupEmail").value;
-  const password = document.getElementById("signupPassword").value;
-  const confirmPassword = document.getElementById("confirmPassword").value;
-
-  if (password !== confirmPassword) {
-    showNotification("Passwords do not match!", "warning");
-    return;
-  }
-
-  if (users.some(u => u.email === email)) {
-    showNotification("User with this email already exists. Please log in.", "warning");
-    return;
-  }
-
-  currentUser = {
-    firstName,
-    lastName,
-    email,
-    mobile,
-    password,
-    isLoggedIn: true,
-    lastActivity: new Date().toISOString(),
-    location: locations[Math.floor(Math.random() * locations.length)],
-    notifications: []
-  };
-
-  users.push(currentUser);
-
-  showNotification("Sign Up successful!", "success");
-  notifyOwner(`New user signed up: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email})`);
-
-  saveData();
-  updateHeaderProfile();
-  updateMenuAccountDetails();
-  showSection("homeSection");
-});
-
-// Contact form submission
-document.getElementById("contactForm")?.addEventListener("submit", function(e) {
-  e.preventDefault();
-  showNotification("Message was sent", "success");
-  this.reset();
-});
-
-// Apply filters for Shop section
-function applyFilters() {
-  const size = document.getElementById("filterSize").value;
-  const color = document.getElementById("filterColor").value;
-  const price = document.getElementById("filterPrice").value;
-  activeFilters = {};
-  if (size) activeFilters.size = size;
-  if (color) activeFilters.color = color;
-  if (price) activeFilters.price = price;
-  let filteredProducts = [...products];
-  if (activeFilters.size) {
-    filteredProducts = filteredProducts.filter(p => p.size.split(",").map(s => s.trim().toLowerCase()).includes(activeFilters.size.toLowerCase()));
-  }
-  if (activeFilters.color) {
-    filteredProducts = filteredProducts.filter(p => p.color.split(",").map(c => c.trim().toLowerCase()).includes(activeFilters.color.toLowerCase()));
-  }
-  if (activeFilters.price) {
-    const [min, max] = activeFilters.price.split("-").map(Number);
-    filteredProducts = filteredProducts.filter(p => p.price >= min && p.price <= max);
-  }
-  generateProducts("shopProductContainer", filteredProducts);
-  displayActiveFilters();
-}
-
-// Display active filters for Shop section
-function displayActiveFilters() {
-  const activeFilterDisplay = document.getElementById("activeFilterDisplay");
-  let html = "";
-  if (Object.keys(activeFilters).length > 0) {
-    html += '<div class="filter-tags">';
-    if (activeFilters.size) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeFilter('size')">Size: ${activeFilters.size} <i class="bi bi-x"></i></span>`;
-    if (activeFilters.color) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeFilter('color')">Color: ${activeFilters.color} <i class="bi bi-x"></i></span>`;
-    if (activeFilters.price) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeFilter('price')">Price: ${activeFilters.price} <i class="bi bi-x"></i></span>`;
-    html += '</div>';
-  }
-  activeFilterDisplay.innerHTML = html;
-}
-
-// Remove filter for Shop section
-function removeFilter(filterType) {
-  if (filterType === 'size') document.getElementById('filterSize').value = '';
-  else if (filterType === 'color') document.getElementById('filterColor').value = '';
-  else if (filterType === 'price') document.getElementById('filterPrice').value = '';
-  applyFilters();
-}
-
-// Clear all filters for Shop section
-function clearAllFilters() {
-  document.getElementById('filterSize').value = '';
-  document.getElementById('filterColor').value = '';
-  document.getElementById('filterPrice').value = '';
-  activeFilters = {};
-  generateProducts("shopProductContainer", products);
-  displayActiveFilters();
-}
-
-// Apply filters for Men's Wear section
-function applyMenswearFilters() {
-  const size = document.getElementById("menswearFilterSize").value;
-  const color = document.getElementById("menswearFilterColor").value;
-  const price = document.getElementById("menswearFilterPrice").value;
-  menswearActiveFilters = {};
-  if (size) menswearActiveFilters.size = size;
-  if (color) menswearActiveFilters.color = color;
-  if (price) menswearActiveFilters.price = price;
-  let filteredProducts = products.filter(p => p.category === "Men's Wear");
-  if (menswearActiveFilters.size) {
-    filteredProducts = filteredProducts.filter(p => p.size.split(",").map(s => s.trim().toLowerCase()).includes(menswearActiveFilters.size.toLowerCase()));
-  }
-  if (menswearActiveFilters.color) {
-    filteredProducts = filteredProducts.filter(p => p.color.split(",").map(c => c.trim().toLowerCase()).includes(menswearActiveFilters.color.toLowerCase()));
-  }
-  if (menswearActiveFilters.price) {
-    const [min, max] = menswearActiveFilters.price.split("-").map(Number);
-    filteredProducts = filteredProducts.filter(p => p.price >= min && p.price <= max);
-  }
-  generateProducts("menswearContainer", filteredProducts);
-  displayMenswearActiveFilters();
-}
-
-// Display active filters for Men's Wear section
-function displayMenswearActiveFilters() {
-  const activeFilterDisplay = document.getElementById("menswearActiveFilterDisplay");
-  let html = "";
-  if (Object.keys(menswearActiveFilters).length > 0) {
-    html += '<div class="filter-tags">';
-    if (menswearActiveFilters.size) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeMenswearFilter('size')">Size: ${menswearActiveFilters.size} <i class="bi bi-x"></i></span>`;
-    if (menswearActiveFilters.color) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeMenswearFilter('color')">Color: ${menswearActiveFilters.color} <i class="bi bi-x"></i></span>`;
-    if (menswearActiveFilters.price) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeMenswearFilter('price')">Price: ${menswearActiveFilters.price} <i class="bi bi-x"></i></span>`;
-    html += '</div>';
-  }
-  activeFilterDisplay.innerHTML = html;
-}
-
-// Remove filter for Men's Wear section
-function removeMenswearFilter(filterType) {
-  if (filterType === 'size') document.getElementById('menswearFilterSize').value = '';
-  else if (filterType === 'color') document.getElementById('menswearFilterColor').value = '';
-  else if (filterType === 'price') document.getElementById('menswearFilterPrice').value = '';
-  applyMenswearFilters();
-}
-
-// Clear filters for Men's Wear section
-function clearMenswearFilters() {
-  document.getElementById("menswearFilterSize").value = "";
-  document.getElementById("menswearFilterColor").value = "";
-  document.getElementById("menswearFilterPrice").value = "";
-  menswearActiveFilters = {};
-  const menswearProducts = products.filter(p => p.category === "Men's Wear");
-  generateProducts("menswearContainer", menswearProducts);
-  displayMenswearActiveFilters();
-}
-
-// Apply filters for Accessories section
-function applyAccessoriesFilters() {
-  const size = document.getElementById("accessoriesFilterSize").value;
-  const color = document.getElementById("accessoriesFilterColor").value;
-  const price = document.getElementById("accessoriesFilterPrice").value;
-  accessoriesActiveFilters = {};
-  if (size) accessoriesActiveFilters.size = size;
-  if (color) accessoriesActiveFilters.color = color;
-  if (price) accessoriesActiveFilters.price = price;
-  let filteredProducts = products.filter(p => p.category === "Accessories");
-  if (accessoriesActiveFilters.size) {
-    filteredProducts = filteredProducts.filter(p => p.size.split(",").map(s => s.trim().toLowerCase()).includes(accessoriesActiveFilters.size.toLowerCase()));
-  }
-  if (accessoriesActiveFilters.color) {
-    filteredProducts = filteredProducts.filter(p => p.color.split(",").map(c => c.trim().toLowerCase()).includes(accessoriesActiveFilters.color.toLowerCase()));
-  }
-  if (accessoriesActiveFilters.price) {
-    const [min, max] = accessoriesActiveFilters.price.split("-").map(Number);
-    filteredProducts = filteredProducts.filter(p => p.price >= min && p.price <= max);
-  }
-  generateProducts("accessoriesContainer", filteredProducts);
-  displayAccessoriesActiveFilters();
-}
-
-// Display active filters for Accessories section
-function displayAccessoriesActiveFilters() {
-  const activeFilterDisplay = document.getElementById("accessoriesActiveFilterDisplay");
-  let html = "";
-  if (Object.keys(accessoriesActiveFilters).length > 0) {
-    html += '<div class="filter-tags">';
-    if (accessoriesActiveFilters.size) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeAccessoriesFilter('size')">Size: ${accessoriesActiveFilters.size} <i class="bi bi-x"></i></span>`;
-    if (accessoriesActiveFilters.color) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeAccessoriesFilter('color')">Color: ${accessoriesActiveFilters.color} <i class="bi bi-x"></i></span>`;
-    if (accessoriesActiveFilters.price) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeAccessoriesFilter('price')">Price: ${accessoriesActiveFilters.price} <i class="bi bi-x"></i></span>`;
-    html += '</div>';
-  }
-  activeFilterDisplay.innerHTML = html;
-}
-
-// Remove filter for Accessories section
-function removeAccessoriesFilter(filterType) {
-  if (filterType === 'size') document.getElementById('accessoriesFilterSize').value = '';
-  else if (filterType === 'color') document.getElementById('accessoriesFilterColor').value = '';
-  else if (filterType === 'price') document.getElementById('accessoriesFilterPrice').value = '';
-  applyAccessoriesFilters();
-}
-
-// Clear filters for Accessories section
-function clearAccessoriesFilters() {
-  document.getElementById("accessoriesFilterSize").value = "";
-  document.getElementById("accessoriesFilterColor").value = "";
-  document.getElementById("accessoriesFilterPrice").value = "";
-  accessoriesActiveFilters = {};
-  const accessoriesProducts = products.filter(p => p.category === "Accessories");
-  generateProducts("accessoriesContainer", accessoriesProducts);
-  displayAccessoriesActiveFilters();
-}
-
-// Notify owner
-function notifyOwner(message) {
-  ownerNotifications.push({ message, date: new Date().toLocaleString() });
-  saveData();
-}
-
-// Update notifications
-function updateNotifications() {
-  const notificationsContent = document.getElementById("notificationsContent");
-  if (notifications.length === 0) {
-    notificationsContent.innerHTML = `
-      <div class="col-12 text-center py-5">
-        <i class="bi bi-bell" style="font-size: 3rem; color: #ddd;"></i>
-        <h5 class="mt-3">No Notifications</h5>
-        <p>You're all caught up!</p>
-      </div>
-    `;
-  } else {
-    notificationsContent.innerHTML = "";
-    notifications.slice().reverse().forEach((notif, index) => {
-      const card = `
-        <div class="col-md-6 col-lg-4">
-          <div class="card notification-card ${notif.type}">
-            <div class="card-header">
-              <i class="bi bi-bell-fill notification-icon"></i>
-              ${notif.date}
-            </div>
-            <div class="card-body">
-              <p class="notification-message">${notif.message}</p>
-            </div>
-          </div>
-        </div>
-      `;
-      notificationsContent.innerHTML += card;
-    });
-  }
-}
-
-// Clear all notifications
-function clearNotifications() {
-  if (notifications.length === 0) {
-    showNotification("No notifications to clear.", "info");
-    return;
-  }
-  if (confirm("Are you sure you want to clear all notifications?")) {
-    notifications = [];
-    saveData();
-    updateNotifications();
-    showNotification("All notifications cleared.", "success");
-  }
-}
-
-// Update Seller Dashboard
-function updateSellerDashboard() {
+ // Update menu account details
+             function updateMenuAccountDetails() {
+               const container = document.getElementById("menuAccountDetails");
+               if (currentUser) {
+                 container.innerHTML = `<i class="bi bi-person-circle me-2"></i><h4 class="d-inline">${currentUser.firstName} ${currentUser.lastName}</h4><br><small>${currentUser.email}</small>`;
+                 if (currentUser.email === "tedpole.in@gmail.com") {
+                   document.getElementById("sellerDashboardMenuItem").style.display = "block";
+                   document.getElementById("ownerDashboardMenuItem").style.display = "block";
+                 }
+               } else {
+                 container.innerHTML = `<h4>Welcome Guest</h4>`;
+                 document.getElementById("sellerDashboardMenuItem").style.display = "none";
+                 document.getElementById("ownerDashboardMenuItem").style.display = "none";
+               }
+             }
+         
+             // Logout
+             function logout() {
+               if (currentUser) {
+                 currentUser.isLoggedIn = false;
+                 currentUser.lastActivity = new Date().toISOString();
+               }
+               currentUser = null;
+               showNotification("You have been logged out.", "info");
+               saveData();
+               updateHeaderProfile();
+               updateMenuAccountDetails();
+               showSection("homeSection");
+             }
+         
+             // Header button actions
+             document.getElementById("accountButton").addEventListener("click", () => currentUser ? showSection("accountSection") : showSection("loginSection"));
+             document.getElementById("notificationButton").addEventListener("click", () => showSection("notificationsSection"));
+         
+             // Enhanced search functionality
+         function showSearchSuggestions() {
+           const input = document.getElementById("searchSectionInput").value.toLowerCase();
+           const suggestionsContainer = document.getElementById("searchSuggestions");
+           
+           if (input.length < 2) {
+             suggestionsContainer.style.display = "none";
+             return;
+           }
+           
+           const suggestions = products.filter(product => 
+             product.name.toLowerCase().includes(input) || 
+             product.description.toLowerCase().includes(input) ||
+             product.category.toLowerCase().includes(input)
+           ).slice(0, 5);
+           
+           if (suggestions.length === 0) {
+             suggestionsContainer.style.display = "none";
+             return;
+           }
+           
+           let html = '';
+           suggestions.forEach(product => {
+             html += `
+               <a href="#" class="list-group-item list-group-item-action" 
+                  onclick="event.preventDefault(); document.getElementById('searchSectionInput').value='${product.name}'; suggestionsContainer.style.display='none';">
+                 <div class="d-flex align-items-center">
+                   <img src="${product.images[0]}" alt="${product.name}" style="width: 40px; height: 40px; object-fit: cover; margin-right: 10px;">
+                   <div>
+                     <h6 class="mb-0">${product.name}</h6>
+                     <small class="text-muted">${product.category}</small>
+                   </div>
+                 </div>
+               </a>
+             `;
+           });
+           
+           suggestionsContainer.innerHTML = html;
+           suggestionsContainer.style.display = "block";
+         }
+         
+         function performSearch() {
+           const query = document.getElementById("searchSectionInput").value.toLowerCase();
+           const category = document.getElementById("searchCategory").value;
+           const priceRange = document.getElementById("searchPrice").value;
+           const minRating = document.getElementById("searchRating").value;
+           const sortBy = document.getElementById("searchSort").value;
+           
+           let filteredProducts = [...products];
+           
+           // Apply search query
+           if (query) {
+             filteredProducts = filteredProducts.filter(p => 
+               p.name.toLowerCase().includes(query) || 
+               p.description.toLowerCase().includes(query)
+           )}
+           
+           // Apply category filter
+           if (category) {
+             filteredProducts = filteredProducts.filter(p => p.category === category);
+           }
+           
+           // Apply price range filter
+           if (priceRange) {
+             const [min, max] = priceRange.split("-").map(Number);
+             filteredProducts = filteredProducts.filter(p => {
+               if (max) return p.price >= min && p.price <= max;
+               return p.price >= min;
+             });
+           }
+           
+           // Apply rating filter
+           if (minRating) {
+             filteredProducts = filteredProducts.filter(p => {
+               const ratingInfo = getProductRating(p.id);
+               return ratingInfo && ratingInfo.average >= minRating;
+             });
+           }
+           
+           // Apply sorting
+           switch(sortBy) {
+             case "price-low":
+               filteredProducts.sort((a, b) => a.price - b.price);
+               break;
+             case "price-high":
+               filteredProducts.sort((a, b) => b.price - a.price);
+               break;
+             case "rating":
+               filteredProducts.sort((a, b) => {
+                 const ratingA = getProductRating(a.id)?.average || 0;
+                 const ratingB = getProductRating(b.id)?.average || 0;
+                 return ratingB - ratingA;
+               });
+               break;
+             case "newest":
+               // Assuming newer products have higher IDs
+               filteredProducts.sort((a, b) => b.id - a.id);
+               break;
+             default:
+               // Relevance - products matching query come first
+               if (query) {
+                 filteredProducts.sort((a, b) => {
+                   const aMatches = a.name.toLowerCase().includes(query) ? 1 : 0;
+                   const bMatches = b.name.toLowerCase().includes(query) ? 1 : 0;
+                   return bMatches - aMatches;
+                 });
+               }
+           }
+           
+           displaySearchResults(filteredProducts);
+           updateSearchActiveFilters(query, category, priceRange, minRating);
+         }
+         
+         function displaySearchResults(results) {
+           const container = document.getElementById("searchResultsContainer");
+           const countElement = document.getElementById("searchResultsCount");
+           
+           countElement.textContent = `${results.length} ${results.length === 1 ? 'product' : 'products'} found`;
+           
+           if (results.length === 0) {
+             container.innerHTML = `
+               <div class="col-12 text-center py-5">
+                 <i class="bi bi-search" style="font-size: 3rem; color: #ccc;"></i>
+                 <h4 class="mt-3">No </h4>
+                 <p>Try adjusting your search or filters</p>
+                 <button class="btn btn-primary" onclick="clearSearchFilters()">Clear all filters</button>
+               </div>
+             `;
+             return;
+           }
+           
+           container.innerHTML = "";
+           results.forEach(product => {
+             const ratingInfo = getProductRating(product.id);
+             const originalPrice = (product.price * 1.2).toFixed(2);
+             const discount = ((originalPrice - product.price) / originalPrice * 100).toFixed(0);
+             
+             const card = `
+               <div class="col-6 col-md-4 col-lg-3 mb-4">
+                 <div class="card h-100 product-card" onclick="showProductDetails(${product.id})">
+                   <div style="position: relative;">
+                     <img src="${product.images[0]}" class="card-img-top" alt="${product.name}" style="height: 200px; object-fit: cover;">
+                     ${discount > 0 ? `<span class="badge bg-danger position-absolute top-0 start-0 m-2">${discount}% OFF</span>` : ''}
+                     <button class="wishlist-btn position-absolute top-0 end-0 m-2" 
+                             onclick="event.stopPropagation(); addToWishlist(${product.id})">
+                       <i class="bi bi-heart-fill" style="color: ${wishlist.some(p => p.id === product.id) ? 'red' : '#ccc'};"></i>
+                     </button>
+                   </div>
+                   <div class="card-body">
+                     <h5 class="card-title">${product.name}</h5>
+                     <p class="card-text text-muted" style="font-size: 0.9rem;">${product.description}</p>
+                     <div class="d-flex justify-content-between align-items-center">
+                       <div>
+                         <span class="fw-bold">₹${product.price.toFixed(2)}</span>
+                         ${discount > 0 ? `<small class="text-decoration-line-through text-muted ms-1">₹${originalPrice}</small>` : ''}
+                       </div>
+                       ${ratingInfo ? `
+                         <div class="d-flex align-items-center">
+                           <i class="bi bi-star-fill text-warning me-1"></i>
+                           <small>${ratingInfo.average}</small>
+                         </div>
+                       ` : ''}
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             `;
+             container.innerHTML += card;
+           });
+         }
+         
+         function updateSearchActiveFilters(query, category, priceRange, minRating) {
+           const container = document.getElementById("searchActiveFilters");
+           let html = '';
+           
+           if (query) html += `<span class="badge bg-secondary me-2">Search: ${query}</span>`;
+           if (category) html += `<span class="badge bg-primary me-2">Category: ${category}</span>`;
+           if (priceRange) {
+             const label = priceRange === "0-100" ? "Under ₹100" : 
+                          priceRange === "100-200" ? "₹100-₹200" :
+                          priceRange === "200-300" ? "₹200-₹300" : "₹300-₹500";
+             html += `<span class="badge bg-info me-2">Price: ${label}</span>`;
+           }
+           if (minRating) html += `<span class="badge bg-warning me-2">Rating: ${minRating}+</span>`;
+           
+           container.innerHTML = html;
+         }
+         
+         function clearSearchFilters() {
+           document.getElementById("searchSectionInput").value = "";
+           document.getElementById("searchCategory").value = "";
+           document.getElementById("searchPrice").value = "";
+           document.getElementById("searchRating").value = "";
+           document.getElementById("searchSort").value = "relevance";
+           document.getElementById("searchActiveFilters").innerHTML = "";
+           displaySearchResults(products);
+           document.getElementById("searchResultsCount").textContent = `${products.length} `;
+         }
+         
+             // Login form submission
+             document.getElementById("loginForm")?.addEventListener("submit", function(e) {
+                 e.preventDefault();
+               
+                 // Retrieve input values
+                 const email = document.getElementById("loginEmail").value;
+                 const password = document.getElementById("loginPassword").value;
+               
+                 // Check if the user exists and the password matches
+                 const user = users.find(u => u.email === email && u.password === password);
+               
+                 if (user) {
+                   // Set current user and update properties
+                   currentUser = user;
+                   currentUser.isLoggedIn = true;
+                   currentUser.lastActivity = new Date().toISOString();
+               
+                   // Show notification for successful login
+                   showNotification("Login successful!", "success");
+               
+                   // Notify owner about the successful login with user's details
+                   notifyOwner(`User logged in: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email})`);
+               
+                   // Persist data and update the UI accordingly
+                   saveData();
+                   updateHeaderProfile();
+                   updateMenuAccountDetails();
+                   showSection("homeSection");
+                 } else {
+                   // Show warning if credentials are invalid
+                   showNotification("Invalid email or password. Please sign up if you don't have an account.", "warning");
+                 }
+               });
+               
+         
+          // Sign up form submission
+     document.getElementById("signupForm")?.addEventListener("submit", function(e) {
+         e.preventDefault();
+       
+         // Retrieve form values
+         const firstName = document.getElementById("firstName").value;
+         const lastName = document.getElementById("lastName").value;
+         const mobile = document.getElementById("mobileNumberSignUp").value;
+         const email = document.getElementById("signupEmail").value;
+         const password = document.getElementById("signupPassword").value;
+         const confirmPassword = document.getElementById("confirmPassword").value;
+       
+         // Validate password matching
+         if (password !== confirmPassword) {
+           showNotification("Passwords do not match!", "warning");
+           return;
+         }
+       
+         // Check if user already exists by email
+         if (users.some(u => u.email === email)) {
+           showNotification("User with this email already exists. Please log in.", "warning");
+           return;
+         }
+       
+         // Create new user object with additional attributes
+         currentUser = { 
+           firstName, 
+           lastName, 
+           email, 
+           mobile, 
+           password, 
+           isLoggedIn: true, 
+           lastActivity: new Date().toISOString(), 
+           location: locations[Math.floor(Math.random() * locations.length)],
+           notifications: [] // Initialize notifications array
+         };
+       
+         // Add user to users array
+         users.push(currentUser);
+       
+         // Notify about the new user sign-up
+         showNotification("Sign Up successful!", "success");
+         notifyOwner(`New user signed up: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email})`);
+       
+         // Persist data and update the UI
+         saveData();
+         updateHeaderProfile();
+         updateMenuAccountDetails();
+         showSection("homeSection");
+       });
+             // Contact form submission
+             document.getElementById("contactForm")?.addEventListener("submit", function(e) {
+               e.preventDefault();
+               showNotification("Message was sent", "success");
+               this.reset();
+             });
+         
+              // Apply filters for Shop section
+           function applyFilters() {
+             const size = document.getElementById("filterSize").value;
+             const color = document.getElementById("filterColor").value;
+             const price = document.getElementById("filterPrice").value;
+             activeFilters = {};
+             if (size) activeFilters.size = size;
+             if (color) activeFilters.color = color;
+             if (price) activeFilters.price = price;
+             let filteredProducts = [...products];
+             if (activeFilters.size) {
+               filteredProducts = filteredProducts.filter(p => p.size.split(",").map(s => s.trim().toLowerCase()).includes(activeFilters.size.toLowerCase()));
+             }
+             if (activeFilters.color) {
+               filteredProducts = filteredProducts.filter(p => p.color.split(",").map(c => c.trim().toLowerCase()).includes(activeFilters.color.toLowerCase()));
+             }
+             if (activeFilters.price) {
+               const [min, max] = activeFilters.price.split("-").map(Number);
+               filteredProducts = filteredProducts.filter(p => p.price >= min && p.price <= max);
+             }
+             generateProducts("shopProductContainer", filteredProducts);
+             displayActiveFilters();
+           }
+         
+           // Display active filters for Shop section
+           function displayActiveFilters() {
+             const activeFilterDisplay = document.getElementById("activeFilterDisplay");
+             let html = "";
+             if (Object.keys(activeFilters).length > 0) {
+               html += '<div class="filter-tags">';
+               if (activeFilters.size) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeFilter('size')">Size: ${activeFilters.size} <i class="bi bi-x"></i></span>`;
+               if (activeFilters.color) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeFilter('color')">Color: ${activeFilters.color} <i class="bi bi-x"></i></span>`;
+               if (activeFilters.price) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeFilter('price')">Price: ${activeFilters.price} <i class="bi bi-x"></i></span>`;
+               html += '</div>';
+             }
+             activeFilterDisplay.innerHTML = html;
+           }
+         
+           // Remove filter for Shop section
+           function removeFilter(filterType) {
+             if (filterType === 'size') document.getElementById('filterSize').value = '';
+             else if (filterType === 'color') document.getElementById('filterColor').value = '';
+             else if (filterType === 'price') document.getElementById('filterPrice').value = '';
+             applyFilters();
+           }
+         
+           // Clear all filters for Shop section
+           function clearAllFilters() {
+             document.getElementById('filterSize').value = '';
+             document.getElementById('filterColor').value = '';
+             document.getElementById('filterPrice').value = '';
+             activeFilters = {};
+             generateProducts("shopProductContainer", products);
+             displayActiveFilters();
+           }
+         
+            // Apply filters for Men's Wear section
+             function applyMenswearFilters() {
+               const size = document.getElementById("menswearFilterSize").value;
+               const color = document.getElementById("menswearFilterColor").value;
+               const price = document.getElementById("menswearFilterPrice").value;
+               menswearActiveFilters = {};
+               if (size) menswearActiveFilters.size = size;
+               if (color) menswearActiveFilters.color = color;
+               if (price) menswearActiveFilters.price = price;
+               let filteredProducts = products.filter(p => p.category === "Men's Wear");
+               if (menswearActiveFilters.size) {
+                 filteredProducts = filteredProducts.filter(p => p.size.split(",").map(s => s.trim().toLowerCase()).includes(menswearActiveFilters.size.toLowerCase()));
+               }
+               if (menswearActiveFilters.color) {
+                 filteredProducts = filteredProducts.filter(p => p.color.split(",").map(c => c.trim().toLowerCase()).includes(menswearActiveFilters.color.toLowerCase()));
+               }
+               if (menswearActiveFilters.price) {
+                 const [min, max] = menswearActiveFilters.price.split("-").map(Number);
+                 filteredProducts = filteredProducts.filter(p => p.price >= min && p.price <= max);
+               }
+               generateProducts("menswearContainer", filteredProducts);
+               displayMenswearActiveFilters();
+             }
+         
+             // Display active filters for Men's Wear section
+             function displayMenswearActiveFilters() {
+               const activeFilterDisplay = document.getElementById("menswearActiveFilterDisplay");
+               let html = "";
+               if (Object.keys(menswearActiveFilters).length > 0) {
+                 html += '<div class="filter-tags">';
+                 if (menswearActiveFilters.size) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeMenswearFilter('size')">Size: ${menswearActiveFilters.size} <i class="bi bi-x"></i></span>`;
+                 if (menswearActiveFilters.color) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeMenswearFilter('color')">Color: ${menswearActiveFilters.color} <i class="bi bi-x"></i></span>`;
+                 if (menswearActiveFilters.price) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeMenswearFilter('price')">Price: ${menswearActiveFilters.price} <i class="bi bi-x"></i></span>`;
+                 html += '</div>';
+               }
+               activeFilterDisplay.innerHTML = html;
+             }
+         
+             // Remove filter for Men's Wear section
+             function removeMenswearFilter(filterType) {
+               if (filterType === 'size') document.getElementById('menswearFilterSize').value = '';
+               else if (filterType === 'color') document.getElementById('menswearFilterColor').value = '';
+               else if (filterType === 'price') document.getElementById('menswearFilterPrice').value = '';
+               applyMenswearFilters();
+             }
+         
+             // Clear filters for Men's Wear section
+             function clearMenswearFilters() {
+               document.getElementById("menswearFilterSize").value = "";
+               document.getElementById("menswearFilterColor").value = "";
+               document.getElementById("menswearFilterPrice").value = "";
+               menswearActiveFilters = {};
+               const menswearProducts = products.filter(p => p.category === "Men's Wear");
+               generateProducts("menswearContainer", menswearProducts);
+               displayMenswearActiveFilters();
+             }
+         
+             // Apply filters for Accessories section
+             function applyAccessoriesFilters() {
+               const size = document.getElementById("accessoriesFilterSize").value;
+               const color = document.getElementById("accessoriesFilterColor").value;
+               const price = document.getElementById("accessoriesFilterPrice").value;
+               accessoriesActiveFilters = {};
+               if (size) accessoriesActiveFilters.size = size;
+               if (color) accessoriesActiveFilters.color = color;
+               if (price) accessoriesActiveFilters.price = price;
+               let filteredProducts = products.filter(p => p.category === "Accessories");
+               if (accessoriesActiveFilters.size) {
+                 filteredProducts = filteredProducts.filter(p => p.size.split(",").map(s => s.trim().toLowerCase()).includes(accessoriesActiveFilters.size.toLowerCase()));
+               }
+               if (accessoriesActiveFilters.color) {
+                 filteredProducts = filteredProducts.filter(p => p.color.split(",").map(c => c.trim().toLowerCase()).includes(accessoriesActiveFilters.color.toLowerCase()));
+               }
+               if (accessoriesActiveFilters.price) {
+                 const [min, max] = accessoriesActiveFilters.price.split("-").map(Number);
+                 filteredProducts = filteredProducts.filter(p => p.price >= min && p.price <= max);
+               }
+               generateProducts("accessoriesContainer", filteredProducts);
+               displayAccessoriesActiveFilters();
+             }
+         
+             // Display active filters for Accessories section
+             function displayAccessoriesActiveFilters() {
+               const activeFilterDisplay = document.getElementById("accessoriesActiveFilterDisplay");
+               let html = "";
+               if (Object.keys(accessoriesActiveFilters).length > 0) {
+                 html += '<div class="filter-tags">';
+                 if (accessoriesActiveFilters.size) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeAccessoriesFilter('size')">Size: ${accessoriesActiveFilters.size} <i class="bi bi-x"></i></span>`;
+                 if (accessoriesActiveFilters.color) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeAccessoriesFilter('color')">Color: ${accessoriesActiveFilters.color} <i class="bi bi-x"></i></span>`;
+                 if (accessoriesActiveFilters.price) html += `<span class="badge bg-primary me-2" style="cursor: pointer;" onclick="removeAccessoriesFilter('price')">Price: ${accessoriesActiveFilters.price} <i class="bi bi-x"></i></span>`;
+                 html += '</div>';
+               }
+               activeFilterDisplay.innerHTML = html;
+             }
+         
+             // Remove filter for Accessories section
+             function removeAccessoriesFilter(filterType) {
+               if (filterType === 'size') document.getElementById('accessoriesFilterSize').value = '';
+               else if (filterType === 'color') document.getElementById('accessoriesFilterColor').value = '';
+               else if (filterType === 'price') document.getElementById('accessoriesFilterPrice').value = '';
+               applyAccessoriesFilters();
+             }
+         
+             // Clear filters for Accessories section
+             function clearAccessoriesFilters() {
+               document.getElementById("accessoriesFilterSize").value = "";
+               document.getElementById("accessoriesFilterColor").value = "";
+               document.getElementById("accessoriesFilterPrice").value = "";
+               accessoriesActiveFilters = {};
+               const accessoriesProducts = products.filter(p => p.category === "Accessories");
+               generateProducts("accessoriesContainer", accessoriesProducts);
+               displayAccessoriesActiveFilters();
+             }
+               // Notify owner
+               function notifyOwner(message) {
+                 ownerNotifications.push({ message, date: new Date().toLocaleString() });
+                 saveData();
+               }
+         
+                // Update notifications
+                function updateNotifications() {
+                 const notificationsContent = document.getElementById("notificationsContent");
+                 if (notifications.length === 0) {
+                   notificationsContent.innerHTML = `
+                     <div class="col-12 text-center py-5">
+                       <i class="bi bi-bell" style="font-size: 3rem; color: #ddd;"></i>
+                       <h5 class="mt-3">No Notifications</h5>
+                       <p>You're all caught up!</p>
+                     </div>
+                   `;
+                 } else {
+                   notificationsContent.innerHTML = "";
+                   notifications.slice().reverse().forEach((notif, index) => {
+                     const card = `
+                       <div class="col-md-6 col-lg-4">
+                         <div class="card notification-card ${notif.type}">
+                           <div class="card-header">
+                             <i class="bi bi-bell-fill notification-icon"></i>
+                             ${notif.date}
+                           </div>
+                           <div class="card-body">
+                             <p class="notification-message">${notif.message}</p>
+                            
+                           </div>
+                         </div>
+                       </div>
+                     `;
+                     notificationsContent.innerHTML += card;
+                   });
+                 }
+               }
+                  // Clear all notifications
+                  function clearNotifications() {
+                   if (notifications.length === 0) {
+                     showNotification("No notifications to clear.", "info");
+                     return;
+                   }
+                   if (confirm("Are you sure you want to clear all notifications?")) {
+                     notifications = [];
+                     saveData();
+                     updateNotifications();
+                     showNotification("All notifications cleared.", "success");
+                   }
+                 }
+                    // Update Seller Dashboard
+                 function updateSellerDashboard() {
   const sellerDashboardContent = document.getElementById("sellerDashboardContent");
   let html = "<h2>Users</h2>";
   if (users.length === 0) {
@@ -4812,52 +5034,64 @@ function updateSellerDashboard() {
     }
   });
 }
-
-// Clear owner notifications
-function clearOwnerNotifications() {
-  if (confirm("Are you sure you want to clear all notifications?")) {
-    ownerNotifications = [];
-    saveData();
-    updateSellerDashboard();
-    showNotification("All notifications cleared.", "info");
-  }
-}
-
-// Function to print order card with QR code
-function printOrder(index) {
-  const orderCards = document.querySelectorAll('.order-card');
-  if (index < 0 || index >= orderCards.length) return;
-  const orderCard = orderCards[index];
-
-  document.body.classList.add('print-mode');
-  orderCard.classList.add('print-selected');
-
-  window.print();
-
-  window.addEventListener('afterprint', function() {
-    document.body.classList.remove('print-mode');
-    orderCard.classList.remove('print-selected');
-  }, { once: true });
-}
-
-// Function to download order card as PNG with QR code
-function downloadOrder(index) {
-  const orderCards = document.querySelectorAll('.order-card');
-  if (index < 0 || index >= orderCards.length) return;
-  const orderCard = orderCards[index];
-
-  html2canvas(orderCard).then(canvas => {
-    const link = document.createElement('a');
-    link.href = canvas.toDataURL('image/png');
-    link.download = `order_${index + 1}.png`;
-    link.click();
-  }).catch(error => {
-    console.error('Error generating image:', error);
-    showNotification('Failed to generate image for download.', 'danger');
-  });
-}
-
-// Update owner dashboard
+             // Clear owner notifications
+             function clearOwnerNotifications() {
+               if (confirm("Are you sure you want to clear all notifications?")) {
+                 ownerNotifications = [];
+                 saveData();
+                 updateSellerDashboard();
+                 showNotification("All notifications cleared.", "info");
+               }
+             }
+           
+             // Function to print order card with QR code
+             function printOrder(index) {
+               const orderCards = document.querySelectorAll('.order-card');
+               if (index < 0 || index >= orderCards.length) return;
+               const orderCard = orderCards[index];
+               
+               document.body.classList.add('print-mode');
+               orderCard.classList.add('print-selected');
+               
+               window.print();
+               
+               window.addEventListener('afterprint', function() {
+                 document.body.classList.remove('print-mode');
+                 orderCard.classList.remove('print-selected');
+               }, { once: true });
+             }
+           
+             // Function to download order card as PNG with QR code
+             function downloadOrder(index) {
+               const orderCards = document.querySelectorAll('.order-card');
+               if (index < 0 || index >= orderCards.length) return;
+               const orderCard = orderCards[index];
+               
+               html2canvas(orderCard).then(canvas => {
+                 const link = document.createElement('a');
+                 link.href = canvas.toDataURL('image/png');
+                 link.download = `order_${index + 1}.png`;
+                 link.click();
+               }).catch(error => {
+                 console.error('Error generating image:', error);
+                 showNotification('Failed to generate image for download.', 'danger');
+               });
+             }
+           // Initialize
+           loadData();
+           // Update header profile function 
+         function updateHeaderProfile() {
+          const headerProfile = document.getElementById('headerProfile');
+          if (currentUser) {
+            headerProfile.innerHTML = `<i class="bi bi-person-circle"></i> ${currentUser.firstName} ${currentUser.lastName}`;
+          } else {
+            headerProfile.innerHTML = `<i class="bi bi-person-circle"></i> Guest`;
+          }
+         }
+         document.getElementById("sendMessageModal").addEventListener("hidden.bs.modal", function () {
+           document.getElementById("messageText").value = "";
+         });
+         // Update owner dashboard
  function updateOwnerDashboard() {
   document.getElementById("totalMembers").textContent = users.length;
   document.getElementById("activeUsers").textContent = getActiveUsers();
@@ -4951,52 +5185,44 @@ function downloadOrder(index) {
                  }
                }
 
-// Request Product form submission
-document.getElementById("requestProductForm")?.addEventListener("submit", function(e) {
-  e.preventDefault();
-
-  const category = document.getElementById("requestCategory").value;
-  const clothType = document.getElementById("requestClothType").value;
-  const size = document.getElementById("requestSize").value;
-  const color = document.getElementById("requestColor").value;
-  const message = document.getElementById("requestMessage").value;
-
-  const request = {
-    category,
-    clothType,
-    size,
-    color,
-    message,
-    user: currentUser ? `${currentUser.firstName} ${currentUser.lastName} (${currentUser.email})` : "Guest",
-    date: new Date().toLocaleString()
-  };
-
-  notifyOwner(`New product request: Category - ${category}, Cloth Type - ${clothType}, Size - ${size}, Color - ${color}, Message - ${message || 'None'}, From - ${request.user}`);
-
-  showNotification("Your product request has been sent to the owner.", "success");
-
-  this.reset();
-
-  showSection("homeSection");
-});
-
-// Initialize
-function init() {
-  loadData();
-  document.getElementById('cancelReason')?.addEventListener('change', function() {
-    document.getElementById('otherReasonContainer').style.display = this.value === 'Other' ? 'block' : 'none';
-  });
-}
-
-document.addEventListener('DOMContentLoaded', init);
-
-document.getElementById("sendMessageModal").addEventListener("hidden.bs.modal", function() {
-  document.getElementById("messageText").value = "";
-});
-</script>
+          // Request Product form submission
+          document.getElementById("requestProductForm")?.addEventListener("submit", function(e) {
+           e.preventDefault();
+       
+           // Retrieve form values
+           const category = document.getElementById("requestCategory").value;
+           const clothType = document.getElementById("requestClothType").value;
+           const size = document.getElementById("requestSize").value;
+           const color = document.getElementById("requestColor").value;
+           const message = document.getElementById("requestMessage").value;
+       
+           // Create a request object
+           const request = {
+             category,
+             clothType,
+             size,
+             color,
+             message,
+             user: currentUser ? `${currentUser.firstName} ${currentUser.lastName} (${currentUser.email})` : "Guest",
+             date: new Date().toLocaleString()
+           };
+       
+           // Notify the owner
+           notifyOwner(`New product request: Category - ${category}, Cloth Type - ${clothType}, Size - ${size}, Color - ${color}, Message - ${message || 'None'}, From - ${request.user}`);
+       
+           // Show notification to the user
+           showNotification("Your product request has been sent to the owner.", "success");
+       
+           // Reset the form
+           this.reset();
+       
+           // Return to home section
+           showSection("homeSection");
+         });
+         </script>
          <!-- Bootstrap JS Bundle -->
          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
          </body>
-         </html>
+         </html>  
