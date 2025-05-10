@@ -962,7 +962,10 @@
       background-color: var(--danger-color);
       color: white;
     }
-    
+    .order-status-returned {
+      background-color: var(--warning-color);
+      color: white;
+    }
     .order-actions {
       margin-top: 15px;
     }
@@ -1815,6 +1818,14 @@
             </div>
           </div>
         </div>
+        <div class="col-md-3">
+          <div class="card text-center shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Returned Orders</h5>
+              <p class="card-text display-4" id="returnedOrders">0</p>
+            </div>
+          </div>
+        </div>
       </div>
       <h2 class="mt-5">Order Details</h2>
       <div id="orderDetailsContainer" class="mt-4"></div>
@@ -2212,26 +2223,28 @@
   </div>
 
   <!-- Enhanced Orders Section -->
-  <div id="ordersSection" class="section fade-in">
-    <header class="py-3 border-bottom bg-light">
-      <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home"><i class="bi bi-arrow-left"></i> Home</button>
-        <h1 class="h5 mb-0">My Orders</h1>
-        <div class="dropdown">
-          <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="ordersFilterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            Filter Orders
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="ordersFilterDropdown">
-            <li><a class="dropdown-item" href="#" onclick="filterOrders('all')">All Orders</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#" onclick="filterOrders('active')">Active Orders</a></li>
-            <li><a class="dropdown-item" href="#" onclick="filterOrders('completed')">Completed Orders</a></li>
-          </ul>
-        </div>
+ <div id="ordersSection" class="section fade-in">
+  <header class="py-3 border-bottom bg-light">
+    <div class="container d-flex justify-content-between align-items-center">
+      <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home"><i class="bi bi-arrow-left"></i> Home</button>
+      <h1 class="h5 mb-0">My Orders</h1>
+      <div class="dropdown">
+        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="ordersFilterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          Filter Orders
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="ordersFilterDropdown">
+          <li><a class="dropdown-item" href="#" onclick="filterOrders('all')">All Orders</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#" onclick="filterOrders('active')">Active Orders</a></li>
+          <li><a class="dropdown-item" href="#" onclick="filterOrders('completed')">Completed Orders</a></li>
+          <li><a class="dropdown-item" href="#" onclick="filterOrders('cancelled')">Cancelled Orders</a></li>
+          <li><a class="dropdown-item" href="#" onclick="filterOrders('returned')">Returned Orders</a></li>
+        </ul>
       </div>
-    </header>
-    <div class="container my-4" id="ordersList"></div>
-  </div>
+    </div>
+  </header>
+  <div class="container my-4" id="ordersList"></div>
+</div>
 
   <!-- Order Detail Section -->
   <div id="orderDetailSection" class="section fade-in">
@@ -2586,7 +2599,7 @@ document.getElementById('trackOrderButton')?.addEventListener('click', async () 
   </div>
 
   <!-- Return Order Modal -->
-  <div class="modal fade" id="returnOrderModal" tabindex="-1" aria-labelledby="returnOrderModalLabel" aria-hidden="true">
+<div class="modal fade" id="returnOrderModal" tabindex="-1" aria-labelledby="returnOrderModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -2615,7 +2628,7 @@ document.getElementById('trackOrderButton')?.addEventListener('click', async () 
             <textarea class="form-control" id="returnComments" rows="3"></textarea>
           </div>
           <div class="alert alert-info">
-            <p class="mb-0">Please note: Return requests must be made within ${orders[currentOrderIndex]?.product.returnPolicy || 'N/A'} of delivery.</p>
+            <p class="mb-0">Please note: Return requests must be made within 5 days of delivery.</p>
           </div>
         </div>
         <div class="modal-footer">
@@ -2957,6 +2970,56 @@ document.getElementById('trackOrderButton')?.addEventListener('click', async () 
            generateProducts("menswearContainer", products.filter(p => p.category === "Men's Wear"));
            generateProducts("accessoriesContainer", products.filter(p => p.category === "Accessories"));
          }
+          // Confirm Return Order Function (Modified)
+    function confirmReturnOrder() {
+      const returnReason = document.getElementById('returnReason').value;
+      const returnOtherReason = document.getElementById('returnOtherReason').value.trim();
+      const returnComments = document.getElementById('returnComments').value.trim();
+      
+      let reason = returnReason;
+      if (returnReason === 'Other') {
+        if (!returnOtherReason) {
+          showNotification('Please specify the return reason', 'warning');
+          return;
+        }
+        reason = returnOtherReason;
+      }
+      
+      const order = orders[currentOrderIndex];
+      order.returned = true;
+      order.returnReason = reason;
+      order.returnComments = returnComments;
+      order.returnDate = new Date().toLocaleString();
+
+      // Notify the owner about the return
+      notifyOwner(`Order #${currentOrderIndex + 1} returned by: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email}) with reason: ${reason}`);
+      
+      saveData();
+      
+      const modal = bootstrap.Modal.getInstance(document.getElementById('returnOrderModal'));
+      modal.hide();
+      
+      showNotification('Your return request has been submitted', 'success');
+      
+      showOrderDetailPage(currentOrderIndex);
+    }
+            // Show notification function
+            function showNotification(message, type) {
+                const notification = document.createElement('div');
+                notification.className = `alert alert-${type} alert-dismissible fade show`;
+                notification.role = 'alert';
+                notification.innerHTML = `
+                    <strong>${type.charAt(0).toUpperCase() + type.slice(1)}!</strong> ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                `;
+                document.getElementById('notificationContainer').appendChild(notification);
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => {
+                    notification.remove();
+                    }, 150);
+                }, 3000);
+                }
      
          // Initialize rating when review modal is shown
          document.getElementById('reviewOrderModal')?.addEventListener('show.bs.modal', function() {
@@ -3834,40 +3897,47 @@ document.getElementById('trackOrderButton')?.addEventListener('click', async () 
                const oneMinuteAgo = new Date(now - 1 * 60 * 1000);
                return users.filter(user => new Date(user.lastActivity) > oneMinuteAgo).length;
              }
-         
-             // Update owner dashboard
-             function updateOwnerDashboard() {
-               document.getElementById("totalMembers").textContent = users.length;
-               document.getElementById("activeUsers").textContent = getActiveUsers();
-               document.getElementById("liveUsers").textContent = getLiveUsers();
-             
-               const totalOrders = orders.length;
-               const activeOrders = orders.filter(order => !order.cancelled && !order.received).length;
-               const cancelledOrders = orders.filter(order => order.cancelled).length;
-               const receivedOrders = orders.filter(order => order.received).length;
-             
-               document.getElementById("totalOrders").textContent = totalOrders;
-               document.getElementById("activeOrders").textContent = activeOrders;
-               document.getElementById("cancelledOrders").textContent = cancelledOrders;
-               document.getElementById("receivedOrders").textContent = receivedOrders;
-             
-               let orderHtml = "";
-               orders.forEach((order, index) => {
-                 orderHtml += `
-                   <div class="card mb-3 shadow-sm order-card">
-                     <div class="card-header">Order #${index + 1}</div>
-                     <div class="card-body">
-                       <p><strong>Product:</strong> ${order.product.name}</p>
-                       <p><strong>Buyer:</strong> ${order.buyer.firstName} ${order.buyer.lastName}</p>
-                       <p><strong>Status:</strong> ${order.cancelled ? "Cancelled" : order.received ? "Received" : "Active"}</p>
-                       <p><strong>Address:</strong> ${order.address}</p>
-                       <p><strong>Mobile:</strong> ${order.mobile}</p>
-                       <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#sendMessageModal" onclick="setCurrentOrderIndex(${index})">Send Message</button>
-                     </div>
-                   </div>
-                 `;
-               });
-               document.getElementById("orderDetailsContainer").innerHTML = orderHtml;
+              // Update owner dashboard
+         function updateOwnerDashboard() {
+  document.getElementById("totalMembers").textContent = users.length;
+  document.getElementById("activeUsers").textContent = getActiveUsers();
+  document.getElementById("liveUsers").textContent = getLiveUsers();
+
+  const totalOrders = orders.length;
+  const activeOrders = orders.filter(order => !order.cancelled && !order.received && !order.returned).length;
+  const cancelledOrders = orders.filter(order => order.cancelled).length;
+  const receivedOrders = orders.filter(order => order.received && !order.returned).length;
+  const returnedOrders = orders.filter(order => order.returned).length;
+
+  document.getElementById("totalOrders").textContent = totalOrders;
+  document.getElementById("activeOrders").textContent = activeOrders;
+  document.getElementById("cancelledOrders").textContent = cancelledOrders;
+  document.getElementById("receivedOrders").textContent = receivedOrders;
+  document.getElementById("returnedOrders").textContent = returnedOrders;
+
+  let orderHtml = "";
+  orders.forEach((order, index) => {
+    let statusText = order.cancelled ? "Cancelled" : order.returned ? "Returned" : order.received ? "Received" : order.shipped ? "Shipped" : "Active";
+    orderHtml += `
+      <div class="card mb-3 shadow-sm order-card">
+        <div class="card-header">Order #${index + 1}</div>
+        <div class="card-body">
+          <p><strong>Product:</strong> ${order.product.name}</p>
+          <p><strong>Buyer:</strong> ${order.buyer.firstName} ${order.buyer.lastName}</p>
+          <p><strong>Status:</strong> ${statusText}</p>
+          ${order.returned ? `
+            <p><strong>Return Reason:</strong> ${order.returnReason}</p>
+            ${order.returnComments ? `<p><strong>Comments:</strong> ${order.returnComments}</p>` : ''}
+            <p><strong>Returned on:</strong> ${order.returnDate}</p>
+          ` : ''}
+          <p><strong>Address:</strong> ${order.address}</p>
+          <p><strong>Mobile:</strong> ${order.mobile}</p>
+          <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#sendMessageModal" onclick="setCurrentOrderIndex(${index})">Send Message</button>
+        </div>
+      </div>
+    `;
+  });
+  document.getElementById("orderDetailsContainer").innerHTML = orderHtml;
              
                let locationsHtml = "";
                users.forEach(user => {
@@ -3920,7 +3990,6 @@ document.getElementById('trackOrderButton')?.addEventListener('click', async () 
                    }
                  }
                }
-             
              // Show section
              function showSection(sectionId) {
                document.querySelectorAll(".section").forEach(section => section.classList.remove("active-section", "fade-in"));
@@ -4120,109 +4189,111 @@ document.getElementById('trackOrderButton')?.addEventListener('click', async () 
                };
              } 
          // Update orders list
-         function updateOrdersList(filter = currentOrdersFilter) {
-           const ordersList = document.getElementById('ordersList');
-           if (!currentUser) {
-             ordersList.innerHTML = `
-               <div class="text-center py-5">
-                 <i class="bi bi-box-seam" style="font-size: 3rem; color: #ddd;"></i>
-                 <h5 class="mt-3">No orders found</h5>
-                 <p>Please log in to view your orders</p>
-                 <button class="btn btn-primary mt-2" onclick="showSection('loginSection')">Log In</button>
-               </div>
-             `;
-             return;
-           }
-         
-           const userOrders = orders.filter(order => order.buyer.email === currentUser.email);
-           let filteredOrders = [];
-         
-           switch (filter) {
-             case 'active':
-               filteredOrders = userOrders.filter(order => !order.cancelled && !order.received);
-               break;
-             case 'completed':
-               filteredOrders = userOrders.filter(order => order.received);
-               break;
-             case 'cancelled':
-               filteredOrders = userOrders.filter(order => order.cancelled);
-               break;
-             default:
-               filteredOrders = userOrders;
-           }
-         
-           if (filteredOrders.length === 0) {
-             let message = '';
-             switch (filter) {
-               case 'active': message = 'You have no active orders'; break;
-               case 'completed': message = 'You have no completed orders'; break;
-               case 'cancelled': message = 'You have no cancelled orders'; break;
-               default: message = 'You have not placed any orders yet';
-             }
-             ordersList.innerHTML = `
-               <div class="text-center py-5">
-                 <i class="bi bi-box-seam" style="font-size: 3rem; color: #ddd;"></i>
-                 <h5 class="mt-3">${message}</h5>
-                 <button class="btn btn-primary mt-2" onclick="showSection('shopSection')">Start Shopping</button>
-               </div>
-             `;
-             return;
-           }
-         
-           let html = '';
-           filteredOrders.forEach((order, index) => {
-             const originalIndex = orders.findIndex(o => o === order);
-             const productImage = order.product.images && order.product.images.length > 0 ? 
-               order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
-             
-             let statusBadgeClass = '';
-             let statusText = '';
-             
-             if (order.cancelled) {
-               statusBadgeClass = 'order-status-cancelled';
-               statusText = 'Cancelled';
-             } else if (order.received) {
-               statusBadgeClass = 'order-status-delivered';
-               statusText = 'Delivered';
-             } else if (order.shipped) {
-               statusBadgeClass = 'order-status-shipped';
-               statusText = 'Shipped';
-             } else {
-               statusBadgeClass = 'order-status-confirmed';
-               statusText = 'Confirmed';
-             }
-         
-             html += `
-               <div class="card order-card mb-3 ${order.cancelled ? 'cancelled-order' : ''}" 
-                    onclick="showOrderDetailPage(${originalIndex})">
-                 <div class="card-header d-flex justify-content-between align-items-center">
-                   <div>
-                     <span class="fw-bold">Order #${originalIndex + 1}</span>
-                     <span class="text-muted ms-2">${order.date}</span>
-                   </div>
-                   <span class="order-status-badge ${statusBadgeClass}">${statusText}</span>
-                 </div>
-                 <div class="card-body">
-                   <div class="row align-items-center">
-                     <div class="col-4 col-md-2">
-                       <img src="${productImage}" 
-                            class="order-card-image" 
-                            alt="${order.product.name}"
-                            onclick="event.stopPropagation(); showProductImagesModal(${order.product.id})">
-                     </div>
-                     <div class="col-8 col-md-10">
-                       <h6>${order.product.name}</h6>
-                       <p class="mb-1">Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor}</p>
-                       <p class="mb-1">Qty: 1</p>
-                       <p class="fw-bold">₹${order.product.price.toFixed(2)}</p>
-                     </div>
-                   </div>
-                 </div>
-               </div>
-             `;
-           });
-           ordersList.innerHTML = html;
-         }
+     function updateOrdersList(filter = currentOrdersFilter) {
+      const ordersList = document.getElementById('ordersList');
+      if (!currentUser) {
+        ordersList.innerHTML = `
+          <div class="text-center py-5">
+            <i class="bi bi-box-seam" style="font-size: 3rem; color: #ddd;"></i>
+            <h5 class="mt-3">No orders found</h5>
+            <p>Please log in to view your orders</p>
+            <button class="btn btn-primary mt-2" onclick="showSection('loginSection')">Log In</button>
+          </div>
+        `;
+        return;
+      }
+
+      const userOrders = orders.filter(order => order.buyer.email === currentUser.email);
+      let filteredOrders = [];
+
+      switch (filter) {
+        case 'active':
+          filteredOrders = userOrders.filter(order => !order.cancelled && !order.received && !order.returned);
+          break;
+        case 'completed':
+          filteredOrders = userOrders.filter(order => order.received && !order.returned);
+          break;
+        case 'cancelled':
+          filteredOrders = userOrders.filter(order => order.cancelled);
+          break;
+        case 'returned':
+          filteredOrders = userOrders.filter(order => order.returned);
+          break;
+        default:
+          filteredOrders = userOrders;
+      }
+
+      if (filteredOrders.length === 0) {
+        let message = filter === 'active' ? 'You have no active orders' :
+                      filter === 'completed' ? 'You have no completed orders' :
+                      filter === 'cancelled' ? 'You have no cancelled orders' :
+                      filter === 'returned' ? 'You have no returned orders' :
+                      'You have not placed any orders yet';
+        ordersList.innerHTML = `
+          <div class="text-center py-5">
+            <i class="bi bi-box-seam" style="font-size: 3rem; color: #ddd;"></i>
+            <h5 class="mt-3">${message}</h5>
+            <button class="btn btn-primary mt-2" onclick="showSection('shopSection')">Start Shopping</button>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      filteredOrders.forEach((order, index) => {
+        const originalIndex = orders.findIndex(o => o === order);
+        const productImage = order.product.images && order.product.images.length > 0 ? 
+          order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
+        
+        let statusBadgeClass, statusText;
+        if (order.cancelled) {
+          statusBadgeClass = 'order-status-cancelled';
+          statusText = 'Cancelled';
+        } else if (order.returned) {
+          statusBadgeClass = 'order-status-returned';
+          statusText = 'Returned';
+        } else if (order.received) {
+          statusBadgeClass = 'order-status-delivered';
+          statusText = 'Delivered';
+        } else if (order.shipped) {
+          statusBadgeClass = 'order-status-shipped';
+          statusText = 'Shipped';
+        } else {
+          statusBadgeClass = 'order-status-confirmed';
+          statusText = 'Confirmed';
+        }
+
+        html += `
+          <div class="card order-card mb-3 ${order.cancelled ? 'cancelled-order' : order.returned ? 'returned-order' : ''}" 
+               onclick="showOrderDetailPage(${originalIndex})">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <div>
+                <span class="fw-bold">Order #${originalIndex + 1}</span>
+                <span class="text-muted ms-2">${order.date}</span>
+              </div>
+              <span class="order-status-badge ${statusBadgeClass}">${statusText}</span>
+            </div>
+            <div class="card-body">
+              <div class="row align-items-center">
+                <div class="col-4 col-md-2">
+                  <img src="${productImage}" 
+                       class="order-card-image" 
+                       alt="${order.product.name}"
+                       onclick="event.stopPropagation(); showProductImagesModal(${order.product.id})">
+                </div>
+                <div class="col-8 col-md-10">
+                  <h6>${order.product.name}</h6>
+                  <p class="mb-1">Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor}</p>
+                  <p class="mb-1">Qty: 1</p>
+                  <p class="fw-bold">₹${order.product.price.toFixed(2)}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      ordersList.innerHTML = html;
+    }
          
          // Filter orders
          function filterOrders(filter) {
@@ -4231,196 +4302,216 @@ document.getElementById('trackOrderButton')?.addEventListener('click', async () 
          }
          
          // Show order detail page
-         function showOrderDetailPage(orderIndex) {
-           currentOrderIndex = orderIndex;
-           const order = orders[orderIndex];
-           const productImage = order.product.images && order.product.images.length > 0 
-             ? order.product.images[0] 
-             : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(order.product.name);
-             let deleteButton = '';
-             if (order.cancelled) {
-               deleteButton = `
-                 <button class="btn btn-danger mt-3" onclick="deleteOrder(${orderIndex})">
-                   <i class="bi bi-trash me-1"></i> Delete Order
-                 </button>
-               `;
-             }
-         
-             let statusBadgeClass = order.cancelled ? 'order-status-cancelled' :
-                                   order.received ? 'order-status-delivered' :
-                                   order.shipped ? 'order-status-shipped' : 'order-status-confirmed';
-             let statusText = order.cancelled ? 'Cancelled' :
-                             order.received ? 'Delivered' :
-                             order.shipped ? 'Shipped' : 'Confirmed';
-           
-             const daysRange = order.product.deliveryTime.match(/\d+-\d+/)[0];
-             const [minDays, maxDays] = daysRange.split('-').map(Number);
-             const orderDate = new Date(order.date);
-             const minDeliveryDate = new Date(orderDate);
-             minDeliveryDate.setDate(orderDate.getDate() + minDays);
-             const maxDeliveryDate = new Date(orderDate);
-             maxDeliveryDate.setDate(orderDate.getDate() + maxDays);
-             const currentDate = new Date();
-             const isWithinDeliveryWindow = currentDate <= maxDeliveryDate;
-             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-             const formattedMinDate = minDeliveryDate.toLocaleDateString('en-US', options);
-             const formattedMaxDate = maxDeliveryDate.toLocaleDateString('en-US', options);
-           
-             let timelineItems = [];
-             if (order.cancelled) {
-               timelineItems = [
-                 { date: order.date, title: 'Order Placed', description: 'Your order was placed', active: true },
-                 { date: order.cancellationDate || order.date, title: 'Order Cancelled', description: 'Your order was cancelled', active: true }
-               ];
-             } else {
-               timelineItems = [
-                 { date: order.date, title: 'Order Placed', description: 'Your order has been confirmed', active: true }
-               ];
-               if (order.shipped) {
-                 timelineItems.push({
-                   date: order.shippedDate || order.date,
-                   title: 'Shipped',
-                   description: 'Your order has been shipped',
-                   active: true
-                 });
-               }
-               if (order.received) {
-                 timelineItems.push({
-                   date: order.receivedDate || order.date,
-                   title: 'Delivered',
-                   description: 'Your order has been delivered',
-                   active: true
-                 });
-               } else {
-                 timelineItems.push({
-                   date: '',
-                   title: 'Estimated Delivery',
-                   description: `Expected between ${formattedMinDate} and ${formattedMaxDate}`,
-                   active: false
-                 });
-               }
-             }
-           
-             let timelineHtml = '';
-             timelineItems.forEach((item) => {
-               timelineHtml += `
-                 <div class="timeline-item ${item.active ? 'active' : ''}">
-                   <h6>${item.title}</h6>
-                   <p class="mb-1">${item.description}</p>
-                   ${item.date ? `<p class="timeline-date text-muted">${item.date}</p>` : ''}
-                 </div>
-               `;
-             });
-           
-             let actionButtons = '';
-             if (!order.cancelled && !order.received) {
-               actionButtons += `
-                 <div class="d-flex gap-2">
-                   <button class="btn btn-success flex-grow-1" onclick="markAsReceived(${orderIndex})">
-                     <i class="bi bi-check-circle me-1"></i> Mark as Received
-                   </button>
-                   <button class="btn btn-outline-danger flex-grow-1" 
-                           data-bs-toggle="modal" 
-                           data-bs-target="#cancelOrderModal">
-                     <i class="bi bi-x-circle me-1"></i> Cancel Order
-                   </button>
-                    <button class="btn btn-danger w-(-1)" onclick="deleteOrder(${orderIndex})">
-                         <i class="bi bi-trash me-1"></i> Delete Order
-                       </button>
-                 </div>
-               `;
-              
-             }
-             if (order.received && !order.rating) {
-               actionButtons += `
-                 <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#reviewOrderModal">
-                   <i class="bi bi-star me-1"></i> Rate & Review
-                 </button>
-               `;
-             }
-             if (order.received && order.rating) {
-               actionButtons += `
-                 <button class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#viewReviewModal">
-                   <i class="bi bi-star-fill me-1"></i> View Your Review
-                 </button>
-               `;
-             }
-           
-             const originalPriceDisplay = order.product.originalPrice && order.product.originalPrice > order.product.price 
-               ? `<s>₹${order.product.originalPrice.toFixed(2)}</s> ` 
-               : '';
-           
-             const detailContent = `
-               <div class="row">
-                 <div class="col-md-8">
-                   <div class="order-detail-section">
-                     <div class="d-flex justify-content-between align-items-center mb-3">
-                       <h4>Order #${orderIndex + 1}</h4>
-                       <span class="order-status-badge ${statusBadgeClass}">${statusText}</span>
-                     </div>
-                     <div class="order-timeline">
-                       ${timelineHtml}
-                     </div>
-                     ${order.cancelled && order.cancellationReason ? `
-                       <div class="alert alert-danger mt-3">
-                         <h6>Cancellation Reason</h6>
-                         <p>${order.cancellationReason}</p>
-                       </div>
-                     ` : ''}
-                   </div>
-                   <div class="order-actions mt-4">
-                     ${actionButtons}
-                   </div>
-                 </div>
-                 <div class="col-md-4">
-                   <div class="order-detail-section">
-                     <h5 class="mb-3">Order Summary</h5>
-                     <div class="d-flex mb-3">
-                       <img src="${productImage}" class="rounded me-3" style="width: 150px; height: 150px; object-fit: cover; cursor: pointer;" 
-                            alt="${order.product.name}" onclick="showProductImages('${order.product.images.join('|')}', '${order.product.name}')">
-                       <div>
-                         <h6>${order.product.name}</h6>
-                         <p class="mb-1 small">Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor}</p>
-                         <p class="mb-1 small">Qty: 1</p>
-                         <p class="fw-bold">${originalPriceDisplay}₹${order.product.price.toFixed(2)}</p>
-                       </div>
-                     </div>
-                     <hr>
-                     <div class="mb-2 d-flex justify-content-between">
-                       <span>Subtotal:</span>
-                       <span>₹${order.product.price.toFixed(2)}</span>
-                     </div>
-                     <div class="mb-2 d-flex justify-content-between">
-                       <span>Shipping:</span>
-                       <span>FREE</span>
-                     </div>
-                     <div class="mb-3 d-flex justify-content-between">
-                       <span>Tax:</span>
-                       <span>₹0.00</span>
-                     </div>
-                     <hr>
-                     <div class="d-flex justify-content-between fw-bold">
-                       <span>Total:</span>
-                       <span>₹${order.product.price.toFixed(2)}</span>
-                     </div>
-                     <hr>
-                     <h6 class="mb-2">Payment Method</h6>
-                     <p class="mb-3">${order.payment}</p>
-                     <h6 class="mb-2">Shipping Address</h6>
-                     <p class="mb-1">${order.address}</p>
-                     <p class="mb-3">Phone: ${order.mobile}</p>
-                     <button class="btn btn-outline-primary w-100" onclick="showProductDetails(${order.product.id})">
-                       <i class="bi bi-cart me-1"></i> Buy Again
-                     </button>
-                      
-                   </div>
-                 </div>
-               </div>
-             `;
-           
-             document.getElementById("orderDetailPage").innerHTML = detailContent;
-             showSection("orderDetailSection");
-           }
+      function showOrderDetailPage(orderIndex) {
+  currentOrderIndex = orderIndex;
+  const order = orders[orderIndex];
+  const productImage = order.product.images && order.product.images.length > 0 
+    ? order.product.images[0] 
+    : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(order.product.name);
+
+  let deleteButton = '';
+  if (order.cancelled || order.returned) {
+    deleteButton = `
+      <button class="btn btn-danger mt-3" onclick="deleteOrder(${orderIndex})">
+        <i class="bi bi-trash me-1"></i> Delete Order
+      </button>
+    `;
+  }
+
+  let statusBadgeClass, statusText;
+  if (order.cancelled) {
+    statusBadgeClass = 'order-status-cancelled';
+    statusText = 'Cancelled';
+  } else if (order.returned) {
+    statusBadgeClass = 'order-status-returned';
+    statusText = 'Returned';
+  } else if (order.received) {
+    statusBadgeClass = 'order-status-delivered';
+    statusText = 'Delivered';
+  } else if (order.shipped) {
+    statusBadgeClass = 'order-status-shipped';
+    statusText = 'Shipped';
+  } else {
+    statusBadgeClass = 'order-status-confirmed';
+    statusText = 'Confirmed';
+  }
+
+  const daysRange = order.product.deliveryTime.match(/\d+-\d+/)[0];
+  const [minDays, maxDays] = daysRange.split('-').map(Number);
+  const orderDate = new Date(order.date);
+  const minDeliveryDate = new Date(orderDate);
+  minDeliveryDate.setDate(orderDate.getDate() + minDays);
+  const maxDeliveryDate = new Date(orderDate);
+  maxDeliveryDate.setDate(orderDate.getDate() + maxDays);
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  const formattedMinDate = minDeliveryDate.toLocaleDateString('en-US', options);
+  const formattedMaxDate = maxDeliveryDate.toLocaleDateString('en-US', options);
+
+  let timelineItems = [];
+  if (order.cancelled) {
+    timelineItems = [
+      { date: order.date, title: 'Order Placed', description: 'Your order was placed', active: true },
+      { date: order.cancellationDate || order.date, title: 'Order Cancelled', description: 'Your order was cancelled', active: true }
+    ];
+  } else if (order.returned) {
+    timelineItems = [
+      { date: order.date, title: 'Order Placed', description: 'Your order was placed', active: true },
+      ...(order.shipped ? [{ date: order.shippedDate || order.date, title: 'Shipped', description: 'Your order was shipped', active: true }] : []),
+      ...(order.received ? [{ date: order.receivedDate || order.date, title: 'Delivered', description: 'Your order was delivered', active: true }] : []),
+      { date: order.returnDate || order.date, title: 'Returned', description: 'Your order was returned', active: true }];
+    } else if (order.received) {
+  } else {
+    timelineItems = [
+      { date: order.date, title: 'Order Placed', description: 'Your order has been confirmed', active: true }
+    ];
+    if (order.shipped) {
+      timelineItems.push({
+        date: order.shippedDate || order.date,
+        title: 'Shipped',
+        description: 'Your order has been shipped',
+        active: true
+      });
+    }
+    if (order.received) {
+      timelineItems.push({
+        date: order.receivedDate || order.date,
+        title: 'Delivered',
+        description: 'Your order has been delivered',
+        active: true
+      });
+    } else {
+      timelineItems.push({
+        date: '',
+        title: 'Estimated Delivery',
+        description: `Expected between ${formattedMinDate} and ${formattedMaxDate}`,
+        active: false
+      });
+    }
+  }
+
+  let timelineHtml = '';
+  timelineItems.forEach((item) => {
+    timelineHtml += `
+      <div class="timeline-item ${item.active ? 'active' : ''}">
+        <h6>${item.title}</h6>
+        <p class="mb-1">${item.description}</p>
+        ${item.date ? `<p class="timeline-date text-muted">${item.date}</p>` : ''}
+      </div>
+    `;
+  });
+
+  let actionButtons = '';
+  if (!order.cancelled && !order.received && !order.returned) {
+    actionButtons += `
+      <div class="d-flex gap-2">
+        <button class="btn btn-success flex-grow-1" onclick="markAsReceived(${orderIndex})">
+          <i class="bi bi-check-circle me-1"></i> Mark as Received
+        </button>
+        <button class="btn btn-outline-danger flex-grow-1" 
+                data-bs-toggle="modal" 
+                data-bs-target="#cancelOrderModal">
+          <i class="bi bi-x-circle me-1"></i> Cancel Order
+        </button>
+        <button class="btn btn-warning mt-2" data-bs-toggle="modal" data-bs-target="#returnOrderModal">
+          <i class="bi bi-arrow-return-left me-1"></i> Return Order
+        </button>
+      </div>
+    `;
+  }
+  if (order.received && !order.returned && !order.rating) {
+    actionButtons += `
+      <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#reviewOrderModal">
+        <i class="bi bi-star me-1"></i> Rate & Review
+      </button>
+    `;
+  }
+  if (order.received && !order.returned && order.rating) {
+    actionButtons += `
+      <button class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#viewReviewModal">
+        <i class="bi bi-star-fill me-1"></i> View Your Review
+      </button>
+    `;
+  }
+
+  const detailContent = `
+    <div class="row">
+      <div class="col-md-8">
+        <div class="order-detail-section">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4>Order #${orderIndex + 1}</h4>
+            <span class="order-status-badge ${statusBadgeClass}">${statusText}</span>
+          </div>
+          <div class="order-timeline">
+            ${timelineHtml}
+          </div>
+          ${order.cancelled && order.cancellationReason ? `
+            <div class="alert alert-danger mt-3">
+              <h6>Cancellation Reason</h6>
+              <p>${order.cancellationReason}</p>
+            </div>
+          ` : ''}
+          ${order.returned ? `
+            <div class="alert alert-warning mt-3">
+              <h6>Return Details</h6>
+              <p><strong>Reason:</strong> ${order.returnReason}</p>
+              ${order.returnComments ? `<p><strong>Comments:</strong> ${order.returnComments}</p>` : ''}
+              <p><strong>Returned on:</strong> ${order.returnDate}</p>
+            </div>
+          ` : ''}
+        </div>
+        <div class="order-actions mt-4">
+          ${actionButtons}
+          ${deleteButton}
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="order-detail-section">
+          <h5 class="mb-3">Order Summary</h5>
+          <div class="d-flex mb-3">
+            <img src="${productImage}" class="rounded me-3" style="width: 150px; height: 150px; object-fit: cover; cursor: pointer;" 
+                 alt="${order.product.name}" onclick="showProductImagesModal(${order.product.id})">
+            <div>
+              <h6>${order.product.name}</h6>
+              <p class="mb-1 small">Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor}</p>
+              <p class="mb-1 small">Qty: 1</p>
+              <p class="fw-bold">₹${order.product.price.toFixed(2)}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="mb-2 d-flex justify-content-between">
+            <span>Subtotal:</span>
+            <span>₹${order.product.price.toFixed(2)}</span>
+          </div>
+          <div class="mb-2 d-flex justify-content-between">
+            <span>Shipping:</span>
+            <span>FREE</span>
+          </div>
+          <div class="mb-3 d-flex justify-content-between">
+            <span>Tax:</span>
+            <span>₹0.00</span>
+          </div>
+          <hr>
+          <div class="d-flex justify-content-between fw-bold">
+            <span>Total:</span>
+            <span>₹${order.product.price.toFixed(2)}</span>
+          </div>
+          <hr>
+          <h6 class="mb-2">Payment Method</h6>
+          <p class="mb-3">${order.payment}</p>
+          <h6 class="mb-2">Shipping Address</h6>
+          <p class="mb-1">${order.address}</p>
+          <p class="mb-3">Phone: ${order.mobile}</p>
+          <button class="btn btn-outline-primary w-100" onclick="showProductDetails(${order.product.id})">
+            <i class="bi bi-cart me-1"></i> Buy Again
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById("orderDetailPage").innerHTML = detailContent;
+  showSection("orderDetailSection");
+}
          
          // Delete order
          function deleteOrder(orderIndex) {
@@ -4485,7 +4576,7 @@ document.getElementById('trackOrderButton')?.addEventListener('click', async () 
              }
              let html = '';
              filteredOrders.forEach((order, index) => {
-               const status = order.cancelled ? 'Cancelled' : order.received ? 'Delivered' : order.shipped ? 'Shipped' : 'Confirmed';
+                const status = order.cancelled ? "Cancelled" : order.returned ? "Returned" : order.received ? "Delivered" : order.shipped ? "Shipped" : "Active";
                html += `
                  <div class="card mb-3 order-card" onclick="showOrderDetailPage(${index})">
                    <div class="card-body">
@@ -4608,56 +4699,35 @@ document.getElementById('trackOrderButton')?.addEventListener('click', async () 
          }
          
          // Confirm return order function
-         function confirmReturnOrder() {
-           const returnReason = document.getElementById('returnReason').value;
-           const returnOtherReason = document.getElementById('returnOtherReason').value.trim();
-           const returnComments = document.getElementById('returnComments').value.trim();
-           
-           let reason = returnReason;
-           if (returnReason === 'Other') {
-             if (!returnOtherReason) {
-               showNotification('Please specify the return reason', 'warning');
-               return;
-             }
-             reason = returnOtherReason;
-           }
-           
-           
-           
-           // Save the data
-           saveData();
-           
-           // Close the modal
-           const modal = bootstrap.Modal.getInstance(document.getElementById('returnOrderModal'));
-           modal.hide();
-           
-           // Show success message
-           showNotification('Your return request has been submitted', 'success');
-           
-           // Update the order detail view
-           showOrderDetailPage(currentOrderIndex);
-         }
-         
-         // Update the view review modal when shown
-         document.getElementById('viewReviewModal')?.addEventListener('show.bs.modal', function() {
-           const order = orders[currentOrderIndex];
-           const modal = document.getElementById('viewReviewModal');
-           
-           if (!order.rating) return;
-           
-           // Update the modal content with the review details
-           modal.querySelector('.modal-title').textContent = `Your Review of ${order.product.name}`;
-           
-           const starsContainer = modal.querySelector('.rating-stars');
-           starsContainer.innerHTML = '';
-           for (let i = 1; i <= 5; i++) {
-             starsContainer.innerHTML += i <= order.rating ? '★' : '☆';
-           }
-           
-           modal.querySelector('h5').textContent = order.reviewTitle || 'Your Review';
-           modal.querySelector('p').textContent = order.review || 'No review text provided.';
-           modal.querySelector('.small').textContent = `Reviewed on ${order.reviewDate || 'Unknown date'}`;
-         });
+        function confirmReturnOrder() {
+  const returnReason = document.getElementById('returnReason').value;
+  const returnOtherReason = document.getElementById('returnOtherReason').value.trim();
+  const returnComments = document.getElementById('returnComments').value.trim();
+  
+  let reason = returnReason;
+  if (returnReason === 'Other') {
+    if (!returnOtherReason) {
+      showNotification('Please specify the return reason', 'warning');
+      return;
+    }
+    reason = returnOtherReason;
+  }
+  
+  const order = orders[currentOrderIndex];
+  order.returned = true;
+  order.returnReason = reason;
+  order.returnComments = returnComments;
+  order.returnDate = new Date().toLocaleString(); // Add return date
+  
+  saveData();
+  
+  const modal = bootstrap.Modal.getInstance(document.getElementById('returnOrderModal'));
+  modal.hide();
+  
+  showNotification('Your return request has been submitted', 'success');
+  
+  showOrderDetailPage(currentOrderIndex);
+}
                // Update menu account details
              function updateMenuAccountDetails() {
                const container = document.getElementById("menuAccountDetails");
@@ -5204,115 +5274,115 @@ document.getElementById('trackOrderButton')?.addEventListener('click', async () 
                    }
                  }
                     // Update Seller Dashboard
-                    function updateSellerDashboard() {
-                      const sellerDashboardContent = document.getElementById("sellerDashboardContent");
-                      let html = "<h2>Users</h2>";
-                      if (users.length === 0) {
-                          html += "<p>No users yet.</p>";
-                      } else {
-                          html += '<div class="list-group">';
-                          users.forEach(user => {
-                              html += `
-                                  <div class="list-group-item">
-                                      <strong>${user.firstName} ${user.lastName}</strong><br>
-                                      <small>${user.email}</small><br>
-                                      <small>Mobile: ${user.mobile || "Not provided"}</small>
-                                  </div>
-                              `;
-                          });
-                          html += '</div>';
-                      }
-                      html += "<h2 class='mt-4'>Orders</h2>";
-                      if (orders.length === 0) {
-                          html += "<p>No orders yet.</p>";
-                      } else {
-                          orders.forEach((order, index) => {
-                              const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
-                              html += `
-                                  <div class="card mb-3 shadow-sm order-card">
-                                      <div class="card-header d-flex justify-content-between align-items-center">
-                                          <div>
-                                              <img src="https://i.pinimg.com/736x/03/2a/6c/032a6c5c4d8bf12496701b71ae74ed7e.jpg" alt="TEDPOLE Logo" style="width: 30px; height: 30px; margin-right: 10px;">
-                                              <span>Order #${index + 1} - ${order.date}</span>
-                                          </div>
-                                          <span>TEDPOLE</span>
-                                      </div>
-                                      <div class="card-body">
-                                          <div class="row">
-                                              <div class="col-12 col-md-4 mb-3 mb-md-0">
-                                                  <h6>Buyer Information</h6>
-                                                  <p><strong>Name:</strong> ${order.buyer.firstName} ${order.buyer.lastName}</p>
-                                                  <p><strong>Email:</strong> ${order.buyer.email}</p>
-                                                  <p><strong>Mobile:</strong> ${order.mobile}</p>
-                                              </div>
-                                              <div class="col-12 col-md-4 mb-3 mb-md-0">
-                                                  <h6>Product Information</h6>
-                                                  <img src="${productImage}" alt="${order.product.name}" class="img-fluid mb-2" style="max-width:100px; max-height:100px;" >
-                                                  <p><strong>Name:</strong> ${order.product.name}</p>
-                                                  <p><strong>Description:</strong> ${order.product.description}</p>
-                                                  <p><strong>Selected Size:</strong> ${order.product.selectedSize}</p>
-                                                  <p><strong>Selected Color:</strong> ${order.product.selectedColor}</p>
-                                                  <p><strong>Price:</strong> 
-                                                      ${order.product.originalPrice && order.product.originalPrice > order.product.price ? 
-                                                          `<s>₹${order.product.originalPrice.toFixed(2)}</s> ` : 
-                                                          ''}
-                                                      ₹${order.product.price.toFixed(2)}
-                                                  </p>
-                                                  <p><strong>Category:</strong> ${order.product.category}</p>
-                                              </div>
-                                              <div class="col-12 col-md-4">
-                                                  <h6>Shipping Information</h6>
-                                                  <p><strong>Address:</strong> ${order.address}</p>
-                                                  <p><strong>Payment Method:</strong> ${order.payment}</p>
-                                                  <p><strong>Status:</strong> ${order.cancelled ? 'Cancelled' : 'Active'}</p>
-                                                  ${order.cancelled ? `<p><strong>Cancellation Reason:</strong> ${order.cancellationReason}</p>` : ''}
-                                              </div>
-                                          </div>
-                                          <div class="qr-code-container mt-3">
-                                              <h6>Order QR Code</h6>
-                                              <div id="qrcode-${index}"></div>
-                                          </div>
-                                      </div>
-                                      <div class="card-footer text-end">
-                                          <button class="btn btn-primary me-2" onclick="printOrder(${index})">Print</button>
-                                          <button class="btn btn-secondary" onclick="downloadOrder(${index})">Download</button>
-                                      </div>
-                                  </div>
-                              `;
-                          });
-                      }
-                      html += "<h2 class='mt-4'>Notifications</h2>";
-                      if (ownerNotifications.length === 0) {
-                          html += "<p>No notifications yet.</p>";
-                      } else {
-                          html += `<div class="d-flex justify-content-end mb-3">
-                                     <button class="btn btn-danger btn-sm" onclick="clearOwnerNotifications()">Clear Notifications</button>
-                                   </div>`;
-                          html += '<div class="list-group">';
-                          ownerNotifications.slice().reverse().forEach(notif => {
-                              html += `
-                                  <div class="list-group-item">
-                                      <i class="bi bi-bell-fill me-2"></i>
-                                      <strong>${notif.date}</strong>: ${notif.message}
-                                  </div>
-                              `;
-                          });
-                          html += '</div>';
-                      }
-                      sellerDashboardContent.innerHTML = html;
-                  
-                      // Generate QR codes for each order
-                      orders.forEach((order, index) => {
-                          const qrDiv = document.getElementById(`qrcode-${index}`);
-                          if (qrDiv) {
-                              new QRCode(qrDiv, {
-                                  text: order.qrData,
-                                  width: 128,
-                                  height: 128
-                              });
-                          }
-                      });
-                  }
+                 function updateSellerDashboard() {
+  const sellerDashboardContent = document.getElementById("sellerDashboardContent");
+  let html = "<h2>Users</h2>";
+  if (users.length === 0) {
+    html += "<p>No users yet.</p>";
+  } else {
+    html += '<div class="list-group">';
+    users.forEach(user => {
+      html += `
+        <div class="list-group-item">
+          <strong>${user.firstName} ${user.lastName}</strong><br>
+          <small>${user.email}</small><br>
+          <small>Mobile: ${user.mobile || "Not provided"}</small>
+        </div>
+      `;
+    });
+    html += '</div>';
+  }
+  html += "<h2 class='mt-4'>Orders</h2>";
+  if (orders.length === 0) {
+    html += "<p>No orders yet.</p>";
+  } else {
+    orders.forEach((order, index) => {
+      const productImage = order.product.images && order.product.images.length > 0 ? order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
+      let statusText = order.cancelled ? 'Cancelled' : order.returned ? 'Returned' : order.received ? 'Delivered' : order.shipped ? 'Shipped' : 'Active';
+      html += `
+        <div class="card mb-3 shadow-sm order-card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+              <img src="https://i.pinimg.com/736x/03/2a/6c/032a6c5c4d8bf12496701b71ae74ed7e.jpg" alt="TEDPOLE Logo" style="width: 30px; height: 30px; margin-right: 10px;">
+              <span>Order #${index + 1} - ${order.date}</span>
+            </div>
+            <span>TEDPOLE</span>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12 col-md-4 mb-3 mb-md-0">
+                <h6>Buyer Information</h6>
+                <p><strong>Name:</strong> ${order.buyer.firstName} ${order.buyer.lastName}</p>
+                <p><strong>Email:</strong> ${order.buyer.email}</p>
+                <p><strong>Mobile:</strong> ${order.mobile}</p>
+              </div>
+              <div class="col-12 col-md-4 mb-3 mb-md-0">
+                <h6>Product Information</h6>
+                <img src="${productImage}" alt="${order.product.name}" class="img-fluid mb-2" style="max-width:100px; max-height:100px;" >
+                <p><strong>Name:</strong> ${order.product.name}</p>
+                <p><strong>Description:</strong> ${order.product.description}</p>
+                <p><strong>Size:</strong> ${order.product.selectedSize}</p>
+                <p><strong>Color:</strong> ${order.product.selectedColor}</p>
+                <p><strong>Price:</strong> ₹${order.product.price.toFixed(2)}</p>
+                <p><strong>Category:</strong> ${order.product.category}</p>
+              </div>
+              <div class="col-12 col-md-4">
+                <h6>Shipping Information</h6>
+                <p><strong>Address:</strong> ${order.address}</p>
+                <p><strong>Payment Method:</strong> ${order.payment}</p>
+                <p><strong>Status:</strong> ${statusText}</p>
+                ${order.cancelled ? `<p><strong>Cancellation Reason:</strong> ${order.cancellationReason}</p>` : ''}
+                ${order.returned ? `
+                  <p><strong>Return Reason:</strong> ${order.returnReason}</p>
+                  ${order.returnComments ? `<p><strong>Comments:</strong> ${order.returnComments}</p>` : ''}
+                  <p><strong>Returned on:</strong> ${order.returnDate}</p>
+                ` : ''}
+              </div>
+            </div>
+            <div class="qr-code-container mt-3">
+              <h6>Order QR Code</h6>
+              <div id="qrcode-${index}"></div>
+            </div>
+          </div>
+          <div class="card-footer text-end">
+            <button class="btn btn-primary me-2" onclick="printOrder(${index})">Print</button>
+            <button class="btn btn-secondary" onclick="downloadOrder(${index})">Download</button>
+          </div>
+        </div>
+      `;
+    });
+  }
+  html += "<h2 class='mt-4'>Notifications</h2>";
+  if (ownerNotifications.length === 0) {
+    html += "<p>No notifications yet.</p>";
+  } else {
+    html += `<div class="d-flex justify-content-end mb-3">
+               <button class="btn btn-danger btn-sm" onclick="clearOwnerNotifications()">Clear Notifications</button>
+             </div>`;
+    html += '<div class="list-group">';
+    ownerNotifications.slice().reverse().forEach(notif => {
+      html += `
+        <div class="list-group-item">
+          <i class="bi bi-bell-fill me-2"></i>
+          <strong>${notif.date}</strong>: ${notif.message}
+        </div>
+      `;
+    });
+    html += '</div>';
+  }
+  sellerDashboardContent.innerHTML = html;
+
+  orders.forEach((order, index) => {
+    const qrDiv = document.getElementById(`qrcode-${index}`);
+    if (qrDiv) {
+      new QRCode(qrDiv, {
+        text: order.qrData,
+        width: 128,
+        height: 128
+      });
+    }
+  });
+}
              // Clear owner notifications
              function clearOwnerNotifications() {
                if (confirm("Are you sure you want to clear all notifications?")) {
@@ -5410,4 +5480,4 @@ document.getElementById('trackOrderButton')?.addEventListener('click', async () 
          <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
          </body>
-         </html>
+         </html>  
