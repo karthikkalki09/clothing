@@ -3702,7 +3702,7 @@ document.getElementById("buyForm").addEventListener("submit", function(e) {
   let discount = 0;
   if (couponCode && validCoupons.includes(couponCode)) {
     discount = 0.20; // 20% discount
-    validCoupons = validCoupons.filter(code => code !== couponCode); // Remove used coupon
+    validCoupons = validCoupons.filter(code => code !== couponCode);
     saveData();
   }
   const finalPrice = product.price * (1 - discount);
@@ -3714,42 +3714,43 @@ document.getElementById("buyForm").addEventListener("submit", function(e) {
   const estimatedDeliveryDate = new Date(orderDate);
   estimatedDeliveryDate.setDate(orderDate.getDate() + maxDays);
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  const formattedDate = estimatedDeliveryDate.toLocaleDateString('en-US', options);
+  const formattedDate = estimatedDeliveryDate.toLocaleDateString('en-INDIA', options);
 
-  // Create order object
-  const order = {
-    product: currentProductForPurchase,
-    address,
-    mobile,
-    details,
-    payment: "Cash on Delivery",
-    date: orderDate.toLocaleString(),
-    cancelled: false,
-    cancellationReason: "",
-    trackingStatus: "Order Confirmed",
-    buyer: currentUser,
-    qrData: `Order #${orders.length + 1}\nProduct: ${currentProductForPurchase.name}\nSize: ${currentProductForPurchase.selectedSize}\nColor: ${currentProductForPurchase.selectedColor}\nAddress: ${address}\nMobile: ${mobile}\nBuyer: ${currentUser.firstName} ${currentUser.lastName}\nDate: ${orderDate.toLocaleString()}\nTotal Amount: ₹${finalPrice.toFixed(2)}`,
-    received: false,
-    receivedDate: null,
-    shipped: false,
-    shippedDate: null,
-    departed: false,
-    departedDate: null,
-    rating: null,
-    review: null,
-    totalAmount: finalPrice.toFixed(2),
-    couponUsed: couponCode || null
-  };
+  // Create order object with estimatedDelivery
+ const order = {
+  product: currentProductForPurchase,
+  address,
+  mobile,
+  details,
+  payment: "Cash on Delivery",
+  date: orderDate.toLocaleString(),
+  cancelled: false,
+  cancellationReason: "",
+  trackingStatus: "Order Confirmed",
+  buyer: currentUser,
+  qrData: `Order #${orders.length + 1}\nProduct: ${currentProductForPurchase.name}\nSize: ${currentProductForPurchase.selectedSize}\nColor: ${currentProductForPurchase.selectedColor}\nAddress: ${address}\nMobile: ${mobile}\nBuyer: ${currentUser.firstName} ${currentUser.lastName}\nDate: ${orderDate.toLocaleString()}\nTotal Amount: ₹${finalPrice.toFixed(2)}` ,
+  received: false,
+  receivedDate: null,
+  shipped: false,
+  shippedDate: null,
+  departed: false,
+  departedDate: null,
+  rating: null,
+  review: null,
+  totalAmount: finalPrice.toFixed(2),
+  couponUsed: couponCode || null,
+  estimatedDelivery: formattedDate 
+};
 
   orders.push(order);
   const orderIndex = orders.length - 1;
 
-  // Generate a new coupon code for the next order
+  // Generate a new coupon code
   const newCouponCode = generateCouponCode();
   validCoupons.push(newCouponCode);
   saveData();
 
-  // Display enhanced thank-you card with coupon
+  // Display thank-you message
   showPopupMessage(`
     <h5>Thank You for Your Order!</h5>
     <img src="${currentProductForPurchase.images[0]}" alt="${currentProductForPurchase.name}" style="max-width: 100px; margin-bottom: 10px;">
@@ -3766,10 +3767,8 @@ document.getElementById("buyForm").addEventListener("submit", function(e) {
     <button class="btn btn-primary mt-3" data-bs-dismiss="modal" onclick="showOrderDetailPage(${orderIndex})">View Order Details</button>
   `);
 
-  // Notify the owner
   notifyOwner(`New order placed by: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email}) for product: ${order.product.name} (Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor}) at ₹${finalPrice.toFixed(2)} - Order #${orderIndex + 1}`);
 
-  // Persist data and close modal
   saveData();
   const buyModal = bootstrap.Modal.getInstance(document.getElementById("buyModal"));
   buyModal.hide();
@@ -3942,6 +3941,9 @@ function updateOrdersList(filter = currentOrdersFilter) {
           <span class="order-status-badge ${statusBadgeClass}">${statusText}</span>
         </div>
         <div class="card-body">
+          ${!order.cancelled && !order.received && !order.returned ? `
+            <p class="small text-muted mb-2">Estimated Delivery: By ${order.estimatedDelivery}</p>
+          ` : ''}
           <div class="row align-items-center">
             <div class="col-4 col-md-2">
               <img src="${productImage}"
@@ -4044,17 +4046,6 @@ function showOrderDetailPage(orderIndex) {
     statusText = 'Confirmed';
   }
 
-  const daysRange = order.product.deliveryTime.match(/\d+-\d+/)[0];
-  const [minDays, maxDays] = daysRange.split('-').map(Number);
-  const orderDate = new Date(order.date);
-  const minDeliveryDate = new Date(orderDate);
-  minDeliveryDate.setDate(orderDate.getDate() + minDays);
-  const maxDeliveryDate = new Date(orderDate);
-  maxDeliveryDate.setDate(orderDate.getDate() + maxDays);
-  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  const formattedMinDate = minDeliveryDate.toLocaleDateString('en-US', options);
-  const formattedMaxDate = maxDeliveryDate.toLocaleDateString('en-US', options);
-
   let timelineItems = [];
   if (order.cancelled) {
     timelineItems = [
@@ -4091,7 +4082,7 @@ function showOrderDetailPage(orderIndex) {
       timelineItems.push({
         date: '',
         title: 'Estimated Delivery',
-        description: `Expected between ${formattedMinDate} and ${formattedMaxDate}`,
+        description: `By ${order.estimatedDelivery}`,
         active: false
       });
     }
@@ -4154,6 +4145,11 @@ function showOrderDetailPage(orderIndex) {
             <h4>Order #${orderIndex + 1}</h4>
             <span class="order-status-badge ${statusBadgeClass}">${statusText}</span>
           </div>
+          ${order.received ? `
+            <p class="text-muted"><strong>Delivered on:</strong> ${order.receivedDate}</p>
+          ` : `
+            <p class="text-muted"><strong>Estimated Delivery:</strong> By ${order.estimatedDelivery}</p>
+          `}
           ${trackBarHtml}
           <div class="order-timeline">
             ${timelineHtml}
@@ -5071,10 +5067,10 @@ function generateProductImageHTML(product) {
                 ` : ''}
               </div>
             </div>
-            <div class="qr-code-container mt-3">
-              <h6>Order QR Code</h6>
-              <div id="qrcode-${index}"></div>
-            </div>
+                  <div class="qr-code-container mt-3">
+  <h6>Order QR Code</h6>
+  <div id="qrcode-${index}"></div>
+</div>
           </div>
           <div class="card-footer text-end">
             <button class="btn btn-primary me-2" onclick="printOrder(${index})">Print</button>
@@ -5103,7 +5099,7 @@ function generateProductImageHTML(product) {
     html += '</div>';
   }
   sellerDashboardContent.innerHTML = html;
-
+  // Generate QR codes for each order
   orders.forEach((order, index) => {
     const qrDiv = document.getElementById(`qrcode-${index}`);
     if (qrDiv) {
@@ -5335,5 +5331,6 @@ document.getElementById('applyCouponButton').addEventListener('click', function 
          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
          </body>
          </html>  
