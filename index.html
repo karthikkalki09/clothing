@@ -2329,9 +2329,13 @@
             </div>
             <div id="offerInfo" class="mb-3"></div>
             <div class="mb-3">
-              <label for="couponCode" class="form-label">Coupon Code</label>
-              <input type="text" class="form-control" id="couponCode" placeholder="Enter coupon code">
-            </div>
+  <label for="couponCode" class="form-label">Coupon Code</label>
+  <div class="input-group">
+    <input type="text" class="form-control" id="couponCode" placeholder="Enter coupon code" aria-label="Coupon Code">
+    <button type="button" class="btn btn-outline-secondary" id="applyCouponButton">Apply</button>
+  </div>
+  <p id="couponMessage" class="mt-2"></p>
+</div>
             <p id="couponMessage" class="mb-3"></p>
             <div class="mb-3">
               <p><strong>Product:</strong> <span id="modalProductName"></span></p>
@@ -2717,6 +2721,7 @@ let activeFilters = {};
 let menswearActiveFilters = {};
 let accessoriesActiveFilters = {};
 let recentSearches = [];
+let validCoupons = [];
 let searchTimeout = null;
 let currentOrdersFilter = 'all';
 
@@ -2737,7 +2742,55 @@ document.getElementById("searchInput").addEventListener("input", function() {
     generateProducts("shopProductContainer", filteredProducts);
   }, 300); // 300ms debounce delay
 });
+// Function to generate a random 8-character coupon code
+function generateCouponCode() {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let code = '';
+  for (let i = 0; i < 8; i++) {
+    code += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return code;
+}
 
+// Update saveData to include validCoupons
+function saveData() {
+  localStorage.setItem("users", JSON.stringify(users));
+  localStorage.setItem("cart", JSON.stringify(cart));
+  localStorage.setItem("orders", JSON.stringify(orders));
+  localStorage.setItem("notifications", JSON.stringify(notifications));
+  localStorage.setItem("ownerNotifications", JSON.stringify(ownerNotifications));
+  localStorage.setItem("wishlist", JSON.stringify(wishlist));
+  localStorage.setItem("currentUser", JSON.stringify(currentUser));
+  localStorage.setItem("validCoupons", JSON.stringify(validCoupons));
+}
+
+// Update loadData to load validCoupons
+function loadData() {
+  users = JSON.parse(localStorage.getItem("users")) || [];
+  cart = JSON.parse(localStorage.getItem("cart")) || [];
+  orders = JSON.parse(localStorage.getItem("orders")) || [];
+  notifications = JSON.parse(localStorage.getItem("notifications")) || [];
+  ownerNotifications = JSON.parse(localStorage.getItem("ownerNotifications")) || [];
+  wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+  currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  validCoupons = JSON.parse(localStorage.getItem("validCoupons")) || [];
+  if (currentUser && currentUser.isLoggedIn) {
+    const user = users.find(u => u.email === currentUser.email);
+    if (user) {
+      currentUser = { ...user, isLoggedIn: true, lastActivity: new Date().toISOString() };
+    } else {
+      currentUser = null;
+    }
+  } else {
+    currentUser = null;
+  }
+  updateHeaderProfile();
+  updateMenuAccountDetails();
+  updateCartCountBadge();
+  generateProducts("shopProductContainer", products);
+  generateProducts("menswearContainer", products.filter(p => p.category === "Men's Wear"));
+  generateProducts("accessoriesContainer", products.filter(p => p.category === "Accessories"));
+}
 function setCurrentOrderIndex(index) {
   currentOrderIndexForMessage = index;
 }
@@ -3638,11 +3691,24 @@ document.getElementById("buyForm").addEventListener("submit", function(e) {
     return;
   }
 
+  // Retrieve form values
   const address = document.getElementById("shippingAddress").value;
   const mobile = document.getElementById("mobileNumber").value;
   const details = document.getElementById("additionalDetails").value;
+  const couponCode = document.getElementById("couponCode").value.trim();
+  const product = currentProductForPurchase;
 
-  const daysRange = currentProductForPurchase.deliveryTime.match(/\d+-\d+/)[0];
+  // Calculate discount if a valid coupon is applied
+  let discount = 0;
+  if (couponCode && validCoupons.includes(couponCode)) {
+    discount = 0.20; // 20% discount
+    validCoupons = validCoupons.filter(code => code !== couponCode); // Remove used coupon
+    saveData();
+  }
+  const finalPrice = product.price * (1 - discount);
+
+  // Calculate estimated delivery date
+  const daysRange = product.deliveryTime.match(/\d+-\d+/)[0];
   const maxDays = parseInt(daysRange.split("-")[1]);
   const orderDate = new Date();
   const estimatedDeliveryDate = new Date(orderDate);
@@ -3650,6 +3716,7 @@ document.getElementById("buyForm").addEventListener("submit", function(e) {
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   const formattedDate = estimatedDeliveryDate.toLocaleDateString('en-US', options);
 
+  // Create order object
   const order = {
     product: currentProductForPurchase,
     address,
@@ -3661,7 +3728,7 @@ document.getElementById("buyForm").addEventListener("submit", function(e) {
     cancellationReason: "",
     trackingStatus: "Order Confirmed",
     buyer: currentUser,
-    qrData: `Order #${orders.length + 1}\nProduct: ${currentProductForPurchase.name}\nSize: ${currentProductForPurchase.selectedSize}\nColor: ${currentProductForPurchase.selectedColor}\nAddress: ${address}\nMobile: ${mobile}\nBuyer: ${currentUser.firstName} ${currentUser.lastName}\nDate: ${orderDate.toLocaleString()}`,
+    qrData: `Order #${orders.length + 1}\nProduct: ${currentProductForPurchase.name}\nSize: ${currentProductForPurchase.selectedSize}\nColor: ${currentProductForPurchase.selectedColor}\nAddress: ${address}\nMobile: ${mobile}\nBuyer: ${currentUser.firstName} ${currentUser.lastName}\nDate: ${orderDate.toLocaleString()}\nTotal Amount: ₹${finalPrice.toFixed(2)}`,
     received: false,
     receivedDate: null,
     shipped: false,
@@ -3669,12 +3736,20 @@ document.getElementById("buyForm").addEventListener("submit", function(e) {
     departed: false,
     departedDate: null,
     rating: null,
-    review: null
+    review: null,
+    totalAmount: finalPrice.toFixed(2),
+    couponUsed: couponCode || null
   };
 
   orders.push(order);
   const orderIndex = orders.length - 1;
 
+  // Generate a new coupon code for the next order
+  const newCouponCode = generateCouponCode();
+  validCoupons.push(newCouponCode);
+  saveData();
+
+  // Display enhanced thank-you card with coupon
   showPopupMessage(`
     <h5>Thank You for Your Order!</h5>
     <img src="${currentProductForPurchase.images[0]}" alt="${currentProductForPurchase.name}" style="max-width: 100px; margin-bottom: 10px;">
@@ -3683,12 +3758,18 @@ document.getElementById("buyForm").addEventListener("submit", function(e) {
     <p><strong>Color:</strong> ${currentProductForPurchase.selectedColor}</p>
     <p><strong>Estimated Delivery:</strong> ${formattedDate}</p>
     <p><strong>Shipping Address:</strong> ${address}</p>
+    <p><strong>Total Amount:</strong> ₹${finalPrice.toFixed(2)}</p>
     <p>Your order has been placed successfully. We will deliver it to you soon.</p>
+    <h6>Coupon for Your Next Order</h6>
+    <p><strong>Code:</strong> ${newCouponCode}</p>
+    <p>Use this code on your next purchase to get 20% off!</p>
     <button class="btn btn-primary mt-3" data-bs-dismiss="modal" onclick="showOrderDetailPage(${orderIndex})">View Order Details</button>
   `);
 
-  notifyOwner(`New order placed by: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email}) for product: ${order.product.name} (Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor}) at ₹${order.product.price.toFixed(2)} - Order #${orderIndex + 1}`);
+  // Notify the owner
+  notifyOwner(`New order placed by: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email}) for product: ${order.product.name} (Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor}) at ₹${finalPrice.toFixed(2)} - Order #${orderIndex + 1}`);
 
+  // Persist data and close modal
   saveData();
   const buyModal = bootstrap.Modal.getInstance(document.getElementById("buyModal"));
   buyModal.hide();
@@ -5184,6 +5265,36 @@ function generateProductImageHTML(product) {
                    }
                  }
                }
+               // Reset modal fields when shown
+document.getElementById('buyModal').addEventListener('shown.bs.modal', function () {
+  document.getElementById('couponCode').value = '';
+  document.getElementById('couponMessage').textContent = '';
+  const product = currentProductForPurchase;
+  document.getElementById('modalTotalAmount').textContent = product.price.toFixed(2);
+  document.getElementById('finalPrice').value = product.price.toFixed(2);
+});
+
+// Handle coupon application
+document.getElementById('applyCouponButton').addEventListener('click', function () {
+  const couponCode = document.getElementById('couponCode').value.trim();
+  const product = currentProductForPurchase;
+  let message = '';
+  let totalAmount = product.price;
+
+  if (couponCode && validCoupons.includes(couponCode)) {
+    const discount = 0.20; // 20% discount
+    totalAmount = product.price * (1 - discount);
+    message = 'Coupon applied! 20% discount.';
+  } else if (couponCode) {
+    message = 'Invalid coupon code.';
+  } else {
+    message = '';
+  }
+
+  document.getElementById('couponMessage').textContent = message;
+  document.getElementById('modalTotalAmount').textContent = totalAmount.toFixed(2);
+  document.getElementById('finalPrice').value = totalAmount.toFixed(2);
+});
 
           // Request Product form submission
           document.getElementById("requestProductForm")?.addEventListener("submit", function(e) {
