@@ -721,6 +721,19 @@
       100% { opacity: 1; transform: translateY(0); }
     }
 
+    /* Enhanced Splash Footer Styling */
+    .splash-footer {
+      position: absolute;
+      bottom: 100px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: #fff; /* Full white for better visibility */
+      font-size: 1rem; /* Slightly larger font size */
+      font-weight: bold; /* Make it bold */
+      text-shadow: 0 0 5px rgba(0,0,0,0.5); /* Add shadow for contrast */
+    }
+
     /* Responsive adjustments for splash screen */
     @media (max-width: 768px) {
       .tedpole-logo {
@@ -736,6 +749,10 @@
       .splash-subtitle {
         font-size: 0.9rem;
         letter-spacing: 2px;
+      }
+      
+      .splash-footer {
+        font-size: 0.9rem; /* Adjust font size for smaller screens */
       }
     }
     
@@ -1402,7 +1419,7 @@
   <div class="dark-mode-toggle" onclick="toggleDarkMode()">
     <i class="bi bi-moon"></i>
   </div>
-  <!-- Enhanced Splash Screen -->
+  <!-- Enhanced Splash Screen with "Designed by Kalki" -->
   <div id="splashScreen" class="splash-screen" role="dialog" aria-label="Welcome to TEDPOLE">
     <div class="tedpole-logo">
       <span class="letter t">T</span>
@@ -1415,6 +1432,7 @@
       <div class="glow"></div>
     </div>
     <div class="splash-subtitle">Premium Clothing & Accessories</div>
+    <div class="splash-footer">Designed by Kalki</div>
   </div>
 
   <!-- Popup Message Modal -->
@@ -2329,13 +2347,13 @@
             </div>
             <div id="offerInfo" class="mb-3"></div>
             <div class="mb-3">
-  <label for="couponCode" class="form-label">Coupon Code</label>
-  <div class="input-group">
-    <input type="text" class="form-control" id="couponCode" placeholder="Enter coupon code" aria-label="Coupon Code">
-    <button type="button" class="btn btn-outline-secondary" id="applyCouponButton">Apply</button>
-  </div>
-  <p id="couponMessage" class="mt-2"></p>
-</div>
+              <label for="couponCode" class="form-label">Coupon Code</label>
+              <div class="input-group">
+                <input type="text" class="form-control" id="couponCode" placeholder="Enter coupon code" aria-label="Coupon Code">
+                <button type="button" class="btn btn-outline-secondary" id="applyCouponButton">Apply</button>
+              </div>
+              <p id="couponMessage" class="mt-2"></p>
+            </div>
             <p id="couponMessage" class="mb-3"></p>
             <div class="mb-3">
               <p><strong>Product:</strong> <span id="modalProductName"></span></p>
@@ -2557,8 +2575,7 @@ document.getElementById('trackOrderButton')?.addEventListener('click', async () 
       </ul>
     </div>
   </footer>
-
-  <!-- Cancel Order Modal -->
+ <!-- Cancel Order Modal -->
   <div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-labelledby="cancelOrderModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
