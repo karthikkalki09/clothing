@@ -1410,6 +1410,11 @@
       font-size: 1.2rem;
       color: var(--primary-color);
     }
+
+    /* Make carousel items clickable */
+    .carousel-item {
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -1419,7 +1424,7 @@
   <div class="dark-mode-toggle" onclick="toggleDarkMode()">
     <i class="bi bi-moon"></i>
   </div>
-  <!-- Enhanced Splash Screen with "Designed by Kalki" -->
+  <!-- Enhanced Splash Screen -->
   <div id="splashScreen" class="splash-screen" role="dialog" aria-label="Welcome to TEDPOLE">
     <div class="tedpole-logo">
       <span class="letter t">T</span>
@@ -1432,7 +1437,6 @@
       <div class="glow"></div>
     </div>
     <div class="splash-subtitle">with GRATITUDE</div>
-    <div class="splash-footer">Designed by Kalki</div>
   </div>
 
   <!-- Popup Message Modal -->
@@ -1529,21 +1533,21 @@
             <button type="button" data-bs-target="#productHighlightCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
           </div>
           <div class="carousel-inner">
-            <div class="carousel-item active">
+            <div class="carousel-item active" onclick="showSection('shopSection')">
               <img src="https://i.pinimg.com/474x/d0/fd/28/d0fd28fc614775339300cf6f2ab043d2.jpg" class="d-block w-100" alt="Product Highlight 1">
               <div class="carousel-caption d-none d-md-block">
                 <h5>Luxury in Every Stitch</h5>
                 <p>Clothing is a form of self-expression.</p>
               </div>
             </div>
-            <div class="carousel-item">
+            <div class="carousel-item" onclick="showSection('menswearSection')">
               <img src="https://i.pinimg.com/474x/1e/d0/ed/1ed0ede5c364f2c8959976120f65271f.jpg" class="d-block w-100" alt="Product Highlight 2">
               <div class="carousel-caption d-none d-md-block">
                 <h5>Trendy Men's Wear</h5>
                 <p>Explore our latest collection.</p>
               </div>
             </div>
-            <div class="carousel-item">
+            <div class="carousel-item" onclick="showSection('accessoriesSection')">
               <img src="https://i.pinimg.com/474x/f4/96/20/f496209cab01d85a80a84b785068c007.jpg" class="d-block w-100" alt="Product Highlight 3">
               <div class="carousel-caption d-none d-md-block">
                 <h5>Stylish Accessories</h5>
@@ -2005,7 +2009,7 @@
     </div>
   </div>
 
-  <!-- Sign Up Section -->
+  <!-- tion -->
   <div id="signupSection" class="section fade-in">
     <header class="bg-light py-3 border-bottom">
       <div class="container d-flex justify-content-between align-items-center">
@@ -2175,7 +2179,6 @@
       <div class="row" id="menswearContainer"></div>
     </div>
     <div class="container text-center mb-4">
-      <button class="btn btn-success" onclick="showSection('cartSection')" aria-label="Proceed to Checkout">Checkout</button>
     </div>
   </div>
 
@@ -2229,7 +2232,6 @@
       <div class="row" id="accessoriesContainer"></div>
     </div>
     <div class="container text-center mb-4">
-      <button class="btn btn-success" onclick="showSection('cartSection')" aria-label="Proceed to Checkout">Checkout</button>
     </div>
   </div>
   <!-- Enhanced Orders Section -->
@@ -2575,7 +2577,7 @@ document.getElementById('trackOrderButton')?.addEventListener('click', async () 
       </ul>
     </div>
   </footer>
- <!-- Cancel Order Modal -->
+<!-- Cancel Order Modal -->
   <div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-labelledby="cancelOrderModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -2712,7 +2714,7 @@ document.getElementById('trackOrderButton')?.addEventListener('click', async () 
     </div>
   </div>
 
-  <!-- JavaScript -->
+   <!-- JavaScript -->
   <script>
     // Simple hash function for password hashing (for demonstration purposes)
     function simpleHash(password) {
@@ -3824,7 +3826,6 @@ function updateCartSection() {
       </div>
     `;
   });
-  html += `<button class="btn btn-success">Checkout</button>`;
   cartContent.innerHTML = html;
 }
 
