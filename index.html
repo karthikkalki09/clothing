@@ -340,7 +340,7 @@
       max-height: 400px; 
       object-fit: contain; 
       margin-bottom: 20px; 
-      border-radius: 10px;
+      border-radius: 0px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
       cursor: zoom-in;
       transition: all 0.3s ease;
@@ -1442,7 +1442,7 @@
   </style>
 </head>
 <body>
-  <!-- Toast Container -->
+   <!-- Toast Container -->
   <div id="toastContainer"></div>
   <!-- Dark Mode Toggle -->
   <div class="dark-mode-toggle" onclick="toggleDarkMode()">
@@ -1491,32 +1491,33 @@
     <div class="container my-4" id="notificationsContent"></div>
   </div>
 
-  <!-- Offcanvas Menu -->
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="menuCanvas" aria-labelledby="menuCanvasLabel">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="menuCanvasLabel">Menu</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div id="menuAccountDetails">
-      <i class="bi bi-person-circle me-2"></i><span id="menuAccountText">Welcome Guest</span>
-    </div>
-    <ul class="list-unstyled">
-      <li class="custom-menu-item" onclick="hideMenu(); showSection('ordersSection');"><i class="bi bi-receipt me-2"></i> My Orders</li>
-      <li id="sellerDashboardMenuItem" class="custom-menu-item" onclick="hideMenu(); showSection('sellerDashboard');" style="display: none;"><i class="bi bi-speedometer me-2"></i> Seller Dashboard</li>
-      <li id="ownerDashboardMenuItem" class="custom-menu-item" onclick="hideMenu(); showSection('ownerDashboard');" style="display: none;"><i class="bi bi-graph-up me-2"></i> Owner Dashboard</li>
-      <li class="custom-menu-item" onclick="hideMenu(); showSection('aboutSection');"><i class="bi bi-info-circle me-2"></i> About Us</li>
-      <li class="custom-menu-item" onclick="hideMenu(); showSection('contactSection');"><i class="bi bi-envelope me-2"></i> Contact Us</li>
-      <li class="custom-menu-item" onclick="hideMenu(); showSection('couponsSection');"><i class="bi bi-tag me-2"></i> Coupons</li>
-      <li class="custom-menu-item" onclick="hideMenu(); showSection('offerZoneSection');"><i class="bi bi-star me-2"></i> Offer Zone</li>
-      <li class="custom-menu-item" onclick="hideMenu(); showSection('helpSection');"><i class="bi bi-question-circle me-2"></i> Help Line</li>
-      <li class="custom-menu-item" onclick="hideMenu(); showSection('requestProductSection');"><i class="bi bi-chat-dots me-2"></i> Request Product</li>
-    </ul>
-    <div id="menuSocialSection" class="mt-3 text-center">
-      <a href="https://www.instagram.com/tedpole.in" target="_blank" class="mx-2"><i class="bi bi-instagram" style="color:#E1306C;"></i></a>
-      <a href="https://x.com/TedpoleIn" target="_blank" class="mx-2"><i class="bi bi-twitter" style="color:#1DA1F2;"></i></a>
-      <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="mx-2"><i class="bi bi-linkedin" style="color:#0077B5;"></i></a>
-    </div>
+ <!-- Offcanvas Menu -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="menuCanvas" aria-labelledby="menuCanvasLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="menuCanvasLabel">Menu</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
+  <div id="menuAccountDetails">
+    <i class="bi bi-person-circle me-2"></i><span id="menuAccountText">Welcome Guest</span>
+  </div>
+  <ul class="list-unstyled">
+    <li class="custom-menu-item" onclick="hideMenu(); showSection('ordersSection');"><i class="bi bi-receipt me-2"></i> My Orders</li>
+    <li id="sellerDashboardMenuItem" class="custom-menu-item" onclick="hideMenu(); showSection('sellerDashboard');" style="display: none;"><i class="bi bi-speedometer me-2"></i> Seller Dashboard</li>
+    <li id="ownerDashboardMenuItem" class="custom-menu-item" onclick="hideMenu(); showSection('ownerDashboard');" style="display: none;"><i class="bi bi-graph-up me-2"></i> Owner Dashboard</li>
+    <li class="custom-menu-item" onclick="hideMenu(); showSection('aboutSection');"><i class="bi bi-info-circle me-2"></i> About Us</li>
+    <li class="custom-menu-item" onclick="hideMenu(); showSection('contactSection');"><i class="bi bi-envelope me-2"></i> Contact Us</li>
+    <li class="custom-menu-item" onclick="hideMenu(); showSection('couponsSection');"><i class="bi bi-tag me-2"></i> Coupons</li>
+    <li class="custom-menu-item" onclick="hideMenu(); showSection('offerZoneSection');"><i class="bi bi-star me-2"></i> Offer Zone</li>
+    <li class="custom-menu-item" onclick="hideMenu(); showSection('helpSection');"><i class="bi bi-question-circle me-2"></i> Help Line</li>
+    <li class="custom-menu-item" onclick="hideMenu(); showSection('requestProductSection');"><i class="bi bi-box-seam me-2"></i> Request Product</li>
+    <li class="custom-menu-item" onclick="hideMenu(); showSection('feedbackSection');"><i class="bi bi-chat-square-text me-2"></i> Feedback</li>
+  </ul>
+  <div id="menuSocialSection" class="mt-3 text-center">
+    <a href="https://www.instagram.com/tedpole.in" target="_blank" class="mx-2"><i class="bi bi-instagram" style="color:#E1306C;"></i></a>
+    <a href="https://x.com/TedpoleIn" target="_blank" class="mx-2"><i class="bi bi-twitter" style="color:#1DA1F2;"></i></a>
+    <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="mx-2"><i class="bi bi-linkedin" style="color:#0077B5;"></i></a>
+  </div>
+</div>
   
   <!-- Home Section -->
   <div id="homeSection" class="section active-section fade-in">
@@ -2278,6 +2279,25 @@
       </form>
     </div>
   </div>
+  <!-- Feedback Section -->
+<div id="feedbackSection" class="section fade-in">
+  <header class="py-3 border-bottom bg-light">
+    <div class="container d-flex justify-content-between align-items-center">
+      <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home"><i class="bi bi-arrow-left"></i> Home</button>
+      <h1 class="h5 mb-0">Feedback</h1>
+      <div></div>
+    </div>
+  </header>
+  <div class="container my-4">
+    <form id="feedbackForm">
+      <div class="mb-3">
+        <label for="feedbackMessage" class="form-label">Your Feedback</label>
+        <textarea class="form-control" id="feedbackMessage" rows="5" placeholder="Share your thoughts or suggestions" required aria-label="Feedback Message"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary" aria-label="Submit Feedback">Submit Feedback</button>
+    </form>
+  </div>
+</div>
   <!-- Buy Now Modal -->
   <div class="modal fade" id="buyModal" tabindex="-1" aria-labelledby="buyModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -2675,7 +2695,21 @@ document.getElementById('trackOrderButton')?.addEventListener('click', async () 
 
    <!-- JavaScript -->
   <script>
-    // Simple hash function for password hashing (for demonstration purposes)
+    function showSection(sectionId) {
+      const sections = document.querySelectorAll('.section');
+      sections.forEach(section => {
+        section.classList.remove('fade-in');
+        section.style.display = 'none';
+      });
+      const activeSection = document.getElementById(sectionId);
+      if (activeSection) {
+        activeSection.style.display = 'block';
+        setTimeout(() => {
+          activeSection.classList.add('fade-in');
+        }, 10); // Delay to allow display change to take effect
+      }
+    }
+ // Simple hash function for password hashing (for demonstration purposes)
     function simpleHash(password) {
       let hash = 0;
       for (let i = 0; i < password.length; i++) {
@@ -4466,7 +4500,24 @@ function generateProductImageHTML(product) {
              // Header button actions
              document.getElementById("accountButton").addEventListener("click", () => currentUser ? showSection("accountSection") : showSection("loginSection"));
              document.getElementById("notificationButton").addEventListener("click", () => showSection("notificationsSection"));
-         
+         // Feedback form submission
+document.getElementById("feedbackForm")?.addEventListener("submit", function(e) {
+  e.preventDefault();
+  const feedbackMessage = document.getElementById("feedbackMessage").value.trim();
+  if (!feedbackMessage) {
+    showNotification("Please enter your feedback.", "warning");
+    return;
+  }
+  const feedback = {
+    user: currentUser ? `${currentUser.firstName} ${currentUser.lastName} (${currentUser.email})` : "Guest",
+    message: feedbackMessage,
+    date: new Date().toLocaleString()
+  };
+  notifyOwner(`New feedback received from ${feedback.user}: ${feedback.message}`);
+  showNotification("Thank you for your feedback!", "success");
+  this.reset();
+  showSection("homeSection");
+});
              // Enhanced search functionality
          function showSearchSuggestions() {
            const input = document.getElementById("searchSectionInput").value.toLowerCase();
@@ -4978,8 +5029,7 @@ function generateProductImageHTML(product) {
                      showNotification("All notifications cleared.", "success");
                    }
                  }
-                    // Update Seller Dashboard
-                 function updateSellerDashboard() {
+           function updateSellerDashboard() {
   const sellerDashboardContent = document.getElementById("sellerDashboardContent");
   let html = "<h2>Users</h2>";
   if (users.length === 0) {
@@ -5023,12 +5073,12 @@ function generateProductImageHTML(product) {
               </div>
               <div class="col-12 col-md-4 mb-3 mb-md-0">
                 <h6>Product Information</h6>
-                <img src="${productImage}" alt="${order.product.name}" class="img-fluid mb-2" style="max-width:100px; max-height:100px;" >
+                <img src="${productImage}" alt="${order.product.name}" class="img-fluid mb-2" style="max-width:100px; max-height:100px;">
                 <p><strong>Name:</strong> ${order.product.name}</p>
                 <p><strong>Description:</strong> ${order.product.description}</p>
                 <p><strong>Size:</strong> ${order.product.selectedSize}</p>
                 <p><strong>Color:</strong> ${order.product.selectedColor}</p>
-                <p><strong>Price:</strong> ₹${order.product.price.toFixed(2)}</p>
+               <p><strong>Price:</strong> ₹${order.product.price.toFixed(2)}</p>
                 <p><strong>Category:</strong> ${order.product.category}</p>
               </div>
               <div class="col-12 col-md-4">
@@ -5044,10 +5094,10 @@ function generateProductImageHTML(product) {
                 ` : ''}
               </div>
             </div>
-                  <div class="qr-code-container mt-3">
-  <h6>Order QR Code</h6>
-  <div id="qrcode-${index}"></div>
-</div>
+            <div class="qr-code-container mt-3">
+              <h6>Order QR Code</h6>
+              <div id="qrcode-${index}"></div>
+            </div>
           </div>
           <div class="card-footer text-end">
             <button class="btn btn-primary me-2" onclick="printOrder(${index})">Print</button>
