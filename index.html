@@ -1439,6 +1439,124 @@
       height: 100%;
       object-fit: cover;
     }
+    .footer-main {
+      background-color: #f8f9fa;
+      padding: 30px 0 0;
+      border-top: 1px solid #e9ecef;
+    }
+    
+    /* Fix the main footer only when home section is active */
+    body.home-section-active .footer-main {
+      position: fixed;
+      bottom: 70px; /* Position above footer-nav, which is 70px high */
+      left: 0;
+      right: 0;
+      z-index: 999; /* Below footer-nav (z-index: 1200) */
+    }
+    
+    .footer-links h5 {
+      color: var(--primary-color);
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+    
+    .footer-links ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    
+    .footer-links li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .footer-links a {
+      color: #6c757d;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .footer-links a:hover {
+      color: var(--primary-color);
+    }
+    
+    .social-icons {
+      margin-top: 1rem;
+    }
+    
+    .social-icons a {
+      display: inline-block;
+      width: 36px;
+      height: 36px;
+      line-height: 36px;
+      text-align: center;
+      background-color: #e9ecef;
+      color: #495057;
+      border-radius: 50%;
+      margin-right: 10px;
+      transition: all 0.3s;
+    }
+    
+    .social-icons a:hover {
+      background-color: var(--primary-color);
+      color: white;
+      transform: translateY(-3px);
+    }
+    
+    .footer-bottom {
+      background-color: #e9ecef;
+      padding: 15px 0;
+      margin-top: 30px;
+    }
+    
+    .footer-bottom p {
+      margin-bottom: 0;
+      color: #6c757d;
+      font-size: 0.9rem;
+    }
+    
+    .footer-bottom a {
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+    
+    .footer-bottom a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Adjust the fixed footer navigation to account for the new footer */
+    .footer-nav {
+      bottom: 0;
+    }
+    
+    @media (max-width: 768px) {
+      .footer-links {
+        margin-bottom: 20px;
+      }
+    }
+     /* Add this to your existing styles */
+  .footer-main {
+    background-color: #f8f9fa;
+    padding: 30px 0 0;
+    border-top: 1px solid #e9ecef;
+    margin-top: auto; /* Push footer to bottom */
+  }
+  
+  /* Only fix footer when home section is active */
+  body.home-section-active {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  #homeSection {
+    flex: 1;
+  }
+  
+  /* Hide footer when other sections are active */
+  .section.active-section:not(#homeSection) ~ .footer-main {
+    display: none;
+  }
   </style>
 </head>
 <body>
@@ -1519,99 +1637,111 @@
   </div>
 </div>
   
-  <!-- Home Section -->
-  <div id="homeSection" class="section active-section fade-in">
-    <header class="py-3 border-bottom">
-      <div class="container d-flex justify-content-between align-items-center">
-        <div class="d-flex align-items-center">
-          <button class="btn text-dark" data-bs-toggle="offcanvas" data-bs-target="#menuCanvas" aria-controls="menuCanvas" aria-label="Toggle Menu">
-            <i class="bi bi-list"></i>
-          </button>
-          <img src="https://i.pinimg.com/736x/03/2a/6c/032a6c5c4d8bf12496701b71ae74ed7e.jpg" alt="TEDPOLE Logo" width="45" height="50" style="vertical-align: middle; margin-left: 10px;">
+ <!-- Updated Home Section -->
+<div id="homeSection" class="section active-section fade-in">
+  <header class="py-3 border-bottom">
+    <div class="container d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center">
+        <button class="btn text-dark" data-bs-toggle="offcanvas" data-bs-target="#menuCanvas" aria-controls="menuCanvas" aria-label="Toggle Menu">
+          <i class="bi bi-list"></i>
+        </button>
+        <img src="https://i.pinimg.com/736x/03/2a/6c/032a6c5c4d8bf12496701b71ae74ed7e.jpg" alt="TEDPOLE Logo" width="45" height="50" style="vertical-align: middle; margin-left: 10px;">
+      </div>
+      <h1 class="h5 mb-0 text-dark">
+        <span id="headerProfile" class="profile-name"></span>
+      </h1>
+      <nav class="header-nav">
+        <button class="btn text-dark" id="notificationButton" aria-label="Notifications">
+          <i class="bi bi-bell"></i>
+        </button>
+        <button class="btn text-dark" id="accountButton" aria-label="Account">
+          <i class="bi bi-person"></i>
+        </button>
+      </nav>
+    </div>
+  </header>
+  <section class="hero text-center">
+    <div class="container">
+      <h2 class="mt-4">Welcome to TEDPOLE</h2>
+      <p>Your destination for premium clothes.</p>
+      <button class="btn btn-dark mt-2" id="shopNowButton" onclick="showSection('shopSection')" aria-label="Shop Now"><i class="fas fa-cart-check"></i> Shop Now</button>
+    </div>
+  </section>
+  <section class="product-highlight">
+    <div class="full-screen-wrapper">
+      <div id="productHighlightCarousel" class="carousel slide full-screen-carousel carousel-fade" data-bs-ride="carousel" data-bs-interval="3000">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#productHighlightCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#productHighlightCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#productHighlightCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
-        <h1 class="h5 mb-0 text-dark">
-          <span id="headerProfile" class="profile-name"></span>
-        </h1>
-        <nav class="header-nav">
-          <button class="btn text-dark" id="notificationButton" aria-label="Notifications">
-            <i class="bi bi-bell"></i>
-          </button>
-          <button class="btn text-dark" id="accountButton" aria-label="Account">
-            <i class="bi bi-person"></i>
-          </button>
-        </nav>
-      </div>
-    </header>
-    <section class="hero text-center">
-      <div class="container">
-        <h2 class="mt-4">Welcome to TEDPOLE</h2>
-        <p>Your destination for premium clothes.</p>
-        <button class="btn btn-dark mt-2" id="shopNowButton" onclick="showSection('shopSection')" aria-label="Shop Now"><i class="fas fa-cart-check"></i> Shop Now</button>
-      </div>
-    </section>
-    <section class="product-highlight">
-      <div class="full-screen-wrapper">
-       <div id="productHighlightCarousel" class="carousel slide full-screen-carousel carousel-fade" data-bs-ride="carousel" data-bs-interval="3000">
-  <div class="carousel-indicators">
-    <button type="button" data-bs-target="#productHighlightCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-    <button type="button" data-bs-target="#productHighlightCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    <button type="button" data-bs-target="#productHighlightCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-  </div>
-  <div class="carousel-inner">
-    <div class="carousel-item active" onclick="showSection('shopSection')">
-      <img src="https://i.pinimg.com/474x/d0/fd/28/d0fd28fc614775339300cf6f2ab043d2.jpg" class="d-block w-100" alt="Product Highlight 1">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>Luxury in Every Stitch</h5>
-        <p>Clothing is a form of self-expression.</p>
+        <div class="carousel-inner">
+          <div class="carousel-item active" onclick="showSection('shopSection')">
+            <img src="https://i.pinimg.com/474x/d0/fd/28/d0fd28fc614775339300cf6f2ab043d2.jpg" class="d-block w-100" alt="Product Highlight 1">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Luxury in Every Stitch</h5>
+              <p>Clothing is a form of self-expression.</p>
+            </div>
+          </div>
+          <div class="carousel-item" onclick="showSection('menswearSection')">
+            <img src="https://i.pinimg.com/474x/1e/d0/ed/1ed0ede5c364f2c8959976120f65271f.jpg" class="d-block w-100" alt="Product Highlight 2">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Trendy Men's Wear</h5>
+              <p>Explore our latest collection.</p>
+            </div>
+          </div>
+          <div class="carousel-item" onclick="showSection('accessoriesSection')">
+            <img src="https://i.pinimg.com/474x/f4/96/20/f496209cab01d85a80a84b785068c007.jpg" class="d-block w-100" alt="Product Highlight 3">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Stylish Accessories</h5>
+              <p>Complete your look.</p>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#productHighlightCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#productHighlightCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
       </div>
     </div>
-    <div class="carousel-item" onclick="showSection('menswearSection')">
-      <img src="https://i.pinimg.com/474x/1e/d0/ed/1ed0ede5c364f2c8959976120f65271f.jpg" class="d-block w-100" alt="Product Highlight 2">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>Trendy Men's Wear</h5>
-        <p>Explore our latest collection.</p>
+  </section>
+  
+  <!-- Updated Categories Section -->
+  <section class="categories py-5 bg-light">
+    <div class="container text-center">
+      <h2>Featured Categories</h2>
+      <div class="row mt-4">
+        <div class="col-6 col-md-6 mb-4">
+          <div class="category-item" onclick="showSection('menswearSection')">
+            <img src="https://i.pinimg.com/474x/1e/d0/ed/1ed0ede5c364f2c8959976120f65271f.jpg" class="img-fluid" alt="Men's Wear" />
+            <div class="category-label">MEN'S WEAR</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-6 mb-4">
+          <div class="category-item" onclick="showSection('accessoriesSection')">
+            <img src="https://i.pinimg.com/474x/f4/96/20/f496209cab01d85a80a84b785068c007.jpg" class="img-fluid" alt="Accessories" />
+            <div class="category-label">ACCESSORIES</div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="carousel-item" onclick="showSection('accessoriesSection')">
-      <img src="https://i.pinimg.com/474x/f4/96/20/f496209cab01d85a80a84b785068c007.jpg" class="d-block w-100" alt="Product Highlight 3">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>Stylish Accessories</h5>
-        <p>Complete your look.</p>
+  </section>
+  
+  <!-- New Featured Products Section -->
+  <section class="featured-products py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Featured Products</h2>
+      <div class="row" id="featuredProductsContainer"></div>
+      <div class="text-center mt-4">
+        <button class="btn btn-primary" onclick="showSection('shopSection')">View All Products</button>
       </div>
     </div>
-  </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#productHighlightCarousel" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#productHighlightCarousel" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
+  </section>
 </div>
-      </div>
-    </section>
-    <!-- Updated Categories Section -->
-    <section class="categories py-5 bg-light">
-      <div class="container text-center">
-        <h2></i>Featured Categories</h2>
-        <div class="row mt-4">
-          <div class="col-6 col-md-6 mb-4">
-            <div class="category-item" onclick="showSection('menswearSection')">
-              <img src="https://i.pinimg.com/474x/1e/d0/ed/1ed0ede5c364f2c8959976120f65271f.jpg" class="img-fluid" alt=" Men's Wear" />
-              <div class="category-label">MEN'S WEAR</div>
-            </div>
-          </div>
-          <div class="col-6 col-md-6 mb-4">
-            <div class="category-item" onclick="showSection('accessoriesSection')">
-              <img src="https://i.pinimg.com/474x/f4/96/20/f496209cab01d85a80a84b785068c007.jpg" class="img-fluid" alt="Accessories" />
-              <div class="category-label">ACCESSORIES</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
 
   <!-- About Us Section -->
   <div id="aboutSection" class="section fade-in">
@@ -2517,39 +2647,158 @@ document.getElementById('trackOrderButton')?.addEventListener('click', async () 
       </div>
     </div>
   </div>
+  <!-- Main Footer Section -->
+  <footer class="footer-main">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 footer-links">
+          <h5>Quick Links</h5>
+          <ul>
+            <li><a href="#" onclick="showSection('homeSection')">Home</a></li>
+            <li><a href="#" onclick="showSection('shopSection')">Shop</a></li>
+            <li><a href="#" onclick="showSection('menswearSection')">Men's Wear</a></li>
+            <li><a href="#" onclick="showSection('accessoriesSection')">Accessories</a></li>
+            <li><a href="#" onclick="showSection('offerZoneSection')">Offer Zone</a></li>
+          </ul>
+        </div>
+        
+        <div class="col-md-4 footer-links">
+          <h5>Customer Service</h5>
+          <ul>
+            <li><a href="#" onclick="showSection('contactSection')">Contact Us</a></li>
+            <li><a href="#" onclick="showSection('helpSection')">Help & FAQ</a></li>
+            <li><a href="#" onclick="showSection('ordersSection')">Track Order</a></li>
+          </ul>
+        </div>
+        
+        <div class="col-md-4 footer-links">
+          <h5>Connect With Us</h5>
+          <p>Follow TEDPOLE on social media for updates and offers</p>
+          <div class="social-icons">
+            <a href="https://www.instagram.com/tedpole.in" target="_blank" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+            <a href="https://x.com/TedpoleIn" target="_blank" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+            <a href="https://www.facebook.com/yourpage" target="_blank" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+            <a href="https://www.linkedin.com/company/tedpole" target="_blank" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <p>© 2023 TEDPOLE. All rights reserved.</p>
+          </div>
+          <div class="col-md-6 text-md-end">
+            <p>
+              <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms & Conditions</a> | 
+              <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy Policy</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
 
-  <!-- Fixed Footer Navigation with Dynamic Icons -->
+  <!-- Terms & Conditions Modal -->
+  <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="termsModalLabel">Terms & Conditions</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h6>1. General Terms</h6>
+          <p>By accessing and placing an order with TEDPOLE, you confirm that you are in agreement with and bound by the terms and conditions contained in these Terms & Conditions.</p>
+          
+          <h6 class="mt-3">2. Products</h6>
+          <p>We strive to display as accurately as possible the colors, features, specifications, and details of the products available on our store. However, we do not guarantee that the colors, features, specifications, and details of the products will be accurate, complete, reliable, current, or free of other errors.</p>
+          
+          <h6 class="mt-3">3. Pricing</h6>
+          <p>All prices are in INR (Indian Rupees) and are exclusive of taxes. TEDPOLE reserves the right to change prices for products displayed at any time, and to correct pricing errors that may inadvertently occur.</p>
+          
+          <h6 class="mt-3">4. Orders</h6>
+          <p>When you place an order, you will receive an acknowledgment e-mail confirming receipt of your order. This email will only be an acknowledgment and will not constitute acceptance of your order.</p>
+          
+          <h6 class="mt-3">5. Shipping</h6>
+          <p>We aim to ship all orders within 1-3 business days. Delivery times are estimates and commence from the date of shipping, rather than the date of order.</p>
+          
+          <h6 class="mt-3">6. Returns & Refunds</h6>
+          <p>We accept returns within 10 days of receipt for most items in new, unused condition with original packaging. Refunds will be issued to the original payment method.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Privacy Policy Modal -->
+  <div class="modal fade" id="privacyModal" tabindex="-1" aria-labelledby="privacyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="privacyModalLabel">Privacy Policy</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h6>1. Information We Collect</h6>
+          <p>We collect personal information that you provide to us such as name, address, contact information, payment information, and any other information you give us when you place an order or create an account.</p>
+          
+          <h6 class="mt-3">2. How We Use Your Information</h6>
+          <p>We use the information we collect to process your orders, communicate with you about orders, products, services and promotional offers, update our records and generally maintain your accounts with us.</p>
+          
+          <h6 class="mt-3">3. Information Sharing</h6>
+          <p>We do not sell or rent your personal information to third parties. We may share your information with service providers who perform services on our behalf, such as payment processing, order fulfillment, and marketing assistance.</p>
+          
+          <h6 class="mt-3">4. Security</h6>
+          <p>We implement a variety of security measures to maintain the safety of your personal information when you place an order or enter, submit, or access your personal information.</p>
+          
+          <h6 class="mt-3">5. Cookies</h6>
+          <p>We use cookies to help us remember and process the items in your shopping cart, understand and save your preferences for future visits and compile aggregate data about site traffic and site interaction.</p>
+          
+          <h6 class="mt-3">6. Changes to This Policy</h6>
+          <p>We may update this Privacy Policy from time to time in order to reflect changes to our practices or for other operational, legal or regulatory reasons.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fixed Footer Navigation -->
   <footer class="footer-nav fixed-bottom">
     <div class="container">
       <ul class="nav-list">
         <li class="nav-item">
           <a href="#" class="nav-link" data-section="homeSection" onclick="showSection('homeSection'); return false;" aria-label="Home">
             <i class="bi bi-house"></i>
-            <span class="nav-text"></span>
+            <span class="nav-text">Home</span>
           </a>
         </li>
         <li class="nav-item">
           <a href="#" class="nav-link" data-section="categoriesSection" onclick="showSection('categoriesSection'); return false;" aria-label="Shop">
             <i class="bi bi-grid"></i>
-            <span class="nav-text"></span>
+            <span class="nav-text">Shop</span>
           </a>
         </li>
         <li class="nav-item">
           <a href="#" class="nav-link" data-section="searchSection" onclick="showSection('searchSection'); return false;" aria-label="Search">
             <i class="bi bi-search"></i>
-            <span class="nav-text"></span>
+            <span class="nav-text">Search</span>
           </a>
         </li>
         <li class="nav-item">
           <a href="#" class="nav-link" data-section="wishlistSection" onclick="showSection('wishlistSection'); return false;" aria-label="Wishlist">
             <i class="bi bi-heart"></i>
-            <span class="nav-text"></span>
+            <span class="nav-text">Wishlist</span>
           </a>
         </li>
         <li class="nav-item">
           <a href="#" class="nav-link" data-section="cartSection" onclick="showSection('cartSection'); return false;" aria-label="Your Bag">
             <i class="bi bi-bag"></i>
-            <span class="nav-text"></span>
+            <span class="nav-text">Bag</span>
             <span class="badge" id="footerBagBadge">0</span>
           </a>
         </li>
@@ -3446,19 +3695,22 @@ function resetVoiceSearchButton() {
   voiceSearchBtn.innerHTML = '<i class="bi bi-mic"></i>';
 }
 
+// Generate products function with support for different layouts
 function generateProducts(containerId, productList) {
   const container = document.getElementById(containerId);
-  const countElement = document.getElementById("shopResultsCount");
-
-  if (countElement && containerId === "shopProductContainer") {
-    const query = document.getElementById("searchInput").value.trim();
-    if (query) {
-      countElement.textContent = `${productList.length} products found`;
-    } else {
-      countElement.textContent = "All products";
-    }
+  
+  if (!container) return; // Exit if container not found
+  
+  // Update results count if applicable
+  const countElement = document.getElementById(`${containerId.replace("Container", "")}ResultsCount`);
+  if (countElement) {
+    const query = document.getElementById("searchInput")?.value.trim();
+    countElement.textContent = query ? 
+      `${productList.length} products found` : 
+      "All products";
   }
 
+  // Handle empty product list
   if (productList.length === 0) {
     container.innerHTML = `
       <div class="col-12 text-center py-5">
@@ -3471,28 +3723,99 @@ function generateProducts(containerId, productList) {
   }
 
   container.innerHTML = "";
+  
+  // Generate product cards based on container type
   productList.forEach(product => {
     const originalPrice = (product.price * 1.2).toFixed(2);
     const discount = ((originalPrice - product.price) / originalPrice * 100).toFixed(0);
-    const card = `
-      <div class="col-6 mb-4">
-        <div class="card shadow-sm product-card" style="position: relative;" onclick="showProductDetails(${product.id})">
-          <img src="${product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name)}" class="card-img-top" alt="${product.name}">
-          <button class="wishlist-btn position-absolute top-0 end-0 m-2" onclick="event.stopPropagation(); addToWishlist(${product.id})" aria-label="Add ${product.name} to Wishlist">
-            <i class="bi bi-heart-fill" style="color: ${wishlist.some(p => p.id === product.id) ? 'red' : '#ccc'};"></i>
-          </button>
-          <div class="card-body">
-            <h5 class="card-title">${product.name}</h5>
-            <p class="card-text">${product.description}</p>
-            <p class="card-text"><s>₹${originalPrice}</s> ₹${product.price.toFixed(2)} <span class="badge bg-success">${discount}% off</span></p>
+    const ratingInfo = getProductRating(product.id);
+    const isInWishlist = wishlist.some(p => p.id === product.id);
+    
+    // Home section layout (grid with 4 columns)
+    if (containerId === "homeProductsContainer") {
+      const card = `
+        <div class="col-6 col-md-4 col-lg-3 mb-4">
+          <div class="card shadow-sm product-card" onclick="showProductDetails(${product.id})">
+            <div style="position: relative;">
+              <img src="${product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name)}" 
+                   class="card-img-top" alt="${product.name}" style="height: 200px; object-fit: cover;">
+              ${discount > 0 ? `<span class="badge bg-danger position-absolute top-0 start-0 m-2">${discount}% OFF</span>` : ''}
+              <button class="wishlist-btn position-absolute top-0 end-0 m-2" 
+                      onclick="event.stopPropagation(); addToWishlist(${product.id})">
+                <i class="bi bi-heart-fill" style="color: ${isInWishlist ? 'red' : '#ccc'};"></i>
+              </button>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">${product.name}</h5>
+              <p class="card-text text-muted" style="font-size: 0.9rem;">${product.description}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <span class="fw-bold">₹${product.price.toFixed(2)}</span>
+                  ${discount > 0 ? `<small class="text-decoration-line-through text-muted ms-1">₹${originalPrice}</small>` : ''}
+                </div>
+                ${ratingInfo ? `
+                  <div class="d-flex align-items-center">
+                    <i class="bi bi-star-fill text-warning me-1"></i>
+                    <small>${ratingInfo.average}</small>
+                  </div>
+                ` : ''}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    `;
-    container.innerHTML += card;
+      `;
+      container.innerHTML += card;
+    } 
+    // Default layout (2 columns)
+    else {
+      const card = `
+        <div class="col-6 mb-4">
+          <div class="card shadow-sm product-card" style="position: relative;" onclick="showProductDetails(${product.id})">
+            <img src="${product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name)}" 
+                 class="card-img-top" alt="${product.name}">
+            <button class="wishlist-btn position-absolute top-0 end-0 m-2" 
+                    onclick="event.stopPropagation(); addToWishlist(${product.id})" 
+                    aria-label="Add ${product.name} to Wishlist">
+              <i class="bi bi-heart-fill" style="color: ${isInWishlist ? 'red' : '#ccc'};"></i>
+            </button>
+            <div class="card-body">
+              <h5 class="card-title">${product.name}</h5>
+              <p class="card-text">${product.description}</p>
+              <p class="card-text">
+                <s>₹${originalPrice}</s> ₹${product.price.toFixed(2)} 
+                <span class="badge bg-success">${discount}% off</span>
+              </p>
+              ${ratingInfo ? `
+                <p class="card-text">
+                  <i class="bi bi-star-fill text-warning"></i> 
+                  ${ratingInfo.average} (${ratingInfo.count} reviews)
+                </p>
+              ` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+      container.innerHTML += card;
+    }
   });
 }
 
+// Helper function to get product rating
+function getProductRating(productId) {
+  const productOrders = orders.filter(order => 
+    order.product.id === productId && order.rating !== null
+  );
+  
+  if (productOrders.length === 0) return null;
+  
+  const totalRating = productOrders.reduce((sum, order) => sum + order.rating, 0);
+  const averageRating = totalRating / productOrders.length;
+  
+  return {
+    average: averageRating.toFixed(1),
+    count: productOrders.length
+  };
+}
 // Get recommended products based on current product
 function getRecommendedProducts(currentProductId) {
   const currentProduct = products.find(p => p.id === currentProductId);
@@ -5418,4 +5741,4 @@ window.onload = function() {
          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
          </body>
-         </html>  
+         </html> 
