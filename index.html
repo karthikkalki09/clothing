@@ -622,146 +622,6 @@
       right: 15px;
     }
     
-    /* Enhanced Splash Screen */
-    .splash-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: linear-gradient(135deg, #000, #1a1a1a);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-      transition: opacity 0.8s ease-out;
-      overflow: hidden;
-    }
-
-    .splash-screen::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle, rgba(255, 0, 0, 0.1), transparent);
-      animation: pulse 3s infinite;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(0.8); opacity: 0.5; }
-      50% { transform: scale(1.2); opacity: 0.2; }
-      100% { transform: scale(0.8); opacity: 0.5; }
-    }
-
-    .tedpole-logo {
-      position: relative;
-      display: flex;
-      font-size: 8rem;
-      font-weight: 900;
-      text-transform: uppercase;
-      color: #e50914;
-      text-shadow: 0 0 15px rgba(229, 9, 20, 0.8), 0 0 30px rgba(229, 9, 20, 0.5);
-      letter-spacing: -0.2rem;
-      animation: logoFadeIn 1.5s ease-in-out;
-    }
-
-    @keyframes logoFadeIn {
-      0% { opacity: 0; transform: scale(0.5); }
-      100% { opacity: 1; transform: scale(1); }
-    }
-
-    .tedpole-logo .letter {
-      position: relative;
-      display: inline-block;
-      transform: scale(1);
-      animation: letterPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-      opacity: 0;
-    }
-
-    .tedpole-logo .t { animation-delay: 0.1s; }
-    .tedpole-logo .e { animation-delay: 0.2s; }
-    .tedpole-logo .d { animation-delay: 0.3s; }
-    .tedpole-logo .p { animation-delay: 0.4s; }
-    .tedpole-logo .o { animation-delay: 0.5s; }
-    .tedpole-logo .l { animation-delay: 0.6s; }
-    .tedpole-logo .e2 { animation-delay: 0.7s; }
-
-    .glow {
-      position: absolute;
-      bottom: -20px;
-      left: 0;
-      width: 100%;
-      height: 10px;
-      background: #e50914;
-      border-radius: 50%;
-      filter: blur(15px);
-      opacity: 0;
-      animation: glowAppear 0.8s ease-out 1.2s forwards;
-    }
-
-    @keyframes letterPop {
-      0% { transform: scale(0.5) translateY(20px); opacity: 0; }
-      100% { transform: scale(1) translateY(0); opacity: 1; }
-    }
-
-    @keyframes glowAppear {
-      0% { opacity: 0; transform: scaleX(0.5); }
-      100% { opacity: 0.8; transform: scaleX(1); }
-    }
-
-    .splash-subtitle {
-      color: #fff;
-      font-size: 1.2rem;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      margin-top: 20px;
-      opacity: 0;
-      animation: subtitleFadeIn 1s ease-in-out 1.5s forwards;
-    }
-
-    @keyframes subtitleFadeIn {
-      0% { opacity: 0; transform: translateY(20px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Enhanced Splash Footer Styling */
-    .splash-footer {
-      position: absolute;
-      bottom: 140px;
-      left: 0;
-      right: 0;
-      text-align: center;
-      color: #fff;
-      font-size: 1rem;
-      font-weight: bold;
-      text-shadow: 0 0 5px rgba(0,0,0,0.5);
-    }
-
-    /* Responsive adjustments for splash screen */
-    @media (max-width: 768px) {
-      .tedpole-logo {
-        font-size: 4rem;
-        letter-spacing: -0.1rem;
-      }
-      
-      .glow {
-        height: 6px;
-        bottom: -10px;
-      }
-      
-      .splash-subtitle {
-        font-size: 0.9rem;
-        letter-spacing: 2px;
-      }
-      
-      .splash-footer {
-        font-size: 0.9rem;
-      }
-    }
-    
     /* Product Card Styling */
     .product-card {
       transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -1557,6 +1417,46 @@
   .section.active-section:not(#homeSection) ~ .footer-main {
     display: none;
   }
+  
+  /* Category Stories Styling */
+  .category-stories {
+    padding: 20px 0;
+    margin-top: 40px; /* Increased space from header */
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .story-container {
+    display: flex;
+    gap: 20px;
+    justify-content: flex-start; /* Align categories to the left */
+  }
+
+  .story {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .story img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--primary-color);
+  }
+
+  .story p {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: var(--dark-color);
+  }
+
+  /* Category Products Styling */
+  .category-products {
+    padding: 20px 0;
+  }
   </style>
 </head>
 <body>
@@ -1566,21 +1466,6 @@
   <div class="dark-mode-toggle" onclick="toggleDarkMode()">
     <i class="bi bi-moon"></i>
   </div>
-  <!-- Enhanced Splash Screen -->
-  <div id="splashScreen" class="splash-screen" role="dialog" aria-label="Welcome to TEDPOLE">
-    <div class="tedpole-logo">
-      <span class="letter t">T</span>
-      <span class="letter e">E</span>
-      <span class="letter d">D</span>
-      <span class="letter p">P</span>
-      <span class="letter o">O</span>
-      <span class="letter l">L</span>
-      <span class="letter e2">E</span>
-      <div class="glow"></div>
-    </div>
-    <div class="splash-subtitle">with GRATITUDE</div>
-  </div>
-
   <!-- Popup Message Modal -->
   <div class="modal fade" id="popupMessageModal" tabindex="-1" aria-labelledby="popupMessageModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -1636,8 +1521,7 @@
     <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="mx-2"><i class="bi bi-linkedin" style="color:#0077B5;"></i></a>
   </div>
 </div>
-  
- <!-- Updated Home Section -->
+   <!-- Updated Home Section with Category Stories and Products -->
 <div id="homeSection" class="section active-section fade-in">
   <header class="py-3 border-bottom">
     <div class="container d-flex justify-content-between align-items-center">
@@ -1645,7 +1529,7 @@
         <button class="btn text-dark" data-bs-toggle="offcanvas" data-bs-target="#menuCanvas" aria-controls="menuCanvas" aria-label="Toggle Menu">
           <i class="bi bi-list"></i>
         </button>
-        <img src="https://i.pinimg.com/736x/03/2a/6c/032a6c5c4d8bf12496701b71ae74ed7e.jpg" alt="TEDPOLE Logo" width="45" height="50" style="vertical-align: middle; margin-left: 10px;">
+        <img src="https://i.pinimg.com/736x/be/4b/17/be4b172124352f140b711187d98529e8.jpg" alt="NXew Logo" width="70" height="30" style="vertical-align: middle;">
       </div>
       <h1 class="h5 mb-0 text-dark">
         <span id="headerProfile" class="profile-name"></span>
@@ -1660,11 +1544,29 @@
       </nav>
     </div>
   </header>
-  <section class="hero text-center">
+  <section class="category-stories">
     <div class="container">
-      <h2 class="mt-4">Welcome to TEDPOLE</h2>
-      <p>Your destination for premium clothes.</p>
-      <button class="btn btn-dark mt-2" id="shopNowButton" onclick="showSection('shopSection')" aria-label="Shop Now"><i class="fas fa-cart-check"></i> Shop Now</button>
+      <div class="story-container">
+        <div class="story" onclick="filterShopByCategory('Cargos')">
+          <img src="https://i.pinimg.com/736x/d3/2a/f8/d32af82042b24fc99ca5028e22fb587e.jpg" alt="Cargos">
+          <p>Cargos</p>
+        </div>
+        <div class="story" onclick="filterShopByCategory('Accessories')">
+          <img src="https://i.pinimg.com/736x/32/1f/4c/321f4c0a5b2d1a2e17217da1a2d843aa.jpg" alt="Accessories">
+          <p>Accessories</p>
+        </div>
+        <div class="story" onclick="filterShopByCategory('Shorts')">
+          <img src="https://i.pinimg.com/736x/c2/64/12/c26412543ccd465cb9d9db89a5b6002d.jpg" alt="Short's">
+          <p>Shorts</p>
+      </div>
+        <div class="story" onclick="filterShopByCategory('T-Shirts')">
+          <img src="https://i.pinimg.com/736x/a6/a8/60/a6a86085e29c1aeda8fe05de7bd34c3f.jpg" alt="T-Shirts">
+          <p>T-Shirts</p>
+    </div>
+  </section>
+  <section class="category-products">
+    <div class="container">
+      <div class="row" id="categoryProductsContainer"></div>
     </div>
   </section>
   <section class="product-highlight">
@@ -1709,11 +1611,10 @@
       </div>
     </div>
   </section>
-  
   <!-- Updated Categories Section -->
   <section class="categories py-5 bg-light">
     <div class="container text-center">
-      <h2>Featured Categories</h2>
+      <h2>Shop by GROUPS</h2>
       <div class="row mt-4">
         <div class="col-6 col-md-6 mb-4">
           <div class="category-item" onclick="showSection('menswearSection')">
@@ -1729,8 +1630,7 @@
         </div>
       </div>
     </div>
-  </section>
-  
+  </section>  
   <!-- New Featured Products Section -->
   <section class="featured-products py-5">
     <div class="container">
@@ -2774,31 +2674,21 @@ document.getElementById('trackOrderButton')?.addEventListener('click', async () 
         <li class="nav-item">
           <a href="#" class="nav-link" data-section="homeSection" onclick="showSection('homeSection'); return false;" aria-label="Home">
             <i class="bi bi-house"></i>
-           
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link" data-section="categoriesSection" onclick="showSection('categoriesSection'); return false;" aria-label="Shop">
-            <i class="bi bi-grid"></i>
-          
           </a>
         </li>
         <li class="nav-item">
           <a href="#" class="nav-link" data-section="searchSection" onclick="showSection('searchSection'); return false;" aria-label="Search">
             <i class="bi bi-search"></i>
-         
           </a>
         </li>
         <li class="nav-item">
           <a href="#" class="nav-link" data-section="wishlistSection" onclick="showSection('wishlistSection'); return false;" aria-label="Wishlist">
             <i class="bi bi-heart"></i>
-           
           </a>
         </li>
         <li class="nav-item">
           <a href="#" class="nav-link" data-section="cartSection" onclick="showSection('cartSection'); return false;" aria-label="Your Bag">
             <i class="bi bi-bag"></i>
-  
             <span class="badge" id="footerBagBadge">0</span>
           </a>
         </li>
@@ -3087,7 +2977,7 @@ const products = [
     id: 1,
     name: "Casual Shirt",
     description: "Comfortable and stylish men's t-shirt.",
-    category: "Men's Wear",
+    category: "T-Shirts",
     price: 19.99,
     size: "S, M, L, XL",
     color: "Blue, Red, Black",
@@ -3108,7 +2998,7 @@ const products = [
     id: 2,
     name: "Formal Shirt",
     description: "Premium quality formal shirt for office wear.",
-    category: "Men's Wear",
+    category: "Shorts",
     price: 29.99,
     size: "S, M, L, XL",
     color: "White, Blue",
@@ -3128,7 +3018,7 @@ const products = [
     id: 3,
     name: "Denim Jeans",
     description: "Trendy and comfortable denim jeans.",
-    category: "Men's Wear",
+    category: "Cargos",
     price: 39.99,
     size: "32, 34, 36",
     color: "Blue,Black",
@@ -3189,7 +3079,7 @@ const products = [
     id: 6,
     name: "Casual T-Shirt",
     description: "Comfortable cotton t-shirt for everyday wear.",
-    category: "Men's Wear",
+    category: "T-Shirts",
     price: 15.99,
     size: "S, M, L, XL",
     color: "White, Black, Blue",
@@ -3227,17 +3117,6 @@ const products = [
     }
   },
 ];
-
-// Hide splash screen after 2 seconds
-setTimeout(() => {
-  const splashScreen = document.getElementById('splashScreen');
-  splashScreen.style.opacity = '0';
-  setTimeout(() => {
-    splashScreen.style.display = 'none';
-    document.getElementById('shopNowButton').focus();
-  }, 500);
-}, 2000);
-
 // Save data to localStorage
 function saveData() {
   localStorage.setItem("users", JSON.stringify(users));
@@ -5381,10 +5260,10 @@ document.getElementById("feedbackForm")?.addEventListener("submit", function(e) 
         <div class="card mb-3 shadow-sm order-card">
           <div class="card-header d-flex justify-content-between align-items-center">
             <div>
-              <img src="https://i.pinimg.com/736x/03/2a/6c/032a6c5c4d8bf12496701b71ae74ed7e.jpg" alt="TEDPOLE Logo" style="width: 30px; height: 30px; margin-right: 10px;">
+              <img src="https://i.pinimg.com/736x/be/4b/17/be4b172124352f140b711187d98529e8.jpg" alt="TEDPOLE Logo" style="width: 70px; height: 30px; margin-right: 10px;">
               <span>Order #${index + 1} - ${order.date}</span>
             </div>
-            <span>TEDPOLE</span>
+            <span>NXew</span>
           </div>
           <div class="card-body">
             <div class="row">
@@ -5734,6 +5613,20 @@ window.onload = function() {
   generateQRCode("https://tedpole.in");
   loadData();
 };
+function filterShopByCategory(category) {
+  // Filter products by category
+  const filteredProducts = products.filter(p => p.category === category);
+  
+  // Update the shop section with filtered products
+  document.getElementById('shopResultsCount').textContent = `${filteredProducts.length} ${category} products`;
+  generateProducts("shopProductContainer", filteredProducts);
+  
+  // Show the shop section
+  showSection('shopSection');
+  
+  // Scroll to the top of the shop section
+  document.getElementById('shopSection').scrollIntoView({ behavior: 'smooth' });
+}
          </script>
          <!-- Bootstrap JS Bundle -->
          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
