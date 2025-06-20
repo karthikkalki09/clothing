@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=0.7" />
-  <title>TEDPOLE - Premium Clothing & Accessories</title>
+  <title>NXew - Premium Clothing & Accessories</title>
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <!-- Bootstrap CSS -->
@@ -1516,7 +1516,7 @@
     <li class="custom-menu-item" onclick="hideMenu(); showSection('feedbackSection');"><i class="bi bi-chat-square-text me-2"></i> Feedback</li>
   </ul>
   <div id="menuSocialSection" class="mt-3 text-center">
-    <a href="https://www.instagram.com/tedpole.in" target="_blank" class="mx-2"><i class="bi bi-instagram" style="color:#E1306C;"></i></a>
+    <a href="https://www.instagram.com/nxew.in" target="_blank" class="mx-2"><i class="bi bi-instagram" style="color:#E1306C;"></i></a>
     <a href="https://x.com/TedpoleIn" target="_blank" class="mx-2"><i class="bi bi-twitter" style="color:#1DA1F2;"></i></a>
     <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="mx-2"><i class="bi bi-linkedin" style="color:#0077B5;"></i></a>
   </div>
@@ -1547,13 +1547,13 @@
   <section class="category-stories">
     <div class="container">
       <div class="story-container">
-        <div class="story" onclick="filterShopByCategory('Cargos')">
-          <img src="https://i.pinimg.com/736x/d3/2a/f8/d32af82042b24fc99ca5028e22fb587e.jpg" alt="Cargos">
-          <p>Cargos</p>
+        <div class="story" onclick="filterShopByCategory('Baggy Jeans')">
+          <img src="https://i.pinimg.com/736x/d3/2a/f8/d32af82042b24fc99ca5028e22fb587e.jpg" alt="Baggy Jeans">
+          <p>Baggy Jeans</p>
         </div>
-        <div class="story" onclick="filterShopByCategory('Accessories')">
-          <img src="https://i.pinimg.com/736x/32/1f/4c/321f4c0a5b2d1a2e17217da1a2d843aa.jpg" alt="Accessories">
-          <p>Accessories</p>
+        <div class="story" onclick="filterShopByCategory('Half-sleeve Shirts')">
+          <img src="https://i.pinimg.com/736x/32/1f/4c/321f4c0a5b2d1a2e17217da1a2d843aa.jpg" alt="Half-sleeve Shirts">
+          <p>Half-sleeve Shirts</p>
         </div>
         <div class="story" onclick="filterShopByCategory('Shorts')">
           <img src="https://i.pinimg.com/736x/c2/64/12/c26412543ccd465cb9d9db89a5b6002d.jpg" alt="Short's">
@@ -2109,17 +2109,11 @@
                 </div>
                 <button type="submit" class="btn btn-primary w-100" aria-label="Sign Up">Sign Up</button>
               </form>
-              <!-- Added "Signup with T-Mail" button with Tedpole logo -->
+              <!-- Added "Signup with T-Mail" button with NXew logo -->
               <div class="mt-3 text-center">
                 <button class="btn btn-outline-primary" onclick="signupWithTMail()" aria-label="Signup with T-Mail">
-                  <svg width="20" height="20" viewBox="0 0 100 100" style="vertical-align: middle; margin-right: 5px;">
-                    <path d="M 50 10 L 90 50 L 50 90 L 10 50 Z" fill="none" stroke="#C19A6B" stroke-width="5"/>
-                    <line x1="50" y1="0" x2="50" y2="100" stroke="#C19A6B" stroke-width="5"/>
-                    <line x1="0" y1="50" x2="100" y2="50" stroke="#C19A6B" stroke-width="5"/>
-                    <line x1="20" y1="20" x2="80" y2="80" stroke="#C19A6B" stroke-width="5"/>
-                    <line x1="20" y1="80" x2="80" y2="20" stroke="#C19A6B" stroke-width="5"/>
-                  </svg>
-                  Signup with T-Mail
+                  <img src="https://i.pinimg.com/736x/be/4b/17/be4b172124352f140b711187d98529e8.jpg" alt="W-Mail Logo" style="width: 50px; height: 30px; margin-right: 8px;">
+                  Signup with W-Mail
                 </button>
               </div>
               <p class="mt-3 text-center">Already have an account? <a href="#" onclick="showSection('loginSection')">Login</a></p>
@@ -2129,7 +2123,6 @@
       </div>
     </div>
   </div>
-
   <!-- Account Section -->
   <div id="accountSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
@@ -2154,34 +2147,24 @@
     <div class="container my-4" id="cartContent"></div>
   </div>
 
-  <!-- Shop Section with Enhanced Search Bar -->
-  <div id="shopSection" class="section fade-in">
-    <header class="py-3 border-bottom bg-light">
-      <div class="container d-flex justify-content-between align-items-center">
-        <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home"><i class="bi bi-arrow-left"></i> Home</button>
-        <h1 class="h5 mb-0">All Products</h1>
-        <div></div>
-      </div>
-    </header>
-    <div class="container my-4" id="shopFilterSection">
-      <div class="row justify-content-center">
-        <div class="col-12 col-md-8">
-          <div class="search-bar position-relative">
-            <input type="text" id="searchInput" class="form-control" placeholder="Search for products..." aria-label="Search for products">
-            <i class="bi bi-search search-icon"></i>
-          </div>
-        </div>
+ <!-- Shop Section -->
+<div id="shopSection" class="section fade-in">
+  <header class="py-3 border-bottom bg-light">
+    <div class="container d-flex justify-content-between align-items-center">
+      <button class="btn" onclick="showSection('homeSection')" aria-label="Back to Home"><i class="bi bi-arrow-left"></i> Home</button>
+      <h1 class="h5 mb-0">All Products</h1>
+      <div></div>
+    </div>
+  </header>
+  <div class="container my-4">
+    <div class="row">
+      <div class="col-12">
+        <h5 id="shopResultsCount">All products</h5>
       </div>
     </div>
-    <div class="container my-4">
-      <div class="row">
-        <div class="col-12">
-          <h5 id="shopResultsCount">All products</h5>
-        </div>
-      </div>
-      <div class="row" id="shopProductContainer"></div>
-    </div>
+    <div class="row" id="shopProductContainer"></div>
   </div>
+</div>
    <!-- Men's Wear Section -->
   <div id="menswearSection" class="section fade-in">
     <header class="py-3 border-bottom bg-light">
@@ -2575,7 +2558,7 @@ document.getElementById('trackOrderButton')?.addEventListener('click', async () 
           <h5>Connect With Us</h5>
           <p>Follow TEDPOLE on social media for updates and offers</p>
           <div class="social-icons">
-            <a href="https://www.instagram.com/tedpole.in" target="_blank" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+            <a href="https://www.instagram.com/nxew.in" target="_blank" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
             <a href="https://x.com/TedpoleIn" target="_blank" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
             <a href="https://www.facebook.com/yourpage" target="_blank" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
             <a href="https://www.linkedin.com/company/tedpole" target="_blank" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
@@ -2586,7 +2569,7 @@ document.getElementById('trackOrderButton')?.addEventListener('click', async () 
       <div class="container">
         <div class="row">
           <div class="col-md-6">
-            <p>© 2023 TEDPOLE. All rights reserved.</p>
+            <p>© 2023 NXew. All rights reserved.</p>
           </div>
           <div class="col-md-6 text-md-end">
             <p>
@@ -2633,7 +2616,7 @@ document.getElementById('trackOrderButton')?.addEventListener('click', async () 
     </div>
   </div>
 
-  <!-- Privacy Policy Modal -->
+ <!-- Privacy Policy Modal -->
   <div class="modal fade" id="privacyModal" tabindex="-1" aria-labelledby="privacyModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -2881,18 +2864,7 @@ const colorMap = { "Blue": "#0000FF", "Red": "#FF0000", "Black": "#000000", "Bro
 let currentOrderIndexForMessage = null;
 let shopSearchTimeout = null;
 
-document.getElementById("searchInput").addEventListener("input", function() {
-  clearTimeout(shopSearchTimeout);
-  shopSearchTimeout = setTimeout(() => {
-    const query = this.value.toLowerCase();
-    const filteredProducts = products.filter(p =>
-      p.name.toLowerCase().includes(query) ||
-      p.description.toLowerCase().includes(query) ||
-      p.category.toLowerCase().includes(query)
-    );
-    generateProducts("shopProductContainer", filteredProducts);
-  }, 300); // 300ms debounce delay
-});
+
 // Function to generate a random 8-character coupon code
 function generateCouponCode() {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -3018,7 +2990,7 @@ const products = [
     id: 3,
     name: "Denim Jeans",
     description: "Trendy and comfortable denim jeans.",
-    category: "Cargos",
+    category: "Baggy Jeans",
     price: 39.99,
     size: "32, 34, 36",
     color: "Blue,Black",
@@ -3039,7 +3011,7 @@ const products = [
     id: 4,
     name: "Sunglasses",
     description: "Stylish sunglasses to match your look.",
-    category: "Accessories",
+    category: "Baggy Jeans",
     price: 29.99,
     size: "One Size",
     color: "Black, Brown",
@@ -3059,7 +3031,7 @@ const products = [
     id: 5,
     name: "Leather Belt",
     description: "Genuine leather belt for men.",
-    category: "Accessories",
+    category: "Half-sleeve Shirts",
     price: 54.99,
     size: "32, 34, 36, 38",
     color: "Black, Brown",
@@ -3100,7 +3072,7 @@ const products = [
     id: 7,
     name: "Wrist Watch",
     description: "Elegant wrist watch for men.",
-    category: "Accessories",
+    category: "Half-sleeve Shirts",
     price: 49.99,
     size: "One Size",
     color: "Black, Silver",
@@ -5614,6 +5586,9 @@ window.onload = function() {
   loadData();
 };
 function filterShopByCategory(category) {
+  // Hide the search bar container
+  document.getElementById("searchBarContainer").style.display = "none";
+  
   // Filter products by category
   const filteredProducts = products.filter(p => p.category === category);
   
@@ -5634,4 +5609,4 @@ function filterShopByCategory(category) {
          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
          </body>
-         </html> 
+         </html>  
