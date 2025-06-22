@@ -3086,6 +3086,7 @@ const products = [
       "Silver": "https://i.pinimg.com/474x/d3/e4/f5/d3e4f59e8f9a0b1c2d3e4f5a6b7c8d9e.jpg"
     }
   },
+  
 ];
 // Save data to localStorage
 function saveData() {
@@ -3123,7 +3124,7 @@ function loadData() {
   generateProducts("shopProductContainer", products);
   generateProducts("menswearContainer", products.filter(p => p.category === "Men's Wear"));
   generateProducts("accessoriesContainer", products.filter(p => p.category === "Accessories"));
-  generateProducts("featuredProductsContainer", products.slice(0, 4));
+  generateProducts("featuredProductsContainer", products.slice(0, 20));
 }
 
 // Show notification function
@@ -3676,15 +3677,15 @@ function getRecommendedProducts(currentProductId) {
     p.id !== currentProductId
   );
 
-  if (recommendations.length < 4) {
+  if (recommendations.length < 20) {
     const otherProducts = products.filter(p =>
       p.category !== currentProduct.category &&
       p.id !== currentProductId
     );
-    recommendations = [...recommendations, ...otherProducts.slice(0, 4 - recommendations.length)];
+    recommendations = [...recommendations, ...otherProducts.slice(0, 20 - recommendations.length)];
   }
 
-  return recommendations.slice(0, 4);
+  return recommendations.slice(0, 20);
 }
 
 // Generate HTML for recommended products
