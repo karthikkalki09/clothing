@@ -1551,9 +1551,9 @@
           <img src="https://i.pinimg.com/736x/d3/2a/f8/d32af82042b24fc99ca5028e22fb587e.jpg" alt="Baggy Jeans">
           <p>Baggy Jeans</p>
         </div>
-        <div class="story" onclick="filterShopByCategory('Half-sleeve Shirts')">
-          <img src="https://i.pinimg.com/736x/32/1f/4c/321f4c0a5b2d1a2e17217da1a2d843aa.jpg" alt="Half-sleeve Shirts">
-          <p>Half-sleeve Shirts</p>
+        <div class="story" onclick="filterShopByCategory('Polos')">
+          <img src="https://i.pinimg.com/736x/69/28/58/6928580f902f47636c98947dd63a3ec5.jpg" alt="Polos">
+          <p>Polos</p>
         </div>
         <div class="story" onclick="filterShopByCategory('Shorts')">
           <img src="https://i.pinimg.com/736x/c2/64/12/c26412543ccd465cb9d9db89a5b6002d.jpg" alt="Short's">
@@ -1563,6 +1563,10 @@
           <img src="https://i.pinimg.com/736x/a6/a8/60/a6a86085e29c1aeda8fe05de7bd34c3f.jpg" alt="T-Shirts">
           <p>T-Shirts</p>
     </div>
+        <div class="story" onclick="filterShopByCategory('Hoodies')">
+          <img src="https://i.pinimg.com/736x/88/85/86/88858662ad68a0c2bd5f14f179a196f4.jpg" alt="Hoodies">
+          <p>Hoodies</p>
+        </div>
   </section>
   <section class="category-products">
     <div class="container">
@@ -1732,16 +1736,8 @@
         <div class="col-md-6 mb-4">
           <div class="card shadow-sm">
             <div class="card-body">
-              <h5 class="card-title"><i class="bi bi-percent me-2"></i>10% off on all Men's Wear</h5>
-              <p class="card-text">Get 10% discount on all men's clothing items. No coupon required.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 mb-4">
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <h5 class="card-title"><i class="bi bi-percent me-2"></i>20% off on Accessories</h5>
-              <p class="card-text">Enjoy 20% off on all accessories. Limited time offer.</p>
+              <h5 class="card-title"><i class="bi bi-percent me-2"></i>20% off on all products</h5>
+              <p class="card-text">Get 20% discount on Products. Coupon required.</p>
             </div>
           </div>
         </div>
@@ -2535,7 +2531,6 @@ document.getElementById('trackOrderButton')?.addEventListener('click', async () 
           <h5>Quick Links</h5>
           <ul>
             <li><a href="#" onclick="showSection('homeSection')">Home</a></li>
-            <li><a href="#" onclick="showSection('shopSection')">Shop</a></li>
             <li><a href="#" onclick="showSection('menswearSection')">Men's Wear</a></li>
             <li><a href="#" onclick="showSection('accessoriesSection')">Accessories</a></li>
             <li><a href="#" onclick="showSection('offerZoneSection')">Offer Zone</a></li>
@@ -2553,7 +2548,7 @@ document.getElementById('trackOrderButton')?.addEventListener('click', async () 
         
         <div class="col-md-4 footer-links">
           <h5>Connect With Us</h5>
-          <p>Follow TEDPOLE on social media for updates and offers</p>
+          <p>Follow NXew on social media for updates and offers</p>
           <div class="social-icons">
             <a href="https://www.instagram.com/nxew.in" target="_blank" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
             <a href="https://x.com/TedpoleIn" target="_blank" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
@@ -2589,13 +2584,13 @@ document.getElementById('trackOrderButton')?.addEventListener('click', async () 
         </div>
         <div class="modal-body">
           <h6>1. General Terms</h6>
-          <p>By accessing and placing an order with TEDPOLE, you confirm that you are in agreement with and bound by the terms and conditions contained in these Terms & Conditions.</p>
+          <p>By accessing and placing an order with NXew, you confirm that you are in agreement with and bound by the terms and conditions contained in these Terms & Conditions.</p>
           
           <h6 class="mt-3">2. Products</h6>
           <p>We strive to display as accurately as possible the colors, features, specifications, and details of the products available on our store. However, we do not guarantee that the colors, features, specifications, and details of the products will be accurate, complete, reliable, current, or free of other errors.</p>
           
           <h6 class="mt-3">3. Pricing</h6>
-          <p>All prices are in INR (Indian Rupees) and are exclusive of taxes. TEDPOLE reserves the right to change prices for products displayed at any time, and to correct pricing errors that may inadvertently occur.</p>
+          <p>All prices are in INR (Indian Rupees) and are exclusive of taxes. NXew reserves the right to change prices for products displayed at any time, and to correct pricing errors that may inadvertently occur.</p>
           
           <h6 class="mt-3">4. Orders</h6>
           <p>When you place an order, you will receive an acknowledgment e-mail confirming receipt of your order. This email will only be an acknowledgment and will not constitute acceptance of your order.</p>
@@ -2942,87 +2937,148 @@ function confirmSendMessage() {
   }
 }
 const products = [
-  
-{
-  id: 1,
-  name: "Casual Shirt",
-  description: "Comfortable and stylish men's t-shirt.",
-  category: "T-Shirts",
-  price: 19.99,
-  size: "S, M, L, XL",
-  color: "Blue, Red, Black",
-  clothType: "100% Cotton",
-  deliveryTime: "3-5 days",
-  returnPolicy: "10 days return policy",
-  additionalDetails: "Machine washable, soft and breathable fabric.",
-  images: [
-    "https://i.pinimg.com/474x/a2/46/9b/a2469b27a79d4853f1fa20114c5e9fe6.jpg"
-  ],
-  colorImages: {
-    "Blue": "https://i.pinimg.com/474x/2d/94/0b/2d940bf9a87c975563445088889db80e.jpg",
-    "Red": "https://i.pinimg.com/474x/9b/e5/57/9be5570d3ed2ae5ccea0b5350259fe15.jpg",
-    "Black": "https://i.pinimg.com/474x/12/36/ad/1236ad818c0561546a861e5a97dc37b1.jpg"
+  {
+    id: 1,
+    name: "Baggy Jeans",
+    description: "Comfortable and stylish men's t-shirt.",
+    category: "Baggy Jeans",
+    price: 19.99,
+    discount: 10, // 10% discount set by owner
+    size: "S, M, L, XL",
+    color: "Blue, Red, Black",
+    clothType: "100% Cotton",
+    deliveryTime: "3-5 days",
+    returnPolicy: "10 days return policy",
+    additionalDetails: "Machine washable, soft and breathable fabric.",
+    images: [
+      "https://i.pinimg.com/736x/c0/79/63/c0796394f2fae0e0c33acd60c906d25d.jpg",
+      "https://i.pinimg.com/736x/c6/59/fd/c659fd0e96f0144adb6416e73b2dfd17.jpg"
+    ],
+    colorImages: {
+      "White": "https://i.pinimg.com/736x/c0/79/63/c0796394f2fae0e0c33acd60c906d25d.jpg",
+      "Black": "https://i.pinimg.com/736x/c6/59/fd/c659fd0e96f0144adb6416e73b2dfd17.jpg"
+    },
+    specifications: {
+      "Material": "100% Cotton",
+      "Fit": "Regular",
+      "Sleeve": "Short Sleeve",
+      "Neck": "Round Neck"
+    }
   },
-  specifications: {
-    "Material": "100% Cotton",
-    "Fit": "Regular",
-    "Sleeve": "Short Sleeve",
-    "Neck": "Round Neck"
-  }
-},
-{
-  id: 2,
-  name: "Formal Shirt",
-  description: "Elegant formal shirt for office wear.",
-  category: "T-Shirts",
-  price: 29.99,
-  size: "S, M, L, XL",
-  color: "White, Black",
-  clothType: "Polyester Blend",
-  deliveryTime: "5-7 days",
-  returnPolicy: "15 days return policy",
-  additionalDetails: "Wrinkle-resistant, perfect for business meetings.",
-  images: [
-    "https://i.pinimg.com/474x/3c/1f/4b/3c1f4b8d6e0a9d8e2c5f0a6b7f8c9d3e.jpg"
-  ],
-  colorImages: {
-    "White": "https://i.pinimg.com/474x/1a/2b/3c/1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6.jpg",
-    "Black": "https://i.pinimg.com/474x/7a/b8/c9/7ab8c9d0e1f2g3h4i5j6k7l8m9n0o1p.jpg"
-  },
-  specifications: {
-    "Material": "Polyester Blend",
-    "Fit": "Slim Fit",
-    "Sleeve": "Long Sleeve",
-    "Neck": "Collared"
-  }
-},
-{
-  id: 3,
-  name: "Denim Jacket",
-  description: "Classic denim jacket for casual outings.",
-  category: "Shorts",
-  price: 49.99,
-  size: "S, M, L, XL",
-  color: "Blue, Black",
-  clothType: "Denim",
-  deliveryTime: "4-6 days",
-  returnPolicy: "10 days return policy",
-  additionalDetails: "Durable and stylish, perfect for layering.",
-  images: [
-    "https://i.pinimg.com/474x/4d/5e/6f/4d5e6f7a8b9c0d1e2f3g4h5i6j7k8l9m.jpg"
-  ],
-  colorImages: {
-    "Blue": "https://i.pinimg.com/474x/2a/b3/c4/2ab3c4d5e6f7g8h9i0j1k2l3m4n5o6p.jpg",
-    "Black": "https://i.pinimg.com/474x/8b/c9/d0/8bc9d0e1f2g3h4i5j6k7l8m9n0o1p2q.jpg"
-  },
-  specifications: {
-    "Material": "Denim",
-    "Fit": "Regular Fit",
-    "Sleeve": "Long Sleeve",
-    "Neck": "Collared"
-  }
-},
+  {
+    id: 2,
+    name: "Casual T-Shirt",
+    description: "Elegant formal shirt for office wear.",
+    category: "T-Shirts",
+    price: 102,
+    discount: 26, 
+    size: "S, M, L, XL",
+    color: "White, Black",
+    clothType: "Polyester Blend",
+    deliveryTime: "5-7 days",
+    returnPolicy: "15 days return policy",
+    additionalDetails: "Wrinkle-resistant, perfect for business meetings.",
+    images: [
+      "https://i.pinimg.com/736x/50/18/cf/5018cf118ea353dacb59a944bcac12d7.jpg",
+      "https://i.pinimg.com/736x/9c/b7/7b/9cb77b79c868d2330ea7274025f3b5f8.jpg"
 
+    ],
+    colorImages: {
+      "White": "https://i.pinimg.com/736x/50/18/cf/5018cf118ea353dacb59a944bcac12d7.jpg",
+      "Black": "https://i.pinimg.com/736x/9c/b7/7b/9cb77b79c868d2330ea7274025f3b5f8.jpg"
+    },
+    specifications: {
+      "Material": "Polyester Blend",
+      "Fit": "Slim Fit",
+      "Sleeve": "Long Sleeve",
+      "Neck": "Collared"
+    }
+  },
+  {
+    id: 3,
+    name: "Denim Short",
+    description: "Classic denim jacket for casual outings.",
+    category: "Shorts",
+    price: 49.99,
+    discount: 20, // 20% discount set by owner
+    size: "S, M, L, XL",
+    color: "Blue, Black",
+    clothType: "Denim",
+    deliveryTime: "4-6 days",
+    returnPolicy: "10 days return policy",
+    additionalDetails: "Durable and stylish, perfect for layering.",
+    images: [
+      "https://i.pinimg.com/736x/c2/64/12/c26412543ccd465cb9d9db89a5b6002d.jpg",
+      "https://i.pinimg.com/736x/0f/d6/37/0fd63743655c7ed790042180d7f4ae02.jpg"
+    ],
+    colorImages: {
+      "Blue": "https://i.pinimg.com/736x/c2/64/12/c26412543ccd465cb9d9db89a5b6002d.jpg",
+      "Black": "https://i.pinimg.com/736x/0f/d6/37/0fd63743655c7ed790042180d7f4ae02.jpg"
+    },
+    specifications: {
+      "Material": "Denim",
+      "Fit": "Regular Fit",
+      "Sleeve": "Long Sleeve",
+      "Neck": "Collared"
+    }
+  },
+  {
+    id: 4,
+    name: "Polo T-Shirt",
+    description: "Premium leather jacket for a rugged look.",
+    category: "Polos",
+    price: 199.99,
+    discount: 15, // 15% discount set by owner
+    size: "S, M, L, XL",
+    color: "Black, Brown",
+    clothType: "Genuine Leather",
+    deliveryTime: "7-10 days",
+    returnPolicy: "20 days return policy",
+    additionalDetails: "High-quality leather, perfect for winter.",
+    images: [
+      "https://i.pinimg.com/736x/90/79/7d/90797dac16803d3bd0464ebdd166aade.jpg",
+      "https://i.pinimg.com/736x/7c/90/f8/7c90f87bb0ace951d5ddfeab6e2f1696.jpg"
+    ],
+    colorImages: {
+      "Black": "https://i.pinimg.com/736x/7c/90/f8/7c90f87bb0ace951d5ddfeab6e2f1696.jpg",
+      "Brown": "https://i.pinimg.com/736x/90/79/7d/90797dac16803d3bd0464ebdd166aade.jpg"
+    },
+    specifications: {
+      "Material": "Genuine Leather",
+      "Fit": "Slim Fit",
+      "Sleeve": "Long Sleeve",
+      "Neck": "Collared"
+    }
+  },
+  {
+    id: 5,
+    name: "Hoodie",
+    description: "Lightweight sports jacket for active wear.",
+    category: "Hoodies",
+    price: 89.99,
+    discount: 12, // 12% discount set by owner
+    size: "S, M, L, XL",
+    color: "Navy Blue, Grey",
+    clothType: "Polyester Blend",
+    deliveryTime: "3-5 days",
+    returnPolicy: "10 days return policy",
+    additionalDetails: "Breathable fabric, ideal for workouts.",
+    images: [
+      "https://i.pinimg.com/736x/78/c0/9d/78c09d558eaeb838f233cf62357b7e3b.jpg",
+      "https://i.pinimg.com/736x/d3/56/49/d35649b12350830f0741122cc0d49511.jpg"
+
+    ],
+    colorImages: {
+      "Navy Blue": "https://i.pinimg.com/736x/78/c0/9d/78c09d558eaeb838f233cf62357b7e3b.jpg",
+      "Grey": "https://i.pinimg.com/736x/d3/56/49/d35649b12350830f0741122cc0d49511.jpg"
+    },
+    specifications: {
+      "Material": "Polyester Blend",
+      "Fit": "Regular Fit",
+      "Sleeve": "Long Sleeve",
+      "Neck": "Collared"
+    }
+  }
 ];
 // Save data to localStorage
 function saveData() {
@@ -3350,8 +3406,6 @@ function performSearch() {
   displaySearchResults(filteredProducts);
   updateSearchActiveFilters(query, category, priceRange, minRating, size, color, sortBy);
 }
-
-
 // Display search results
 function displaySearchResults(results) {
   const container = document.getElementById("searchResultsContainer");
@@ -3366,19 +3420,23 @@ function displaySearchResults(results) {
 
   container.innerHTML = "";
   results.forEach(product => {
-    const originalPrice = (product.price * 1.2).toFixed(2);
-    const discount = ((originalPrice - product.price) / originalPrice * 100).toFixed(0);
+    const discount = product.discount || 0;
+    const originalPrice = discount > 0 ? (product.price / (1 - discount / 100)).toFixed(2) : product.price.toFixed(2);
     const card = `
       <div class="col-6 mb-4">
         <div class="card shadow-sm product-card" style="position: relative;" onclick="showProductDetails(${product.id})">
           <img src="${product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name)}" class="card-img-top" alt="${product.name}">
+          
           <button class="wishlist-btn position-absolute top-0 end-0 m-2" onclick="event.stopPropagation(); addToWishlist(${product.id})" aria-label="Add ${product.name} to Wishlist">
             <i class="bi bi-heart-fill" style="color: ${wishlist.some(p => p.id === product.id) ? 'red' : '#ccc'};"></i>
           </button>
           <div class="card-body">
             <h5 class="card-title">${product.name}</h5>
             <p class="card-text">${product.description}</p>
-            <p class="card-text"><s>₹${originalPrice}</s> ₹${product.price.toFixed(2)} <span class="badge bg-success">${discount}% off</span></p>
+            <p class="card-text">
+              <span class="fw-bold">₹${product.price.toFixed(2)}</span>
+              ${discount > 0 ? `<small class="text-decoration-line-through text-muted ms-1">₹${originalPrice}</small>` : ''}
+            </p>
           </div>
         </div>
       </div>
@@ -3386,7 +3444,6 @@ function displaySearchResults(results) {
     container.innerHTML += card;
   });
 }
-
 // Voice search functionality
 function startVoiceSearch() {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -3510,23 +3567,52 @@ function generateProducts(containerId, productList) {
   }
 
   container.innerHTML = "";
+}
+ // Generate products function with fixed discount
+function generateProducts(containerId, productList, showDiscount = true) {
+  const container = document.getElementById(containerId);
   
-  // Generate product cards based on container type
+  if (!container) return;
+
+  // Update results count if applicable (unchanged)
+  if (containerId !== "featuredProductsContainer") {
+    const countElement = document.getElementById(`${containerId.replace("Container", "")}ResultsCount`);
+    if (countElement) {
+      const query = document.getElementById("searchInput")?.value.trim();
+      countElement.textContent = query ? 
+        `${productList.length} products found` : 
+        "All products";
+    }
+  }
+
+  // Handle empty product list (unchanged)
+  if (productList.length === 0) {
+    container.innerHTML = `
+      <div class="col-12 text-center py-5">
+        <i class="bi bi-search" style="font-size: 3rem; color: #ccc;"></i>
+        <h4 class="mt-3">No products found</h4>
+        <p>Try adjusting your search</p>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = "";
+  
   productList.forEach(product => {
-    const originalPrice = (product.price * 1.2).toFixed(2);
-    const discount = ((originalPrice - product.price) / originalPrice * 100).toFixed(0);
+    const discount = product.discount || 0;
+    const originalPrice = discount > 0 ? (product.price / (1 - discount / 100)).toFixed(2) : product.price.toFixed(2);
     const ratingInfo = getProductRating(product.id);
     const isInWishlist = wishlist.some(p => p.id === product.id);
     
-    // Home section layout (grid with 4 columns)
-    if (containerId === "homeProductsContainer") {
+    if (containerId === "featuredProductsContainer") {
       const card = `
         <div class="col-6 col-md-4 col-lg-3 mb-4">
           <div class="card shadow-sm product-card" onclick="showProductDetails(${product.id})">
             <div style="position: relative;">
               <img src="${product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name)}" 
                    class="card-img-top" alt="${product.name}" style="height: 200px; object-fit: cover;">
-              ${discount > 0 ? `<span class="badge bg-danger position-absolute top-0 start-0 m-2">${discount}% OFF</span>` : ''}
+              ${showDiscount && discount > 0 ? `<span class="badge bg-danger position-absolute top-0 start-0 m-2">${discount}% OFF</span>` : ''}
               <button class="wishlist-btn position-absolute top-0 end-0 m-2" 
                       onclick="event.stopPropagation(); addToWishlist(${product.id})">
                 <i class="bi bi-heart-fill" style="color: ${isInWishlist ? 'red' : '#ccc'};"></i>
@@ -3538,7 +3624,7 @@ function generateProducts(containerId, productList) {
               <div class="d-flex justify-content-between align-items-center">
                 <div>
                   <span class="fw-bold">₹${product.price.toFixed(2)}</span>
-                  ${discount > 0 ? `<small class="text-decoration-line-through text-muted ms-1">₹${originalPrice}</small>` : ''}
+                  ${showDiscount && discount > 0 ? `<small class="text-decoration-line-through text-muted ms-1">₹${originalPrice}</small>` : ''}
                 </div>
                 ${ratingInfo ? `
                   <div class="d-flex align-items-center">
@@ -3552,14 +3638,13 @@ function generateProducts(containerId, productList) {
         </div>
       `;
       container.innerHTML += card;
-    } 
-    // Default layout (2 columns)
-    else {
+    } else {
       const card = `
         <div class="col-6 mb-4">
           <div class="card shadow-sm product-card" style="position: relative;" onclick="showProductDetails(${product.id})">
             <img src="${product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name)}" 
                  class="card-img-top" alt="${product.name}">
+            ${showDiscount && discount > 0 ? `<span class="badge bg-danger position-absolute top-0 start-0 m-2">${discount}% OFF</span>` : ''}
             <button class="wishlist-btn position-absolute top-0 end-0 m-2" 
                     onclick="event.stopPropagation(); addToWishlist(${product.id})" 
                     aria-label="Add ${product.name} to Wishlist">
@@ -3569,8 +3654,8 @@ function generateProducts(containerId, productList) {
               <h5 class="card-title">${product.name}</h5>
               <p class="card-text">${product.description}</p>
               <p class="card-text">
-                <s>₹${originalPrice}</s> ₹${product.price.toFixed(2)} 
-                <span class="badge bg-success">${discount}% off</span>
+                <span class="fw-bold">₹${product.price.toFixed(2)}</span>
+                ${showDiscount && discount > 0 ? `<small class="text-decoration-line-through text-muted ms-1">₹${originalPrice}</small>` : ''}
               </p>
               ${ratingInfo ? `
                 <p class="card-text">
@@ -3586,24 +3671,7 @@ function generateProducts(containerId, productList) {
     }
   });
 }
-
-// Helper function to get product rating
-function getProductRating(productId) {
-  const productOrders = orders.filter(order => 
-    order.product.id === productId && order.rating !== null
-  );
-  
-  if (productOrders.length === 0) return null;
-  
-  const totalRating = productOrders.reduce((sum, order) => sum + order.rating, 0);
-  const averageRating = totalRating / productOrders.length;
-  
-  return {
-    average: averageRating.toFixed(1),
-    count: productOrders.length
-  };
-}
-// Get recommended products based on current product
+// Get recommended products
 function getRecommendedProducts(currentProductId) {
   const currentProduct = products.find(p => p.id === currentProductId);
   if (!currentProduct) return [];
@@ -3624,7 +3692,7 @@ function getRecommendedProducts(currentProductId) {
   return recommendations.slice(0, 20);
 }
 
-// Generate HTML for recommended products
+// Generate recommended products with fixed discount
 function generateRecommendedProducts(recommendations) {
   if (recommendations.length === 0) return '';
 
@@ -3635,18 +3703,19 @@ function generateRecommendedProducts(recommendations) {
   `;
 
   recommendations.forEach(product => {
-    const originalPrice = (product.price * 1.2).toFixed(2);
-    const discount = ((originalPrice - product.price) / originalPrice * 100).toFixed(0);
-
+    const discount = product.discount || 0;
+    const originalPrice = discount > 0 ? (product.price / (1 - discount / 100)).toFixed(2) : product.price.toFixed(2);
     html += `
       <div class="col-6 col-md-3">
         <div class="card recommendation-card" onclick="showProductDetails(${product.id})">
           <img src="${product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name)}"
                class="card-img-top recommendation-img" alt="${product.name}">
-          <span class="recommendation-badge">${discount}% OFF</span>
+          ${discount > 0 ? `<span class="recommendation-badge">${discount}% OFF</span>` : ''}
           <div class="card-body">
             <h5 class="card-title">${product.name}</h5>
-            <p class="card-text"><s>₹${originalPrice}</s> ₹${product.price.toFixed(2)}</p>
+            <p class="card-text">
+              ${discount > 0 ? `<s>₹${originalPrice}</s> ` : ''}₹${product.price.toFixed(2)}
+            </p>
           </div>
         </div>
       </div>
@@ -3661,23 +3730,21 @@ function generateRecommendedProducts(recommendations) {
   return html;
 }
 
+// Show product details with fixed discount
 function showProductDetails(productId) {
   const product = products.find(p => p.id === productId);
   if (!product) return;
 
-  // Extract sizes and colors
   const sizes = product.size.split(",").map(s => s.trim());
   const colors = product.color.split(",").map(c => c.trim());
   const defaultColor = colors[0];
   const initialImage = product.colorImages[defaultColor] || (product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name));
 
-  // Generate size buttons
   let sizeButtons = sizes.map(size => `
     <button type="button" class="btn btn-outline-secondary size-btn ${size === sizes[0] ? 'active' : ''}" 
             data-size="${size}" onclick="selectSize('${size}')">${size}</button>
   `).join("");
 
-  // Generate color thumbnails
   let colorThumbnails = colors.map(color => {
     const imageUrl = product.colorImages[color] || initialImage;
     return `
@@ -3688,14 +3755,10 @@ function showProductDetails(productId) {
     `;
   }).join("");
 
-  // Calculate pricing details
-  const originalPrice = (product.price * 1.2).toFixed(2);
-  const discount = ((originalPrice - product.price) / originalPrice * 100).toFixed(0);
-  
-  // Get rating information
+  const discount = product.discount || 0;
+  const originalPrice = discount > 0 ? (product.price / (1 - discount / 100)).toFixed(2) : product.price.toFixed(2);
   const ratingInfo = getProductRating(productId);
 
-  // Add specifications (assuming you extend the product object with this data)
   const specifications = product.specifications || {
     "Material": product.clothType,
     "Fit": "Regular",
@@ -3706,15 +3769,12 @@ function showProductDetails(productId) {
     <tr><td>${key}</td><td>${value}</td></tr>
   `).join("");
 
-  // Generate related products
   const recommendations = getRecommendedProducts(productId);
   const recommendationsHTML = generateRecommendedProducts(recommendations);
 
-  // Construct the HTML
   const detailContent = `
     <div class="container">
       <div class="row">
-        <!-- Image Column -->
         <div class="col-md-6">
           <img id="mainProductImage" src="${initialImage}" 
                class="product-detail-img" alt="${product.name}" 
@@ -3724,12 +3784,8 @@ function showProductDetails(productId) {
             ${colorThumbnails}
           </div>
         </div>
-
-        <!-- Details Column -->
         <div class="col-md-6">
           <h2 class="mb-3">${product.name}</h2>
-          
-          <!-- Ratings -->
           <div class="ratings mb-2">
             ${ratingInfo ? `
               <span class="badge bg-success me-2">
@@ -3738,35 +3794,29 @@ function showProductDetails(productId) {
               <span class="text-muted">(${ratingInfo.count} ratings)</span>
             ` : '<span class="text-muted">No ratings yet</span>'}
           </div>
-
-          <!-- Price -->
           <div class="price mb-3">
             <span class="current-price" style="font-size: 1.8rem; color: #e74c3c;">
               ₹${product.price.toFixed(2)}
             </span>
-            <span class="original-price text-muted ms-2" style="text-decoration: line-through;">
-              ₹${originalPrice}
-            </span>
-            <span class="discount badge bg-success ms-2">${discount}% off</span>
+            ${discount > 0 ? `
+              <span class="original-price text-muted ms-2" style="text-decoration: line-through;">
+                ₹${originalPrice}
+              </span>
+              <span class="discount badge bg-success ms-2">${discount}% off</span>
+            ` : ''}
           </div>
-
-          <!-- Size Selector -->
           <div class="mb-3">
             <label class="form-label"><strong>Size:</strong></label><br>
             <div class="d-flex flex-wrap gap-2">
               ${sizeButtons}
             </div>
           </div>
-
-          <!-- Color Selector -->
           <div class="mb-4">
             <label class="form-label"><strong>Color:</strong></label><br>
             <div class="d-flex flex-wrap gap-2">
               ${colorThumbnails}
             </div>
           </div>
-
-          <!-- Action Buttons -->
           <div class="actions mb-4 d-flex gap-2">
             <button class="btn btn-primary flex-grow-1" 
                     onclick="addToCartWithSelection(${product.id})">
@@ -3777,22 +3827,16 @@ function showProductDetails(productId) {
               <i class="bi bi-lightning-charge me-1"></i> Buy Now
             </button>
           </div>
-
-          <!-- Description -->
           <div class="description mb-4">
             <h4 class="mb-2">Description</h4>
             <p>${product.description} ${product.additionalDetails}</p>
           </div>
-
-          <!-- Specifications -->
           <div class="specifications mb-4">
             <h4 class="mb-2">Specifications</h4>
             <table class="table table-bordered">
               ${specTable}
             </table>
           </div>
-
-          <!-- Delivery & Return -->
           <div class="delivery-return">
             <h4 class="mb-2">Delivery & Return</h4>
             <p><i class="bi bi-truck me-2"></i> Delivery: ${product.deliveryTime}</p>
@@ -3800,8 +3844,6 @@ function showProductDetails(productId) {
           </div>
         </div>
       </div>
-
-      <!-- Related Products -->
       <div class="row mt-5">
         ${recommendationsHTML}
       </div>
@@ -3814,6 +3856,7 @@ function showProductDetails(productId) {
   document.getElementById("productDetailSection").dataset.selectedSize = sizes[0];
   showSection("productDetailSection");
 }
+
 // Select size
 function selectSize(size) {
   document.querySelectorAll(".size-btn").forEach(btn => btn.classList.remove("active"));
@@ -4061,7 +4104,6 @@ function calculateDeliveryDate(orderDate, deliveryTime) {
     max: maxDeliveryDate.toLocaleDateString()
   };
 }
-
 // Update orders list
 function updateOrdersList(filter = currentOrdersFilter) {
   const ordersList = document.getElementById('ordersList');
@@ -4118,6 +4160,8 @@ function updateOrdersList(filter = currentOrdersFilter) {
     const originalIndex = orders.findIndex(o => o === order);
     const productImage = order.product.images && order.product.images.length > 0 ?
       order.product.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
+    const discount = order.product.discount || 0;
+    const originalPrice = discount > 0 ? (order.product.price / (1 - discount / 100)).toFixed(2) : order.product.price.toFixed(2);
 
     let statusBadgeClass, statusText;
     if (order.cancelled) {
@@ -4163,6 +4207,7 @@ function updateOrdersList(filter = currentOrdersFilter) {
               <p class="mb-1">Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor}</p>
               <p class="mb-1">Qty: 1</p>
               <p class="fw-bold">₹${order.product.price.toFixed(2)}</p>
+              ${discount > 0 ? `<p class="text-muted"><s>₹${originalPrice}</s> (${discount}% off)</p>` : ''}
             </div>
           </div>
         </div>
@@ -4171,7 +4216,6 @@ function updateOrdersList(filter = currentOrdersFilter) {
   });
   ordersList.innerHTML = html;
 }
-
 // Filter orders
 function filterOrders(filter) {
   currentOrdersFilter = filter;
@@ -4856,7 +4900,7 @@ document.getElementById("feedbackForm")?.addEventListener("submit", function(e) 
                  <div class="card h-100 product-card" onclick="showProductDetails(${product.id})">
                    <div style="position: relative;">
                      <img src="${product.images[0]}" class="card-img-top" alt="${product.name}" style="height: 200px; object-fit: cover;">
-                     ${discount > 0 ? `<span class="badge bg-danger position-absolute top-0 start-0 m-2">${discount}% OFF</span>` : ''}
+            ${discount > 0 ? `<span class="badge bg-danger position-absolute top-0 start-0 m-2">${discount}% OFF</span>` : ''}
                      <button class="wishlist-btn position-absolute top-0 end-0 m-2" 
                              onclick="event.stopPropagation(); addToWishlist(${product.id})">
                        <i class="bi bi-heart-fill" style="color: ${wishlist.some(p => p.id === product.id) ? 'red' : '#ccc'};"></i>
@@ -5254,7 +5298,7 @@ document.getElementById("feedbackForm")?.addEventListener("submit", function(e) 
         <div class="card mb-3 shadow-sm order-card">
           <div class="card-header d-flex justify-content-between align-items-center">
             <div>
-              <img src="https://i.pinimg.com/736x/be/4b/17/be4b172124352f140b711187d98529e8.jpg" alt="TEDPOLE Logo" style="width: 70px; height: 30px; margin-right: 10px;">
+              <img src="https://i.pinimg.com/736x/be/4b/17/be4b172124352f140b711187d98529e8.jpg" alt="NXew Logo" style="width: 70px; height: 30px; margin-right: 10px;">
               <span>Order #${index + 1} - ${order.date}</span>
             </div>
             <span>NXew</span>
@@ -5616,7 +5660,9 @@ function filterShopByCategory(category) {
   
   // Update the shop section with filtered products
   document.getElementById('shopResultsCount').textContent = `${filteredProducts.length} ${category} products`;
-  generateProducts("shopProductContainer", filteredProducts);
+  
+  // Call generateProducts with hideDiscounts flag set to true
+  generateProducts("shopProductContainer", filteredProducts, true);
   
   // Show the shop section
   showSection('shopSection');
@@ -5668,7 +5714,7 @@ function generateProducts(containerId, productList) {
             <div style="position: relative;">
               <img src="${product.images && product.images.length ? product.images[0] : 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(product.name)}" 
                    class="card-img-top" alt="${product.name}" style="height: 200px; object-fit: cover;">
-              ${discount > 0 ? `<span class="badge bg-danger position-absolute top-0 start-0 m-2">${discount}% OFF</span>` : ''}
+            
               <button class="wishlist-btn position-absolute top-0 end-0 m-2" 
                       onclick="event.stopPropagation(); addToWishlist(${product.id})">
                 <i class="bi bi-heart-fill" style="color: ${isInWishlist ? 'red' : '#ccc'};"></i>
@@ -5734,4 +5780,4 @@ function generateProducts(containerId, productList) {
          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
          </body>
-         </html>  
+         </html> 
