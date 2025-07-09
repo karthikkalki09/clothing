@@ -2839,10 +2839,22 @@ let cart = [];
 let orders = [];
 let notifications = [];
 let ownerNotifications = [];
+let sellerNotifications = []; // Enhanced seller notifications
 let wishlist = [];
 let currentUser = null;
 let currentProductForPurchase = null;
 let currentOrderIndex = null;
+let notificationInterval; // For auto-refresh dashboards
+let dashboardStats = { // Real-time stats tracking
+  totalOrders: 0,
+  activeOrders: 0,
+  cancelledOrders: 0,
+  returnedOrders: 0,
+  feedbackCount: 0,
+  productRequests: 0,
+  userMessages: 0,
+  totalRevenue: 0
+};
 let activeFilters = {};
 let menswearActiveFilters = {};
 let accessoriesActiveFilters = {};
@@ -2867,28 +2879,41 @@ function generateCouponCode() {
   return code;
 }
 
-// Update saveData to include validCoupons
+// Update saveData to include validCoupons and new notification system
 function saveData() {
   localStorage.setItem("users", JSON.stringify(users));
   localStorage.setItem("cart", JSON.stringify(cart));
   localStorage.setItem("orders", JSON.stringify(orders));
   localStorage.setItem("notifications", JSON.stringify(notifications));
   localStorage.setItem("ownerNotifications", JSON.stringify(ownerNotifications));
+  localStorage.setItem("sellerNotifications", JSON.stringify(sellerNotifications));
   localStorage.setItem("wishlist", JSON.stringify(wishlist));
   localStorage.setItem("currentUser", JSON.stringify(currentUser));
   localStorage.setItem("validCoupons", JSON.stringify(validCoupons));
+  localStorage.setItem("dashboardStats", JSON.stringify(dashboardStats));
 }
 
-// Update loadData to load validCoupons
+// Update loadData to load validCoupons and new notification system
 function loadData() {
   users = JSON.parse(localStorage.getItem("users")) || [];
   cart = JSON.parse(localStorage.getItem("cart")) || [];
   orders = JSON.parse(localStorage.getItem("orders")) || [];
   notifications = JSON.parse(localStorage.getItem("notifications")) || [];
   ownerNotifications = JSON.parse(localStorage.getItem("ownerNotifications")) || [];
+  sellerNotifications = JSON.parse(localStorage.getItem("sellerNotifications")) || [];
   wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
   currentUser = JSON.parse(localStorage.getItem("currentUser"));
   validCoupons = JSON.parse(localStorage.getItem("validCoupons")) || [];
+  dashboardStats = JSON.parse(localStorage.getItem("dashboardStats")) || {
+    totalOrders: 0,
+    activeOrders: 0,
+    cancelledOrders: 0,
+    returnedOrders: 0,
+    feedbackCount: 0,
+    productRequests: 0,
+    userMessages: 0,
+    totalRevenue: 0
+  };
   if (currentUser && currentUser.isLoggedIn) {
     const user = users.find(u => u.email === currentUser.email);
     if (user) {
@@ -3113,10 +3138,17 @@ function loadData() {
   updateHeaderProfile();
   updateMenuAccountDetails();
   updateCartCountBadge();
+  updateDashboardStats();
+  updateNotificationBadges();
   generateProducts("shopProductContainer", products);
   generateProducts("menswearContainer", products.filter(p => p.category === "Men's Wear"));
   generateProducts("accessoriesContainer", products.filter(p => p.category === "Accessories"));
   generateProducts("featuredProductsContainer", products.slice(0, 20));
+  
+  // Start auto-refresh for dashboards if user is owner
+  if (currentUser && currentUser.email === 'admin@admin.com') {
+    startDashboardAutoRefresh();
+  }
 }
 
 // Show notification function
@@ -4018,7 +4050,7 @@ document.getElementById("buyForm").addEventListener("submit", function(e) {
     <button class="btn btn-primary mt-3" data-bs-dismiss="modal" onclick="showOrderDetailPage(${orderIndex})">View Order Details</button>
   `);
 
-  notifyOwner(`New order placed by: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email}) for product: ${order.product.name} (Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor}) at ₹${finalPrice.toFixed(2)} - Order #${orderIndex + 1}`);
+      notifyOwner(`New order placed by: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email}) for product: ${order.product.name} (Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor}) at ₹${finalPrice.toFixed(2)} - Order #${orderIndex + 1}`, 'order', 'high', currentUser.email);
 
   saveData();
   const buyModal = bootstrap.Modal.getInstance(document.getElementById("buyModal"));
@@ -4516,7 +4548,7 @@ function confirmCancelOrder() {
   orders[currentOrderIndex].cancellationReason = reason;
   orders[currentOrderIndex].cancellationDate = new Date().toLocaleString();
 
-  notifyOwner(`Order #${currentOrderIndex + 1} cancelled by: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email}) for product: ${orders[currentOrderIndex].product.name} with reason: ${reason}`);
+  notifyOwner(`Order #${currentOrderIndex + 1} cancelled by: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email}) for product: ${orders[currentOrderIndex].product.name} with reason: ${reason}`, 'cancellation', 'high', currentUser.email);
 
   showNotification('Order has been cancelled', 'info');
   saveData();
@@ -4632,7 +4664,7 @@ function confirmReturnOrder() {
   order.returnComments = returnComments;
   order.returnDate = new Date().toLocaleString();
 
-  notifyOwner(`Order #${currentOrderIndex + 1} returned by: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email}) with reason: ${reason}`);
+  notifyOwner(`Order #${currentOrderIndex + 1} returned by: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email}) with reason: ${reason}`, 'return', 'high', currentUser.email);
 
   saveData();
 
@@ -4723,13 +4755,14 @@ function generateProductImageHTML(product) {
                }
              }
          
-             // Logout
+             // Enhanced logout with auto-refresh stopping
              function logout() {
                if (currentUser) {
                  currentUser.isLoggedIn = false;
                  currentUser.lastActivity = new Date().toISOString();
                }
                currentUser = null;
+               stopDashboardAutoRefresh(); // Stop auto-refresh when logging out
                showNotification("You have been logged out.", "info");
                saveData();
                updateHeaderProfile();
@@ -4753,7 +4786,7 @@ document.getElementById("feedbackForm")?.addEventListener("submit", function(e) 
     message: feedbackMessage,
     date: new Date().toLocaleString()
   };
-  notifyOwner(`New feedback received from ${feedback.user}: ${feedback.message}`);
+  notifyOwner(`New feedback received from ${feedback.user}: ${feedback.message}`, 'feedback', 'normal', currentUser ? currentUser.email : null);
   showNotification("Thank you for your feedback!", "success");
   this.reset();
   showSection("homeSection");
@@ -4978,7 +5011,12 @@ document.getElementById("feedbackForm")?.addEventListener("submit", function(e) 
                    showNotification("Login successful!", "success");
                
                    // Notify owner about the successful login with user's details
-                   notifyOwner(`User logged in: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email})`);
+                   notifyOwner(`User logged in: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email})`, 'general', 'low', currentUser.email);
+               
+                   // Start auto-refresh for admin users
+                   if (currentUser.email === 'admin@admin.com') {
+                     startDashboardAutoRefresh();
+                   }
                
                    // Persist data and update the UI accordingly
                    saveData();
@@ -5034,7 +5072,7 @@ document.getElementById("feedbackForm")?.addEventListener("submit", function(e) 
        
          // Notify about the new user sign-up
          showNotification("Sign Up successful!", "success");
-         notifyOwner(`New user signed up: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email})`);
+         notifyOwner(`New user signed up: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email})`, 'general', 'normal', currentUser.email);
        
          // Persist data and update the UI
          saveData();
@@ -5218,10 +5256,70 @@ document.getElementById("feedbackForm")?.addEventListener("submit", function(e) 
                generateProducts("accessoriesContainer", accessoriesProducts);
                displayAccessoriesActiveFilters();
              }
-               // Notify owner
-               function notifyOwner(message) {
-                 ownerNotifications.push({ message, date: new Date().toLocaleString() });
+               // Enhanced notify owner with categories and priority
+               function notifyOwner(message, category = 'general', priority = 'normal', userId = null) {
+                 const notification = {
+                   id: Date.now() + Math.random(),
+                   message,
+                   category, // 'order', 'feedback', 'return', 'cancellation', 'request', 'general'
+                   priority, // 'high', 'normal', 'low'
+                   userId,
+                   date: new Date().toLocaleString(),
+                   timestamp: Date.now(),
+                   read: false
+                 };
+                 
+                 ownerNotifications.push(notification);
+                 updateDashboardStats();
+                 updateNotificationBadges();
                  saveData();
+                 
+                 // Auto-update dashboards if they're currently visible
+                 if (document.getElementById('ownerDashboard').classList.contains('active-section')) {
+                   updateOwnerDashboard();
+                 }
+                 if (document.getElementById('sellerDashboard').classList.contains('active-section')) {
+                   updateSellerDashboard();
+                 }
+               }
+               
+               // Update dashboard statistics
+               function updateDashboardStats() {
+                 dashboardStats.totalOrders = orders.length;
+                 dashboardStats.activeOrders = orders.filter(order => !order.cancelled && !order.received && !order.returned).length;
+                 dashboardStats.cancelledOrders = orders.filter(order => order.cancelled).length;
+                 dashboardStats.returnedOrders = orders.filter(order => order.returned).length;
+                 dashboardStats.feedbackCount = ownerNotifications.filter(n => n.category === 'feedback').length;
+                 dashboardStats.productRequests = ownerNotifications.filter(n => n.category === 'request').length;
+                 dashboardStats.userMessages = ownerNotifications.filter(n => n.category === 'message').length;
+                 dashboardStats.totalRevenue = orders.filter(order => order.received && !order.returned)
+                   .reduce((total, order) => total + order.product.price, 0);
+               }
+               
+               // Update notification badges on menu items
+               function updateNotificationBadges() {
+                 const ownerMenuItem = document.getElementById("ownerDashboardMenuItem");
+                 const sellerMenuItem = document.getElementById("sellerDashboardMenuItem");
+                 const unreadCount = ownerNotifications.filter(n => !n.read).length;
+                 
+                 if (unreadCount > 0) {
+                   if (ownerMenuItem && !ownerMenuItem.querySelector('.notification-badge')) {
+                     ownerMenuItem.innerHTML += ` <span class="badge bg-danger notification-badge">${unreadCount}</span>`;
+                   }
+                   if (sellerMenuItem && !sellerMenuItem.querySelector('.notification-badge')) {
+                     sellerMenuItem.innerHTML += ` <span class="badge bg-danger notification-badge">${unreadCount}</span>`;
+                   }
+                 } else {
+                   // Remove badges if no unread notifications
+                   if (ownerMenuItem) {
+                     const badge = ownerMenuItem.querySelector('.notification-badge');
+                     if (badge) badge.remove();
+                   }
+                   if (sellerMenuItem) {
+                     const badge = sellerMenuItem.querySelector('.notification-badge');
+                     if (badge) badge.remove();
+                   }
+                 }
                }
          
                 // Update notifications
@@ -5269,24 +5367,79 @@ document.getElementById("feedbackForm")?.addEventListener("submit", function(e) 
                      showNotification("All notifications cleared.", "success");
                    }
                  }
-                 // Update seller dashboard
+                 // Enhanced seller dashboard with categorized notifications
            function updateSellerDashboard() {
   const sellerDashboardContent = document.getElementById("sellerDashboardContent");
-  let html = "<h2>Users</h2>";
+  updateDashboardStats(); // Update stats before rendering
+  
+  // Dashboard Stats Section
+  let html = `
+    <div class="row mb-4">
+      <div class="col-md-3 mb-3">
+        <div class="card bg-primary text-white">
+          <div class="card-body text-center">
+            <h5>${dashboardStats.totalOrders}</h5>
+            <p>Total Orders</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 mb-3">
+        <div class="card bg-success text-white">
+          <div class="card-body text-center">
+            <h5>${dashboardStats.activeOrders}</h5>
+            <p>Active Orders</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 mb-3">
+        <div class="card bg-warning text-white">
+          <div class="card-body text-center">
+            <h5>${dashboardStats.feedbackCount}</h5>
+            <p>Feedback Received</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 mb-3">
+        <div class="card bg-info text-white">
+          <div class="card-body text-center">
+            <h5>₹${dashboardStats.totalRevenue.toFixed(2)}</h5>
+            <p>Total Revenue</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  html += "<h2>Users Management</h2>";
   if (users.length === 0) {
     html += "<p>No users yet.</p>";
   } else {
-    html += '<div class="list-group">';
+    html += '<div class="table-responsive"><table class="table table-striped">';
+    html += '<thead><tr><th>Name</th><th>Email</th><th>Mobile</th><th>Orders</th><th>Last Activity</th><th>Actions</th></tr></thead><tbody>';
     users.forEach(user => {
+      const userOrders = orders.filter(order => order.buyer.email === user.email);
+      const lastActivity = user.lastActivity ? new Date(user.lastActivity).toLocaleString() : 'Never';
+      const isOnline = user.lastActivity && (Date.now() - new Date(user.lastActivity).getTime()) < 300000; // 5 minutes
+      
       html += `
-        <div class="list-group-item">
-          <strong>${user.firstName} ${user.lastName}</strong><br>
-          <small>${user.email}</small><br>
-          <small>Mobile: ${user.mobile || "Not provided"}</small>
-        </div>
+        <tr>
+          <td>
+            <strong>${user.firstName} ${user.lastName}</strong>
+            ${isOnline ? '<span class="badge bg-success ms-1">Online</span>' : '<span class="badge bg-secondary ms-1">Offline</span>'}
+          </td>
+          <td>${user.email}</td>
+          <td>${user.mobile || "Not provided"}</td>
+          <td>${userOrders.length}</td>
+          <td>${lastActivity}</td>
+          <td>
+            <button class="btn btn-sm btn-primary" onclick="sendDirectMessage('${user.email}')">
+              <i class="bi bi-envelope"></i> Message
+            </button>
+          </td>
+        </tr>
       `;
     });
-    html += '</div>';
+    html += '</tbody></table></div>';
   }
   html += "<h2 class='mt-4'>Orders</h2>";
   if (orders.length === 0) {
@@ -5348,19 +5501,83 @@ document.getElementById("feedbackForm")?.addEventListener("submit", function(e) 
       `;
     });
   }
-  html += "<h2 class='mt-4'>Notifications</h2>";
+  html += `
+    <h2 class='mt-4'>Notifications 
+      <span class="badge bg-danger ms-2">${ownerNotifications.filter(n => !n.read).length}</span>
+    </h2>
+  `;
+  
   if (ownerNotifications.length === 0) {
     html += "<p>No notifications yet.</p>";
   } else {
-    html += `<div class="d-flex justify-content-end mb-3">
-               <button class="btn btn-danger btn-sm" onclick="clearOwnerNotifications()">Clear Notifications</button>
-             </div>`;
-    html += '<div class="list-group">';
-    ownerNotifications.slice().reverse().forEach(notif => {
+    html += `
+      <div class="d-flex justify-content-between mb-3">
+        <div>
+          <button class="btn btn-sm btn-outline-primary me-2" onclick="markAllNotificationsAsRead()">
+            <i class="bi bi-check-all"></i> Mark All Read
+          </button>
+          <button class="btn btn-sm btn-outline-secondary me-2" onclick="filterNotifications('all')">All</button>
+          <button class="btn btn-sm btn-outline-primary me-2" onclick="filterNotifications('order')">Orders</button>
+          <button class="btn btn-sm btn-outline-warning me-2" onclick="filterNotifications('feedback')">Feedback</button>
+          <button class="btn btn-sm btn-outline-danger me-2" onclick="filterNotifications('return')">Returns</button>
+          <button class="btn btn-sm btn-outline-info" onclick="filterNotifications('request')">Requests</button>
+        </div>
+        <button class="btn btn-danger btn-sm" onclick="clearOwnerNotifications()">Clear All</button>
+      </div>
+    `;
+    
+    html += '<div id="notificationsList">';
+    
+    // Group notifications by category
+    const categories = ['order', 'cancellation', 'return', 'feedback', 'request', 'message', 'general'];
+    const categoryIcons = {
+      order: 'bi-cart-check',
+      cancellation: 'bi-x-circle',
+      return: 'bi-arrow-return-left',
+      feedback: 'bi-chat-square-text',
+      request: 'bi-plus-circle',
+      message: 'bi-envelope',
+      general: 'bi-bell'
+    };
+    const categoryColors = {
+      order: 'success',
+      cancellation: 'warning',
+      return: 'danger',
+      feedback: 'info',
+      request: 'primary',
+      message: 'secondary',
+      general: 'light'
+    };
+    
+    ownerNotifications.slice().reverse().forEach((notif, index) => {
+      const icon = categoryIcons[notif.category] || 'bi-bell';
+      const color = categoryColors[notif.category] || 'light';
+      const readClass = notif.read ? '' : 'fw-bold border-start border-primary border-3';
+      
       html += `
-        <div class="list-group-item">
-          <i class="bi bi-bell-fill me-2"></i>
-          <strong>${notif.date}</strong>: ${notif.message}
+        <div class="list-group-item notification-item ${readClass}" data-category="${notif.category}" data-id="${notif.id}">
+          <div class="d-flex justify-content-between align-items-start">
+            <div class="flex-grow-1">
+              <div class="d-flex align-items-center mb-2">
+                <i class="bi ${icon} me-2 text-${color}"></i>
+                <span class="badge bg-${color} me-2">${notif.category.toUpperCase()}</span>
+                <small class="text-muted">${notif.date}</small>
+                ${notif.priority === 'high' ? '<span class="badge bg-danger ms-2">HIGH</span>' : ''}
+              </div>
+              <p class="mb-1">${notif.message}</p>
+              ${notif.userId ? `<small class="text-muted">From: ${notif.userId}</small>` : ''}
+            </div>
+            <div class="d-flex flex-column align-items-end">
+              ${!notif.read ? `
+                <button class="btn btn-sm btn-outline-primary mb-1" onclick="markNotificationAsRead('${notif.id}')">
+                  <i class="bi bi-check"></i>
+                </button>
+              ` : ''}
+              <button class="btn btn-sm btn-outline-danger" onclick="deleteNotification('${notif.id}')">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
         </div>
       `;
     });
@@ -5379,13 +5596,76 @@ document.getElementById("feedbackForm")?.addEventListener("submit", function(e) 
     }
   });
 }
-             // Clear owner notifications
+             // Enhanced notification management functions
              function clearOwnerNotifications() {
                if (confirm("Are you sure you want to clear all notifications?")) {
                  ownerNotifications = [];
                  saveData();
                  updateSellerDashboard();
+                 updateNotificationBadges();
                  showNotification("All notifications cleared.", "info");
+               }
+             }
+             
+             function markNotificationAsRead(notificationId) {
+               const notification = ownerNotifications.find(n => n.id == notificationId);
+               if (notification) {
+                 notification.read = true;
+                 saveData();
+                 updateSellerDashboard();
+                 updateNotificationBadges();
+                 showNotification("Notification marked as read.", "success");
+               }
+             }
+             
+             function markAllNotificationsAsRead() {
+               ownerNotifications.forEach(n => n.read = true);
+               saveData();
+               updateSellerDashboard();
+               updateNotificationBadges();
+               showNotification("All notifications marked as read.", "success");
+             }
+             
+             function deleteNotification(notificationId) {
+               if (confirm("Are you sure you want to delete this notification?")) {
+                 const index = ownerNotifications.findIndex(n => n.id == notificationId);
+                 if (index !== -1) {
+                   ownerNotifications.splice(index, 1);
+                   saveData();
+                   updateSellerDashboard();
+                   updateNotificationBadges();
+                   showNotification("Notification deleted.", "info");
+                 }
+               }
+             }
+             
+             function filterNotifications(category) {
+               const notificationItems = document.querySelectorAll('.notification-item');
+               notificationItems.forEach(item => {
+                 if (category === 'all' || item.dataset.category === category) {
+                   item.style.display = 'block';
+                 } else {
+                   item.style.display = 'none';
+                 }
+               });
+             }
+             
+             function sendDirectMessage(userEmail) {
+               const message = prompt(`Send message to ${userEmail}:`);
+               if (message && message.trim()) {
+                 const user = users.find(u => u.email === userEmail);
+                 if (user) {
+                   if (!user.notifications) user.notifications = [];
+                   user.notifications.push({
+                     message: `Direct message from Owner: ${message}`,
+                     type: "info",
+                     title: "Owner Message",
+                     date: new Date().toLocaleString()
+                   });
+                   notifyOwner(`Direct message sent to ${user.firstName} ${user.lastName}: ${message}`, 'message', 'normal', userEmail);
+                   saveData();
+                   showNotification(`Message sent to ${user.firstName} ${user.lastName}`, "success");
+                 }
                }
              }
            
@@ -5436,23 +5716,28 @@ document.getElementById("feedbackForm")?.addEventListener("submit", function(e) 
          document.getElementById("sendMessageModal").addEventListener("hidden.bs.modal", function () {
            document.getElementById("messageText").value = "";
          });
-         // Update owner dashboard
+         // Enhanced owner dashboard with real-time updates
  function updateOwnerDashboard() {
-  document.getElementById("totalMembers").textContent = users.length;
-  document.getElementById("activeUsers").textContent = getActiveUsers();
-  document.getElementById("liveUsers").textContent = getLiveUsers();
+  updateDashboardStats(); // Update stats first
+  
+  // Update basic stats if elements exist
+  const totalMembersEl = document.getElementById("totalMembers");
+  const activeUsersEl = document.getElementById("activeUsers");
+  const liveUsersEl = document.getElementById("liveUsers");
+  const totalOrdersEl = document.getElementById("totalOrders");
+  const activeOrdersEl = document.getElementById("activeOrders");
+  const cancelledOrdersEl = document.getElementById("cancelledOrders");
+  const receivedOrdersEl = document.getElementById("receivedOrders");
+  const returnedOrdersEl = document.getElementById("returnedOrders");
 
-  const totalOrders = orders.length;
-  const activeOrders = orders.filter(order => !order.cancelled && !order.received && !order.returned).length;
-  const cancelledOrders = orders.filter(order => order.cancelled).length;
-  const receivedOrders = orders.filter(order => order.received && !order.returned).length;
-  const returnedOrders = orders.filter(order => order.returned).length;
-
-  document.getElementById("totalOrders").textContent = totalOrders;
-  document.getElementById("activeOrders").textContent = activeOrders;
-  document.getElementById("cancelledOrders").textContent = cancelledOrders;
-  document.getElementById("receivedOrders").textContent = receivedOrders;
-  document.getElementById("returnedOrders").textContent = returnedOrders;
+  if (totalMembersEl) totalMembersEl.textContent = users.length;
+  if (activeUsersEl) activeUsersEl.textContent = getActiveUsers();
+  if (liveUsersEl) liveUsersEl.textContent = getLiveUsers();
+  if (totalOrdersEl) totalOrdersEl.textContent = dashboardStats.totalOrders;
+  if (activeOrdersEl) activeOrdersEl.textContent = dashboardStats.activeOrders;
+  if (cancelledOrdersEl) cancelledOrdersEl.textContent = dashboardStats.cancelledOrders;
+  if (receivedOrdersEl) receivedOrdersEl.textContent = orders.filter(order => order.received && !order.returned).length;
+  if (returnedOrdersEl) returnedOrdersEl.textContent = dashboardStats.returnedOrders;
 
   let orderHtml = "";
   orders.forEach((order, index) => {
@@ -5583,7 +5868,7 @@ document.getElementById('applyCouponButton').addEventListener('click', function 
            };
        
            // Notify the owner
-           notifyOwner(`New product request: Category - ${category}, Cloth Type - ${clothType}, Size - ${size}, Color - ${color}, Message - ${message || 'None'}, From - ${request.user}`);
+           notifyOwner(`New product request: Category - ${category}, Cloth Type - ${clothType}, Size - ${size}, Color - ${color}, Message - ${message || 'None'}, From - ${request.user}`, 'request', 'normal', currentUser ? currentUser.email : null);
        
            // Show notification to the user
            showNotification("Your product request has been sent to the owner.", "success");
@@ -5647,10 +5932,63 @@ document.getElementById("sendMessageModal")?.addEventListener("hidden.bs.modal",
   document.getElementById("messageText").value = "";
 });
 
+// Auto-refresh dashboard functionality
+function startDashboardAutoRefresh() {
+  // Clear any existing interval
+  if (notificationInterval) {
+    clearInterval(notificationInterval);
+  }
+  
+  // Refresh dashboards every 30 seconds
+  notificationInterval = setInterval(() => {
+    if (document.getElementById('ownerDashboard').classList.contains('active-section')) {
+      updateOwnerDashboard();
+    }
+    if (document.getElementById('sellerDashboard').classList.contains('active-section')) {
+      updateSellerDashboard();
+    }
+    updateNotificationBadges();
+  }, 30000); // 30 seconds
+}
+
+function stopDashboardAutoRefresh() {
+  if (notificationInterval) {
+    clearInterval(notificationInterval);
+    notificationInterval = null;
+  }
+}
+
+// Enhanced login to start auto-refresh for admin
+function enhancedLogin() {
+  if (currentUser && currentUser.email === 'admin@admin.com') {
+    startDashboardAutoRefresh();
+  }
+}
+
+// Enhanced logout to stop auto-refresh
+function enhancedLogout() {
+  stopDashboardAutoRefresh();
+}
+
+// Update user activity tracking
+function trackUserActivity() {
+  if (currentUser) {
+    updateUserActivity();
+  }
+}
+
+// Track activity on page interactions
+document.addEventListener('click', trackUserActivity);
+document.addEventListener('scroll', trackUserActivity);
+document.addEventListener('keypress', trackUserActivity);
+
 // Initialize QR code with default content and load data
 window.onload = function() {
   generateQRCode("https://tedpole.in");
   loadData();
+  
+  // Setup activity tracking
+  setInterval(trackUserActivity, 60000); // Update activity every minute
 };
 function filterShopByCategory(category) {
   // Hide the search bar container
