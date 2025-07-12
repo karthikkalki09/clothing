@@ -2684,26 +2684,40 @@ document.getElementById('trackOrderButton')?.addEventListener('click', async () 
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <p>Are you sure you want to cancel this order?</p>
-          <div class="mb-3">
-            <label for="cancelReason" class="form-label">Reason for cancellation</label>
-            <select class="form-select" id="cancelReason">
-              <option value="">Select a reason</option>
-              <option value="Found better price elsewhere">Found better price elsewhere</option>
-              <option value="No longer needed">No longer needed</option>
-              <option value="Shipping takes too long">Shipping takes too long</option>
-              <option value="Ordered by mistake">Ordered by mistake</option>
-              <option value="Other">Other (please specify)</option>
-            </select>
-          </div>
-          <div class="mb-3" id="otherReasonContainer" style="display: none;">
-            <label for="otherReason" class="form-label">Please specify</label>
-            <textarea class="form-control" id="otherReason" rows="2"></textarea>
-          </div>
+          <p>Please provide details for order cancellation:</p>
+          <form id="cancelOrderForm">
+            <div class="mb-3">
+              <label for="cancelReason" class="form-label">Reason for cancellation</label>
+              <select class="form-select" id="cancelReason" required>
+                <option value="">Select a reason</option>
+                <option value="Found better price elsewhere">Found better price elsewhere</option>
+                <option value="No longer needed">No longer needed</option>
+                <option value="Shipping takes too long">Shipping takes too long</option>
+                <option value="Ordered by mistake">Ordered by mistake</option>
+                <option value="Other">Other (please specify)</option>
+              </select>
+            </div>
+            <div class="mb-3" id="otherReasonContainer" style="display: none;">
+              <label for="otherReason" class="form-label">Please specify</label>
+              <textarea class="form-control" id="otherReason" rows="2"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="cancelAddress" class="form-label">Your Address</label>
+              <textarea class="form-control" id="cancelAddress" required placeholder="Enter your address"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="cancelMobile" class="form-label">Mobile Number</label>
+              <input type="text" class="form-control" id="cancelMobile" required placeholder="Enter your mobile number" />
+            </div>
+            <div class="mb-3">
+              <label for="cancelDetails" class="form-label">Additional Details</label>
+              <textarea class="form-control" id="cancelDetails" rows="3" placeholder="Any additional details about cancellation"></textarea>
+            </div>
+          </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-danger" onclick="confirmCancelOrder()">Confirm Cancellation</button>
+          <button type="button" class="btn btn-danger" onclick="confirmCancelOrder()">Submit Cancellation</button>
         </div>
       </div>
     </div>
@@ -3719,7 +3733,7 @@ function generateRecommendedProducts(recommendations) {
           <div class="card-body">
             <h5 class="card-title">${product.name}</h5>
             <p class="card-text">
-              ${discount > 0 ? `<s>₹${originalPrice}</s> ` : ''}₹${product.price.toFixed(2)}
+              ${discount > 0 ? ` ₹${originalPrice}  ` : ''}₹${product.price.toFixed(2)}
             </p>
           </div>
         </div>
@@ -3969,8 +3983,25 @@ document.addEventListener('DOMContentLoaded', function() {
       submitBtn.textContent = "Sending...";
       submitBtn.disabled = true;
 
-      // Send form via EmailJS
-      emailjs.sendForm("service_tmiw4p4", "template_zccfm6x", this)
+      // Get form values
+      const address = document.getElementById("shippingAddress").value;
+      const mobile = document.getElementById("mobileNumber").value;
+      const details = document.getElementById("additionalDetails").value;
+      const product = currentProductForPurchase;
+
+      // Send form via EmailJS with proper parameters for BUY NOW
+      emailjs.send("service_tmiw4p4", "template_zccfm6x", {
+        address: address,
+        phone: mobile,
+        details: details,
+        product: product.name,
+        price: product.price.toFixed(2),
+        size: product.selectedSize,
+        color: product.selectedColor,
+        buyer_name: currentUser ? `${currentUser.firstName} ${currentUser.lastName}` : "Guest",
+        buyer_email: currentUser ? currentUser.email : "No email provided",
+        message_type: "new_order"
+      })
         .then(function () {
           showNotification("✅ Order placed successfully! You will receive a confirmation email.", "success");
           buyFormModal.reset();
@@ -4106,7 +4137,7 @@ function updateCartSection() {
               <h5 class="card-title">${item.name}</h5>
               <p class="card-text">${item.description}</p>
               <p class="card-text">Size: ${item.selectedSize}, Color: ${item.selectedColor}</p>
-              <p class="card-text"><small class="text-muted">${item.category} | <s>₹${(item.price * 1.2).toFixed(2)}</s> ₹${item.price.toFixed(2)}</small></p>
+              <p class="card-text"><small class="text-muted">${item.category} |  ₹${(item.price * 1.2).toFixed(2)}₹${item.price.toFixed(2)}</small></p>
               <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); removeFromCart(${index})"><i class="bi bi-trash me-1"></i> Remove</button>
             </div>
           </div>
@@ -4263,7 +4294,7 @@ function updateOrdersList(filter = currentOrdersFilter) {
               <p class="mb-1">Size: ${order.product.selectedSize}, Color: ${order.product.selectedColor}</p>
               <p class="mb-1">Qty: 1</p>
               <p class="fw-bold">₹${order.product.price.toFixed(2)}</p>
-              ${discount > 0 ? `<p class="text-muted"><s>₹${originalPrice}</s> (${discount}% off)</p>` : ''}
+              ${discount > 0 ? `<p class="text-muted"> ₹${originalPrice}  (${discount}% off)</p>` : ''}
             </div>
           </div>
         </div>
@@ -4553,6 +4584,10 @@ function markAsReceived(orderIndex) {
 function confirmCancelOrder() {
   const reasonSelect = document.getElementById('cancelReason');
   const otherReason = document.getElementById('otherReason');
+  const address = document.getElementById('cancelAddress').value;
+  const mobile = document.getElementById('cancelMobile').value;
+  const details = document.getElementById('cancelDetails').value;
+  
   let reason = reasonSelect.value;
 
   if (reason === '') {
@@ -4568,23 +4603,82 @@ function confirmCancelOrder() {
     }
   }
 
-  orders[currentOrderIndex].cancelled = true;
-  orders[currentOrderIndex].cancellationReason = reason;
-  orders[currentOrderIndex].cancellationDate = new Date().toLocaleString();
+  if (!address.trim()) {
+    showNotification('Please enter your address', 'warning');
+    return;
+  }
 
-  notifyOwner(`Order #${currentOrderIndex + 1} cancelled by: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email}) for product: ${orders[currentOrderIndex].product.name} with reason: ${reason}`);
+  if (!mobile.trim()) {
+    showNotification('Please enter your mobile number', 'warning');
+    return;
+  }
 
-  showNotification('Order has been cancelled', 'info');
-  saveData();
+  // Show loading state
+  const submitBtn = document.querySelector('#cancelOrderModal .btn-danger');
+  const originalText = submitBtn.textContent;
+  submitBtn.textContent = "Sending...";
+  submitBtn.disabled = true;
 
-  const modal = bootstrap.Modal.getInstance(document.getElementById('cancelOrderModal'));
-  modal.hide();
+  const order = orders[currentOrderIndex];
+  const product = order.product;
 
-  setTimeout(() => {
-    showOrderDetailPage(currentOrderIndex);
-    updateOrdersList(currentOrdersFilter);
-  }, 500);
+  // Send cancellation request via EmailJS with CANCEL template
+  emailjs.send("service_tmiw4p4", "template_x9qijyt", {
+    address: address,
+    phone: mobile,
+    details: details,
+    product: product.name,
+    price: product.price.toFixed(2),
+    size: product.selectedSize,
+    color: product.selectedColor,
+    buyer_name: currentUser ? `${currentUser.firstName} ${currentUser.lastName}` : "Guest",
+    buyer_email: currentUser ? currentUser.email : "No email provided",
+    cancellation_reason: reason,
+    order_id: currentOrderIndex + 1,
+    message_type: "cancellation_request"
+  })
+    .then(function () {
+      showNotification("✅ Cancellation request sent successfully! You will receive a confirmation email.", "success");
+      
+      // Update order status
+      orders[currentOrderIndex].cancelled = true;
+      orders[currentOrderIndex].cancellationReason = reason;
+      orders[currentOrderIndex].cancellationDate = new Date().toLocaleString();
+      orders[currentOrderIndex].cancellationAddress = address;
+      orders[currentOrderIndex].cancellationMobile = mobile;
+      orders[currentOrderIndex].cancellationDetails = details;
+
+      notifyOwner(`Order #${currentOrderIndex + 1} cancellation requested by: ${currentUser.firstName} ${currentUser.lastName} (${currentUser.email}) for product: ${product.name} with reason: ${reason}`);
+
+      saveData();
+
+      const modal = bootstrap.Modal.getInstance(document.getElementById('cancelOrderModal'));
+      modal.hide();
+
+      setTimeout(() => {
+        showOrderDetailPage(currentOrderIndex);
+        updateOrdersList(currentOrdersFilter);
+      }, 500);
+    }, function (error) {
+      showNotification("❌ Failed to send cancellation request. Please try again.", "danger");
+      console.error("EmailJS Error:", error);
+    })
+    .finally(function() {
+      // Reset button state
+      submitBtn.textContent = originalText;
+      submitBtn.disabled = false;
+    });
 }
+
+// Handle cancel reason select change
+document.getElementById('cancelReason')?.addEventListener('change', function() {
+  const otherReasonContainer = document.getElementById('otherReasonContainer');
+  if (this.value === 'Other') {
+    otherReasonContainer.style.display = 'block';
+  } else {
+    otherReasonContainer.style.display = 'none';
+  }
+});
 
 // Initialize rating when review modal is shown
 document.getElementById('reviewOrderModal')?.addEventListener('show.bs.modal', function() {
@@ -5813,7 +5907,7 @@ function generateProducts(containerId, productList) {
               <h5 class="card-title">${product.name}</h5>
               <p class="card-text">${product.description}</p>
               <p class="card-text">
-                <s>₹${originalPrice}</s> ₹${product.price.toFixed(2)} 
+                 ₹${originalPrice} ₹${product.price.toFixed(2)} 
                 <span class="badge bg-success">${discount}% off</span>
               </p>
               ${ratingInfo ? `
