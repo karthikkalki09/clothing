@@ -3969,7 +3969,7 @@ function buyProductWithSelection(productId) {
 document.addEventListener('DOMContentLoaded', function() {
   // Initialize EmailJS
   if (typeof emailjs !== 'undefined') {
-    emailjs.init("S2sgKP4KitGSIs4pt"); // Your EmailJS public key
+    emailjs.init("ZHmUMgjLWwXy9AcnI"); // Your EmailJS public key
   }
 
   const buyFormModal = document.getElementById("buyForm");
@@ -3990,7 +3990,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const product = currentProductForPurchase;
 
       // Send form via EmailJS with proper parameters for BUY NOW
-      emailjs.send("service_tmiw4p4", "template_zccfm6x", {
+      emailjs.send("service_t95u5og", "template_ciqxjv9", {
         address: address,
         phone: mobile,
         details: details,
@@ -4623,7 +4623,7 @@ function confirmCancelOrder() {
   const product = order.product;
 
   // Send cancellation request via EmailJS with CANCEL template
-  emailjs.send("service_tmiw4p4", "template_x9qijyt", {
+  emailjs.send("service_t95u5og", "template_ciqxjv9", {
     address: address,
     phone: mobile,
     details: details,
